@@ -1,0 +1,48 @@
+{
+  "FileVersion": 3,
+
+  "FriendlyName": "Space Kit",
+  "Version": 4.25,
+  "VersionName": "4.25",
+  "Description": "Adds utilities to handle space simulations in UE4.",
+  "Category": "Space",
+  "CreatedBy": "Baptiste Hutteau",
+  "CreatedByURL": "N/A",
+
+  "Modules": [
+    {
+      "Name": "SpaceKit",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "AdditionalDependencies": [
+        "SpaceKitPrecision"
+      ]
+    },
+    {
+      "Name": "SpaceKitPrecision",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "AdditionalDependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "Name": "SpaceKitPrecisionEditor",
+      "Type": "Editor",
+      "LoadingPhase": "Default",
+      "AdditionalDependencies": [
+        "Engine"
+      ]
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "RuntimeTests",
+      "Enabled": true
+    },
+    {
+      "Name": "FunctionalTestingEditor",
+      "Enabled": true
+    }
+  ]
+}
