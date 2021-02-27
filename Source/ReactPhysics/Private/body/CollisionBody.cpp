@@ -119,10 +119,10 @@ Collider* CollisionBody::addCollider(CollisionShape* collisionShape, const Trans
     mWorld.mCollisionDetection.addCollider(collider, aabb);
 
     RP3D_LOG(mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Body,
-             "Body " + std::to_string(mEntity.id) + ": Collider " + std::to_string(collider->getBroadPhaseId()) + " added to body",  __FILE__, __LINE__);
+             "Body " + my_to_string(mEntity.id) + ": Collider " + my_to_string(collider->getBroadPhaseId()) + " added to body",  __FILE__, __LINE__);
 
     RP3D_LOG(mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Collider,
-             "Collider " + std::to_string(collider->getBroadPhaseId()) + ":  collisionShape=" +
+             "Collider " + my_to_string(collider->getBroadPhaseId()) + ":  collisionShape=" +
              collider->getCollisionShape()->to_string(),  __FILE__, __LINE__);
 
     // Return a pointer to the collision shape
@@ -173,7 +173,7 @@ Collider* CollisionBody::getCollider(uint colliderIndex) {
 void CollisionBody::removeCollider(Collider* collider) {
 
     RP3D_LOG(mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Body,
-             "Body " + std::to_string(mEntity.id) + ": Collider " + std::to_string(collider->getBroadPhaseId()) + " removed from body",  __FILE__, __LINE__);
+             "Body " + my_to_string(mEntity.id) + ": Collider " + my_to_string(collider->getBroadPhaseId()) + " removed from body",  __FILE__, __LINE__);
 
     // Remove the collider from the broad-phase
     if (collider->getBroadPhaseId() != -1) {
@@ -284,7 +284,7 @@ void CollisionBody::setIsActive(bool isActive) {
     }
 
     RP3D_LOG(mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Body,
-             "Body " + std::to_string(mEntity.id) + ": Set isActive=" +
+             "Body " + my_to_string(mEntity.id) + ": Set isActive=" +
              (isActive ? "true" : "false"),  __FILE__, __LINE__);
 }
 
@@ -398,10 +398,10 @@ void CollisionBody::setTransform(const Transform& transform) {
     mWorld.mTransformComponents.setTransform(mEntity, transform);
 
     // Update the broad-phase state of the body
-    updateBroadPhaseState(0);
+    updateBroadPhaseState(0_fl);
 
     RP3D_LOG(mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Body,
-             "Body " + std::to_string(mEntity.id) + ": Set transform=" + transform.to_string(),  __FILE__, __LINE__);
+             "Body " + my_to_string(mEntity.id) + ": Set transform=" + transform.to_string(),  __FILE__, __LINE__);
 }
 
 // Return true if the body is active

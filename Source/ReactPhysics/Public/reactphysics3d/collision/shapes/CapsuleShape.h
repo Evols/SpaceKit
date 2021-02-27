@@ -217,16 +217,16 @@ inline Vector3 CapsuleShape::getLocalSupportPointWithoutMargin(const Vector3& di
 
     // Return the point with the maximum dot product
     if (dotProductTop > dotProductBottom) {
-        return Vector3(0, mHalfHeight, 0);
+        return Vector3(0_fl, mHalfHeight, 0_fl);
     }
     else {
-        return Vector3(0, -mHalfHeight, 0);
+        return Vector3(0_fl, -mHalfHeight, 0_fl);
     }
 }
 
 // Return the string representation of the shape
 inline std::string CapsuleShape::to_string() const {
-    return "CapsuleShape{halfHeight=" + std::to_string(mHalfHeight) + ", radius=" + std::to_string(getRadius()) + "}";
+    return "CapsuleShape{halfHeight=" + my_to_string(mHalfHeight) + ", radius=" + my_to_string(getRadius()) + "}";
 }
 
 }

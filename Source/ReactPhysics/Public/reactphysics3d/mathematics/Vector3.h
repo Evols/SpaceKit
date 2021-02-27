@@ -88,9 +88,6 @@ struct Vector3 {
         /// Return true if the vector is unit and false otherwise
         bool isUnit() const;
 
-        /// Return true if the values are not NAN OR INF
-        bool isFinite() const;
-
         /// Return true if the current vector is the zero vector
         bool isZero() const;
 
@@ -189,9 +186,9 @@ inline Vector3::Vector3(const Vector3& vector) : x(vector.x), y(vector.y), z(vec
 
 // Set the vector to zero
 inline void Vector3::setToZero() {
-    x = 0;
-    y = 0;
-    z = 0;
+    x = 0_fl;
+    y = 0_fl;
+    z = 0_fl;
 }
 
 // Set all the values of the vector
@@ -203,7 +200,7 @@ inline void Vector3::setAllValues(decimal newX, decimal newY, decimal newZ) {
 
 // Return the length of the vector
 inline decimal Vector3::length() const {
-    return std::sqrt(x*x + y*y + z*z);
+    return decimal(URealFloatMath::Sqrt(x*x + y*y + z*z));
 }
 
 // Return the square of the length of the vector
@@ -236,7 +233,7 @@ inline void Vector3::normalize() {
 
 // Return the corresponding absolute value vector
 inline Vector3 Vector3::getAbsoluteVector() const {
-    return Vector3(std::abs(x), std::abs(y), std::abs(z));
+    return Vector3(URealFloatMath::Abs(x), URealFloatMath::Abs(y), URealFloatMath::Abs(z));
 }
 
 // Return the axis with the minimal value
@@ -251,17 +248,12 @@ inline int Vector3::getMaxAxis() const {
 
 // Return true if the vector is unit and false otherwise
 inline bool Vector3::isUnit() const {
-    return approxEqual(lengthSquare(), 1.0);
-}
-
-// Return true if the values are not NAN OR INF
-inline bool Vector3::isFinite() const {
-    return std::isfinite(x) && std::isfinite(y) && std::isfinite(z);
+    return approxEqual(lengthSquare(), 1.0_fl);
 }
 
 // Return true if the vector is the zero vector
 inline bool Vector3::isZero() const {
-    return approxEqual(lengthSquare(), 0.0);
+    return approxEqual(lengthSquare(), 0.0_fl);
 }
 
 // Overloaded operator for the equality condition
@@ -402,12 +394,12 @@ inline decimal Vector3::getMaxValue() const {
 
 // Get the string representation
 inline std::string Vector3::to_string() const {
-    return "Vector3(" + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + ")";
+    return "Vector3(" + my_to_string(x) + "," + my_to_string(y) + "," + my_to_string(z) + ")";
 }
 
 // Return the zero vector
 inline Vector3 Vector3::zero() {
-    return Vector3(0, 0, 0);
+    return Vector3(0_fl, 0_fl, 0_fl);
 }
 
 }

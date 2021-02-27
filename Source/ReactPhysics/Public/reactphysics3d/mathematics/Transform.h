@@ -125,7 +125,7 @@ class Transform {
 };
 
 // Constructor
-inline Transform::Transform() : mPosition(Vector3(0.0, 0.0, 0.0)), mOrientation(Quaternion::identity()) {
+inline Transform::Transform() : mPosition(Vector3(0.0_fl, 0.0_fl, 0.0_fl)), mOrientation(Quaternion::identity()) {
 
 }
 
@@ -169,7 +169,7 @@ inline void Transform::setOrientation(const Quaternion& orientation) {
 
 // Set the transform to the identity transform
 inline void Transform::setToIdentity() {
-    mPosition = Vector3(0.0, 0.0, 0.0);
+    mPosition = Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     mOrientation = Quaternion::identity();
 }                                           
 
@@ -196,12 +196,12 @@ inline Transform Transform::interpolateTransforms(const Transform& oldTransform,
 
 // Return the identity transform
 inline Transform Transform::identity() {
-    return Transform(Vector3(0, 0, 0), Quaternion::identity());
+    return Transform(Vector3(0_fl, 0_fl, 0_fl), Quaternion::identity());
 }
 
 // Return true if it is a valid transform
 inline bool Transform::isValid() const {
-    return mPosition.isFinite() && mOrientation.isValid();
+    return mOrientation.isValid();
 }
 
 // Return the transformed vector

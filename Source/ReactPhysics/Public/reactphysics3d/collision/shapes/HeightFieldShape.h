@@ -96,8 +96,8 @@ class HeightFieldShape : public ConcaveShape {
         /// Constructor
         HeightFieldShape(int nbGridColumns, int nbGridRows, decimal minHeight, decimal maxHeight,
                          const void* heightFieldData, HeightDataType dataType, MemoryAllocator& allocator,
-                         int upAxis = 1, decimal integerHeightScale = 1.0f,
-                         const Vector3& scaling = Vector3(1,1,1));
+                         int upAxis = 1, decimal integerHeightScale = 1.0_fl,
+                         const Vector3& scaling = Vector3(decimal(1.0), decimal(1), decimal(1)));
 
         /// Raycast method with feedback information
         virtual bool raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* collider, MemoryAllocator& allocator) const override;
@@ -193,16 +193,16 @@ inline decimal HeightFieldShape::getHeightAt(int x, int y) const {
     assert(y >= 0 && y < mNbRows);
 
     switch(mHeightDataType) {
-        case HeightDataType::HEIGHT_FLOAT_TYPE : return ((float*)mHeightFieldData)[y * mNbColumns + x];
-        case HeightDataType::HEIGHT_DOUBLE_TYPE : return ((double*)mHeightFieldData)[y * mNbColumns + x];
-        case HeightDataType::HEIGHT_INT_TYPE : return ((int*)mHeightFieldData)[y * mNbColumns + x] * mIntegerHeightScale;
-        default: assert(false); return 0;
+        case HeightDataType::HEIGHT_FLOAT_TYPE : return decimal(((float*)mHeightFieldData)[y * mNbColumns + x]);
+        case HeightDataType::HEIGHT_DOUBLE_TYPE : return decimal(((double*)mHeightFieldData)[y * mNbColumns + x]);
+        case HeightDataType::HEIGHT_INT_TYPE : return decimal(((int*)mHeightFieldData)[y * mNbColumns + x]) * mIntegerHeightScale;
+        default: assert(false); return 0_fl;
     }
 }
 
 // Return the closest inside integer grid value of a given floating grid value
 inline int HeightFieldShape::computeIntegerGridValue(decimal value) const {
-    return (value < decimal(0.0)) ? value - decimal(0.5) : value + decimal(0.5);
+    return ((value < decimal(0.0)) ? value - decimal(0.5) : value + decimal(0.5)).ToFloat();
 }
 
 // Compute the shape Id for a given triangle

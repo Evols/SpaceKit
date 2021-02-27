@@ -66,7 +66,7 @@ class ConvexMeshShape : public ConvexPolyhedronShape {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        ConvexMeshShape(PolyhedronMesh* polyhedronMesh,  MemoryAllocator& allocator, const Vector3& scale = Vector3(1,1,1));
+        ConvexMeshShape(PolyhedronMesh* polyhedronMesh,  MemoryAllocator& allocator, const Vector3& scale = Vector3(decimal(1), decimal(1), decimal(1)));
 
         /// Recompute the bounds of the mesh
         void recalculateBounds();

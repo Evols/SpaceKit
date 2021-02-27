@@ -207,23 +207,23 @@ void SliderJointComponents::addComponent(Entity jointEntity, bool isSleeping, co
     // Insert the new component data
     new (mJointEntities + index) Entity(jointEntity);
     mJoints[index] = nullptr;
-    new (mLocalAnchorPointBody1 + index) Vector3(0, 0, 0);
-    new (mLocalAnchorPointBody2 + index) Vector3(0, 0, 0);
+    new (mLocalAnchorPointBody1 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mLocalAnchorPointBody2 + index) Vector3(0_fl, 0_fl, 0_fl);
     new (mI1 + index) Matrix3x3();
     new (mI2 + index) Matrix3x3();
-    new (mImpulseTranslation + index) Vector2(0, 0);
-    new (mImpulseRotation + index) Vector3(0, 0, 0);
+    new (mImpulseTranslation + index) Vector2(0_fl, 0_fl);
+    new (mImpulseRotation + index) Vector3(0_fl, 0_fl, 0_fl);
     new (mInverseMassMatrixTranslation + index) Matrix2x2();
     new (mInverseMassMatrixRotation + index) Matrix3x3();
-    new (mBiasTranslation + index) Vector2(0, 0);
-    new (mBiasRotation + index) Vector3(0, 0, 0);
-    new (mInitOrientationDifferenceInv + index) Quaternion(0, 0, 0, 0);
-    new (mSliderAxisBody1 + index) Vector3(0, 0, 0);
-    new (mSliderAxisWorld + index) Vector3(0, 0, 0);
-    new (mR1 + index) Vector3(0, 0, 0);
-    new (mR2 + index) Vector3(0, 0, 0);
-    new (mN1 + index) Vector3(0, 0, 0);
-    new (mN2 + index) Vector3(0, 0, 0);
+    new (mBiasTranslation + index) Vector2(0_fl, 0_fl);
+    new (mBiasRotation + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mInitOrientationDifferenceInv + index) Quaternion(0_fl, 0_fl, 0_fl, 0_fl);
+    new (mSliderAxisBody1 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mSliderAxisWorld + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR1 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR2 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mN1 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mN2 + index) Vector3(0_fl, 0_fl, 0_fl);
     mImpulseLowerLimit[index] = decimal(0.0);
     mImpulseUpperLimit[index] = decimal(0.0);
     mImpulseMotor[index] = decimal(0.0);
@@ -239,12 +239,12 @@ void SliderJointComponents::addComponent(Entity jointEntity, bool isSleeping, co
     mIsUpperLimitViolated[index] = false;
     mMotorSpeed[index] = component.motorSpeed;
     mMaxMotorForce[index] = component.maxMotorForce;
-    new (mR2CrossN1 + index) Vector3(0, 0, 0);
-    new (mR2CrossN2 + index) Vector3(0, 0, 0);
-    new (mR2CrossSliderAxis + index) Vector3(0, 0, 0);
-    new (mR1PlusUCrossN1 + index) Vector3(0, 0, 0);
-    new (mR1PlusUCrossN2 + index) Vector3(0, 0, 0);
-    new (mR1PlusUCrossSliderAxis + index) Vector3(0, 0, 0);
+    new (mR2CrossN1 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR2CrossN2 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR2CrossSliderAxis + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR1PlusUCrossN1 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR1PlusUCrossN2 + index) Vector3(0_fl, 0_fl, 0_fl);
+    new (mR1PlusUCrossSliderAxis + index) Vector3(0_fl, 0_fl, 0_fl);
 
     // Map the entity with the new component lookup index
     mMapEntityToComponentIndex.add(Pair<Entity, uint32>(jointEntity, index));

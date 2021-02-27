@@ -58,8 +58,8 @@ bool SphereVsCapsuleAlgorithm::testCollision(SphereVsCapsuleNarrowPhaseInfoBatch
 
         // Compute the end-points of the inner segment of the capsule
         const decimal capsuleHalfHeight = narrowPhaseInfoBatch.capsuleHeights[batchIndex] * decimal(0.5);
-        const Vector3 capsuleSegA(0, -capsuleHalfHeight, 0);
-        const Vector3 capsuleSegB(0, capsuleHalfHeight, 0);
+        const Vector3 capsuleSegA(0_fl, -capsuleHalfHeight, 0_fl);
+        const Vector3 capsuleSegB(0_fl, capsuleHalfHeight, 0_fl);
 
         // Compute the point on the inner capsule segment that is the closes to center of sphere
         const Vector3 closestPointOnSegment = computeClosestPointOnSegment(capsuleSegA, capsuleSegB, sphereCenter);
@@ -85,7 +85,7 @@ bool SphereVsCapsuleAlgorithm::testCollision(SphereVsCapsuleNarrowPhaseInfoBatch
                 // If the sphere center is not on the capsule inner segment
                 if (sphereSegmentDistanceSquare > MACHINE_EPSILON) {
 
-                    decimal sphereSegmentDistance = std::sqrt(sphereSegmentDistanceSquare);
+                    decimal sphereSegmentDistance = URealFloatMath::Sqrt(sphereSegmentDistanceSquare);
                     sphereCenterToSegment /= sphereSegmentDistance;
 
                     contactPointSphereLocal = sphereToCapsuleSpaceTransform.getInverse() * (sphereCenter + sphereCenterToSegment * narrowPhaseInfoBatch.sphereRadiuses[batchIndex]);
@@ -106,12 +106,12 @@ bool SphereVsCapsuleAlgorithm::testCollision(SphereVsCapsuleNarrowPhaseInfoBatch
                     // Capsule inner segment
                     Vector3 capsuleSegment = (capsuleSegB - capsuleSegA).getUnit();
 
-                    Vector3 vec1(1, 0, 0);
-                    Vector3 vec2(0, 1, 0);
+                    Vector3 vec1(1_fl, 0_fl, 0_fl);
+                    Vector3 vec2(0_fl, 1_fl, 0_fl);
 
                     // Get the vectors (among vec1 and vec2) that is the most orthogonal to the capsule inner segment (smallest absolute dot product)
-                    decimal cosA1 = std::abs(capsuleSegment.x);		// abs(vec1.dot(seg2))
-                    decimal cosA2 = std::abs(capsuleSegment.y);	    // abs(vec2.dot(seg2))
+                    decimal cosA1 = URealFloatMath::Abs(capsuleSegment.x);		// abs(vec1.dot(seg2))
+                    decimal cosA2 = URealFloatMath::Abs(capsuleSegment.y);	    // abs(vec2.dot(seg2))
 
                     penetrationDepth = sumRadius;
 

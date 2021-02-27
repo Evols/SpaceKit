@@ -137,9 +137,9 @@ void SolveHingeJointSystem::initBeforeSolve() {
         decimal body1MassInverse = mRigidBodyComponents.mInverseMasses[componentIndexBody1];
         decimal body2MassInverse = mRigidBodyComponents.mInverseMasses[componentIndexBody2];
         decimal inverseMassBodies = body1MassInverse + body2MassInverse;
-        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0, 0,
-                                        0, inverseMassBodies, 0,
-                                        0, 0, inverseMassBodies) +
+        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0_fl, 0_fl,
+                                        0_fl, inverseMassBodies, 0_fl,
+                                        0_fl, 0_fl, inverseMassBodies) +
                                skewSymmetricMatrixU1 * mHingeJointComponents.mI1[i] * skewSymmetricMatrixU1.getTranspose() +
                                skewSymmetricMatrixU2 * mHingeJointComponents.mI2[i] * skewSymmetricMatrixU2.getTranspose();
         Matrix3x3& inverseMassMatrixTranslation = mHingeJointComponents.mInverseMassMatrixTranslation[i];
@@ -235,13 +235,13 @@ void SolveHingeJointSystem::initBeforeSolve() {
         decimal lowerLimitError = hingeAngle - mHingeJointComponents.mLowerLimit[i];
         decimal upperLimitError = mHingeJointComponents.mUpperLimit[i] - hingeAngle;
         bool oldIsLowerLimitViolated = mHingeJointComponents.mIsLowerLimitViolated[i];
-        bool isLowerLimitViolated = lowerLimitError <= 0;
+        bool isLowerLimitViolated = lowerLimitError <= 0_fl;
         mHingeJointComponents.mIsLowerLimitViolated[i] = isLowerLimitViolated;
         if (!isLowerLimitViolated || isLowerLimitViolated != oldIsLowerLimitViolated) {
             mHingeJointComponents.mImpulseLowerLimit[i] = decimal(0.0);
         }
         bool oldIsUpperLimitViolated = mHingeJointComponents.mIsUpperLimitViolated[i];
-        bool isUpperLimitViolated = upperLimitError <= 0;
+        bool isUpperLimitViolated = upperLimitError <= 0_fl;
         mHingeJointComponents.mIsUpperLimitViolated[i] = isUpperLimitViolated;
         if (!isUpperLimitViolated || isUpperLimitViolated != oldIsUpperLimitViolated) {
             mHingeJointComponents.mImpulseUpperLimit[i] = decimal(0.0);
@@ -592,9 +592,9 @@ void SolveHingeJointSystem::solvePositionConstraint() {
         const decimal body1InverseMass = mRigidBodyComponents.mInverseMasses[componentIndexBody1];
         const decimal body2InverseMass = mRigidBodyComponents.mInverseMasses[componentIndexBody2];
         decimal inverseMassBodies = body1InverseMass + body2InverseMass;
-        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0, 0,
-                                        0, inverseMassBodies, 0,
-                                        0, 0, inverseMassBodies) +
+        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0_fl, 0_fl,
+                                        0_fl, inverseMassBodies, 0_fl,
+                                        0_fl, 0_fl, inverseMassBodies) +
                                skewSymmetricMatrixU1 * mHingeJointComponents.mI1[i] * skewSymmetricMatrixU1.getTranspose() +
                                skewSymmetricMatrixU2 * mHingeJointComponents.mI2[i] * skewSymmetricMatrixU2.getTranspose();
         mHingeJointComponents.mInverseMassMatrixTranslation[i].setToZero();
@@ -663,7 +663,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 1
         x1 += v1;
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse of body 2
@@ -675,7 +675,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 2
         x2 += v2;
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
 
         // --------------- Rotation Constraints --------------- //
@@ -713,7 +713,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
         w1 = mHingeJointComponents.mI1[i] * angularImpulseBody1;
 
         // Update the body position/orientation of body 1
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse of body 2
@@ -723,7 +723,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
         w2 = mHingeJointComponents.mI2[i] * angularImpulseBody2;
 
         // Update the body position/orientation of body 2
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
     }
 
@@ -748,8 +748,8 @@ void SolveHingeJointSystem::solvePositionConstraint() {
         // Check if the limit constraints are violated or not
         decimal lowerLimitError = hingeAngle - mHingeJointComponents.mLowerLimit[i];
         decimal upperLimitError = mHingeJointComponents.mUpperLimit[i] - hingeAngle;
-        mHingeJointComponents.mIsLowerLimitViolated[i] = lowerLimitError <= 0;
-        mHingeJointComponents.mIsUpperLimitViolated[i] = upperLimitError <= 0;
+        mHingeJointComponents.mIsLowerLimitViolated[i] = lowerLimitError <= 0_fl;
+        mHingeJointComponents.mIsUpperLimitViolated[i] = upperLimitError <= 0_fl;
 
         // --------------- Limits Constraints --------------- //
 
@@ -780,7 +780,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
                 const Vector3 w1 = mHingeJointComponents.mI1[i] * angularImpulseBody1;
 
                 // Update the body position/orientation of body 1
-                q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+                q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
                 q1.normalize();
 
                 // Compute the impulse P=J^T * lambda of body 2
@@ -790,7 +790,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
                 const Vector3 w2 = mHingeJointComponents.mI2[i] * angularImpulseBody2;
 
                 // Update the body position/orientation of body 2
-                q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+                q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
                 q2.normalize();
             }
 
@@ -807,7 +807,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
                 const Vector3 w1 = mHingeJointComponents.mI1[i] * angularImpulseBody1;
 
                 // Update the body position/orientation of body 1
-                q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+                q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
                 q1.normalize();
 
                 // Compute the impulse P=J^T * lambda of body 2
@@ -817,7 +817,7 @@ void SolveHingeJointSystem::solvePositionConstraint() {
                 const Vector3 w2 = mHingeJointComponents.mI2[i] * angularImpulseBody2;
 
                 // Update the body position/orientation of body 2
-                q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+                q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
                 q2.normalize();
             }
         }
@@ -828,13 +828,13 @@ void SolveHingeJointSystem::solvePositionConstraint() {
 decimal SolveHingeJointSystem::computeNormalizedAngle(decimal angle) const {
 
     // Convert it into the range [-2*pi; 2*pi]
-    angle = std::fmod(angle, PI_TIMES_2);
+    angle = angle % PI_TIMES_2;
 
     // Convert it into the range [-pi; pi]
-    if (angle < -PI) {
+    if (angle < -FRealFloat::Pi) {
         return angle + PI_TIMES_2;
     }
-    else if (angle > PI) {
+    else if (angle > FRealFloat::Pi) {
         return angle - PI_TIMES_2;
     }
     else {
@@ -850,13 +850,13 @@ decimal SolveHingeJointSystem::computeCorrespondingAngleNearLimits(decimal input
         return inputAngle;
     }
     else if (inputAngle > upperLimitAngle) {
-        decimal diffToUpperLimit = std::fabs(computeNormalizedAngle(inputAngle - upperLimitAngle));
-        decimal diffToLowerLimit = std::fabs(computeNormalizedAngle(inputAngle - lowerLimitAngle));
+        decimal diffToUpperLimit = URealFloatMath::Abs(computeNormalizedAngle(inputAngle - upperLimitAngle));
+        decimal diffToLowerLimit = URealFloatMath::Abs(computeNormalizedAngle(inputAngle - lowerLimitAngle));
         return (diffToUpperLimit > diffToLowerLimit) ? (inputAngle - PI_TIMES_2) : inputAngle;
     }
     else if (inputAngle < lowerLimitAngle) {
-        decimal diffToUpperLimit = std::fabs(computeNormalizedAngle(upperLimitAngle - inputAngle));
-        decimal diffToLowerLimit = std::fabs(computeNormalizedAngle(lowerLimitAngle - inputAngle));
+        decimal diffToUpperLimit = URealFloatMath::Abs(computeNormalizedAngle(upperLimitAngle - inputAngle));
+        decimal diffToLowerLimit = URealFloatMath::Abs(computeNormalizedAngle(lowerLimitAngle - inputAngle));
         return (diffToUpperLimit > diffToLowerLimit) ? inputAngle : (inputAngle + PI_TIMES_2);
     }
     else {
@@ -892,10 +892,10 @@ decimal SolveHingeJointSystem::computeCurrentHingeAngle(Entity jointEntity, cons
 
     // If the relative rotation axis and the hinge axis are pointing the same direction
     if (dotProduct >= decimal(0.0)) {
-        hingeAngle = decimal(2.0) * std::atan2(sinHalfAngleAbs, cosHalfAngle);
+        hingeAngle = decimal(2.0) * URealFloatMath::Atan2Rad(sinHalfAngleAbs, cosHalfAngle);
     }
     else {
-        hingeAngle = decimal(2.0) * std::atan2(sinHalfAngleAbs, -cosHalfAngle);
+        hingeAngle = decimal(2.0) * URealFloatMath::Atan2Rad(sinHalfAngleAbs, -cosHalfAngle);
     }
 
     // Convert the angle from range [-2*pi; 2*pi] into the range [-pi; pi]

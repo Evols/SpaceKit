@@ -79,7 +79,7 @@ bool reactphysics3d::areParallelVectors(const Vector3& vector1, const Vector3& v
 
 // Return true if two vectors are orthogonal
 bool reactphysics3d::areOrthogonalVectors(const Vector3& vector1, const Vector3& vector2) {
-    return std::abs(vector1.dot(vector2)) < decimal(0.001);
+    return URealFloatMath::Abs(vector1.dot(vector2)) < decimal(0.001);
 }
 
 // Compute and return a point on segment from "segPointA" and "segPointB" that is closest to point "pointC"
@@ -200,7 +200,7 @@ decimal reactphysics3d::computePlaneSegmentIntersection(const Vector3& segA, con
     decimal nDotAB = planeNormal.dot(segB - segA);
 
 	// If the segment is not parallel to the plane
-    if (std::abs(nDotAB) > parallelEpsilon) {
+    if (URealFloatMath::Abs(nDotAB) > parallelEpsilon) {
 		t = (planeD - planeNormal.dot(segA)) / nDotAB;
 	}
 

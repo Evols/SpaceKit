@@ -1210,7 +1210,7 @@ void CollisionDetectionSystem::reducePotentialContactManifolds(List<ContactPair>
 decimal CollisionDetectionSystem::computePotentialManifoldLargestContactDepth(const ContactManifoldInfo& manifold,
                                                                         const List<ContactPointInfo>& potentialContactPoints) const {
 
-    decimal largestDepth = 0.0f;
+    decimal largestDepth = 0.0_fl;
 
     assert(manifold.potentialContactPointsIndices.size() > 0);
 
@@ -1260,7 +1260,7 @@ void CollisionDetectionSystem::reduceContactPoints(ContactManifoldInfo& manifold
     const Vector3 contactNormalShape1Space = worldToShape1Transform.getOrientation() * potentialContactPoints[candidatePointsIndices[0]].normal;
 
     // Compute a search direction
-    const Vector3 searchDirection(1, 1, 1);
+    const Vector3 searchDirection(1_fl, 1_fl, 1_fl);
     decimal maxDotProduct = DECIMAL_SMALLEST;
     uint elementIndexToKeep = 0;
     for (uint i=0; i < candidatePointsIndices.size(); i++) {

@@ -105,9 +105,9 @@ void SolveBallAndSocketJointSystem::initBeforeSolve() {
         const decimal inverseMassBodies =  body1MassInverse + body2MassInverse;
         const Matrix3x3& i1 = mBallAndSocketJointComponents.mI1[i];
         const Matrix3x3& i2 = mBallAndSocketJointComponents.mI2[i];
-        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0, 0,
-                                        0, inverseMassBodies, 0,
-                                        0, 0, inverseMassBodies) +
+        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0_fl, 0_fl,
+                                        0_fl, inverseMassBodies, 0_fl,
+                                        0_fl, 0_fl, inverseMassBodies) +
                                skewSymmetricMatrixU1 * i1 * skewSymmetricMatrixU1.getTranspose() +
                                skewSymmetricMatrixU2 * i2 * skewSymmetricMatrixU2.getTranspose();
 
@@ -312,9 +312,9 @@ void SolveBallAndSocketJointSystem::solvePositionConstraint() {
 
         // Recompute the inverse mass matrix K=J^TM^-1J of of the 3 translation constraints
         decimal inverseMassBodies = inverseMassBody1 + inverseMassBody2;
-        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0, 0,
-                                        0, inverseMassBodies, 0,
-                                        0, 0, inverseMassBodies) +
+        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0_fl, 0_fl,
+                                        0_fl, inverseMassBodies, 0_fl,
+                                        0_fl, 0_fl, inverseMassBodies) +
                                skewSymmetricMatrixU1 * mBallAndSocketJointComponents.mI1[i] * skewSymmetricMatrixU1.getTranspose() +
                                skewSymmetricMatrixU2 * mBallAndSocketJointComponents.mI2[i] * skewSymmetricMatrixU2.getTranspose();
         mBallAndSocketJointComponents.mInverseMassMatrix[i].setToZero();
@@ -370,7 +370,7 @@ void SolveBallAndSocketJointSystem::solvePositionConstraint() {
 
         // Update the body center of mass and orientation of body 1
         x1 += v1;
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse of body 2
@@ -382,7 +382,7 @@ void SolveBallAndSocketJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 2
         x2 += v2;
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
     }
 }

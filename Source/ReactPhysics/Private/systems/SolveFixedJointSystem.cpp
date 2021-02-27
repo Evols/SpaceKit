@@ -101,9 +101,9 @@ void SolveFixedJointSystem::initBeforeSolve() {
         const decimal body1MassInverse = mRigidBodyComponents.mInverseMasses[componentIndexBody1];
         const decimal body2MassInverse = mRigidBodyComponents.mInverseMasses[componentIndexBody2];
         const decimal inverseMassBodies = body1MassInverse + body2MassInverse;
-        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0, 0,
-                                        0, inverseMassBodies, 0,
-                                        0, 0, inverseMassBodies) +
+        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0_fl, 0_fl,
+                                        0_fl, inverseMassBodies, 0_fl,
+                                        0_fl, 0_fl, inverseMassBodies) +
                                skewSymmetricMatrixU1 * mFixedJointComponents.mI1[i] * skewSymmetricMatrixU1.getTranspose() +
                                skewSymmetricMatrixU2 * mFixedJointComponents.mI2[i] * skewSymmetricMatrixU2.getTranspose();
 
@@ -404,9 +404,9 @@ void SolveFixedJointSystem::solvePositionConstraint() {
 
         // Compute the matrix K=JM^-1J^t (3x3 matrix) for the 3 translation constraints
         decimal inverseMassBodies = inverseMassBody1 + inverseMassBody2;
-        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0, 0,
-                                        0, inverseMassBodies, 0,
-                                        0, 0, inverseMassBodies) +
+        Matrix3x3 massMatrix = Matrix3x3(inverseMassBodies, 0_fl, 0_fl,
+                                        0_fl, inverseMassBodies, 0_fl,
+                                        0_fl, 0_fl, inverseMassBodies) +
                                skewSymmetricMatrixU1 * mFixedJointComponents.mI1[i] * skewSymmetricMatrixU1.getTranspose() +
                                skewSymmetricMatrixU2 * mFixedJointComponents.mI2[i] * skewSymmetricMatrixU2.getTranspose();
         mFixedJointComponents.mInverseMassMatrixTranslation[i].setToZero();
@@ -458,7 +458,7 @@ void SolveFixedJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 1
         x1 += v1;
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse of body 2
@@ -472,7 +472,7 @@ void SolveFixedJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 2
         x2 += v2;
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
 
         // --------------- Rotation Constraints --------------- //
@@ -523,14 +523,14 @@ void SolveFixedJointSystem::solvePositionConstraint() {
         w1 = mFixedJointComponents.mI1[i] * angularImpulseBody1;
 
         // Update the body position/orientation of body 1
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the pseudo velocity of body 2
         w2 = mFixedJointComponents.mI2[i] * lambdaRotation;
 
         // Update the body position/orientation of body 2
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
     }
 }

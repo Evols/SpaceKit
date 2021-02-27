@@ -275,11 +275,11 @@ decimal SliderJoint::getMaxTranslationLimit() const {
 }
 // Return a string representation
 std::string SliderJoint::to_string() const {
-    return "SliderJoint{ lowerLimit=" + std::to_string(mWorld.mSliderJointsComponents.getLowerLimit(mEntity)) + ", upperLimit=" + std::to_string(mWorld.mSliderJointsComponents.getUpperLimit(mEntity)) +
+    return "SliderJoint{ lowerLimit=" + my_to_string(mWorld.mSliderJointsComponents.getLowerLimit(mEntity)) + ", upperLimit=" + my_to_string(mWorld.mSliderJointsComponents.getUpperLimit(mEntity)) +
             "localAnchorPointBody1=" + mWorld.mSliderJointsComponents.getLocalAnchorPointBody1(mEntity).to_string() + ", localAnchorPointBody2=" +
             mWorld.mSliderJointsComponents.getLocalAnchorPointBody2(mEntity).to_string() + ", sliderAxisBody1=" + mWorld.mSliderJointsComponents.getSliderAxisBody1(mEntity).to_string() +
             ", initOrientationDifferenceInv=" +
-            mWorld.mSliderJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() + ", motorSpeed=" + std::to_string(getMotorSpeed()) +
-            ", maxMotorForce=" + std::to_string(getMaxMotorForce()) + ", isLimitEnabled=" +
+            mWorld.mSliderJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() + ", motorSpeed=" + my_to_string(getMotorSpeed()) +
+            ", maxMotorForce=" + my_to_string(getMaxMotorForce()) + ", isLimitEnabled=" +
             (mWorld.mSliderJointsComponents.getIsLimitEnabled(mEntity) ? "true" : "false") + ", isMotorEnabled=" + (mWorld.mSliderJointsComponents.getIsMotorEnabled(mEntity) ? "true" : "false") + "}";
 }

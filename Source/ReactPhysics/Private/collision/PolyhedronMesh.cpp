@@ -152,13 +152,13 @@ void PolyhedronMesh::computeCentroid() {
         mCentroid += getVertex(v);
     }
 
-    mCentroid /= getNbVertices();
+    mCentroid /= decimal((int32)getNbVertices());
 }
 
 // Compute and return the area of a face
 decimal PolyhedronMesh::getFaceArea(uint faceIndex) const {
 
-    Vector3 sumCrossProducts(0, 0, 0);
+    Vector3 sumCrossProducts(0_fl, 0_fl, 0_fl);
 
     const HalfEdgeStructure::Face& face = mHalfEdgeStructure.getFace(faceIndex);
     assert(face.faceVertices.size() >= 3);
@@ -184,7 +184,7 @@ decimal PolyhedronMesh::getFaceArea(uint faceIndex) const {
 /// We use the divergence theorem to compute the volume of the polyhedron using a sum over its faces.
 decimal PolyhedronMesh::getVolume() const {
 
-    decimal sum = 0.0;
+    decimal sum = 0.0_fl;
 
     // For each face of the polyhedron
     for (uint f=0; f < getNbFaces(); f++) {
@@ -197,5 +197,5 @@ decimal PolyhedronMesh::getVolume() const {
         sum += faceVertex.dot(faceNormal) * faceArea;
     }
 
-    return std::abs(sum) / decimal(3.0);
+    return URealFloatMath::Abs(sum) / decimal(3.0);
 }

@@ -25,12 +25,17 @@ FRealFloat::FRealFloat(int32 InValue)
     Value = InValue;
 }
 
+FRealFloat::FRealFloat(uint32 InValue)
+{
+    Value = InValue;
+}
+
 FRealFloat::FRealFloat(int64 InValue)
 {
     Value = InValue;
 }
 
-FRealFloat::FRealFloat(size_t InValue)
+FRealFloat::FRealFloat(uint64 InValue)
 {
     Value = InValue;
 }

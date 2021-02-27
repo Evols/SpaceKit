@@ -160,7 +160,7 @@ class Matrix3x3 {
 // Constructor of the class Matrix3x3
 inline Matrix3x3::Matrix3x3() {
     // Initialize all values in the matrix to zero
-    setAllValues(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    setAllValues(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Constructor
@@ -238,32 +238,32 @@ inline decimal Matrix3x3::getTrace() const {
 
 // Set the matrix to the identity matrix
 inline void Matrix3x3::setToIdentity() {
-    mRows[0][0] = 1.0; mRows[0][1] = 0.0; mRows[0][2] = 0.0;
-    mRows[1][0] = 0.0; mRows[1][1] = 1.0; mRows[1][2] = 0.0;
-    mRows[2][0] = 0.0; mRows[2][1] = 0.0; mRows[2][2] = 1.0;
+    mRows[0][0] = 1.0_fl; mRows[0][1] = 0.0_fl; mRows[0][2] = 0.0_fl;
+    mRows[1][0] = 0.0_fl; mRows[1][1] = 1.0_fl; mRows[1][2] = 0.0_fl;
+    mRows[2][0] = 0.0_fl; mRows[2][1] = 0.0_fl; mRows[2][2] = 1.0_fl;
 }
 
 // Return the 3x3 identity matrix
 inline Matrix3x3 Matrix3x3::identity() {
-    return Matrix3x3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+    return Matrix3x3(1.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
 }
 
 // Return the 3x3 zero matrix
 inline Matrix3x3 Matrix3x3::zero() {
-    return Matrix3x3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    return Matrix3x3(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Return a skew-symmetric matrix using a given vector that can be used
 // to compute cross product with another vector using matrix multiplication
 inline Matrix3x3 Matrix3x3::computeSkewSymmetricMatrixForCrossProduct(const Vector3& vector) {
-    return Matrix3x3(0, -vector.z, vector.y, vector.z, 0, -vector.x, -vector.y, vector.x, 0);
+    return Matrix3x3(0_fl, -vector.z, vector.y, vector.z, 0_fl, -vector.x, -vector.y, vector.x, 0_fl);
 }
 
 // Return the matrix with absolute values
 inline Matrix3x3 Matrix3x3::getAbsoluteMatrix() const {
-    return Matrix3x3(std::fabs(mRows[0][0]), std::fabs(mRows[0][1]), std::fabs(mRows[0][2]),
-                     std::fabs(mRows[1][0]), std::fabs(mRows[1][1]), std::fabs(mRows[1][2]),
-                     std::fabs(mRows[2][0]), std::fabs(mRows[2][1]), std::fabs(mRows[2][2]));
+    return Matrix3x3(URealFloatMath::Abs(mRows[0][0]), URealFloatMath::Abs(mRows[0][1]), URealFloatMath::Abs(mRows[0][2]),
+                     URealFloatMath::Abs(mRows[1][0]), URealFloatMath::Abs(mRows[1][1]), URealFloatMath::Abs(mRows[1][2]),
+                     URealFloatMath::Abs(mRows[2][0]), URealFloatMath::Abs(mRows[2][1]), URealFloatMath::Abs(mRows[2][2]));
 }
 
 // Overloaded operator for addition
@@ -396,9 +396,9 @@ inline Vector3& Matrix3x3::operator[](int row) {
 
 // Get the string representation
 inline std::string Matrix3x3::to_string() const {
-    return "Matrix3x3(" + std::to_string(mRows[0][0]) + "," + std::to_string(mRows[0][1]) + "," + std::to_string(mRows[0][2]) + "," +
-           std::to_string(mRows[1][0]) + "," + std::to_string(mRows[1][1]) + "," + std::to_string(mRows[1][2]) + "," +
-           std::to_string(mRows[2][0]) + "," + std::to_string(mRows[2][1]) + "," + std::to_string(mRows[2][2]) + ")";
+    return "Matrix3x3(" + my_to_string(mRows[0][0]) + "," + my_to_string(mRows[0][1]) + "," + my_to_string(mRows[0][2]) + "," +
+           my_to_string(mRows[1][0]) + "," + my_to_string(mRows[1][1]) + "," + my_to_string(mRows[1][2]) + "," +
+           my_to_string(mRows[2][0]) + "," + my_to_string(mRows[2][1]) + "," + my_to_string(mRows[2][2]) + ")";
 }
 
 }

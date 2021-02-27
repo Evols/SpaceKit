@@ -39,6 +39,11 @@
 
 using namespace reactphysics3d;
 
+const decimal DebugRenderer::DEFAULT_CONTACT_POINT_SPHERE_RADIUS = decimal(0.1);
+
+/// Default radius of the sphere displayed to represent contact points
+const decimal DebugRenderer::DEFAULT_CONTACT_NORMAL_LENGTH = decimal(1.0);
+
 // Constructor
 DebugRenderer::DebugRenderer(MemoryAllocator& allocator)
               :mAllocator(allocator), mLines(allocator), mTriangles(allocator), mDisplayedDebugItems(0), mMapDebugItemWithColor(allocator),
@@ -124,20 +129,20 @@ void DebugRenderer::drawSphere(const Vector3& position, decimal radius, uint32 c
     Vector3 vertices[(NB_SECTORS_SPHERE + 1) * (NB_STACKS_SPHERE + 1) + (NB_SECTORS_SPHERE + 1)];
 	
 	// Vertices
-	const decimal sectorStep = 2 * PI / NB_SECTORS_SPHERE;
-	const decimal stackStep = PI / NB_STACKS_SPHERE;
+	const decimal sectorStep = 2_fl * FRealFloat::Pi / decimal(NB_SECTORS_SPHERE);
+	const decimal stackStep = FRealFloat::Pi / decimal(NB_STACKS_SPHERE);
 	
 	for (uint i = 0; i <= NB_STACKS_SPHERE; i++) {
 
-		const decimal stackAngle = PI / 2 - i * stackStep;
-		const decimal radiusCosStackAngle = radius * std::cos(stackAngle);
-		const decimal z = radius * std::sin(stackAngle);
+		const decimal stackAngle = FRealFloat::Pi / 2_fl - decimal((int32)i) * stackStep;
+		const decimal radiusCosStackAngle = radius * URealFloatMath::CosRad(stackAngle);
+		const decimal z = radius * URealFloatMath::SinRad(stackAngle);
 
         for (uint j = 0; j <= NB_SECTORS_SPHERE; j++) {
 		
-			const decimal sectorAngle = j * sectorStep;
-			const decimal x = radiusCosStackAngle * std::cos(sectorAngle);
-			const decimal y = radiusCosStackAngle * std::sin(sectorAngle);
+			const decimal sectorAngle = decimal((int32)j) * sectorStep;
+			const decimal x = radiusCosStackAngle * URealFloatMath::CosRad(sectorAngle);
+			const decimal y = radiusCosStackAngle * URealFloatMath::SinRad(sectorAngle);
 
             vertices[i * (NB_SECTORS_SPHERE + 1) + j] = position + Vector3(x, y, z);
 		}
@@ -171,30 +176,30 @@ void DebugRenderer::drawCapsule(const Transform& transform, decimal radius, deci
 
     Vector3 vertices[(NB_SECTORS_SPHERE + 1) * (NB_STACKS_SPHERE + 1) + (NB_SECTORS_SPHERE + 1)];
 
-	const decimal halfHeight = 0.5 * height;
+	const decimal halfHeight = 0.5_fl * height;
 
 	// Use an even number of stacks
     const uint nbStacks = NB_STACKS_SPHERE % 2 == 0 ? NB_STACKS_SPHERE : NB_STACKS_SPHERE - 1;
 	const uint nbHalfStacks = nbStacks / 2;
 	
 	// Vertices
-	const decimal sectorStep = 2 * PI / NB_SECTORS_SPHERE;
-	const decimal stackStep = PI / nbStacks;
+	const decimal sectorStep = 2_fl * FRealFloat::Pi / decimal(NB_SECTORS_SPHERE);
+	const decimal stackStep = FRealFloat::Pi / decimal((int32)nbStacks);
 	
 	uint vertexIndex = 0;
 	
 	// Top cap sphere vertices
     for (uint i = 0; i <= nbHalfStacks; i++) {
 
-		const decimal stackAngle = PI / 2 - i * stackStep;
-		const decimal radiusCosStackAngle = radius * std::cos(stackAngle);
-        const decimal y = radius * std::sin(stackAngle);
+		const decimal stackAngle = FRealFloat::Pi / 2_fl - decimal((int32)i) * stackStep;
+		const decimal radiusCosStackAngle = radius * URealFloatMath::CosRad(stackAngle);
+        const decimal y = radius * URealFloatMath::SinRad(stackAngle);
 
         for (uint j = 0; j <= NB_SECTORS_SPHERE; j++) {
 		
-			const decimal sectorAngle = j * sectorStep;
-            const decimal x = radiusCosStackAngle * std::sin(sectorAngle);
-            const decimal z = radiusCosStackAngle * std::cos(sectorAngle);
+			const decimal sectorAngle = decimal((int32)j) * sectorStep;
+            const decimal x = radiusCosStackAngle * URealFloatMath::SinRad(sectorAngle);
+            const decimal z = radiusCosStackAngle * URealFloatMath::CosRad(sectorAngle);
 
             assert(vertexIndex < (NB_SECTORS_SPHERE + 1) * (nbStacks + 1) + (NB_SECTORS_SPHERE + 1));
 			vertices[vertexIndex] = transform * Vector3(x, y + halfHeight, z);
@@ -206,15 +211,15 @@ void DebugRenderer::drawCapsule(const Transform& transform, decimal radius, deci
 	// Bottom cap sphere vertices
     for (uint i = 0; i <= nbHalfStacks; i++) {
 
-        const decimal stackAngle = PI / 2 - (nbHalfStacks + i) * stackStep;
-		const decimal radiusCosStackAngle = radius * std::cos(stackAngle);
-        const decimal y = radius * std::sin(stackAngle);
+        const decimal stackAngle = FRealFloat::Pi / 2_fl - decimal((int32)(nbHalfStacks + i)) * stackStep;
+		const decimal radiusCosStackAngle = radius * URealFloatMath::CosRad(stackAngle);
+        const decimal y = radius * URealFloatMath::SinRad(stackAngle);
 
         for (uint j = 0; j <= NB_SECTORS_SPHERE; j++) {
 		
-			const decimal sectorAngle = j * sectorStep;
-            const decimal x = radiusCosStackAngle * std::sin(sectorAngle);
-            const decimal z = radiusCosStackAngle * std::cos(sectorAngle);
+			const decimal sectorAngle = decimal((int32)j) * sectorStep;
+            const decimal x = radiusCosStackAngle * URealFloatMath::SinRad(sectorAngle);
+            const decimal z = radiusCosStackAngle * URealFloatMath::CosRad(sectorAngle);
 
             assert(vertexIndex < (NB_SECTORS_SPHERE + 1) * (nbStacks + 1) + (NB_SECTORS_SPHERE + 1));
             vertices[vertexIndex] = transform * Vector3(x, y - halfHeight, z);

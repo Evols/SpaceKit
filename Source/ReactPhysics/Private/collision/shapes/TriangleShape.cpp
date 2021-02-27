@@ -289,7 +289,7 @@ bool TriangleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* 
     }
 
     // If the line PQ is in the triangle plane (case where u=v=w=0)
-    if (approxEqual(u, 0) && approxEqual(v, 0) && approxEqual(w, 0)) return false;
+    if (approxEqual(u, 0_fl) && approxEqual(v, 0_fl) && approxEqual(w, 0_fl)) return false;
 
     // Compute the barycentric coordinates (u, v, w) to determine the
     // intersection point R, R = u * a + v * b + w * c

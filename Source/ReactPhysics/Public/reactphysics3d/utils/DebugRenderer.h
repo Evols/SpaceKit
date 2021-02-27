@@ -149,10 +149,10 @@ class DebugRenderer : public EventListener {
         static constexpr int NB_STACKS_SPHERE = 10;
 
         /// Default radius of the sphere displayed to represent contact points
-        static constexpr decimal DEFAULT_CONTACT_POINT_SPHERE_RADIUS = decimal(0.1);
+        static const decimal DEFAULT_CONTACT_POINT_SPHERE_RADIUS;
 
         /// Default radius of the sphere displayed to represent contact points
-        static constexpr decimal DEFAULT_CONTACT_NORMAL_LENGTH = decimal(1.0);
+        static const decimal DEFAULT_CONTACT_NORMAL_LENGTH;
 
 		// -------------------- Attributes -------------------- //
 

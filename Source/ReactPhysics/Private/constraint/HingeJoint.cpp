@@ -36,8 +36,8 @@ HingeJoint::HingeJoint(Entity entity, PhysicsWorld &world, const HingeJointInfo&
 
     const decimal lowerLimit = mWorld.mHingeJointsComponents.getLowerLimit(mEntity);
     const decimal upperLimit = mWorld.mHingeJointsComponents.getUpperLimit(mEntity);
-    assert(lowerLimit <= decimal(0) && lowerLimit >= decimal(-2.0) * PI);
-    assert(upperLimit >= decimal(0) && upperLimit <= decimal(2.0) * PI);
+    assert(lowerLimit <= decimal(0) && lowerLimit >= decimal(-2.0) * FRealFloat::Pi);
+    assert(upperLimit >= decimal(0) && upperLimit <= decimal(2.0) * FRealFloat::Pi);
 
     // Compute the local-space anchor point for each body
     const Transform& transform1 = mWorld.mTransformComponents.getTransform(jointInfo.body1->getEntity());
@@ -99,7 +99,7 @@ void HingeJoint::setMinAngleLimit(decimal lowerLimit) {
 
     const decimal limit = mWorld.mHingeJointsComponents.getLowerLimit(mEntity);
 
-    assert(limit <= decimal(0.0) && limit >= decimal(-2.0) * PI);
+    assert(limit <= decimal(0.0) && limit >= decimal(-2.0) * FRealFloat::Pi);
 
     if (lowerLimit != limit) {
 
@@ -118,7 +118,7 @@ void HingeJoint::setMaxAngleLimit(decimal upperLimit) {
 
     const decimal limit = mWorld.mHingeJointsComponents.getUpperLimit(mEntity);
 
-    assert(limit >= decimal(0) && limit <= decimal(2.0) * PI);
+    assert(limit >= decimal(0) && limit <= decimal(2.0) * FRealFloat::Pi);
 
     if (upperLimit != limit) {
 
@@ -252,15 +252,15 @@ decimal HingeJoint::getAngle() const {
 
 // Return a string representation
 std::string HingeJoint::to_string() const {
-    return "HingeJoint{ lowerLimit=" + std::to_string(mWorld.mHingeJointsComponents.getLowerLimit(mEntity)) +
-            ", upperLimit=" + std::to_string(mWorld.mHingeJointsComponents.getUpperLimit(mEntity)) +
+    return "HingeJoint{ lowerLimit=" + my_to_string(mWorld.mHingeJointsComponents.getLowerLimit(mEntity)) +
+            ", upperLimit=" + my_to_string(mWorld.mHingeJointsComponents.getUpperLimit(mEntity)) +
             "localAnchorPointBody1=" + mWorld.mHingeJointsComponents.getLocalAnchorPointBody1(mEntity).to_string() + ", localAnchorPointBody2=" +
             mWorld.mHingeJointsComponents.getLocalAnchorPointBody2(mEntity).to_string() + ", hingeLocalAxisBody1=" +
             mWorld.mHingeJointsComponents.getHingeLocalAxisBody1(mEntity).to_string() +
             ", hingeLocalAxisBody2=" + mWorld.mHingeJointsComponents.getHingeLocalAxisBody2(mEntity).to_string() +
             ", initOrientationDifferenceInv=" + mWorld.mHingeJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() +
-            ", motorSpeed=" + std::to_string(mWorld.mHingeJointsComponents.getMotorSpeed(mEntity)) +
-            ", maxMotorTorque=" + std::to_string(mWorld.mHingeJointsComponents.getMaxMotorTorque(mEntity)) + ", isLimitEnabled=" +
+            ", motorSpeed=" + my_to_string(mWorld.mHingeJointsComponents.getMotorSpeed(mEntity)) +
+            ", maxMotorTorque=" + my_to_string(mWorld.mHingeJointsComponents.getMaxMotorTorque(mEntity)) + ", isLimitEnabled=" +
             (mWorld.mHingeJointsComponents.getIsLimitEnabled(mEntity) ? "true" : "false") + ", isMotorEnabled=" +
             (mWorld.mHingeJointsComponents.getIsMotorEnabled(mEntity) ? "true" : "false") + "}";
 }

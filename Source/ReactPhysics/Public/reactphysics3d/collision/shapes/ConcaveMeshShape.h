@@ -145,7 +145,7 @@ class ConcaveMeshShape : public ConcaveShape {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        ConcaveMeshShape(TriangleMesh* triangleMesh, MemoryAllocator& allocator, const Vector3& scaling = Vector3(1, 1, 1));
+        ConcaveMeshShape(TriangleMesh* triangleMesh, MemoryAllocator& allocator, const Vector3& scaling = Vector3(decimal(1), decimal(1), decimal(1)));
 
         /// Raycast method with feedback information
         virtual bool raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* collider, MemoryAllocator& allocator) const override;

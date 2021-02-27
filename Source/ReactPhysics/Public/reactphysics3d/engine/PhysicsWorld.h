@@ -127,7 +127,7 @@ class PhysicsWorld {
             WorldSettings() {
 
                 worldName = "";
-                gravity = Vector3(0, decimal(-9.81), 0);
+                gravity = Vector3(0_fl, decimal(-9.81), 0_fl);
                 persistentContactDistanceThreshold = decimal(0.03);
                 defaultFrictionCoefficient = decimal(0.3);
                 defaultBounciness = decimal(0.5);
@@ -138,7 +138,7 @@ class PhysicsWorld {
                 defaultPositionSolverNbIterations = 5;
                 defaultTimeBeforeSleep = 1.0f;
                 defaultSleepLinearVelocity = decimal(0.02);
-                defaultSleepAngularVelocity = decimal(3.0) * (PI / decimal(180.0));
+                defaultSleepAngularVelocity = decimal(3.0) * (FRealFloat::Pi / decimal(180.0));
                 nbMaxContactManifolds = 3;
                 cosAngleSimilarContactManifold = decimal(0.95);
 
@@ -153,19 +153,19 @@ class PhysicsWorld {
 
                 ss << "worldName=" << worldName << std::endl;
                 ss << "gravity=" << gravity.to_string() << std::endl;
-                ss << "persistentContactDistanceThreshold=" << persistentContactDistanceThreshold << std::endl;
-                ss << "defaultFrictionCoefficient=" << defaultFrictionCoefficient << std::endl;
-                ss << "defaultBounciness=" << defaultBounciness << std::endl;
-                ss << "restitutionVelocityThreshold=" << restitutionVelocityThreshold << std::endl;
-                ss << "defaultRollingRestistance=" << defaultRollingRestistance << std::endl;
+                ss << "persistentContactDistanceThreshold=" << persistentContactDistanceThreshold.ToFloat() << std::endl;
+                ss << "defaultFrictionCoefficient=" << defaultFrictionCoefficient.ToFloat() << std::endl;
+                ss << "defaultBounciness=" << defaultBounciness.ToFloat() << std::endl;
+                ss << "restitutionVelocityThreshold=" << restitutionVelocityThreshold.ToFloat() << std::endl;
+                ss << "defaultRollingRestistance=" << defaultRollingRestistance.ToFloat() << std::endl;
                 ss << "isSleepingEnabled=" << isSleepingEnabled << std::endl;
                 ss << "defaultVelocitySolverNbIterations=" << defaultVelocitySolverNbIterations << std::endl;
                 ss << "defaultPositionSolverNbIterations=" << defaultPositionSolverNbIterations << std::endl;
                 ss << "defaultTimeBeforeSleep=" << defaultTimeBeforeSleep << std::endl;
-                ss << "defaultSleepLinearVelocity=" << defaultSleepLinearVelocity << std::endl;
-                ss << "defaultSleepAngularVelocity=" << defaultSleepAngularVelocity << std::endl;
+                ss << "defaultSleepLinearVelocity=" << defaultSleepLinearVelocity.ToFloat() << std::endl;
+                ss << "defaultSleepAngularVelocity=" << defaultSleepAngularVelocity.ToFloat() << std::endl;
                 ss << "nbMaxContactManifolds=" << nbMaxContactManifolds << std::endl;
-                ss << "cosAngleSimilarContactManifold=" << cosAngleSimilarContactManifold << std::endl;
+                ss << "cosAngleSimilarContactManifold=" << cosAngleSimilarContactManifold.ToFloat() << std::endl;
 
                 return ss.str();
             }

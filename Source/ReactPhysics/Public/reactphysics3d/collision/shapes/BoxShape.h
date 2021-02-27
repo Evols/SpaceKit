@@ -239,12 +239,12 @@ inline Vector3 BoxShape::getFaceNormal(uint faceIndex) const {
     assert(faceIndex < getNbFaces());
 
     switch(faceIndex) {
-        case 0: return Vector3(0, 0, 1);
-        case 1: return Vector3(1, 0, 0);
-        case 2: return Vector3(0, 0, -1);
-        case 3: return Vector3(-1, 0, 0);
-        case 4: return Vector3(0, -1, 0);
-        case 5: return Vector3(0, 1, 0);
+        case 0: return Vector3(0_fl, 0_fl, 1_fl);
+        case 1: return Vector3(1_fl, 0_fl, 0_fl);
+        case 2: return Vector3(0_fl, 0_fl, -1_fl);
+        case 3: return Vector3(-1_fl, 0_fl, 0_fl);
+        case 4: return Vector3(0_fl, -1_fl, 0_fl);
+        case 5: return Vector3(0_fl, 1_fl, 0_fl);
     }
 
     assert(false);
@@ -258,7 +258,7 @@ inline Vector3 BoxShape::getCentroid() const {
 
 // Compute and return the volume of the collision shape
 inline decimal BoxShape::getVolume() const {
-    return 8 * mHalfExtents.x * mHalfExtents.y * mHalfExtents.z;
+    return 8_fl * mHalfExtents.x * mHalfExtents.y * mHalfExtents.z;
 }
 
 // Return the string representation of the shape

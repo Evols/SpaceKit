@@ -148,7 +148,7 @@ inline size_t SphereShape::getSizeInBytes() const {
 inline Vector3 SphereShape::getLocalSupportPointWithoutMargin(const Vector3& direction) const {
 
     // Return the center of the sphere (the radius is taken into account in the object margin)
-    return Vector3(0.0, 0.0, 0.0);
+    return Vector3(0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Return the local bounds of the shape in x, y and z directions.
@@ -191,7 +191,7 @@ inline bool SphereShape::testPointInside(const Vector3& localPoint, Collider* co
 
 // Return the string representation of the shape
 inline std::string SphereShape::to_string() const {
-    return "SphereShape{radius=" + std::to_string(getRadius()) + "}";
+    return "SphereShape{radius=" + my_to_string(getRadius()) + "}";
 }
 
 }

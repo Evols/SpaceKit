@@ -9,7 +9,9 @@ public class ReactPhysics : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseSharedPCHs;
         PrivatePCHHeaderFile = "ReactPhysics.h";
 
-        bEnforceIWYU = true;
+		// MinSourceFilesForUnityBuildOverride = System.Int32.MaxValue;
+
+		bEnforceIWYU = true;
 
 		PublicDependencyModuleNames.AddRange(new string[]
 		{

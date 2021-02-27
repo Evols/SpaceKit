@@ -62,9 +62,11 @@ public:
 
     explicit FRealFloat(int32 InValue);
 
+    explicit FRealFloat(uint32 InValue);
+
     explicit FRealFloat(int64 InValue);
-    
-    explicit FRealFloat(size_t InValue);
+
+    explicit FRealFloat(uint64 InValue);
 
     explicit FRealFloat(float InValue);
 
@@ -173,7 +175,10 @@ inline FRealFloat operator/=(FRealFloat& x, const FRealFloat& y)
 
 inline FRealFloat operator%(const FRealFloat& x, const FRealFloat& y)
 {
-    // return FRealFloat(x.Value % y.Value);
+    FRealFloat a;
+    //FRealFloat::ttBigType Result = x.Value;
+    // Result %= y.Value;
+    // return FRealFloat(Result);
     return FRealFloat(0);
 }
 

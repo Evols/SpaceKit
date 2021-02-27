@@ -64,7 +64,7 @@ void DynamicsSystem::integrateRigidBodiesPositions(decimal timeStep, bool isSpli
 
         // Update the new constrained position and orientation of the body
         mRigidBodyComponents.mConstrainedPositions[i] = currentPosition + newLinVelocity * timeStep;
-        mRigidBodyComponents.mConstrainedOrientations[i] = currentOrientation + Quaternion(0, newAngVelocity) *
+        mRigidBodyComponents.mConstrainedOrientations[i] = currentOrientation + Quaternion(0_fl, newAngVelocity) *
                                                            currentOrientation * decimal(0.5) * timeStep;
     }
 }
@@ -121,8 +121,8 @@ void DynamicsSystem::integrateRigidBodiesVelocities(decimal timeStep) {
     // Integration component velocities using force/torque
     for (uint32 i=0; i < mRigidBodyComponents.getNbEnabledComponents(); i++) {
 
-        assert(mRigidBodyComponents.mSplitLinearVelocities[i] == Vector3(0, 0, 0));
-        assert(mRigidBodyComponents.mSplitAngularVelocities[i] == Vector3(0, 0, 0));
+        assert(mRigidBodyComponents.mSplitLinearVelocities[i] == Vector3(0_fl, 0_fl, 0_fl));
+        assert(mRigidBodyComponents.mSplitAngularVelocities[i] == Vector3(0_fl, 0_fl, 0_fl));
 
         const Vector3& linearVelocity = mRigidBodyComponents.mLinearVelocities[i];
         const Vector3& angularVelocity = mRigidBodyComponents.mAngularVelocities[i];
@@ -166,8 +166,8 @@ void DynamicsSystem::integrateRigidBodiesVelocities(decimal timeStep) {
 
         const decimal linDampingFactor = mRigidBodyComponents.mLinearDampings[i];
         const decimal angDampingFactor = mRigidBodyComponents.mAngularDampings[i];
-        const decimal linearDamping = std::pow(decimal(1.0) - linDampingFactor, timeStep);
-        const decimal angularDamping = std::pow(decimal(1.0) - angDampingFactor, timeStep);
+        const decimal linearDamping = URealFloatMath::Pow(decimal(1.0) - linDampingFactor, timeStep);
+        const decimal angularDamping = URealFloatMath::Pow(decimal(1.0) - angDampingFactor, timeStep);
         mRigidBodyComponents.mConstrainedLinearVelocities[i] = mRigidBodyComponents.mConstrainedLinearVelocities[i] * linearDamping;
         mRigidBodyComponents.mConstrainedAngularVelocities[i] = mRigidBodyComponents.mConstrainedAngularVelocities[i] * angularDamping;
     }

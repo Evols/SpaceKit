@@ -4,3 +4,13 @@
 #include "Core/Public/Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, ReactPhysics, "ReactPhysics" );
+
+std::string my_to_string(int in)
+{
+    return std::to_string(in);
+}
+
+std::string my_to_string(reactphysics3d::decimal in)
+{
+    return std::string(TCHAR_TO_UTF8(*in.ToString()));
+}

@@ -64,7 +64,7 @@ bool SphereVsSphereAlgorithm::testCollision(SphereVsSphereNarrowPhaseInfoBatch& 
                 const Transform transform1Inverse = transform1.getInverse();
                 const Transform transform2Inverse = transform2.getInverse();
 
-                decimal penetrationDepth = sumRadiuses - std::sqrt(squaredDistanceBetweenCenters);
+                decimal penetrationDepth = sumRadiuses - URealFloatMath::Sqrt(squaredDistanceBetweenCenters);
                 Vector3 intersectionOnBody1;
                 Vector3 intersectionOnBody2;
                 Vector3 normal;
@@ -82,7 +82,7 @@ bool SphereVsSphereAlgorithm::testCollision(SphereVsSphereNarrowPhaseInfoBatch& 
                 else {    // If the sphere centers are at the same position (degenerate case)
 
                     // Take any contact normal direction
-                    normal.setAllValues(0, 1, 0);
+                    normal.setAllValues(0_fl, 1_fl, 0_fl);
 
                     intersectionOnBody1 = narrowPhaseInfoBatch.sphere1Radiuses[batchIndex] * (transform1Inverse.getOrientation() * normal);
                     intersectionOnBody2 = narrowPhaseInfoBatch.sphere2Radiuses[batchIndex] * (transform2Inverse.getOrientation() * normal);

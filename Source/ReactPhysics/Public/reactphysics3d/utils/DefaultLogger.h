@@ -139,7 +139,7 @@ class DefaultLogger : public Logger {
                     ss << " (in file " << std::string(filename);
 
                     // Line number
-                    ss << " at line " << std::to_string(lineNumber) << ")";
+                    ss << " at line " << my_to_string(lineNumber) << ")";
 
                     return ss.str();
                 }
@@ -308,7 +308,7 @@ class DefaultLogger : public Logger {
 
                     // Filename + line number
                     ss << "<div class='file'> (in file " << std::string(filename) <<
-                          " at line " << std::to_string(lineNumber) << ")" << std::endl;
+                          " at line " << my_to_string(lineNumber) << ")" << std::endl;
                     ss << "</div>";
 
                     ss << "</div>";

@@ -184,9 +184,9 @@ inline std::string Material::to_string() const {
 
     std::stringstream ss;
 
-    ss << "frictionCoefficient=" << mFrictionCoefficient << std::endl;
-    ss << "rollingResistance=" << mRollingResistance << std::endl;
-    ss << "bounciness=" << mBounciness << std::endl;
+    ss << "frictionCoefficient=" << mFrictionCoefficient.ToFloat() << std::endl;
+    ss << "rollingResistance=" << mRollingResistance.ToFloat() << std::endl;
+    ss << "bounciness=" << mBounciness.ToFloat() << std::endl;
 
     return ss.str();
 }

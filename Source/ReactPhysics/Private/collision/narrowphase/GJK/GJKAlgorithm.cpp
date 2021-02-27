@@ -101,7 +101,7 @@ void GJKAlgorithm::testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uin
             assert(v.lengthSquare() > decimal(0.000001));
         }
         else {
-            v.setAllValues(0, 1, 0);
+            v.setAllValues(0_fl, 1_fl, 0_fl);
         }
 
         // Initialize the upper bound for the square distance
@@ -191,7 +191,7 @@ void GJKAlgorithm::testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uin
 
             // Project those two points on the margins to have the closest points of both
             // object with the margins
-            decimal dist = std::sqrt(distSquare);
+            decimal dist = URealFloatMath::Sqrt(distSquare);
             assert(dist > decimal(0.0));
             pA = (pA - (shape1->getMargin() / dist) * v);
             pB = body2Tobody1.getInverse() * (pB + (shape2->getMargin() / dist) * v);

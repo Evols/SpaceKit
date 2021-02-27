@@ -51,15 +51,15 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(CapsuleVsCapsuleNarrowPhaseInfoBat
 
         // Compute the end-points of the inner segment of the first capsule
         const decimal capsule1HalfHeight = narrowPhaseInfoBatch.capsule1Heights[batchIndex] * decimal(0.5);
-        Vector3 capsule1SegA(0, -capsule1HalfHeight, 0);
-        Vector3 capsule1SegB(0, capsule1HalfHeight, 0);
+        Vector3 capsule1SegA(0_fl, -capsule1HalfHeight, 0_fl);
+        Vector3 capsule1SegB(0_fl, capsule1HalfHeight, 0_fl);
         capsule1SegA = capsule1ToCapsule2SpaceTransform * capsule1SegA;
         capsule1SegB = capsule1ToCapsule2SpaceTransform * capsule1SegB;
 
         // Compute the end-points of the inner segment of the second capsule
         const decimal capsule2HalfHeight = narrowPhaseInfoBatch.capsule2Heights[batchIndex] * decimal(0.5);
-        const Vector3 capsule2SegA(0, -capsule2HalfHeight, 0);
-        const Vector3 capsule2SegB(0, capsule2HalfHeight, 0);
+        const Vector3 capsule2SegA(0_fl, -capsule2HalfHeight, 0_fl);
+        const Vector3 capsule2SegB(0_fl, capsule2HalfHeight, 0_fl);
 
         // The two inner capsule segments
         const Vector3 seg1 = capsule1SegB - capsule1SegA;
@@ -122,14 +122,14 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(CapsuleVsCapsuleNarrowPhaseInfoBat
                         // We cannot use the vector between segments as a contact normal. To generate a contact normal, we take
                         // any vector that is orthogonal to the inner capsule segments.
 
-                        Vector3 vec1(1, 0, 0);
-                        Vector3 vec2(0, 1, 0);
+                        Vector3 vec1(1_fl, 0_fl, 0_fl);
+                        Vector3 vec2(0_fl, 1_fl, 0_fl);
 
                         Vector3 seg2Normalized = seg2.getUnit();
 
                         // Get the vectors (among vec1 and vec2) that is the most orthogonal to the capsule 2 inner segment (smallest absolute dot product)
-                        decimal cosA1 = std::abs(seg2Normalized.x);		// abs(vec1.dot(seg2))
-                        decimal cosA2 = std::abs(seg2Normalized.y);	    // abs(vec2.dot(seg2))
+                        decimal cosA1 = URealFloatMath::Abs(seg2Normalized.x);		// abs(vec1.dot(seg2))
+                        decimal cosA2 = URealFloatMath::Abs(seg2Normalized.y);	    // abs(vec2.dot(seg2))
 
                         segment1ToSegment2.setToZero();
 
@@ -176,7 +176,7 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(CapsuleVsCapsuleNarrowPhaseInfoBat
                 // If the distance between the inner segments is not zero
                 if (closestPointsDistanceSquare > MACHINE_EPSILON) {
 
-                    decimal closestPointsDistance = std::sqrt(closestPointsDistanceSquare);
+                    decimal closestPointsDistance = URealFloatMath::Sqrt(closestPointsDistanceSquare);
                     closestPointsSeg1ToSeg2 /= closestPointsDistance;
 
                     const Vector3 contactPointCapsule1Local = capsule1ToCapsule2SpaceTransform.getInverse() * (closestPointCapsule1Seg + closestPointsSeg1ToSeg2 * capsule1Radius);

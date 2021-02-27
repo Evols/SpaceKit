@@ -300,11 +300,11 @@ Vector3 HeightFieldShape::getVertexAt(int x, int y) const {
 
     Vector3 vertex;
     switch (mUpAxis) {
-        case 0: vertex = Vector3(heightOrigin + height, -mWidth * decimal(0.5) + x, -mLength * decimal(0.5) + y);
+        case 0: vertex = Vector3(heightOrigin + height, -mWidth * decimal(0.5) + decimal(x), -mLength * decimal(0.5) + decimal(y));
                 break;
-        case 1: vertex = Vector3(-mWidth * decimal(0.5) + x, heightOrigin + height, -mLength * decimal(0.5) + y);
-                break;
-        case 2: vertex = Vector3(-mWidth * decimal(0.5) + x, -mLength * decimal(0.5) + y, heightOrigin + height);
+        case 1: vertex = Vector3(-mWidth * decimal(0.5) + decimal(x), heightOrigin + height, -mLength * decimal(0.5) + decimal(y));
+            break;
+        case 2: vertex = Vector3(-mWidth * decimal(0.5) + decimal(x), -mLength * decimal(0.5) + decimal(y), heightOrigin + height);
                 break;
         default: assert(false);
     }
@@ -323,12 +323,12 @@ std::string HeightFieldShape::to_string() const {
 
     ss << "nbColumns=" << mNbColumns << std::endl;
     ss << ", nbRows=" << mNbRows << std::endl;
-    ss << ", width=" << mWidth << std::endl;
-    ss << ", length=" << mLength << std::endl;
-    ss << ", minHeight=" << mMinHeight << std::endl;
-    ss << ", maxHeight=" << mMaxHeight << std::endl;
+    ss << ", width=" << mWidth.ToFloat() << std::endl;
+    ss << ", length=" << mLength.ToFloat() << std::endl;
+    ss << ", minHeight=" << mMinHeight.ToFloat() << std::endl;
+    ss << ", maxHeight=" << mMaxHeight.ToFloat() << std::endl;
     ss << ", upAxis=" << mUpAxis << std::endl;
-    ss << ", integerHeightScale=" << mIntegerHeightScale << std::endl;
+    ss << ", integerHeightScale=" << mIntegerHeightScale.ToFloat() << std::endl;
     ss << "}";
 
     return ss.str();

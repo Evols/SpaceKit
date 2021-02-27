@@ -133,9 +133,6 @@ struct Quaternion {
         /// Compute the rotation angle (in radians) and the rotation axis
         void getRotationAngleAxis(decimal& angle, Vector3& axis) const;
 
-        /// Return true if the values are not NAN OR INF
-        bool isFinite() const;
-
         /// Return true if it is a unit quaternion
         bool isUnit() const;
 
@@ -212,18 +209,18 @@ inline void Quaternion::setAllValues(decimal newX, decimal newY, decimal newZ, d
 
 // Set the quaternion to zero
 inline void Quaternion::setToZero() {
-    x = 0;
-    y = 0;
-    z = 0;
-    w = 0;
+    x = 0_fl;
+    y = 0_fl;
+    z = 0_fl;
+    w = 0_fl;
 }
 
 // Set to the identity quaternion
 inline void Quaternion::setToIdentity() {
-    x = 0;
-    y = 0;
-    z = 0;
-    w = 1;
+    x = 0_fl;
+    y = 0_fl;
+    z = 0_fl;
+    w = 1_fl;
 }
 
 // Return the vector v=(x y z) of the quaternion
@@ -235,7 +232,7 @@ inline Vector3 Quaternion::getVectorV() const {
 
 // Return the length of the quaternion (inline)
 inline decimal Quaternion::length() const {
-    return std::sqrt(x*x + y*y + z*z + w*w);
+    return decimal(URealFloatMath::Sqrt(x*x + y*y + z*z + w*w));
 }
 
 // Return the square of the length of the quaternion
@@ -280,7 +277,7 @@ inline Quaternion Quaternion::getUnit() const {
 
 // Return the identity quaternion
 inline Quaternion Quaternion::identity() {
-    return Quaternion(0.0, 0.0, 0.0, 1.0);
+    return Quaternion(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
 }
 
 // Return the conjugate of the quaternion (inline)
@@ -300,21 +297,16 @@ inline decimal Quaternion::dot(const Quaternion& quaternion) const {
     return (x*quaternion.x + y*quaternion.y + z*quaternion.z + w*quaternion.w);
 }
 
-// Return true if the values are not NAN OR INF
-inline bool Quaternion::isFinite() const {
-    return std::isfinite(x) && std::isfinite(y) && std::isfinite(z) && std::isfinite(w);
-}
-
 // Return true if it is a unit quaternion
 inline bool Quaternion::isUnit() const {
-    const decimal length = std::sqrt(x*x + y*y + z*z + w*w);
-    const decimal tolerance = 1e-5f;
-    return std::abs(length - decimal(1.0)) < tolerance;
+    const decimal length = decimal(URealFloatMath::Sqrt(x*x + y*y + z*z + w*w));
+    const decimal tolerance = decimal(1e-5f);
+    return URealFloatMath::Abs(length - decimal(1.0)) < tolerance;
 }
 
 // Return true if it is a valid quaternion
 inline bool Quaternion::isValid() const {
-   return isFinite() && isUnit();
+   return isUnit();
 }
 
 // Overloaded operator for the addition of two quaternions
@@ -410,8 +402,8 @@ inline bool Quaternion::operator==(const Quaternion& quaternion) const {
 
 // Get the string representation
 inline std::string Quaternion::to_string() const {
-    return "Quaternion(" + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + "," +
-            std::to_string(w) + ")";
+    return "Quaternion(" + my_to_string(x) + "," + my_to_string(y) + "," + my_to_string(z) + "," +
+            my_to_string(w) + ")";
 }
 
 }

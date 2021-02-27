@@ -45,7 +45,7 @@ struct Vector2;
 /// Function to test if two real numbers are (almost) equal
 /// We test if two numbers a and b are such that (a-b) are in [-EPSILON; EPSILON]
 inline bool approxEqual(decimal a, decimal b, decimal epsilon = MACHINE_EPSILON) {
-    return (std::fabs(a - b) < epsilon);
+    return URealFloatMath::Abs(a - b) < epsilon;
 }
 
 /// Function to test if two vectors are (almost) equal

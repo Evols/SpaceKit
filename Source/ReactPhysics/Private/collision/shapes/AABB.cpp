@@ -115,25 +115,25 @@ bool AABB::testRayIntersect(const Ray& ray) const {
     const Vector3 m = ray.point1 + point2 - mMinCoordinates - mMaxCoordinates;
 
     // Test if the AABB face normals are separating axis
-    decimal adx = std::abs(d.x);
-    if (std::abs(m.x) > e.x + adx) return false;
-    decimal ady = std::abs(d.y);
-    if (std::abs(m.y) > e.y + ady) return false;
-    decimal adz = std::abs(d.z);
-    if (std::abs(m.z) > e.z + adz) return false;
+    decimal adx = URealFloatMath::Abs(d.x);
+    if (URealFloatMath::Abs(m.x) > e.x + adx) return false;
+    decimal ady = URealFloatMath::Abs(d.y);
+    if (URealFloatMath::Abs(m.y) > e.y + ady) return false;
+    decimal adz = URealFloatMath::Abs(d.z);
+    if (URealFloatMath::Abs(m.z) > e.z + adz) return false;
 
     // Add in an epsilon term to counteract arithmetic errors when segment is
     // (near) parallel to a coordinate axis (see text for detail)
-    const decimal epsilon = 0.00001;
+    const decimal epsilon = 0.00001_fl;
     adx += epsilon;
     ady += epsilon;
     adz += epsilon;
 
     // Test if the cross products between face normals and ray direction are
     // separating axis
-    if (std::abs(m.y * d.z - m.z * d.y) > e.y * adz + e.z * ady) return false;
-    if (std::abs(m.z * d.x - m.x * d.z) > e.x * adz + e.z * adx) return false;
-    if (std::abs(m.x * d.y - m.y * d.x) > e.x * ady + e.y * adx) return false;
+    if (URealFloatMath::Abs(m.y * d.z - m.z * d.y) > e.y * adz + e.z * ady) return false;
+    if (URealFloatMath::Abs(m.z * d.x - m.x * d.z) > e.x * adz + e.z * adx) return false;
+    if (URealFloatMath::Abs(m.x * d.y - m.y * d.x) > e.x * ady + e.y * adx) return false;
 
     // No separating axis has been found
     return true;

@@ -184,8 +184,8 @@ bool SATAlgorithm::testCollisionCapsuleVsConvexPolyhedron(NarrowPhaseInfoBatch& 
     const Transform polyhedronToCapsuleTransform = capsuleToWorld.getInverse() * polyhedronToWorld;
 
     // Compute the end-points of the inner segment of the capsule
-    const Vector3 capsuleSegA(0, -capsuleShape->getHeight() * decimal(0.5), 0);
-    const Vector3 capsuleSegB(0, capsuleShape->getHeight() * decimal(0.5), 0);
+    const Vector3 capsuleSegA(0_fl, -capsuleShape->getHeight() * decimal(0.5), 0_fl);
+    const Vector3 capsuleSegB(0_fl, capsuleShape->getHeight() * decimal(0.5), 0_fl);
     const Vector3 capsuleSegmentAxis = capsuleSegB - capsuleSegA;
 
     // Minimum penetration depth
@@ -339,7 +339,7 @@ decimal SATAlgorithm::computeEdgeVsCapsuleInnerSegmentPenetrationDepth(const Con
         const Vector3 pointOnPolyhedronEdge = polyhedronToCapsuleTransform * edgeVertex1;
 
         // Swap axis direction if necessary such that it points out of the polyhedron
-        if (outAxis.dot(pointOnPolyhedronEdge - polyhedronCentroid) < 0) {
+        if (outAxis.dot(pointOnPolyhedronEdge - polyhedronCentroid) < 0_fl) {
             outAxis = -outAxis;
         }
 

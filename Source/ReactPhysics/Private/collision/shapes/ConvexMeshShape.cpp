@@ -41,7 +41,7 @@ using namespace reactphysics3d;
  */
 ConvexMeshShape::ConvexMeshShape(PolyhedronMesh* polyhedronMesh, MemoryAllocator& allocator, const Vector3& scale)
                 : ConvexPolyhedronShape(CollisionShapeName::CONVEX_MESH, allocator), mPolyhedronMesh(polyhedronMesh),
-                  mMinBounds(0, 0, 0), mMaxBounds(0, 0, 0), mScale(scale) {
+                  mMinBounds(0_fl, 0_fl, 0_fl), mMaxBounds(0_fl, 0_fl, 0_fl), mScale(scale) {
 
     // Recalculate the bounds of the mesh
     recalculateBounds();

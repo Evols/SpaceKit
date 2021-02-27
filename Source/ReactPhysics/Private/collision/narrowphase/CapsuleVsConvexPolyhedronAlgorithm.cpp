@@ -111,8 +111,8 @@ bool CapsuleVsConvexPolyhedronAlgorithm::testCollision(NarrowPhaseInfoBatch& nar
                     const Vector3 faceNormal = polyhedron->getFaceNormal(f);
                     Vector3 faceNormalWorld = polyhedronToWorld.getOrientation() * faceNormal;
 
-                    const Vector3 capsuleSegA(0, -capsuleShape->getHeight() * decimal(0.5), 0);
-                    const Vector3 capsuleSegB(0, capsuleShape->getHeight() * decimal(0.5), 0);
+                    const Vector3 capsuleSegA(0_fl, -capsuleShape->getHeight() * decimal(0.5), 0_fl);
+                    const Vector3 capsuleSegB(0_fl, capsuleShape->getHeight() * decimal(0.5), 0_fl);
                     Vector3 capsuleInnerSegmentDirection = capsuleToWorld.getOrientation() * (capsuleSegB - capsuleSegA);
                     capsuleInnerSegmentDirection.normalize();
 
@@ -131,8 +131,8 @@ bool CapsuleVsConvexPolyhedronAlgorithm::testCollision(NarrowPhaseInfoBatch& nar
                         const Transform polyhedronToCapsuleTransform = capsuleToWorld.getInverse() * polyhedronToWorld;
 
                         // Compute the end-points of the inner segment of the capsule
-                        const Vector3 capsuleSegA(0, -capsuleShape->getHeight() * decimal(0.5), 0);
-                        const Vector3 capsuleSegB(0, capsuleShape->getHeight() * decimal(0.5), 0);
+                        const Vector3 capsuleSegA(0_fl, -capsuleShape->getHeight() * decimal(0.5), 0_fl);
+                        const Vector3 capsuleSegB(0_fl, capsuleShape->getHeight() * decimal(0.5), 0_fl);
 
                         // Convert the inner capsule segment points into the polyhedron local-space
                         const Transform capsuleToPolyhedronTransform = polyhedronToCapsuleTransform.getInverse();
