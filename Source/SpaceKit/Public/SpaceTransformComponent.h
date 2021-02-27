@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2020 Baptiste Hutteau Licensed under the Apache License, Version 2.0.
 
 #pragma once
 
