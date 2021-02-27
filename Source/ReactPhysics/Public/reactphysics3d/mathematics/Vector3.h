@@ -149,7 +149,7 @@ struct Vector3 {
         bool operator<(const Vector3& vector) const;
 
         /// Get the string representation
-        std::string to_string() const;
+        FString to_string() const;
 
         /// Return a vector taking the minimum components of two vectors
         static Vector3 min(const Vector3& vector1, const Vector3& vector2);
@@ -173,7 +173,7 @@ struct Vector3 {
 };
 
 // Constructor of the struct Vector3
-inline Vector3::Vector3() : x(0.0), y(0.0), z(0.0) {
+inline Vector3::Vector3() : x(0.0_fl), y(0.0_fl), z(0.0_fl) {
 
 }
 
@@ -189,9 +189,9 @@ inline Vector3::Vector3(const Vector3& vector) : x(vector.x), y(vector.y), z(vec
 
 // Set the vector to zero
 inline void Vector3::setToZero() {
-    x = 0;
-    y = 0;
-    z = 0;
+    x = 0.0_fl;
+    y = 0.0_fl;
+    z = 0.0_fl;
 }
 
 // Set all the values of the vector
@@ -203,7 +203,7 @@ inline void Vector3::setAllValues(decimal newX, decimal newY, decimal newZ) {
 
 // Return the length of the vector
 inline decimal Vector3::length() const {
-    return std::sqrt(x*x + y*y + z*z);
+    return URealFloatMath::Sqrt(x*x + y*y + z*z);
 }
 
 // Return the square of the length of the vector
@@ -236,7 +236,7 @@ inline void Vector3::normalize() {
 
 // Return the corresponding absolute value vector
 inline Vector3 Vector3::getAbsoluteVector() const {
-    return Vector3(std::abs(x), std::abs(y), std::abs(z));
+    return Vector3(URealFloatMath::Abs(x), URealFloatMath::Abs(y), URealFloatMath::Abs(z));
 }
 
 // Return the axis with the minimal value
@@ -251,7 +251,7 @@ inline int Vector3::getMaxAxis() const {
 
 // Return true if the vector is unit and false otherwise
 inline bool Vector3::isUnit() const {
-    return approxEqual(lengthSquare(), 1.0);
+    return approxEqual(lengthSquare(), 1.0_fl);
 }
 
 // Return true if the values are not NAN OR INF
@@ -261,7 +261,7 @@ inline bool Vector3::isFinite() const {
 
 // Return true if the vector is the zero vector
 inline bool Vector3::isZero() const {
-    return approxEqual(lengthSquare(), 0.0);
+    return approxEqual(lengthSquare(), 0.0_fl);
 }
 
 // Overloaded operator for the equality condition
@@ -401,13 +401,13 @@ inline decimal Vector3::getMaxValue() const {
 }
 
 // Get the string representation
-inline std::string Vector3::to_string() const {
-    return "Vector3(" + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + ")";
+inline FString Vector3::to_string() const {
+    return "Vector3(" + x.ToString() + "," + y.ToString() + "," + z.ToString() + ")";
 }
 
 // Return the zero vector
 inline Vector3 Vector3::zero() {
-    return Vector3(0, 0, 0);
+    return Vector3(0.0_fl, 0_fl, 0_fl);
 }
 
 }

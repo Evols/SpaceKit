@@ -1280,7 +1280,7 @@ void CollisionDetectionSystem::reduceContactPoints(ContactManifoldInfo& manifold
     // Compute the second contact point we need to keep.
     // The second point we keep is the one farthest away from the first point.
 
-    decimal maxDistance = decimal(0.0);
+    decimal maxDistance = decimal(0.0_fl);
     elementIndexToKeep = 0;
     for (uint i=0; i < candidatePointsIndices.size(); i++) {
 
@@ -1308,8 +1308,8 @@ void CollisionDetectionSystem::reduceContactPoints(ContactManifoldInfo& manifold
     // We compute the most positive or most negative triangle area (depending on winding)
     uint thirdPointMaxAreaIndex = 0;
     uint thirdPointMinAreaIndex = 0;
-    decimal minArea = decimal(0.0);
-    decimal maxArea = decimal(0.0);
+    decimal minArea = decimal(0.0_fl);
+    decimal maxArea = decimal(0.0_fl);
     bool isPreviousAreaPositive = true;
     for (uint i=0; i < candidatePointsIndices.size(); i++) {
 
@@ -1335,8 +1335,8 @@ void CollisionDetectionSystem::reduceContactPoints(ContactManifoldInfo& manifold
             thirdPointMinAreaIndex = i;
         }
     }
-    assert(minArea <= decimal(0.0));
-    assert(maxArea >= decimal(0.0));
+    assert(minArea <= decimal(0.0_fl));
+    assert(maxArea >= decimal(0.0_fl));
     if (maxArea > (-minArea)) {
         isPreviousAreaPositive = true;
         pointsToKeepIndices[2] = candidatePointsIndices[thirdPointMaxAreaIndex];
@@ -1352,7 +1352,7 @@ void CollisionDetectionSystem::reduceContactPoints(ContactManifoldInfo& manifold
     // Compute the 4th point by choosing the triangle that adds the most
     // triangle area to the previous triangle and has opposite sign area (opposite winding)
 
-    decimal largestArea = decimal(0.0); // Largest area (positive or negative)
+    decimal largestArea = decimal(0.0_fl); // Largest area (positive or negative)
     elementIndexToKeep = 0;
     nbReducedPoints = 4;
     decimal area;

@@ -173,7 +173,7 @@ struct Quaternion {
         bool operator==(const Quaternion& quaternion) const;
 
         /// Return the string representation
-        std::string to_string() const;
+        FString to_string() const;
 
     private:
 
@@ -182,7 +182,7 @@ struct Quaternion {
 };
 
 // Constructor of the class
-inline Quaternion::Quaternion() : x(0.0), y(0.0), z(0.0), w(0.0) {
+inline Quaternion::Quaternion() : x(0.0_fl), y(0.0_fl), z(0.0_fl), w(0.0_fl) {
 
 }
 
@@ -212,18 +212,18 @@ inline void Quaternion::setAllValues(decimal newX, decimal newY, decimal newZ, d
 
 // Set the quaternion to zero
 inline void Quaternion::setToZero() {
-    x = 0;
-    y = 0;
-    z = 0;
-    w = 0;
+    x = 0.0_fl;
+    y = 0.0_fl;
+    z = 0.0_fl;
+    w = 0.0_fl;
 }
 
 // Set to the identity quaternion
 inline void Quaternion::setToIdentity() {
-    x = 0;
-    y = 0;
-    z = 0;
-    w = 1;
+    x = 0.0_fl;
+    y = 0.0_fl;
+    z = 0.0_fl;
+    w = 1.0_fl;
 }
 
 // Return the vector v=(x y z) of the quaternion
@@ -235,7 +235,7 @@ inline Vector3 Quaternion::getVectorV() const {
 
 // Return the length of the quaternion (inline)
 inline decimal Quaternion::length() const {
-    return std::sqrt(x*x + y*y + z*z + w*w);
+    return URealFloatMath::Sqrt(x*x + y*y + z*z + w*w);
 }
 
 // Return the square of the length of the quaternion
@@ -280,7 +280,7 @@ inline Quaternion Quaternion::getUnit() const {
 
 // Return the identity quaternion
 inline Quaternion Quaternion::identity() {
-    return Quaternion(0.0, 0.0, 0.0, 1.0);
+    return Quaternion(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
 }
 
 // Return the conjugate of the quaternion (inline)
@@ -307,9 +307,9 @@ inline bool Quaternion::isFinite() const {
 
 // Return true if it is a unit quaternion
 inline bool Quaternion::isUnit() const {
-    const decimal length = std::sqrt(x*x + y*y + z*z + w*w);
-    const decimal tolerance = 1e-5f;
-    return std::abs(length - decimal(1.0)) < tolerance;
+    const decimal length = URealFloatMath::Sqrt(x*x + y*y + z*z + w*w);
+    const decimal tolerance = 1e-5_fl;
+    return URealFloatMath::Abs(length - decimal(1.0_fl)) < tolerance;
 }
 
 // Return true if it is a valid quaternion
@@ -374,7 +374,7 @@ inline Quaternion Quaternion::operator*(const Quaternion& quaternion) const {
 inline Vector3 Quaternion::operator*(const Vector3& point) const {
 
     /* The following code is equivalent to this
-     * Quaternion p(point.x, point.y, point.z, 0.0);
+     * Quaternion p(point.x, point.y, point.z, 0.0_fl);
      * return (((*this) * p) * getConjugate()).getVectorV();
     */
 
@@ -409,9 +409,9 @@ inline bool Quaternion::operator==(const Quaternion& quaternion) const {
 }
 
 // Get the string representation
-inline std::string Quaternion::to_string() const {
-    return "Quaternion(" + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + "," +
-            std::to_string(w) + ")";
+inline FString Quaternion::to_string() const {
+    return "Quaternion(" + URealFloatMath::ConvRealToString(x) + "," + URealFloatMath::ConvRealToString(y) + "," + URealFloatMath::ConvRealToString(z) + "," +
+            URealFloatMath::ConvRealToString(w) + ")";
 }
 
 }

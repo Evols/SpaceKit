@@ -210,9 +210,9 @@ void SolveHingeJointSystem::initBeforeSolve() {
             // Reset all the accumulated impulses
             mHingeJointComponents.mImpulseTranslation[i].setToZero();
             mHingeJointComponents.mImpulseRotation[i].setToZero();
-            mHingeJointComponents.mImpulseLowerLimit[i] = decimal(0.0);
-            mHingeJointComponents.mImpulseUpperLimit[i] = decimal(0.0);
-            mHingeJointComponents.mImpulseMotor[i] = decimal(0.0);
+            mHingeJointComponents.mImpulseLowerLimit[i] = decimal(0.0_fl);
+            mHingeJointComponents.mImpulseUpperLimit[i] = decimal(0.0_fl);
+            mHingeJointComponents.mImpulseMotor[i] = decimal(0.0_fl);
         }
     }
 
@@ -238,13 +238,13 @@ void SolveHingeJointSystem::initBeforeSolve() {
         bool isLowerLimitViolated = lowerLimitError <= 0;
         mHingeJointComponents.mIsLowerLimitViolated[i] = isLowerLimitViolated;
         if (!isLowerLimitViolated || isLowerLimitViolated != oldIsLowerLimitViolated) {
-            mHingeJointComponents.mImpulseLowerLimit[i] = decimal(0.0);
+            mHingeJointComponents.mImpulseLowerLimit[i] = decimal(0.0_fl);
         }
         bool oldIsUpperLimitViolated = mHingeJointComponents.mIsUpperLimitViolated[i];
         bool isUpperLimitViolated = upperLimitError <= 0;
         mHingeJointComponents.mIsUpperLimitViolated[i] = isUpperLimitViolated;
         if (!isUpperLimitViolated || isUpperLimitViolated != oldIsUpperLimitViolated) {
-            mHingeJointComponents.mImpulseUpperLimit[i] = decimal(0.0);
+            mHingeJointComponents.mImpulseUpperLimit[i] = decimal(0.0_fl);
         }
 
         // If the motor or limits are enabled
@@ -256,20 +256,20 @@ void SolveHingeJointSystem::initBeforeSolve() {
 
             // Compute the inverse of the mass matrix K=JM^-1J^t for the limits and motor (1x1 matrix)
             decimal inverseMassMatrixLimitMotor = a1.dot(mHingeJointComponents.mI1[i] * a1) + a1.dot(mHingeJointComponents.mI2[i] * a1);
-            inverseMassMatrixLimitMotor = (inverseMassMatrixLimitMotor > decimal(0.0)) ?
-                                      decimal(1.0) / inverseMassMatrixLimitMotor : decimal(0.0);
+            inverseMassMatrixLimitMotor = (inverseMassMatrixLimitMotor > decimal(0.0_fl)) ?
+                                      decimal(1.0_fl) / inverseMassMatrixLimitMotor : decimal(0.0_fl);
             mHingeJointComponents.mInverseMassMatrixLimitMotor[i] = inverseMassMatrixLimitMotor;
 
             if (mHingeJointComponents.mIsLimitEnabled[i]) {
 
                 // Compute the bias "b" of the lower limit constraint
-                mHingeJointComponents.mBLowerLimit[i] = decimal(0.0);
+                mHingeJointComponents.mBLowerLimit[i] = decimal(0.0_fl);
                 if (mJointComponents.getPositionCorrectionTechnique(jointEntity) == JointsPositionCorrectionTechnique::BAUMGARTE_JOINTS) {
                     mHingeJointComponents.mBLowerLimit[i] = biasFactor * lowerLimitError;
                 }
 
                 // Compute the bias "b" of the upper limit constraint
-                mHingeJointComponents.mBUpperLimit[i] = decimal(0.0);
+                mHingeJointComponents.mBUpperLimit[i] = decimal(0.0_fl);
                 if (mJointComponents.getPositionCorrectionTechnique(jointEntity) == JointsPositionCorrectionTechnique::BAUMGARTE_JOINTS) {
                     mHingeJointComponents.mBUpperLimit[i] = biasFactor * upperLimitError;
                 }
@@ -455,7 +455,7 @@ void SolveHingeJointSystem::solveVelocityConstraint() {
                 // Compute the Lagrange multiplier lambda for the lower limit constraint
                 decimal deltaLambdaLower = inverseMassMatrixLimitMotor * (-JvLowerLimit -mHingeJointComponents.mBLowerLimit[i]);
                 decimal lambdaTemp = mHingeJointComponents.mImpulseLowerLimit[i];
-                mHingeJointComponents.mImpulseLowerLimit[i] = std::max(mHingeJointComponents.mImpulseLowerLimit[i] + deltaLambdaLower, decimal(0.0));
+                mHingeJointComponents.mImpulseLowerLimit[i] = std::max(mHingeJointComponents.mImpulseLowerLimit[i] + deltaLambdaLower, decimal(0.0_fl));
                 deltaLambdaLower = mHingeJointComponents.mImpulseLowerLimit[i] - lambdaTemp;
 
                 // Compute the impulse P=J^T * lambda for the lower limit constraint of body 1
@@ -480,7 +480,7 @@ void SolveHingeJointSystem::solveVelocityConstraint() {
                 // Compute the Lagrange multiplier lambda for the upper limit constraint
                 decimal deltaLambdaUpper = inverseMassMatrixLimitMotor * (-JvUpperLimit -mHingeJointComponents.mBUpperLimit[i]);
                 decimal lambdaTemp = mHingeJointComponents.mImpulseUpperLimit[i];
-                mHingeJointComponents.mImpulseUpperLimit[i] = std::max(mHingeJointComponents.mImpulseUpperLimit[i] + deltaLambdaUpper, decimal(0.0));
+                mHingeJointComponents.mImpulseUpperLimit[i] = std::max(mHingeJointComponents.mImpulseUpperLimit[i] + deltaLambdaUpper, decimal(0.0_fl));
                 deltaLambdaUpper = mHingeJointComponents.mImpulseUpperLimit[i] - lambdaTemp;
 
                 // Compute the impulse P=J^T * lambda for the upper limit constraint of body 1
@@ -763,8 +763,8 @@ void SolveHingeJointSystem::solvePositionConstraint() {
 
                 // Compute the inverse of the mass matrix K=JM^-1J^t for the limits (1x1 matrix)
                 mHingeJointComponents.mInverseMassMatrixLimitMotor[i] = a1.dot(mHingeJointComponents.mI1[i] * a1) + a1.dot(mHingeJointComponents.mI2[i] * a1);
-                mHingeJointComponents.mInverseMassMatrixLimitMotor[i] = (inverseMassMatrixLimitMotor > decimal(0.0)) ?
-                                          decimal(1.0) / mHingeJointComponents.mInverseMassMatrixLimitMotor[i] : decimal(0.0);
+                mHingeJointComponents.mInverseMassMatrixLimitMotor[i] = (inverseMassMatrixLimitMotor > decimal(0.0_fl)) ?
+                                          decimal(1.0_fl) / mHingeJointComponents.mInverseMassMatrixLimitMotor[i] : decimal(0.0_fl);
             }
 
             // If the lower limit is violated
@@ -850,13 +850,13 @@ decimal SolveHingeJointSystem::computeCorrespondingAngleNearLimits(decimal input
         return inputAngle;
     }
     else if (inputAngle > upperLimitAngle) {
-        decimal diffToUpperLimit = std::fabs(computeNormalizedAngle(inputAngle - upperLimitAngle));
-        decimal diffToLowerLimit = std::fabs(computeNormalizedAngle(inputAngle - lowerLimitAngle));
+        decimal diffToUpperLimit = URealFloatMath::Abs(computeNormalizedAngle(inputAngle - upperLimitAngle));
+        decimal diffToLowerLimit = URealFloatMath::Abs(computeNormalizedAngle(inputAngle - lowerLimitAngle));
         return (diffToUpperLimit > diffToLowerLimit) ? (inputAngle - PI_TIMES_2) : inputAngle;
     }
     else if (inputAngle < lowerLimitAngle) {
-        decimal diffToUpperLimit = std::fabs(computeNormalizedAngle(upperLimitAngle - inputAngle));
-        decimal diffToLowerLimit = std::fabs(computeNormalizedAngle(lowerLimitAngle - inputAngle));
+        decimal diffToUpperLimit = URealFloatMath::Abs(computeNormalizedAngle(upperLimitAngle - inputAngle));
+        decimal diffToLowerLimit = URealFloatMath::Abs(computeNormalizedAngle(lowerLimitAngle - inputAngle));
         return (diffToUpperLimit > diffToLowerLimit) ? inputAngle : (inputAngle + PI_TIMES_2);
     }
     else {
@@ -891,11 +891,11 @@ decimal SolveHingeJointSystem::computeCurrentHingeAngle(Entity jointEntity, cons
     decimal dotProduct = relativeRotation.getVectorV().dot(mHingeJointComponents.getA1(jointEntity));
 
     // If the relative rotation axis and the hinge axis are pointing the same direction
-    if (dotProduct >= decimal(0.0)) {
-        hingeAngle = decimal(2.0) * std::atan2(sinHalfAngleAbs, cosHalfAngle);
+    if (dotProduct >= decimal(0.0_fl)) {
+        hingeAngle = decimal(2.0_fl) * std::atan2(sinHalfAngleAbs, cosHalfAngle);
     }
     else {
-        hingeAngle = decimal(2.0) * std::atan2(sinHalfAngleAbs, -cosHalfAngle);
+        hingeAngle = decimal(2.0_fl) * std::atan2(sinHalfAngleAbs, -cosHalfAngle);
     }
 
     // Convert the angle from range [-2*pi; 2*pi] into the range [-pi; pi]

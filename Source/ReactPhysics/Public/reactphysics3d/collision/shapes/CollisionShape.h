@@ -150,7 +150,7 @@ class CollisionShape {
         virtual void computeAABB(AABB& aabb, const Transform& transform) const;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const=0;
+        virtual FString to_string() const=0;
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 

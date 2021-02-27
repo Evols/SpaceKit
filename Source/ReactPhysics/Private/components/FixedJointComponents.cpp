@@ -125,18 +125,18 @@ void FixedJointComponents::addComponent(Entity jointEntity, bool isSleeping, con
     // Insert the new component data
     new (mJointEntities + index) Entity(jointEntity);
     mJoints[index] = nullptr;
-    new (mLocalAnchorPointBody1 + index) Vector3(0, 0, 0);
-    new (mLocalAnchorPointBody2 + index) Vector3(0, 0, 0);
-    new (mR1World + index) Vector3(0, 0, 0);
-    new (mR2World + index) Vector3(0, 0, 0);
+    new (mLocalAnchorPointBody1 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
+    new (mLocalAnchorPointBody2 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
+    new (mR1World + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
+    new (mR2World + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mI1 + index) Matrix3x3();
     new (mI2 + index) Matrix3x3();
-    new (mImpulseTranslation + index) Vector3(0, 0, 0);
-    new (mImpulseRotation + index) Vector3(0, 0, 0);
+    new (mImpulseTranslation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
+    new (mImpulseRotation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mInverseMassMatrixTranslation + index) Matrix3x3();
     new (mInverseMassMatrixRotation + index) Matrix3x3();
-    new (mBiasTranslation + index) Vector3(0, 0, 0);
-    new (mBiasRotation + index) Vector3(0, 0, 0);
+    new (mBiasTranslation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
+    new (mBiasRotation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mInitOrientationDifferenceInv + index) Quaternion(0, 0, 0, 0);
 
     // Map the entity with the new component lookup index

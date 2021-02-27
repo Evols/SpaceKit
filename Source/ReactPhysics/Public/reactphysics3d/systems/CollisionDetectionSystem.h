@@ -376,7 +376,7 @@ class CollisionDetectionSystem {
         friend class PhysicsWorld;
         friend class ConvexMeshShape;
         friend class RigidBody;
-        friend class DebugRenderer;
+        // friend class DebugRenderer;
 };
 
 // Return a reference to the collision dispatch configuration

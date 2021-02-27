@@ -107,7 +107,10 @@ public:
     static FRealFloat DegToRad;
 };
 
-SPACEKITPRECISION_API FRealFloat operator""_fl(const char* str);
+inline SPACEKITPRECISION_API FRealFloat operator""_fl(const char* str)
+{
+    return FRealFloat(str);
+}
 
 // Type traits, so UE4 knows FRealFloat implements ExportTextItem and ImportTextItem
 template<>

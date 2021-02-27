@@ -87,7 +87,7 @@ class FixedJoint : public Joint {
         FixedJoint(const FixedJoint& constraint) = delete;
 
         /// Return a string representation
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         /// Deleted assignment operator
         FixedJoint& operator=(const FixedJoint& constraint) = delete;

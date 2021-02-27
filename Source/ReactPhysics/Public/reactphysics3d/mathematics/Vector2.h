@@ -137,7 +137,7 @@ struct Vector2 {
         bool operator<(const Vector2& vector) const;
 
         /// Return the string representation
-        std::string to_string() const;
+        FString to_string() const;
 
         /// Return a vector taking the minimum components of two vectors
         static Vector2 min(const Vector2& vector1, const Vector2& vector2);
@@ -161,7 +161,7 @@ struct Vector2 {
 };
 
 // Constructor
-inline Vector2::Vector2() : x(0.0), y(0.0) {
+inline Vector2::Vector2() : x(0.0_fl), y(0.0_fl) {
 
 }
 
@@ -178,8 +178,8 @@ inline Vector2::Vector2(const Vector2& vector) : x(vector.x), y(vector.y) {
 
 // Set the vector to zero
 inline void Vector2::setToZero() {
-    x = 0;
-    y = 0;
+    x = 0.0_fl;
+    y = 0.0_fl;
 }
 
 // Set all the values of the vector
@@ -190,7 +190,7 @@ inline void Vector2::setAllValues(decimal newX, decimal newY) {
 
 // Return the length of the vector
 inline decimal Vector2::length() const {
-    return std::sqrt(x*x + y*y);
+    return URealFloatMath::Sqrt(x*x + y*y);
 }
 
 // Return the square of the length of the vector
@@ -215,7 +215,7 @@ inline void Vector2::normalize() {
 
 // Return the corresponding absolute value vector
 inline Vector2 Vector2::getAbsoluteVector() const {
-    return Vector2(std::abs(x), std::abs(y));
+    return Vector2(URealFloatMath::Abs(x), URealFloatMath::Abs(y));
 }
 
 // Return the axis with the minimal value
@@ -230,7 +230,7 @@ inline int Vector2::getMaxAxis() const {
 
 // Return true if the vector is unit and false otherwise
 inline bool Vector2::isUnit() const {
-    return approxEqual(lengthSquare(), 1.0);
+    return approxEqual(lengthSquare(), 1.0_fl);
 }
 
 // Return true if the values are not NAN OR INF
@@ -240,7 +240,7 @@ inline bool Vector2::isFinite() const {
 
 // Return true if the vector is the zero vector
 inline bool Vector2::isZero() const {
-    return approxEqual(lengthSquare(), 0.0);
+    return approxEqual(lengthSquare(), 0.0_fl);
 }
 
 // Overloaded operator for the equality condition
@@ -362,13 +362,13 @@ inline Vector2 Vector2::max(const Vector2& vector1, const Vector2& vector2) {
 }
 
 // Get the string representation
-inline std::string Vector2::to_string() const {
-    return "Vector2(" + std::to_string(x) + "," + std::to_string(y) + ")";
+inline FString Vector2::to_string() const {
+    return "Vector2(" + URealFloatMath::ConvRealToString(x) + "," + URealFloatMath::ConvRealToString(y) + ")";
 }
 
 // Return the zero vector
 inline Vector2 Vector2::zero() {
-    return Vector2(0, 0);
+    return Vector2(0.0_fl, 0.0_fl);
 }
 
 }

@@ -41,9 +41,9 @@ BoxShape::BoxShape(const Vector3& halfExtents, MemoryAllocator& allocator)
          : ConvexPolyhedronShape(CollisionShapeName::BOX, allocator), mHalfExtents(halfExtents),
            mHalfEdgeStructure(allocator, 6, 8, 24) {
 
-    assert(halfExtents.x > decimal(0.0));
-    assert(halfExtents.y > decimal(0.0));
-    assert(halfExtents.z > decimal(0.0));
+    assert(halfExtents.x > decimal(0.0_fl));
+    assert(halfExtents.y > decimal(0.0_fl));
+    assert(halfExtents.z > decimal(0.0_fl));
 
     // Vertices
     mHalfEdgeStructure.addVertex(0);
@@ -84,7 +84,7 @@ BoxShape::BoxShape(const Vector3& halfExtents, MemoryAllocator& allocator)
  * @param mass Mass to use to compute the inertia tensor of the collision shape
  */
 Vector3 BoxShape::getLocalInertiaTensor(decimal mass) const {
-    const decimal factor = (decimal(1.0) / decimal(3.0)) * mass;
+    const decimal factor = (decimal(1.0_fl) / decimal(3.0_fl)) * mass;
     const decimal xSquare = mHalfExtents.x * mHalfExtents.x;
     const decimal ySquare = mHalfExtents.y * mHalfExtents.y;
     const decimal zSquare = mHalfExtents.z * mHalfExtents.z;
@@ -104,7 +104,7 @@ bool BoxShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* colli
     for (int i=0; i<3; i++) {
 
         // If ray is parallel to the slab
-        if (std::abs(rayDirection[i]) < MACHINE_EPSILON) {
+        if (URealFloatMath::Abs(rayDirection[i]) < MACHINE_EPSILON) {
 
             // If the ray's origin is not inside the slab, there is no hit
             if (ray.point1[i] > mHalfExtents[i] || ray.point1[i] < -mHalfExtents[i]) return false;
@@ -112,12 +112,12 @@ bool BoxShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* colli
         else {
 
             // Compute the intersection of the ray with the near and far plane of the slab
-            decimal oneOverD = decimal(1.0) / rayDirection[i];
+            decimal oneOverD = decimal(1.0_fl) / rayDirection[i];
             decimal t1 = (-mHalfExtents[i] - ray.point1[i]) * oneOverD;
             decimal t2 = (mHalfExtents[i] - ray.point1[i]) * oneOverD;
-            currentNormal[0] = (i == 0) ? -mHalfExtents[i] : decimal(0.0);
-            currentNormal[1] = (i == 1) ? -mHalfExtents[i] : decimal(0.0);
-            currentNormal[2] = (i == 2) ? -mHalfExtents[i] : decimal(0.0);
+            currentNormal[0] = (i == 0) ? -mHalfExtents[i] : decimal(0.0_fl);
+            currentNormal[1] = (i == 1) ? -mHalfExtents[i] : decimal(0.0_fl);
+            currentNormal[2] = (i == 2) ? -mHalfExtents[i] : decimal(0.0_fl);
 
             // Swap t1 and t2 if need so that t1 is intersection with near plane and
             // t2 with far plane
@@ -142,7 +142,7 @@ bool BoxShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* colli
     }
 
     // If tMin is negative, we return no hit
-    if (tMin < decimal(0.0) || tMin > ray.maxFraction) return false;
+    if (tMin < decimal(0.0_fl) || tMin > ray.maxFraction) return false;
 
     // The ray intersects the three slabs, we compute the hit point
     Vector3 localHitPoint = ray.point1 + tMin * rayDirection;

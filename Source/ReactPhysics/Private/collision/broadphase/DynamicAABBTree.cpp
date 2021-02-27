@@ -230,10 +230,10 @@ void DynamicAABBTree::insertLeafNode(int nodeID) {
         decimal mergedVolume = mergedAABBs.getVolume();
 
         // Compute the cost of making the current node the sibbling of the new node
-        decimal costS = decimal(2.0) * mergedVolume;
+        decimal costS = decimal(2.0_fl) * mergedVolume;
 
         // Compute the minimum cost of pushing the new node further down the tree (inheritance cost)
-        decimal costI = decimal(2.0) * (mergedVolume - volumeAABB);
+        decimal costI = decimal(2.0_fl) * (mergedVolume - volumeAABB);
 
         // Compute the cost of descending into the left child
         decimal costLeft;
@@ -701,12 +701,12 @@ void DynamicAABBTree::raycast(const Ray& ray, DynamicAABBTreeRaycastCallback& ca
 
             // If the user returned a hitFraction of zero, it means that
             // the raycasting should stop here
-            if (hitFraction == decimal(0.0)) {
+            if (hitFraction == decimal(0.0_fl)) {
                 return;
             }
 
             // If the user returned a positive fraction
-            if (hitFraction > decimal(0.0)) {
+            if (hitFraction > decimal(0.0_fl)) {
 
                 // We update the maxFraction value and the ray
                 // AABB using the new maximum fraction

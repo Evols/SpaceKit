@@ -66,10 +66,10 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
     decimal r;
     decimal s;
 
-    if (trace < decimal(0.0)) {
+    if (trace < decimal(0.0_fl)) {
         if (matrix[1][1] > matrix[0][0]) {
             if(matrix[2][2] > matrix[1][1]) {
-                r = std::sqrt(matrix[2][2] - matrix[0][0] - matrix[1][1] + decimal(1.0));
+                r = URealFloatMath::Sqrt(matrix[2][2] - matrix[0][0] - matrix[1][1] + decimal(1.0_fl));
                 s = decimal(0.5) / r;
                 
                 // Compute the quaternion
@@ -79,7 +79,7 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
                 w = (matrix[1][0] - matrix[0][1]) * s;
             }
             else {
-                r = std::sqrt(matrix[1][1] - matrix[2][2] - matrix[0][0] + decimal(1.0));
+                r = URealFloatMath::Sqrt(matrix[1][1] - matrix[2][2] - matrix[0][0] + decimal(1.0_fl));
                 s = decimal(0.5) / r;
 
                 // Compute the quaternion
@@ -90,7 +90,7 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
             }
         }
         else if (matrix[2][2] > matrix[0][0]) {
-            r = std::sqrt(matrix[2][2] - matrix[0][0] - matrix[1][1] + decimal(1.0));
+            r = URealFloatMath::Sqrt(matrix[2][2] - matrix[0][0] - matrix[1][1] + decimal(1.0_fl));
             s = decimal(0.5) / r;
 
             // Compute the quaternion
@@ -100,7 +100,7 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
             w = (matrix[1][0] - matrix[0][1]) * s;
         }
         else {
-            r = std::sqrt(matrix[0][0] - matrix[1][1] - matrix[2][2] + decimal(1.0));
+            r = URealFloatMath::Sqrt(matrix[0][0] - matrix[1][1] - matrix[2][2] + decimal(1.0_fl));
             s = decimal(0.5) / r;
 
             // Compute the quaternion
@@ -111,7 +111,7 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
         }
     }
     else {
-        r = std::sqrt(trace + decimal(1.0));
+        r = URealFloatMath::Sqrt(trace + decimal(1.0_fl));
         s = decimal(0.5) / r;
 
         // Compute the quaternion
@@ -128,7 +128,7 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
 void Quaternion::getRotationAngleAxis(decimal& angle, Vector3& axis) const {
 
     // Compute the roation angle
-    angle = std::acos(w) * decimal(2.0);
+    angle = std::acos(w) * decimal(2.0_fl);
 
     // Compute the 3D rotation axis
     Vector3 rotationAxis(x, y, z);
@@ -144,10 +144,10 @@ void Quaternion::getRotationAngleAxis(decimal& angle, Vector3& axis) const {
 Matrix3x3 Quaternion::getMatrix() const {
 
     decimal nQ = x*x + y*y + z*z + w*w;
-    decimal s = 0.0;
+    decimal s = 0.0_fl;
 
-    if (nQ > decimal(0.0)) {
-        s = decimal(2.0) / nQ;
+    if (nQ > decimal(0.0_fl)) {
+        s = decimal(2.0_fl) / nQ;
     }
 
     // Computations used for optimization (less multiplications)
@@ -165,26 +165,26 @@ Matrix3x3 Quaternion::getMatrix() const {
     decimal zzs = z*zs;
 
     // Create the matrix corresponding to the quaternion
-    return Matrix3x3(decimal(1.0) - yys - zzs, xys-wzs, xzs + wys,
-                     xys + wzs, decimal(1.0) - xxs - zzs, yzs-wxs,
-                     xzs-wys, yzs + wxs, decimal(1.0) - xxs - yys);
+    return Matrix3x3(decimal(1.0_fl) - yys - zzs, xys-wzs, xzs + wys,
+                     xys + wzs, decimal(1.0_fl) - xxs - zzs, yzs-wxs,
+                     xzs-wys, yzs + wxs, decimal(1.0_fl) - xxs - yys);
 }
 
 // Compute the spherical linear interpolation between two quaternions.
 /// The t argument has to be such that 0 <= t <= 1. This method is static.
 Quaternion Quaternion::slerp(const Quaternion& quaternion1,
                              const Quaternion& quaternion2, decimal t) {
-    assert(t >= decimal(0.0) && t <= decimal(1.0));
+    assert(t >= decimal(0.0_fl) && t <= decimal(1.0_fl));
 
-    decimal invert = 1.0;
+    decimal invert = 1.0_fl;
 
     // Compute cos(theta) using the quaternion scalar product
     decimal cosineTheta = quaternion1.dot(quaternion2);
 
     // Take care of the sign of cosineTheta
-    if (cosineTheta < decimal(0.0)) {
+    if (cosineTheta < decimal(0.0_fl)) {
 			cosineTheta = -cosineTheta;
-			invert = -1.0;
+			invert = -1.0_fl;
     }
 
     // Because of precision, if cos(theta) is nearly 1,
@@ -192,7 +192,7 @@ Quaternion Quaternion::slerp(const Quaternion& quaternion1,
     // sin((1-t)*theta) as (1-t) and sin(t*theta) as t
     const decimal epsilon = decimal(0.00001);
     if(1-cosineTheta < epsilon) {
-        return quaternion1 * (decimal(1.0)-t) + quaternion2 * (t * invert);
+        return quaternion1 * (decimal(1.0_fl)-t) + quaternion2 * (t * invert);
     }
 
     // Compute the theta angle
@@ -202,7 +202,7 @@ Quaternion Quaternion::slerp(const Quaternion& quaternion1,
     decimal sineTheta = std::sin(theta);
 
     // Compute the two coefficients that are in the spherical linear interpolation formula
-    decimal coeff1 = std::sin((decimal(1.0)-t)*theta) / sineTheta;
+    decimal coeff1 = std::sin((decimal(1.0_fl)-t)*theta) / sineTheta;
     decimal coeff2 = std::sin(t*theta) / sineTheta * invert;
 
     // Compute and return the interpolated quaternion

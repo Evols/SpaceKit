@@ -145,7 +145,7 @@ class ConcaveMeshShape : public ConcaveShape {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        ConcaveMeshShape(TriangleMesh* triangleMesh, MemoryAllocator& allocator, const Vector3& scaling = Vector3(1, 1, 1));
+        ConcaveMeshShape(TriangleMesh* triangleMesh, MemoryAllocator& allocator, const Vector3& scaling = Vector3(1.0_fl, 1.0_fl, 1.0_fl));
 
         /// Raycast method with feedback information
         virtual bool raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* collider, MemoryAllocator& allocator) const override;
@@ -194,7 +194,7 @@ class ConcaveMeshShape : public ConcaveShape {
         virtual void getLocalBounds(Vector3& min, Vector3& max) const override;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
@@ -208,7 +208,7 @@ class ConcaveMeshShape : public ConcaveShape {
         friend class ConvexTriangleAABBOverlapCallback;
         friend class ConcaveMeshRaycastCallback;
         friend class PhysicsCommon;
-        friend class DebugRenderer;
+        // friend class DebugRenderer;
 };
 
 // Return the number of bytes used by the collision shape

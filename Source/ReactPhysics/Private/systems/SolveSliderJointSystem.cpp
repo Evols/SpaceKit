@@ -140,12 +140,12 @@ void SolveSliderJointSystem::initBeforeSolve() {
         bool oldIsLowerLimitViolated = mSliderJointComponents.mIsLowerLimitViolated[i];
         mSliderJointComponents.mIsLowerLimitViolated[i] = lowerLimitError <= 0;
         if (!mSliderJointComponents.mIsLowerLimitViolated[i] || mSliderJointComponents.mIsLowerLimitViolated[i] != oldIsLowerLimitViolated) {
-            mSliderJointComponents.mImpulseLowerLimit[i] = decimal(0.0);
+            mSliderJointComponents.mImpulseLowerLimit[i] = decimal(0.0_fl);
         }
         bool oldIsUpperLimitViolated = mSliderJointComponents.mIsUpperLimitViolated[i];
         mSliderJointComponents.mIsUpperLimitViolated[i] = upperLimitError <= 0;
         if (!mSliderJointComponents.mIsUpperLimitViolated[i] || mSliderJointComponents.mIsUpperLimitViolated[i] != oldIsUpperLimitViolated) {
-            mSliderJointComponents.mImpulseUpperLimit[i] = decimal(0.0);
+            mSliderJointComponents.mImpulseUpperLimit[i] = decimal(0.0_fl);
         }
 
         // Compute the bias "b" of the translation constraint
@@ -171,17 +171,17 @@ void SolveSliderJointSystem::initBeforeSolve() {
             mSliderJointComponents.mInverseMassMatrixLimit[i] = sumInverseMass +
                                       r1PlusUCrossSliderAxis.dot(mSliderJointComponents.mI1[i] * r1PlusUCrossSliderAxis) +
                                       r2CrossSliderAxis.dot(mSliderJointComponents.mI2[i] * r2CrossSliderAxis);
-            mSliderJointComponents.mInverseMassMatrixLimit[i] = (mSliderJointComponents.mInverseMassMatrixLimit[i] > decimal(0.0)) ?
-                                      decimal(1.0) / mSliderJointComponents.mInverseMassMatrixLimit[i] : decimal(0.0);
+            mSliderJointComponents.mInverseMassMatrixLimit[i] = (mSliderJointComponents.mInverseMassMatrixLimit[i] > decimal(0.0_fl)) ?
+                                      decimal(1.0_fl) / mSliderJointComponents.mInverseMassMatrixLimit[i] : decimal(0.0_fl);
 
             // Compute the bias "b" of the lower limit constraint
-            mSliderJointComponents.mBLowerLimit[i] = decimal(0.0);
+            mSliderJointComponents.mBLowerLimit[i] = decimal(0.0_fl);
             if (mJointComponents.getPositionCorrectionTechnique(jointEntity) == JointsPositionCorrectionTechnique::BAUMGARTE_JOINTS) {
                 mSliderJointComponents.mBLowerLimit[i] = biasFactor * lowerLimitError;
             }
 
             // Compute the bias "b" of the upper limit constraint
-            mSliderJointComponents.mBUpperLimit[i] = decimal(0.0);
+            mSliderJointComponents.mBUpperLimit[i] = decimal(0.0_fl);
             if (mJointComponents.getPositionCorrectionTechnique(jointEntity) == JointsPositionCorrectionTechnique::BAUMGARTE_JOINTS) {
                 mSliderJointComponents.mBUpperLimit[i] = biasFactor * upperLimitError;
             }
@@ -268,7 +268,7 @@ void SolveSliderJointSystem::initBeforeSolve() {
         mSliderJointComponents.mBiasRotation[i].setToZero();
         if (mJointComponents.getPositionCorrectionTechnique(jointEntity) == JointsPositionCorrectionTechnique::BAUMGARTE_JOINTS) {
             const Quaternion qError = orientationBody2 * mSliderJointComponents.mInitOrientationDifferenceInv[i] * orientationBody1.getInverse();
-            mSliderJointComponents.mBiasRotation[i] = biasFactor * decimal(2.0) * qError.getVectorV();
+            mSliderJointComponents.mBiasRotation[i] = biasFactor * decimal(2.0_fl) * qError.getVectorV();
         }
 
         // If the motor is enabled
@@ -280,8 +280,8 @@ void SolveSliderJointSystem::initBeforeSolve() {
 
             // Compute the inverse of mass matrix K=JM^-1J^t for the motor (1x1 matrix)
             mSliderJointComponents.mInverseMassMatrixMotor[i] = sumInverseMass;
-            mSliderJointComponents.mInverseMassMatrixMotor[i] = (mSliderJointComponents.mInverseMassMatrixMotor[i] > decimal(0.0)) ?
-                        decimal(1.0) / mSliderJointComponents.mInverseMassMatrixMotor[i] : decimal(0.0);
+            mSliderJointComponents.mInverseMassMatrixMotor[i] = (mSliderJointComponents.mInverseMassMatrixMotor[i] > decimal(0.0_fl)) ?
+                        decimal(1.0_fl) / mSliderJointComponents.mInverseMassMatrixMotor[i] : decimal(0.0_fl);
         }
     }
 
@@ -294,9 +294,9 @@ void SolveSliderJointSystem::initBeforeSolve() {
             // Reset all the accumulated impulses
             mSliderJointComponents.mImpulseTranslation[i].setToZero();
             mSliderJointComponents.mImpulseRotation[i].setToZero();
-            mSliderJointComponents.mImpulseLowerLimit[i] = decimal(0.0);
-            mSliderJointComponents.mImpulseUpperLimit[i] = decimal(0.0);
-            mSliderJointComponents.mImpulseMotor[i] = decimal(0.0);
+            mSliderJointComponents.mImpulseLowerLimit[i] = decimal(0.0_fl);
+            mSliderJointComponents.mImpulseUpperLimit[i] = decimal(0.0_fl);
+            mSliderJointComponents.mImpulseMotor[i] = decimal(0.0_fl);
         }
     }
 }
@@ -526,7 +526,7 @@ void SolveSliderJointSystem::solveVelocityConstraint() {
                 // Compute the Lagrange multiplier lambda for the lower limit constraint
                 decimal deltaLambdaLower = inverseMassMatrixLimit * (-JvLowerLimit - mSliderJointComponents.mBLowerLimit[i]);
                 decimal lambdaTemp = mSliderJointComponents.mImpulseLowerLimit[i];
-                mSliderJointComponents.mImpulseLowerLimit[i] = std::max(mSliderJointComponents.mImpulseLowerLimit[i] + deltaLambdaLower, decimal(0.0));
+                mSliderJointComponents.mImpulseLowerLimit[i] = std::max(mSliderJointComponents.mImpulseLowerLimit[i] + deltaLambdaLower, decimal(0.0_fl));
                 deltaLambdaLower = mSliderJointComponents.mImpulseLowerLimit[i] - lambdaTemp;
 
                 // Compute the impulse P=J^T * lambda for the lower limit constraint of body 1
@@ -556,7 +556,7 @@ void SolveSliderJointSystem::solveVelocityConstraint() {
                 // Compute the Lagrange multiplier lambda for the upper limit constraint
                 decimal deltaLambdaUpper = inverseMassMatrixLimit * (-JvUpperLimit -mSliderJointComponents.mBUpperLimit[i]);
                 decimal lambdaTemp = mSliderJointComponents.mImpulseUpperLimit[i];
-                mSliderJointComponents.mImpulseUpperLimit[i] = std::max(mSliderJointComponents.mImpulseUpperLimit[i] + deltaLambdaUpper, decimal(0.0));
+                mSliderJointComponents.mImpulseUpperLimit[i] = std::max(mSliderJointComponents.mImpulseUpperLimit[i] + deltaLambdaUpper, decimal(0.0_fl));
                 deltaLambdaUpper = mSliderJointComponents.mImpulseUpperLimit[i] - lambdaTemp;
 
                 // Compute the impulse P=J^T * lambda for the upper limit constraint of body 1
@@ -832,7 +832,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
         // theta = rotation angle
         //
         // If we assume theta is small (error is small) then sin(x) = x so an approximation of the error angles is:
-        const Vector3 errorRotation = decimal(2.0) * qError.getVectorV();
+        const Vector3 errorRotation = decimal(2.0_fl) * qError.getVectorV();
 
         // Compute the Lagrange multiplier lambda for the 3 rotation constraints
         Vector3 lambdaRotation = mSliderJointComponents.mInverseMassMatrixRotation[i] * (-errorRotation);
@@ -875,8 +875,8 @@ void SolveSliderJointSystem::solvePositionConstraint() {
                 mSliderJointComponents.mInverseMassMatrixLimit[i] = body1MassInverse + body2MassInverse +
                                         r1PlusUCrossSliderAxis.dot(mSliderJointComponents.mI1[i] * r1PlusUCrossSliderAxis) +
                                         r2CrossSliderAxis.dot(mSliderJointComponents.mI2[i] * r2CrossSliderAxis);
-                mSliderJointComponents.mInverseMassMatrixLimit[i] = (mSliderJointComponents.mInverseMassMatrixLimit[i] > decimal(0.0)) ?
-                                          decimal(1.0) / mSliderJointComponents.mInverseMassMatrixLimit[i] : decimal(0.0);
+                mSliderJointComponents.mInverseMassMatrixLimit[i] = (mSliderJointComponents.mInverseMassMatrixLimit[i] > decimal(0.0_fl)) ?
+                                          decimal(1.0_fl) / mSliderJointComponents.mInverseMassMatrixLimit[i] : decimal(0.0_fl);
             }
 
             const decimal inverseMassBody1 = mRigidBodyComponents.mInverseMasses[componentIndexBody1];

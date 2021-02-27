@@ -216,7 +216,7 @@ class Profiler {
 
             private:
 
-                std::string mFilePath;
+                FString mFilePath;
 
                 /// Output file stream
                 std::ofstream mFileStream;
@@ -224,7 +224,7 @@ class Profiler {
             public:
 
                 /// Constructor
-                FileDestination(const std::string& filePath, Format format)
+                FileDestination(const FString& filePath, Format format)
                    :Destination(format), mFilePath(filePath),
                     mFileStream(filePath, std::ios::binary) {
 
@@ -348,7 +348,7 @@ class Profiler {
         void allocatedDestinations(uint nbDestinationsToAllocate);
 
         // Add a file destination to the profiler
-        void addFileDestination(const std::string& filePath, Format format);
+        void addFileDestination(const FString& filePath, Format format);
 
         // Add a stream destination to the profiler
         void addStreamDestination(std::ostream& outputStream, Format format);

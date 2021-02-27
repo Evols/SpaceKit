@@ -40,8 +40,8 @@ using namespace reactphysics3d;
 CapsuleShape::CapsuleShape(decimal radius, decimal height, MemoryAllocator& allocator)
             : ConvexShape(CollisionShapeName::CAPSULE, CollisionShapeType::CAPSULE, allocator, radius), mHalfHeight(height * decimal(0.5)) {
 
-    assert(radius > decimal(0.0));
-    assert(height > decimal(0.0));
+    assert(radius > decimal(0.0_fl));
+    assert(height > decimal(0.0_fl));
 }
 
 // Return the local inertia tensor of the capsule
@@ -56,11 +56,11 @@ Vector3 CapsuleShape::getLocalInertiaTensor(decimal mass) const {
     const decimal radiusSquare = mMargin * mMargin;
     const decimal heightSquare = height * height;
     const decimal radiusSquareDouble = radiusSquare + radiusSquare;
-    const decimal factor1 = decimal(2.0) * mMargin / (decimal(4.0) * mMargin + decimal(3.0) * height);
-    const decimal factor2 = decimal(3.0) * height / (decimal(4.0) * mMargin + decimal(3.0) * height);
+    const decimal factor1 = decimal(2.0_fl) * mMargin / (decimal(4.0_fl) * mMargin + decimal(3.0_fl) * height);
+    const decimal factor2 = decimal(3.0_fl) * height / (decimal(4.0_fl) * mMargin + decimal(3.0_fl) * height);
     const decimal sum1 = decimal(0.4) * radiusSquareDouble;
     const decimal sum2 = decimal(0.75) * height * mMargin + decimal(0.5) * heightSquare;
-    const decimal sum3 = decimal(0.25) * radiusSquare + decimal(1.0 / 12.0) * heightSquare;
+    const decimal sum3 = decimal(0.25) * radiusSquare + decimal(1.0_fl / 12.0_fl) * heightSquare;
     const decimal IxxAndzz = factor1 * mass * (sum1 + sum2) + factor2 * mass * sum3;
     const decimal Iyy = factor1 * mass * sum1 + factor2 * mass * decimal(0.25) * radiusSquareDouble;
     return Vector3(IxxAndzz, Iyy, IxxAndzz);
@@ -99,9 +99,9 @@ bool CapsuleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* c
     decimal dDotD = d.dot(d);
 
     // Test if the segment is outside the cylinder
-    decimal vec1DotD = (ray.point1 - Vector3(decimal(0.0), -mHalfHeight - mMargin, decimal(0.0))).dot(d);
-    if (vec1DotD < decimal(0.0) && vec1DotD + nDotD < decimal(0.0)) return false;
-    decimal ddotDExtraCaps = decimal(2.0) * mMargin * d.y;
+    decimal vec1DotD = (ray.point1 - Vector3(decimal(0.0_fl), -mHalfHeight - mMargin, decimal(0.0_fl))).dot(d);
+    if (vec1DotD < decimal(0.0_fl) && vec1DotD + nDotD < decimal(0.0_fl)) return false;
+    decimal ddotDExtraCaps = decimal(2.0_fl) * mMargin * d.y;
     if (vec1DotD > dDotD + ddotDExtraCaps && vec1DotD + nDotD > dDotD + ddotDExtraCaps) return false;
 
     decimal nDotN = n.dot(n);
@@ -112,15 +112,15 @@ bool CapsuleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* c
     decimal c = dDotD * k - mDotD * mDotD;
 
     // If the ray is parallel to the capsule axis
-    if (std::abs(a) < epsilon) {
+    if (URealFloatMath::Abs(a) < epsilon) {
 
         // If the origin is outside the surface of the capusle's cylinder, we return no hit
-        if (c > decimal(0.0)) return false;
+        if (c > decimal(0.0_fl)) return false;
 
         // Here we know that the segment intersect an endcap of the capsule
 
         // If the ray intersects with the "p" endcap of the capsule
-        if (mDotD < decimal(0.0)) {
+        if (mDotD < decimal(0.0_fl)) {
 
             // Check intersection between the ray and the "p" sphere endcap of the capsule
             Vector3 hitLocalPoint;
@@ -164,14 +164,14 @@ bool CapsuleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* c
     decimal discriminant = b * b - a * c;
 
     // If the discriminant is negative, no real roots and therfore, no hit
-    if (discriminant < decimal(0.0)) return false;
+    if (discriminant < decimal(0.0_fl)) return false;
 
     // Compute the smallest root (first intersection along the ray)
-    decimal t0 = t = (-b - std::sqrt(discriminant)) / a;
+    decimal t0 = t = (-b - URealFloatMath::Sqrt(discriminant)) / a;
 
     // If the intersection is outside the finite cylinder of the capsule on "p" endcap side
     decimal value = mDotD + t * nDotD;
-    if (value < decimal(0.0)) {
+    if (value < decimal(0.0_fl)) {
 
         // Check intersection between the ray and the "p" sphere endcap of the capsule
         Vector3 hitLocalPoint;
@@ -212,7 +212,7 @@ bool CapsuleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* c
 
     // If the intersection is behind the origin of the ray or beyond the maximum
     // raycasting distance, we return no hit
-    if (t < decimal(0.0) || t > ray.maxFraction) return false;
+    if (t < decimal(0.0_fl) || t > ray.maxFraction) return false;
 
     // Compute the hit information
     Vector3 localHitPoint = ray.point1 + t * n;
@@ -237,14 +237,14 @@ bool CapsuleShape::raycastWithSphereEndCap(const Vector3& point1, const Vector3&
     decimal c = m.dot(m) - mMargin * mMargin;
 
     // If the origin of the ray is inside the sphere, we return no intersection
-    if (c < decimal(0.0)) return false;
+    if (c < decimal(0.0_fl)) return false;
 
     const Vector3 rayDirection = point2 - point1;
     decimal b = m.dot(rayDirection);
 
     // If the origin of the ray is outside the sphere and the ray
     // is pointing away from the sphere, there is no intersection
-    if (b > decimal(0.0)) return false;
+    if (b > decimal(0.0_fl)) return false;
 
     decimal raySquareLength = rayDirection.lengthSquare();
 
@@ -252,12 +252,12 @@ bool CapsuleShape::raycastWithSphereEndCap(const Vector3& point1, const Vector3&
     decimal discriminant = b * b - raySquareLength * c;
 
     // If the discriminant is negative or the ray length is very small, there is no intersection
-    if (discriminant < decimal(0.0) || raySquareLength < MACHINE_EPSILON) return false;
+    if (discriminant < decimal(0.0_fl) || raySquareLength < MACHINE_EPSILON) return false;
 
     // Compute the solution "t" closest to the origin
-    decimal t = -b - std::sqrt(discriminant);
+    decimal t = -b - URealFloatMath::Sqrt(discriminant);
 
-    assert(t >= decimal(0.0));
+    assert(t >= decimal(0.0_fl));
 
     // If the hit point is withing the segment ray fraction
     if (t < maxFraction * raySquareLength) {

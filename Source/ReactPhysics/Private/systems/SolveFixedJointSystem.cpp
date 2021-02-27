@@ -174,7 +174,7 @@ void SolveFixedJointSystem::initBeforeSolve() {
 
         if (mJointComponents.getPositionCorrectionTechnique(jointEntity) == JointsPositionCorrectionTechnique::BAUMGARTE_JOINTS) {
             const Quaternion qError = orientationBody2 * mFixedJointComponents.mInitOrientationDifferenceInv[i] * orientationBody1.getInverse();
-            mFixedJointComponents.mBiasRotation[i] = biasFactor * decimal(2.0) * qError.getVectorV();
+            mFixedJointComponents.mBiasRotation[i] = biasFactor * decimal(2.0_fl) * qError.getVectorV();
         }
     }
 
@@ -511,7 +511,7 @@ void SolveFixedJointSystem::solvePositionConstraint() {
         // theta = rotation angle
         //
         // If we assume theta is small (error is small) then sin(x) = x so an approximation of the error angles is:
-        const Vector3 errorRotation = decimal(2.0) * qError.getVectorV();
+        const Vector3 errorRotation = decimal(2.0_fl) * qError.getVectorV();
 
         // Compute the Lagrange multiplier lambda for the 3 rotation constraints
         Vector3 lambdaRotation = mFixedJointComponents.mInverseMassMatrixRotation[i] * (-errorRotation);

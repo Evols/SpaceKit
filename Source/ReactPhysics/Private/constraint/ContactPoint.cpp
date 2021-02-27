@@ -39,7 +39,7 @@ ContactPoint::ContactPoint(const ContactPointInfo* contactInfo, decimal persiste
                mIsRestingContact(false), mIsObsolete(false), mNext(nullptr), mPrevious(nullptr),
                mPersistentContactDistanceThreshold(persistentContactDistanceThreshold) {
 
-    assert(mPenetrationDepth > decimal(0.0));
+    assert(mPenetrationDepth > decimal(0.0_fl));
     assert(mNormal.lengthSquare() > decimal(0.8));
 
     mIsObsolete = false;
@@ -54,7 +54,7 @@ ContactPoint::ContactPoint(const ContactPointInfo& contactInfo, decimal persiste
                mIsRestingContact(false), mPenetrationImpulse(0), mIsObsolete(false),
                mPersistentContactDistanceThreshold(persistentContactDistanceThreshold) {
 
-    assert(mPenetrationDepth > decimal(0.0));
+    assert(mPenetrationDepth > decimal(0.0_fl));
     assert(mNormal.lengthSquare() > decimal(0.8));
 
     mIsObsolete = false;
@@ -65,7 +65,7 @@ ContactPoint::ContactPoint(const ContactPointInfo& contactInfo, decimal persiste
 void ContactPoint::update(const ContactPointInfo* contactInfo) {
 
     assert(isSimilarWithContactPoint(contactInfo));
-    assert(contactInfo->penetrationDepth > decimal(0.0));
+    assert(contactInfo->penetrationDepth > decimal(0.0_fl));
 
     mNormal = contactInfo->normal;
     mPenetrationDepth = contactInfo->penetrationDepth;

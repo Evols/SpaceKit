@@ -120,12 +120,12 @@ class Transform {
         Transform& operator=(const Transform& transform);
 
         /// Return the string representation
-        std::string to_string() const;
+        FString to_string() const;
 
 };
 
 // Constructor
-inline Transform::Transform() : mPosition(Vector3(0.0, 0.0, 0.0)), mOrientation(Quaternion::identity()) {
+inline Transform::Transform() : mPosition(Vector3(0.0_fl, 0.0_fl, 0.0_fl)), mOrientation(Quaternion::identity()) {
 
 }
 
@@ -169,7 +169,7 @@ inline void Transform::setOrientation(const Quaternion& orientation) {
 
 // Set the transform to the identity transform
 inline void Transform::setToIdentity() {
-    mPosition = Vector3(0.0, 0.0, 0.0);
+    mPosition = Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     mOrientation = Quaternion::identity();
 }                                           
 
@@ -184,7 +184,7 @@ inline Transform Transform::interpolateTransforms(const Transform& oldTransform,
                                                   const Transform& newTransform,
                                                   decimal interpolationFactor) {
 
-    Vector3 interPosition = oldTransform.mPosition * (decimal(1.0) - interpolationFactor) +
+    Vector3 interPosition = oldTransform.mPosition * (decimal(1.0_fl) - interpolationFactor) +
                             newTransform.mPosition * interpolationFactor;
 
     Quaternion interOrientation = Quaternion::slerp(oldTransform.mOrientation,
@@ -196,7 +196,7 @@ inline Transform Transform::interpolateTransforms(const Transform& oldTransform,
 
 // Return the identity transform
 inline Transform Transform::identity() {
-    return Transform(Vector3(0, 0, 0), Quaternion::identity());
+    return Transform(Vector3(0.0_fl, 0.0_fl, 0.0_fl), Quaternion::identity());
 }
 
 // Return true if it is a valid transform
@@ -258,7 +258,7 @@ inline Transform& Transform::operator=(const Transform& transform) {
 }
 
 // Get the string representation
-inline std::string Transform::to_string() const {
+inline FString Transform::to_string() const {
     return "Transform(" + mPosition.to_string() + "," + mOrientation.to_string() + ")";
 }
 

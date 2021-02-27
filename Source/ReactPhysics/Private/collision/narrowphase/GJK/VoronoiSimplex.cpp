@@ -139,7 +139,7 @@ bool VoronoiSimplex::isAffinelyDependent() const {
 
         // Four points are independent if the tetrahedron volume is larger than zero
         // Test in three different ways (for more robustness)
-        case 4: return std::abs((mPoints[1] - mPoints[0]).dot((mPoints[2] - mPoints[0]).cross(mPoints[3] - mPoints[0]))) <= epsilon;
+        case 4: return URealFloatMath::Abs((mPoints[1] - mPoints[0]).dot((mPoints[2] - mPoints[0]).cross(mPoints[3] - mPoints[0]))) <= epsilon;
     }
 
     return false;
@@ -203,7 +203,7 @@ bool VoronoiSimplex::recomputeClosestPoint() {
                     mClosestSuppPointA = mSuppPointsA[0] + t * (mSuppPointsA[1] - mSuppPointsA[0]);
                     mClosestSuppPointB = mSuppPointsB[0] + t * (mSuppPointsB[1] - mSuppPointsB[0]);
                     mClosestPoint = mClosestSuppPointA - mClosestSuppPointB;
-                    setBarycentricCoords(decimal(1.0) - t, t, 0, 0);
+                    setBarycentricCoords(decimal(1.0_fl) - t, t, 0, 0);
                     mIsClosestPointValid = checkClosestPointValid();
 
                     // Reduce the simplex (remove vertices that are not participating to
@@ -228,7 +228,7 @@ bool VoronoiSimplex::recomputeClosestPoint() {
                                          baryCoords[2] * mSuppPointsB[2];
                     mClosestPoint = mClosestSuppPointA - mClosestSuppPointB;
 
-                    setBarycentricCoords(baryCoords.x, baryCoords.y, baryCoords.z, 0.0);
+                    setBarycentricCoords(baryCoords.x, baryCoords.y, baryCoords.z, 0.0_fl);
                     mIsClosestPointValid = checkClosestPointValid();
 
                     // Reduce the simplex (remove vertices that are not participating to
@@ -279,7 +279,7 @@ bool VoronoiSimplex::recomputeClosestPoint() {
                             // The origin is inside the tetrahedron, therefore, the closest point
                             // is the origin
 
-                            setBarycentricCoords(0.0, 0.0, 0.0, 0.0);
+                            setBarycentricCoords(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 
                             mClosestSuppPointA.setToZero();
                             mClosestSuppPointB.setToZero();
@@ -308,7 +308,7 @@ void VoronoiSimplex::computeClosestPointOnSegment(const Vector3& a, const Vector
     decimal APDotAB = AP.dot(AB);
 
     // If the closest point is on the side of A in the direction of B
-    if (APDotAB > decimal(0.0)) {
+    if (APDotAB > decimal(0.0_fl)) {
         decimal lengthABSquare = AB.lengthSquare();
 
         // If the closest point is on the segment AB
@@ -320,14 +320,14 @@ void VoronoiSimplex::computeClosestPointOnSegment(const Vector3& a, const Vector
         }
         else {  // If the origin is on the side of B that is not in the direction of A
             // Therefore, the closest point is B
-            t = decimal(1.0);
+            t = decimal(1.0_fl);
 
             bitUsedVertices = 2; // 0010 (only B is used)
         }
     }
     else {  // If the origin is on the side of A that is not in the direction of B
         // Therefore, the closest point of the line is A
-        t = decimal(0.0);
+        t = decimal(0.0_fl);
 
         bitUsedVertices = 1; // 0001 (only A is used)
     }
@@ -345,12 +345,12 @@ void VoronoiSimplex::computeClosestPointOnTriangle(const Vector3& a, const Vecto
     Vector3 ap = -a;
     decimal d1 = ab.dot(ap);
     decimal d2 = ac.dot(ap);
-    if (d1 <= decimal(0.0) && d2 <= decimal(0.0)) {
+    if (d1 <= decimal(0.0_fl) && d2 <= decimal(0.0_fl)) {
 
         // The origin is in the Voronoi region of vertex A
 
         // Set the barycentric coords of the closest point on the triangle
-        baryCoordsABC.setAllValues(1.0, 0, 0);
+        baryCoordsABC.setAllValues(1.0_fl, 0, 0);
 
         bitsUsedVertices = 1;    // 0001 (only A is used)
         return;
@@ -360,12 +360,12 @@ void VoronoiSimplex::computeClosestPointOnTriangle(const Vector3& a, const Vecto
     Vector3 bp = -b;
     decimal d3 = ab.dot(bp);
     decimal d4 = ac.dot(bp);
-    if (d3 >= decimal(0.0) && d4 <= d3) {
+    if (d3 >= decimal(0.0_fl) && d4 <= d3) {
 
         // The origin is in the Voronoi region of vertex B
 
         // Set the barycentric coords of the closest point on the triangle
-        baryCoordsABC.setAllValues(0.0, 1.0, 0);
+        baryCoordsABC.setAllValues(0.0_fl, 1.0_fl, 0);
 
         bitsUsedVertices = 2;    // 0010 (only B is used)
         return;
@@ -373,15 +373,15 @@ void VoronoiSimplex::computeClosestPointOnTriangle(const Vector3& a, const Vecto
 
     // Check if the origin is in the Voronoi region of edge AB
     decimal vc = d1 * d4 - d3 * d2;
-    if (vc <= decimal(0.0) && d1 >= decimal(0.0) && d3 <= decimal(0.0)) {
+    if (vc <= decimal(0.0_fl) && d1 >= decimal(0.0_fl) && d3 <= decimal(0.0_fl)) {
 
         // The origin is in the Voronoi region of edge AB
         // We return the projection of the origin on the edge AB
-        assert(std::abs(d1 - d3) > MACHINE_EPSILON);
+        assert(URealFloatMath::Abs(d1 - d3) > MACHINE_EPSILON);
         decimal v = d1 / (d1 - d3);
 
         // Set the barycentric coords of the closest point on the triangle
-        baryCoordsABC.setAllValues(decimal(1.0) - v, v, 0);
+        baryCoordsABC.setAllValues(decimal(1.0_fl) - v, v, 0);
 
         bitsUsedVertices = 3;    // 0011 (A and B are used)
         return;
@@ -391,12 +391,12 @@ void VoronoiSimplex::computeClosestPointOnTriangle(const Vector3& a, const Vecto
     Vector3 cp = -c;
     decimal d5 = ab.dot(cp);
     decimal d6 = ac.dot(cp);
-    if (d6 >= decimal(0.0) && d5 <= d6) {
+    if (d6 >= decimal(0.0_fl) && d5 <= d6) {
 
         // The origin is in the Voronoi region of vertex C
 
         // Set the barycentric coords of the closest point on the triangle
-        baryCoordsABC.setAllValues(0.0, 0.0, 1.0);
+        baryCoordsABC.setAllValues(0.0_fl, 0.0_fl, 1.0_fl);
 
         bitsUsedVertices = 4;    // 0100 (only C is used)
         return;
@@ -404,15 +404,15 @@ void VoronoiSimplex::computeClosestPointOnTriangle(const Vector3& a, const Vecto
 
     // Check if the origin is in the Voronoi region of edge AC
     decimal vb = d5 * d2 - d1 * d6;
-    if (vb <= decimal(0.0) && d2 >= decimal(0.0) && d6 <= decimal(0.0)) {
+    if (vb <= decimal(0.0_fl) && d2 >= decimal(0.0_fl) && d6 <= decimal(0.0_fl)) {
 
         // The origin is in the Voronoi region of edge AC
         // We return the projection of the origin on the edge AC
-        assert(std::abs(d2 - d6) > MACHINE_EPSILON);
+        assert(URealFloatMath::Abs(d2 - d6) > MACHINE_EPSILON);
         decimal w = d2 / (d2 - d6);
 
         // Set the barycentric coords of the closest point on the triangle
-        baryCoordsABC.setAllValues(decimal(1.0) - w, 0, w);
+        baryCoordsABC.setAllValues(decimal(1.0_fl) - w, 0, w);
 
         bitsUsedVertices = 5;    // 0101 (A and C are used)
         return;
@@ -420,22 +420,22 @@ void VoronoiSimplex::computeClosestPointOnTriangle(const Vector3& a, const Vecto
 
     // Check if the origin is in the Voronoi region of edge BC
     decimal va = d3 * d6 - d5 * d4;
-    if (va <= decimal(0.0) && (d4 - d3) >= decimal(0.0) && (d5 - d6) >= decimal(0.0)) {
+    if (va <= decimal(0.0_fl) && (d4 - d3) >= decimal(0.0_fl) && (d5 - d6) >= decimal(0.0_fl)) {
 
         // The origin is in the Voronoi region of edge BC
         // We return the projection of the origin on the edge BC
-        assert(std::abs((d4 - d3) + (d5 - d6)) > MACHINE_EPSILON);
+        assert(URealFloatMath::Abs((d4 - d3) + (d5 - d6)) > MACHINE_EPSILON);
         decimal w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
 
         // Set the barycentric coords of the closest point on the triangle
-        baryCoordsABC.setAllValues(0.0, decimal(1.0) - w, w);
+        baryCoordsABC.setAllValues(0.0_fl, decimal(1.0_fl) - w, w);
 
         bitsUsedVertices = 6;    // 0110 (B and C are used)
         return;
     }
 
     // The origin is in the Voronoi region of the face ABC
-    decimal denom = decimal(1.0) / (va + vb + vc);
+    decimal denom = decimal(1.0_fl) / (va + vb + vc);
     decimal v = vb * denom;
     decimal w = vc * denom;
 
@@ -505,7 +505,7 @@ bool VoronoiSimplex::computeClosestPointOnTetrahedron(const Vector3& a, const Ve
             // Use it as the current closest point
             closestSquareDistance = squareDist;
             baryCoordsAB.setAllValues(triangleBaryCoords[0], triangleBaryCoords[1]);
-            baryCoordsCD.setAllValues(triangleBaryCoords[2], 0.0);
+            baryCoordsCD.setAllValues(triangleBaryCoords[2], 0.0_fl);
             bitsUsedPoints = tempUsedVertices;
         }
     }
@@ -524,7 +524,7 @@ bool VoronoiSimplex::computeClosestPointOnTetrahedron(const Vector3& a, const Ve
 
             // Use it as the current closest point
             closestSquareDistance = squareDist;
-            baryCoordsAB.setAllValues(triangleBaryCoords[0], 0.0);
+            baryCoordsAB.setAllValues(triangleBaryCoords[0], 0.0_fl);
             baryCoordsCD.setAllValues(triangleBaryCoords[1], triangleBaryCoords[2]);
             bitsUsedPoints = mapTriangleUsedVerticesToTetrahedron(tempUsedVertices, 0, 2, 3);
         }
@@ -545,7 +545,7 @@ bool VoronoiSimplex::computeClosestPointOnTetrahedron(const Vector3& a, const Ve
             // Use it as the current closest point
             closestSquareDistance = squareDist;
             baryCoordsAB.setAllValues(triangleBaryCoords[0], triangleBaryCoords[2]);
-            baryCoordsCD.setAllValues(0.0, triangleBaryCoords[1]);
+            baryCoordsCD.setAllValues(0.0_fl, triangleBaryCoords[1]);
             bitsUsedPoints = mapTriangleUsedVerticesToTetrahedron(tempUsedVertices, 0, 3, 1);
         }
     }
@@ -563,7 +563,7 @@ bool VoronoiSimplex::computeClosestPointOnTetrahedron(const Vector3& a, const Ve
         if (squareDist < closestSquareDistance) {
 
             // Use it as the current closest point
-            baryCoordsAB.setAllValues(0.0, triangleBaryCoords[0]);
+            baryCoordsAB.setAllValues(0.0_fl, triangleBaryCoords[0]);
             baryCoordsCD.setAllValues(triangleBaryCoords[2], triangleBaryCoords[1]);
             bitsUsedPoints = mapTriangleUsedVerticesToTetrahedron(tempUsedVertices, 1, 3, 2);
         }
@@ -606,7 +606,7 @@ int VoronoiSimplex::testOriginOutsideOfPlane(const Vector3& a, const Vector3& b,
         return -1;
     }
 
-    return signp * signd < decimal(0.0);
+    return signp * signd < decimal(0.0_fl);
 }
 
 // Backup the closest point
@@ -617,7 +617,7 @@ void VoronoiSimplex::backupClosestPointInSimplex(Vector3& v) {
 // Return the maximum squared length of a point
 decimal VoronoiSimplex::getMaxLengthSquareOfAPoint() const {
 
-    decimal maxLengthSquare = decimal(0.0);
+    decimal maxLengthSquare = decimal(0.0_fl);
 
     for (int i=0; i<mNbPoints; i++) {
         decimal lengthSquare = mPoints[i].lengthSquare();

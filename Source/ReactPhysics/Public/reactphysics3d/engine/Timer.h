@@ -54,7 +54,7 @@ class Timer {
 
         // -------------------- Attributes -------------------- //
 
-        /// Timestep dt of the physics engine (timestep > 0.0)
+        /// Timestep dt of the physics engine (timestep > 0.0_fl)
         double mTimeStep;
 
         /// Last time the timer has been updated
@@ -147,7 +147,7 @@ inline void Timer::start() {
         // Get the current system time
         mLastUpdateTime = getCurrentSystemTime();
 
-        mAccumulator = 0.0;
+        mAccumulator = 0.0_fl;
         mIsRunning = true;
     }
 }

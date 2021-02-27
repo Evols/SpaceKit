@@ -60,7 +60,7 @@ class Material {
 
         /// Constructor
         Material(decimal frictionCoefficient, decimal rollingResistance, decimal bounciness,
-                 decimal massDensity = decimal(1.0));
+                 decimal massDensity = 1.0_fl);
 
         /// Copy-constructor
         Material(const Material& material);
@@ -97,7 +97,7 @@ class Material {
         void setMassDensity(decimal massDensity);
 
         /// Return a string representation for the material
-        std::string to_string() const;
+        FString to_string() const;
 
         /// Overloaded assignment operator
         Material& operator=(const Material& material);
@@ -122,7 +122,7 @@ inline decimal Material::getBounciness() const {
  * @param bounciness Bounciness factor (between 0 and 1) where 1 is very bouncy
  */
 inline void Material::setBounciness(decimal bounciness) {
-    assert(bounciness >= decimal(0.0) && bounciness <= decimal(1.0));
+    assert(bounciness >= decimal(0.0_fl) && bounciness <= decimal(1.0_fl));
     mBounciness = bounciness;
 }
 
@@ -141,7 +141,7 @@ inline decimal Material::getFrictionCoefficient() const {
  * @param frictionCoefficient Friction coefficient (positive value)
  */
 inline void Material::setFrictionCoefficient(decimal frictionCoefficient) {
-    assert(frictionCoefficient >= decimal(0.0));
+    assert(frictionCoefficient >= decimal(0.0_fl));
     mFrictionCoefficient = frictionCoefficient;
 }
 
@@ -180,15 +180,15 @@ inline void Material::setMassDensity(decimal massDensity) {
 }
 
 // Return a string representation for the material
-inline std::string Material::to_string() const {
+inline FString Material::to_string() const {
 
-    std::stringstream ss;
+    FString ss;
 
-    ss << "frictionCoefficient=" << mFrictionCoefficient << std::endl;
-    ss << "rollingResistance=" << mRollingResistance << std::endl;
-    ss << "bounciness=" << mBounciness << std::endl;
+    ss += "frictionCoefficient=" + mFrictionCoefficient.ToString() + "\n";
+    ss += "rollingResistance=" + mRollingResistance.ToString() + "\n";
+    ss += "bounciness=" + mBounciness.ToString() + "\n";
 
-    return ss.str();
+    return ss;
 }
 
 // Overloaded assignment operator

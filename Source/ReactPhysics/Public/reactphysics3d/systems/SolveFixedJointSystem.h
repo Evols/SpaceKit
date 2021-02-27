@@ -128,7 +128,7 @@ inline void SolveFixedJointSystem::setProfiler(Profiler* profiler) {
 
 // Set the time step
 inline void SolveFixedJointSystem::setTimeStep(decimal timeStep) {
-    assert(timeStep > decimal(0.0));
+    assert(timeStep > decimal(0.0_fl));
     mTimeStep = timeStep;
 }
 

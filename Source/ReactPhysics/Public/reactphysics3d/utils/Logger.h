@@ -51,7 +51,7 @@ class Logger {
         enum class Category {PhysicCommon, World, Body, Joint, Collider};
 
         /// Return the name of a category
-        static std::string getCategoryName(Category category) {
+        static FString getCategoryName(Category category) {
 
             switch(category) {
                 case Category::PhysicCommon: return "PhysicsCommon";
@@ -66,7 +66,7 @@ class Logger {
         }
 
         /// Return the name of a level
-        static std::string getLevelName(Level level) {
+        static FString getLevelName(Level level) {
 
             switch(level) {
                 case Level::Information: return "Information";
@@ -89,7 +89,7 @@ class Logger {
         virtual ~Logger() = default;
 
         /// Log something
-        virtual void log(Level level, const std::string& physicsWorldName, Category category, const std::string& message, const char* filename, int lineNumber)=0;
+        virtual void log(Level level, const FString& physicsWorldName, Category category, const FString& message, const char* filename, int lineNumber)=0;
 
         // ---------- Friendship ---------- //
 

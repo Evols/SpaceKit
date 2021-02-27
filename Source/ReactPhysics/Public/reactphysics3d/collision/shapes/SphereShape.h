@@ -100,7 +100,7 @@ class SphereShape : public ConvexShape {
         virtual void computeAABB(AABB& aabb, const Transform& transform) const override;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         // ----- Friendship ----- //
 
@@ -122,7 +122,7 @@ inline decimal SphereShape::getRadius() const {
  * @param radius Radius of the sphere
  */
 inline void SphereShape::setRadius(decimal radius) {
-   assert(radius > decimal(0.0));
+   assert(radius > decimal(0.0_fl));
    mMargin = radius;
 
    notifyColliderAboutChangedSize();
@@ -148,7 +148,7 @@ inline size_t SphereShape::getSizeInBytes() const {
 inline Vector3 SphereShape::getLocalSupportPointWithoutMargin(const Vector3& direction) const {
 
     // Return the center of the sphere (the radius is taken into account in the object margin)
-    return Vector3(0.0, 0.0, 0.0);
+    return Vector3(0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Return the local bounds of the shape in x, y and z directions.
@@ -181,7 +181,7 @@ inline Vector3 SphereShape::getLocalInertiaTensor(decimal mass) const {
 
 // Compute and return the volume of the collision shape
 inline decimal SphereShape::getVolume() const {
-    return decimal(4.0) / decimal(3.0) * reactphysics3d::_PI * mMargin * mMargin * mMargin;
+    return decimal(4.0_fl) / decimal(3.0_fl) * decimal::Pi * mMargin * mMargin * mMargin;
 }
 
 // Return true if a point is inside the collision shape
@@ -190,8 +190,8 @@ inline bool SphereShape::testPointInside(const Vector3& localPoint, Collider* co
 }
 
 // Return the string representation of the shape
-inline std::string SphereShape::to_string() const {
-    return "SphereShape{radius=" + std::to_string(getRadius()) + "}";
+inline FString SphereShape::to_string() const {
+    return "SphereShape{radius=" + URealFloatMath::ConvRealToString(getRadius()) + "}";
 }
 
 }

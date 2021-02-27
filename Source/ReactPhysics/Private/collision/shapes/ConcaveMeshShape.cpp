@@ -136,7 +136,7 @@ void ConcaveMeshShape::computeOverlappingTriangles(const AABB& localAABB, List<V
     // Scale the input AABB with the inverse scale of the concave mesh (because
     // we store the vertices without scale inside the dynamic AABB tree
     AABB aabb(localAABB);
-    aabb.applyScale(Vector3(decimal(1.0) / mScale.x, decimal(1.0) / mScale.y, decimal(1.0) / mScale.z));
+    aabb.applyScale(Vector3(decimal(1.0_fl) / mScale.x, decimal(1.0_fl) / mScale.y, decimal(1.0_fl) / mScale.z));
 
     // Compute the nodes of the internal AABB tree that are overlapping with the AABB
     List<int> overlappingNodes(allocator);
@@ -176,7 +176,7 @@ bool ConcaveMeshShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collide
 
     // Apply the concave mesh inverse scale factor because the mesh is stored without scaling
     // inside the dynamic AABB tree
-    const Vector3 inverseScale(decimal(1.0) / mScale.x, decimal(1.0) / mScale.y, decimal(1.0) / mScale.z);
+    const Vector3 inverseScale(decimal(1.0_fl) / mScale.x, decimal(1.0_fl) / mScale.y, decimal(1.0_fl) / mScale.z);
     Ray scaledRay(ray.point1 * inverseScale, ray.point2 * inverseScale, ray.maxFraction);
 
     // Create the callback object that will compute ray casting against triangles
@@ -265,7 +265,7 @@ void ConcaveMeshRaycastCallback::raycastTriangles() {
         // If the ray hit the collision shape
         if (isTriangleHit && raycastInfo.hitFraction <= smallestHitFraction) {
 
-            assert(raycastInfo.hitFraction >= decimal(0.0));
+            assert(raycastInfo.hitFraction >= decimal(0.0_fl));
 
             mRaycastInfo.body = raycastInfo.body;
             mRaycastInfo.collider = raycastInfo.collider;
@@ -282,7 +282,7 @@ void ConcaveMeshRaycastCallback::raycastTriangles() {
 }
 
 // Return the string representation of the shape
-std::string ConcaveMeshShape::to_string() const {
+FString ConcaveMeshShape::to_string() const {
 
     std::stringstream ss;
 

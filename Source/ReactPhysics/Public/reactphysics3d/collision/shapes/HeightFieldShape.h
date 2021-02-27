@@ -96,8 +96,8 @@ class HeightFieldShape : public ConcaveShape {
         /// Constructor
         HeightFieldShape(int nbGridColumns, int nbGridRows, decimal minHeight, decimal maxHeight,
                          const void* heightFieldData, HeightDataType dataType, MemoryAllocator& allocator,
-                         int upAxis = 1, decimal integerHeightScale = 1.0f,
-                         const Vector3& scaling = Vector3(1,1,1));
+                         int upAxis = 1, decimal integerHeightScale = 1.0_fl,
+                         const Vector3& scaling = Vector3(1.0_fl,1.0_fl,1.0_fl));
 
         /// Raycast method with feedback information
         virtual bool raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* collider, MemoryAllocator& allocator) const override;
@@ -157,7 +157,7 @@ class HeightFieldShape : public ConcaveShape {
                                                    MemoryAllocator& allocator) const override;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         // ---------- Friendship ----------- //
 
@@ -202,7 +202,7 @@ inline decimal HeightFieldShape::getHeightAt(int x, int y) const {
 
 // Return the closest inside integer grid value of a given floating grid value
 inline int HeightFieldShape::computeIntegerGridValue(decimal value) const {
-    return (value < decimal(0.0)) ? value - decimal(0.5) : value + decimal(0.5);
+    return (value < decimal(0.0_fl)) ? value - decimal(0.5) : value + decimal(0.5);
 }
 
 // Compute the shape Id for a given triangle

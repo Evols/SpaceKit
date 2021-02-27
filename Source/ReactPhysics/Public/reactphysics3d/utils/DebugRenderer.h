@@ -26,6 +26,8 @@
 #ifndef REACTPHYSICS3D_DEBUG_RENDERER_H
 #define REACTPHYSICS3D_DEBUG_RENDERER_H
 
+#if 0 // I can't see how this could be any useful
+
 // Libraries
 #include <reactphysics3d/containers/List.h>
 #include <reactphysics3d/containers/Map.h>
@@ -149,10 +151,10 @@ class DebugRenderer : public EventListener {
         static constexpr int NB_STACKS_SPHERE = 10;
 
         /// Default radius of the sphere displayed to represent contact points
-        static constexpr decimal DEFAULT_CONTACT_POINT_SPHERE_RADIUS = decimal(0.1);
+        static const decimal DEFAULT_CONTACT_POINT_SPHERE_RADIUS = 0.1_fl;
 
         /// Default radius of the sphere displayed to represent contact points
-        static constexpr decimal DEFAULT_CONTACT_NORMAL_LENGTH = decimal(1.0);
+        static const decimal DEFAULT_CONTACT_NORMAL_LENGTH = 1.0_fl;
 
 		// -------------------- Attributes -------------------- //
 
@@ -343,7 +345,7 @@ inline decimal DebugRenderer::getContactPointSphereRadius() const {
  * @param radius The radius of the sphere used to display a contact point
  */
 inline void DebugRenderer::setContactPointSphereRadius(decimal radius) {
-    assert(radius > decimal(0.0));
+    assert(radius > decimal(0.0_fl));
     mContactPointSphereRadius = radius;
 }
 
@@ -377,5 +379,7 @@ namespace std {
     }
   };
 }
+
+#endif
 
 #endif

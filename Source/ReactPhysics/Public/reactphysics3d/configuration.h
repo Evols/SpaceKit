@@ -95,18 +95,18 @@ const decimal DECIMAL_LARGEST = std::numeric_limits<decimal>::max();
 const decimal MACHINE_EPSILON = std::numeric_limits<decimal>::epsilon();
 
 /// Pi constant
-constexpr decimal _PI = decimal(3.14159265);
+const decimal _PI = 3.14159265_fl;
 
 /// 2*Pi constant
-constexpr decimal PI_TIMES_2 = decimal(6.28318530);
+const decimal PI_TIMES_2 = 6.28318530_fl;
 
 /// In the broad-phase collision detection (dynamic AABB tree), the AABBs are
 /// inflated by a constant percentage of its size to allow the collision shape to move a little bit
 /// without triggering a large modification of the tree each frame which can be costly
-constexpr decimal DYNAMIC_TREE_FAT_AABB_INFLATE_PERCENTAGE = decimal(0.08);
+const decimal DYNAMIC_TREE_FAT_AABB_INFLATE_PERCENTAGE = 0.08_fl;
 
 /// Current version of ReactPhysics3D
-const std::string RP3D_VERSION = std::string("0.8.0");
+const FString RP3D_VERSION = FString("0.8.0_fl");
 
 }
 

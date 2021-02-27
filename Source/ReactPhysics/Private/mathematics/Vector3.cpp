@@ -38,7 +38,7 @@ Vector3 Vector3::getUnit() const {
     }
 
     // Compute and return the unit vector
-    decimal lengthInv = decimal(1.0) / lengthVector;
+    decimal lengthInv = decimal(1.0_fl) / lengthVector;
     return Vector3(x * lengthInv, y * lengthInv, z * lengthInv);
 }
 
@@ -48,17 +48,17 @@ Vector3 Vector3::getOneUnitOrthogonalVector() const {
     assert(length() > MACHINE_EPSILON);
 
     // Get the minimum element of the vector
-    Vector3 vectorAbs(std::fabs(x), std::fabs(y), std::fabs(z));
+    Vector3 vectorAbs(URealFloatMath::Abs(x), URealFloatMath::Abs(y), URealFloatMath::Abs(z));
     int minElement = vectorAbs.getMinAxis();
 
     if (minElement == 0) {
-        return Vector3(0.0, -z, y) / std::sqrt(y*y + z*z);
+        return Vector3(0.0_fl, -z, y) / URealFloatMath::Sqrt(y*y + z*z);
     }
     else if (minElement == 1) {
-        return Vector3(-z, 0.0, x) / std::sqrt(x*x + z*z);
+        return Vector3(-z, 0.0_fl, x) / URealFloatMath::Sqrt(x*x + z*z);
     }
     else {
-        return Vector3(-y, x, 0.0) / std::sqrt(x*x + y*y);
+        return Vector3(-y, x, 0.0_fl) / URealFloatMath::Sqrt(x*x + y*y);
     }
 
 }

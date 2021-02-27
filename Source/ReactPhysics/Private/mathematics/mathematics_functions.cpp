@@ -61,7 +61,7 @@ void reactphysics3d::computeBarycentricCoordinatesInTriangle(const Vector3& a, c
     decimal denom = d00 * d11 - d01 * d01;
     v = (d11 * d20 - d01 * d21) / denom;
     w = (d00 * d21 - d01 * d20) / denom;
-    u = decimal(1.0) - v - w;
+    u = decimal(1.0_fl) - v - w;
 }
 
 // Clamp a vector such that it is no longer than a given maximum length
@@ -79,7 +79,7 @@ bool reactphysics3d::areParallelVectors(const Vector3& vector1, const Vector3& v
 
 // Return true if two vectors are orthogonal
 bool reactphysics3d::areOrthogonalVectors(const Vector3& vector1, const Vector3& vector2) {
-    return std::abs(vector1.dot(vector2)) < decimal(0.001);
+    return URealFloatMath::Abs(vector1.dot(vector2)) < decimal(0.001);
 }
 
 // Compute and return a point on segment from "segPointA" and "segPointB" that is closest to point "pointC"
@@ -100,8 +100,8 @@ Vector3 reactphysics3d::computeClosestPointOnSegment(const Vector3& segPointA, c
 	decimal t = (pointC - segPointA).dot(ab) / abLengthSquare;
 
 	// If projected point onto the line is outside the segment, clamp it to the segment
-	if (t < decimal(0.0)) t = decimal(0.0);
-	if (t > decimal(1.0)) t = decimal(1.0);
+	if (t < decimal(0.0_fl)) t = decimal(0.0_fl);
+	if (t > decimal(1.0_fl)) t = decimal(1.0_fl);
 
 	// Return the closest point on the segment
 	return segPointA + t * ab;
@@ -131,10 +131,10 @@ void reactphysics3d::computeClosestPointBetweenTwoSegments(const Vector3& seg1Po
 	}
 	if (a <= MACHINE_EPSILON) {   // If first segment degenerates into a point
 		
-		s = decimal(0.0);
+		s = decimal(0.0_fl);
 
 		// Compute the closest point on second segment
-		t = clamp(f / e, decimal(0.0), decimal(1.0));
+		t = clamp(f / e, decimal(0.0_fl), decimal(1.0_fl));
 	}
 	else {
 
@@ -143,8 +143,8 @@ void reactphysics3d::computeClosestPointBetweenTwoSegments(const Vector3& seg1Po
 		// If the second segment degenerates into a point
 		if (e <= MACHINE_EPSILON) {
 
-			t = decimal(0.0);
-			s = clamp(-c / a, decimal(0.0), decimal(1.0));
+			t = decimal(0.0_fl);
+			s = clamp(-c / a, decimal(0.0_fl), decimal(1.0_fl));
 		}
 		else {
 
@@ -152,16 +152,16 @@ void reactphysics3d::computeClosestPointBetweenTwoSegments(const Vector3& seg1Po
 			decimal denom = a * e - b * b;
 
 			// If the segments are not parallel
-			if (denom != decimal(0.0)) {
+			if (denom != decimal(0.0_fl)) {
 
 				// Compute the closest point on line 1 to line 2 and
 				// clamp to first segment.
-				s = clamp((b * f - c * e) / denom, decimal(0.0), decimal(1.0));
+				s = clamp((b * f - c * e) / denom, decimal(0.0_fl), decimal(1.0_fl));
 			}
 			else {
 
 				// Pick an arbitrary point on first segment
-				s = decimal(0.0);
+				s = decimal(0.0_fl);
 			}
 
 			// Compute the point on line 2 closest to the closest point
@@ -171,13 +171,13 @@ void reactphysics3d::computeClosestPointBetweenTwoSegments(const Vector3& seg1Po
 			// If this closest point is inside second segment (t in [0, 1]), we are done.
 			// Otherwise, we clamp the point to the second segment and compute again the
 			// closest point on segment 1
-			if (t < decimal(0.0)) {
-				t = decimal(0.0);
-				s = clamp(-c / a, decimal(0.0), decimal(1.0));
+			if (t < decimal(0.0_fl)) {
+				t = decimal(0.0_fl);
+				s = clamp(-c / a, decimal(0.0_fl), decimal(1.0_fl));
 			}
-			else if (t > decimal(1.0)) {
-				t = decimal(1.0);
-				s = clamp((b - c) / a, decimal(0.0), decimal(1.0));
+			else if (t > decimal(1.0_fl)) {
+				t = decimal(1.0_fl);
+				s = clamp((b - c) / a, decimal(0.0_fl), decimal(1.0_fl));
 			}
 		}
 	}
@@ -200,7 +200,7 @@ decimal reactphysics3d::computePlaneSegmentIntersection(const Vector3& segA, con
     decimal nDotAB = planeNormal.dot(segB - segA);
 
 	// If the segment is not parallel to the plane
-    if (std::abs(nDotAB) > parallelEpsilon) {
+    if (URealFloatMath::Abs(nDotAB) > parallelEpsilon) {
 		t = (planeD - planeNormal.dot(segA)) / nDotAB;
 	}
 
@@ -250,15 +250,15 @@ List<Vector3> reactphysics3d::clipSegmentWithPlanes(const Vector3& segA, const V
         decimal v2DotN = (v2 - planesPoints[p]).dot(planesNormals[p]);
 
         // If the second vertex is in front of the clippling plane
-        if (v2DotN >= decimal(0.0)) {
+        if (v2DotN >= decimal(0.0_fl)) {
 
             // If the first vertex is not in front of the clippling plane
-            if (v1DotN < decimal(0.0)) {
+            if (v1DotN < decimal(0.0_fl)) {
 
                 // The second point we keep is the intersection between the segment v1, v2 and the clipping plane
                 decimal t = computePlaneSegmentIntersection(v1, v2, planesNormals[p].dot(planesPoints[p]), planesNormals[p]);
 
-                if (t >= decimal(0) && t <= decimal(1.0)) {
+                if (t >= decimal(0) && t <= decimal(1.0_fl)) {
                     outputVertices.add(v1 + t * (v2 - v1));
                 }
                 else {
@@ -275,14 +275,14 @@ List<Vector3> reactphysics3d::clipSegmentWithPlanes(const Vector3& segA, const V
         else {  // If the second vertex is behind the clipping plane
 
             // If the first vertex is in front of the clippling plane
-            if (v1DotN >= decimal(0.0)) {
+            if (v1DotN >= decimal(0.0_fl)) {
 
                 outputVertices.add(v1);
 
                 // The first point we keep is the intersection between the segment v1, v2 and the clipping plane
                 decimal t = computePlaneSegmentIntersection(v1, v2, -planesNormals[p].dot(planesPoints[p]), -planesNormals[p]);
 
-                if (t >= decimal(0.0) && t <= decimal(1.0)) {
+                if (t >= decimal(0.0_fl) && t <= decimal(1.0_fl)) {
                     outputVertices.add(v1 + t * (v2 - v1));
                 }
             }
@@ -325,15 +325,15 @@ List<Vector3> reactphysics3d::clipPolygonWithPlanes(const List<Vector3>& polygon
                 decimal v2DotN = (v2 - planesPoints[p]).dot(planesNormals[p]);
 
                 // If the second vertex is in front of the clippling plane
-                if (v2DotN >= decimal(0.0)) {
+                if (v2DotN >= decimal(0.0_fl)) {
 
                     // If the first vertex is not in front of the clippling plane
-                    if (v1DotN < decimal(0.0)) {
+                    if (v1DotN < decimal(0.0_fl)) {
 
                         // The second point we keep is the intersection between the segment v1, v2 and the clipping plane
                         decimal t = computePlaneSegmentIntersection(v1, v2, planesNormals[p].dot(planesPoints[p]), planesNormals[p]);
 
-                        if (t >= decimal(0) && t <= decimal(1.0)) {
+                        if (t >= decimal(0) && t <= decimal(1.0_fl)) {
                             outputVertices.add(v1 + t * (v2 - v1));
                         }
                         else {
@@ -347,12 +347,12 @@ List<Vector3> reactphysics3d::clipPolygonWithPlanes(const List<Vector3>& polygon
                 else {  // If the second vertex is behind the clipping plane
 
                     // If the first vertex is in front of the clippling plane
-                    if (v1DotN >= decimal(0.0)) {
+                    if (v1DotN >= decimal(0.0_fl)) {
 
                         // The first point we keep is the intersection between the segment v1, v2 and the clipping plane
                         decimal t = computePlaneSegmentIntersection(v1, v2, -planesNormals[p].dot(planesPoints[p]), -planesNormals[p]);
 
-                        if (t >= decimal(0.0) && t <= decimal(1.0)) {
+                        if (t >= decimal(0.0_fl) && t <= decimal(1.0_fl)) {
                             outputVertices.add(v1 + t * (v2 - v1));
                         }
                         else {
@@ -386,7 +386,7 @@ bool reactphysics3d::isPrimeNumber(int number) {
     // If it's a odd number
     if ((number & 1) != 0) {
 
-        int limit = static_cast<int>(std::sqrt(number));
+        int limit = static_cast<int>(URealFloatMath::Sqrt(number));
 
         for (int divisor = 3; divisor <= limit; divisor += 2) {
 

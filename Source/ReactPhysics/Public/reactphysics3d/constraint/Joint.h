@@ -144,7 +144,7 @@ class Joint {
         Entity getEntity() const;
 
         /// Return a string representation
-        virtual std::string to_string() const=0;
+        virtual FString to_string() const=0;
 
         // -------------------- Friendship -------------------- //
 

@@ -44,11 +44,11 @@ void Transform::setFromOpenGL(decimal* openglMatrix) {
 void Transform::getOpenGLMatrix(decimal* openglMatrix) const {
     const Matrix3x3& matrix = mOrientation.getMatrix();
     openglMatrix[0] = matrix[0][0]; openglMatrix[1] = matrix[1][0];
-    openglMatrix[2] = matrix[2][0]; openglMatrix[3] = 0.0;
+    openglMatrix[2] = matrix[2][0]; openglMatrix[3] = 0.0_fl;
     openglMatrix[4] = matrix[0][1]; openglMatrix[5] = matrix[1][1];
-    openglMatrix[6] = matrix[2][1]; openglMatrix[7] = 0.0;
+    openglMatrix[6] = matrix[2][1]; openglMatrix[7] = 0.0_fl;
     openglMatrix[8] = matrix[0][2]; openglMatrix[9] = matrix[1][2];
-    openglMatrix[10] = matrix[2][2]; openglMatrix[11] = 0.0;
+    openglMatrix[10] = matrix[2][2]; openglMatrix[11] = 0.0_fl;
     openglMatrix[12] = mPosition.x; openglMatrix[13] = mPosition.y;
-    openglMatrix[14] = mPosition.z; openglMatrix[15] = 1.0;
+    openglMatrix[14] = mPosition.z; openglMatrix[15] = 1.0_fl;
 }

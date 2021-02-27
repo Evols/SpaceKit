@@ -198,8 +198,8 @@ inline bool VoronoiSimplex::computeClosestPoint(Vector3& v) {
 
 // Return true if the
 inline bool VoronoiSimplex::checkClosestPointValid() const {
-    return mBarycentricCoords[0] >= decimal(0.0) && mBarycentricCoords[1] >= decimal(0.0) &&
-           mBarycentricCoords[2] >= decimal(0.0) && mBarycentricCoords[3] >= decimal(0.0);
+    return mBarycentricCoords[0] >= decimal(0.0_fl) && mBarycentricCoords[1] >= decimal(0.0_fl) &&
+           mBarycentricCoords[2] >= decimal(0.0_fl) && mBarycentricCoords[3] >= decimal(0.0_fl);
 }
 
 }

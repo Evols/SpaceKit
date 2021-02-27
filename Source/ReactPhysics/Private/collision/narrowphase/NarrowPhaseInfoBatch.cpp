@@ -74,7 +74,7 @@ void NarrowPhaseInfoBatch::addContactPoint(uint index, const Vector3& contactNor
                      const Vector3& localPt1, const Vector3& localPt2) {
 
     assert(reportContacts[index]);
-    assert(penDepth > decimal(0.0));
+    assert(penDepth > decimal(0.0_fl));
 
     // Get the memory allocator
     MemoryAllocator& allocator = mOverlappingPairs.getTemporaryAllocator();

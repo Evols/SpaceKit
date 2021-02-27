@@ -115,7 +115,7 @@ class CapsuleShape : public ConvexShape {
         virtual Vector3 getLocalInertiaTensor(decimal mass) const override;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         // ----- Friendship ----- //
 
@@ -138,7 +138,7 @@ inline decimal CapsuleShape::getRadius() const {
  */
 inline void CapsuleShape::setRadius(decimal radius) {
 
-    assert(radius > decimal(0.0));
+    assert(radius > decimal(0.0_fl));
     mMargin = radius;
 
     notifyColliderAboutChangedSize();
@@ -160,7 +160,7 @@ inline decimal CapsuleShape::getHeight() const {
  */
 inline void CapsuleShape::setHeight(decimal height) {
 
-    assert(height > decimal(0.0));
+    assert(height > decimal(0.0_fl));
     mHalfHeight = height * decimal(0.5);
 
     notifyColliderAboutChangedSize();
@@ -192,7 +192,7 @@ inline void CapsuleShape::getLocalBounds(Vector3& min, Vector3& max) const {
 
 // Compute and return the volume of the collision shape
 inline decimal CapsuleShape::getVolume() const {
-    return reactphysics3d::_PI * mMargin * mMargin * (decimal(4.0) * mMargin / decimal(3.0) + decimal(2.0) * mHalfHeight);
+    return decimal::Pi * mMargin * mMargin * (decimal(4.0_fl) * mMargin / decimal(3.0_fl) + decimal(2.0_fl) * mHalfHeight);
 }
 
 // Return true if the collision shape is a polyhedron
@@ -217,16 +217,16 @@ inline Vector3 CapsuleShape::getLocalSupportPointWithoutMargin(const Vector3& di
 
     // Return the point with the maximum dot product
     if (dotProductTop > dotProductBottom) {
-        return Vector3(0, mHalfHeight, 0);
+        return Vector3(0.0_fl, mHalfHeight, 0.0_fl);
     }
     else {
-        return Vector3(0, -mHalfHeight, 0);
+        return Vector3(0.0_fl, -mHalfHeight, 0.0_fl);
     }
 }
 
 // Return the string representation of the shape
-inline std::string CapsuleShape::to_string() const {
-    return "CapsuleShape{halfHeight=" + std::to_string(mHalfHeight) + ", radius=" + std::to_string(getRadius()) + "}";
+inline FString CapsuleShape::to_string() const {
+    return "CapsuleShape{halfHeight=" + URealFloatMath::ConvRealToString(mHalfHeight) + ", radius=" + URealFloatMath::ConvRealToString(getRadius()) + "}";
 }
 
 }

@@ -143,7 +143,7 @@ class PhysicsCommon {
         void destroyCapsuleShape(CapsuleShape* capsuleShape);
 
         /// Create and return a convex mesh shape
-        ConvexMeshShape* createConvexMeshShape(PolyhedronMesh* polyhedronMesh, const Vector3& scaling = Vector3(1,1,1));
+        ConvexMeshShape* createConvexMeshShape(PolyhedronMesh* polyhedronMesh, const Vector3& scaling = Vector3(1.0_fl,1.0_fl,1.0_fl));
 
         /// Destroy a convex mesh shape
         void destroyConvexMeshShape(ConvexMeshShape* convexMeshShape);
@@ -151,14 +151,14 @@ class PhysicsCommon {
         /// Create and return a height-field shape
         HeightFieldShape* createHeightFieldShape(int nbGridColumns, int nbGridRows, decimal minHeight, decimal maxHeight,
                                                  const void* heightFieldData, HeightFieldShape::HeightDataType dataType,
-                                                 int upAxis = 1, decimal integerHeightScale = 1.0f,
-                                                  const Vector3& scaling = Vector3(1,1,1));
+                                                 int upAxis = 1, decimal integerHeightScale = 1.0_fl,
+                                                  const Vector3& scaling = Vector3(1.0_fl,1.0_fl,1.0_fl));
 
         /// Destroy a height-field shape
         void destroyHeightFieldShape(HeightFieldShape* heightFieldShape);
 
         /// Create and return a concave mesh shape
-        ConcaveMeshShape* createConcaveMeshShape(TriangleMesh* triangleMesh, const Vector3& scaling = Vector3(1, 1, 1));
+        ConcaveMeshShape* createConcaveMeshShape(TriangleMesh* triangleMesh, const Vector3& scaling = Vector3(1.0_fl, 1.0_fl, 1.0_fl));
 
         /// Destroy a concave mesh shape
         void destroyConcaveMeshShape(ConcaveMeshShape* concaveMeshShape);

@@ -97,7 +97,7 @@ bool SATAlgorithm::testCollisionSphereVsConvexPolyhedron(NarrowPhaseInfoBatch& n
             decimal penetrationDepth = computePolyhedronFaceVsSpherePenetrationDepth(f, polyhedron, sphere, sphereCenter);
 
             // If the penetration depth is negative, we have found a separating axis
-            if (penetrationDepth <= decimal(0.0)) {
+            if (penetrationDepth <= decimal(0.0_fl)) {
 
                 noContact = true;
                 break;
@@ -207,7 +207,7 @@ bool SATAlgorithm::testCollisionCapsuleVsConvexPolyhedron(NarrowPhaseInfoBatch& 
                                                 outFaceNormalCapsuleSpace);
 
         // If the penetration depth is negative, we have found a separating axis
-        if (penetrationDepth <= decimal(0.0)) {
+        if (penetrationDepth <= decimal(0.0_fl)) {
 
             return false;
         }
@@ -247,7 +247,7 @@ bool SATAlgorithm::testCollisionCapsuleVsConvexPolyhedron(NarrowPhaseInfoBatch& 
                                                   outAxis);
 
             // If the penetration depth is negative, we have found a separating axis
-            if (penetrationDepth <= decimal(0.0)) {
+            if (penetrationDepth <= decimal(0.0_fl)) {
 
                 return false;
             }
@@ -474,7 +474,7 @@ bool SATAlgorithm::isMinkowskiFaceCapsuleVsEdge(const Vector3& capsuleSegment, c
 
     // Return true if the arc on the Gauss Map corresponding to the polyhedron edge
     // intersect the unit circle plane corresponding to capsule Gauss Map
-    return capsuleSegment.dot(edgeAdjacentFace1Normal) * capsuleSegment.dot(edgeAdjacentFace2Normal) < decimal(0.0);
+    return capsuleSegment.dot(edgeAdjacentFace1Normal) * capsuleSegment.dot(edgeAdjacentFace2Normal) < decimal(0.0_fl);
 }
 
 // Test collision between two convex polyhedrons
@@ -524,14 +524,14 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                                                      lastFrameCollisionInfo->satMinAxisFaceIndex);
 
                 // If the previous axis was a separating axis and is still a separating axis in this frame
-                if (!lastFrameCollisionInfo->wasColliding && penetrationDepth <= decimal(0.0)) {
+                if (!lastFrameCollisionInfo->wasColliding && penetrationDepth <= decimal(0.0_fl)) {
 
                     // Return no collision without running the whole SAT algorithm
                     continue;
                 }
 
                 // The two shapes were overlapping in the previous frame and still seem to overlap in this one
-                if (lastFrameCollisionInfo->wasColliding && mClipWithPreviousAxisIfStillColliding && penetrationDepth > decimal(0.0)) {
+                if (lastFrameCollisionInfo->wasColliding && mClipWithPreviousAxisIfStillColliding && penetrationDepth > decimal(0.0_fl)) {
 
                     minPenetrationDepth = penetrationDepth;
                     minFaceIndex = lastFrameCollisionInfo->satMinAxisFaceIndex;
@@ -564,14 +564,14 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                                                      lastFrameCollisionInfo->satMinAxisFaceIndex);
 
                 // If the previous axis was a separating axis and is still a separating axis in this frame
-                if (!lastFrameCollisionInfo->wasColliding && penetrationDepth <= decimal(0.0)) {
+                if (!lastFrameCollisionInfo->wasColliding && penetrationDepth <= decimal(0.0_fl)) {
 
                     // Return no collision without running the whole SAT algorithm
                     continue;
                 }
 
                 // The two shapes were overlapping in the previous frame and still seem to overlap in this one
-                if (lastFrameCollisionInfo->wasColliding && mClipWithPreviousAxisIfStillColliding && penetrationDepth > decimal(0.0)) {
+                if (lastFrameCollisionInfo->wasColliding && mClipWithPreviousAxisIfStillColliding && penetrationDepth > decimal(0.0_fl)) {
 
                     minPenetrationDepth = penetrationDepth;
                     minFaceIndex = lastFrameCollisionInfo->satMinAxisFaceIndex;
@@ -622,14 +622,14 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
 
                     // If the shapes were not overlapping in the previous frame and are still not
                     // overlapping in the current one
-                    if (!lastFrameCollisionInfo->wasColliding && penetrationDepth <= decimal(0.0)) {
+                    if (!lastFrameCollisionInfo->wasColliding && penetrationDepth <= decimal(0.0_fl)) {
 
                         // We have found a separating axis without running the whole SAT algorithm
                         continue;
                     }
 
                     // If the shapes were overlapping on the previous axis and still seem to overlap in this frame
-                    if (lastFrameCollisionInfo->wasColliding && mClipWithPreviousAxisIfStillColliding && penetrationDepth > decimal(0.0) &&
+                    if (lastFrameCollisionInfo->wasColliding && mClipWithPreviousAxisIfStillColliding && penetrationDepth > decimal(0.0_fl) &&
                         penetrationDepth < DECIMAL_LARGEST) {
 
                         // Compute the closest points between the two edges (in the local-space of poylhedron 2)
@@ -648,7 +648,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                         const decimal edge2LengthSquare = edge2Direction.lengthSquare();
                         decimal t1 = vec1.dot(edge2Direction) / edge2LengthSquare;
                         decimal t2 = vec2.dot(edge1Direction) / edge1LengthSquare;
-                        if (t1 >= decimal(0.0) && t1 <= decimal(1) && t2 >= decimal(0.0) && t2 <= decimal(1.0)) {
+                        if (t1 >= decimal(0.0_fl) && t1 <= decimal(1) && t2 >= decimal(0.0_fl) && t2 <= decimal(1.0_fl)) {
 
                             // If we need to report contact points
                             if (narrowPhaseInfoBatch.reportContacts[batchIndex]) {
@@ -690,7 +690,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
         // Test all the face normals of the polyhedron 1 for separating axis
         uint faceIndex1;
         decimal penetrationDepth1 = testFacesDirectionPolyhedronVsPolyhedron(polyhedron1, polyhedron2, polyhedron1ToPolyhedron2, faceIndex1);
-        if (penetrationDepth1 <= decimal(0.0)) {
+        if (penetrationDepth1 <= decimal(0.0_fl)) {
 
             lastFrameCollisionInfo->satIsAxisFacePolyhedron1 = true;
             lastFrameCollisionInfo->satIsAxisFacePolyhedron2 = false;
@@ -703,7 +703,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
         // Test all the face normals of the polyhedron 2 for separating axis
         uint faceIndex2;
         decimal penetrationDepth2 = testFacesDirectionPolyhedronVsPolyhedron(polyhedron2, polyhedron1, polyhedron2ToPolyhedron1, faceIndex2);
-        if (penetrationDepth2 <= decimal(0.0)) {
+        if (penetrationDepth2 <= decimal(0.0_fl)) {
 
             lastFrameCollisionInfo->satIsAxisFacePolyhedron1 = false;
             lastFrameCollisionInfo->satIsAxisFacePolyhedron2 = true;
@@ -771,7 +771,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
                     decimal penetrationDepth = computeDistanceBetweenEdges(edge1A, edge2A, polyhedron1Centroid, polyhedron2->getCentroid(),
                                edge1Direction, edge2Direction, isShape1Triangle, separatingAxisPolyhedron2Space);
 
-                    if (penetrationDepth <= decimal(0.0)) {
+                    if (penetrationDepth <= decimal(0.0_fl)) {
 
                         lastFrameCollisionInfo->satIsAxisFacePolyhedron1 = false;
                         lastFrameCollisionInfo->satIsAxisFacePolyhedron2 = false;
@@ -819,7 +819,7 @@ bool SATAlgorithm::testCollisionConvexPolyhedronVsConvexPolyhedron(NarrowPhaseIn
         // Here we know the shapes are overlapping on a given minimum separating axis.
         // Now, we will clip the shapes along this axis to find the contact points
 
-        assert(minPenetrationDepth > decimal(0.0));
+        assert(minPenetrationDepth > decimal(0.0_fl));
 
         // If the minimum separating axis is a face normal
         if (isMinPenetrationFaceNormal) {
@@ -970,7 +970,7 @@ bool SATAlgorithm::computePolyhedronVsPolyhedronFaceContactPoints(bool isMinPene
         decimal penetrationDepth = (referenceFaceVertex - clipPolygonVertices[i]).dot(axisReferenceSpace);
 
         // If the clip point is bellow the reference face
-        if (penetrationDepth > decimal(0.0)) {
+        if (penetrationDepth > decimal(0.0_fl)) {
 
             contactPointsFound = true;
 
@@ -1040,7 +1040,7 @@ decimal SATAlgorithm::computeDistanceBetweenEdges(const Vector3& edge1A, const V
 
         dotProd = axis.dot(polyhedron1Centroid - edge1A);
     }
-    if (dotProd > decimal(0.0)) {
+    if (dotProd > decimal(0.0_fl)) {
         axis = -axis;
     }
 
@@ -1094,7 +1094,7 @@ decimal SATAlgorithm::testFacesDirectionPolyhedronVsPolyhedron(const ConvexPolyh
                                                                                  polyhedron1ToPolyhedron2, f);
 
         // If the penetration depth is negative, we have found a separating axis
-        if (penetrationDepth <= decimal(0.0)) {
+        if (penetrationDepth <= decimal(0.0_fl)) {
             minFaceIndex = f;
             return penetrationDepth;
         }
@@ -1155,5 +1155,5 @@ bool SATAlgorithm::testGaussMapArcsIntersect(const Vector3& a, const Vector3& b,
     const decimal adc = a.dot(dCrossC);
     const decimal bdc = b.dot(dCrossC);
 
-    return cba * dba < decimal(0.0) && adc * bdc < decimal(0.0) && cba * bdc > decimal(0.0);
+    return cba * dba < decimal(0.0_fl) && adc * bdc < decimal(0.0_fl) && cba * bdc > decimal(0.0_fl);
 }

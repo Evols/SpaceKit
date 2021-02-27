@@ -73,7 +73,7 @@ Vector3 ConvexMeshShape::getLocalSupportPointWithoutMargin(const Vector3& direct
         }
     }
 
-    assert(maxDotProduct >= decimal(0.0));
+    assert(maxDotProduct >= decimal(0.0_fl));
 
     // Return the vertex with the largest dot product in the support direction
     return mPolyhedronMesh->getVertex(indexMaxDotProduct) * mScale;
@@ -111,7 +111,7 @@ bool ConvexMeshShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider
     // Ray direction
     Vector3 direction = ray.point2 - ray.point1;
 
-    decimal tMin = decimal(0.0);
+    decimal tMin = decimal(0.0_fl);
     decimal tMax = ray.maxFraction;
     Vector3 currentFaceNormal;
     bool isIntersectionFound = false;
@@ -130,10 +130,10 @@ bool ConvexMeshShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider
         decimal dist = planeD -  faceNormal.dot(ray.point1);
 
         // If ray is parallel to the face
-        if (denom == decimal(0.0)) {
+        if (denom == decimal(0.0_fl)) {
 
             // If ray is outside the clipping face, we return no intersection
-            if (dist < decimal(0.0)) return false;
+            if (dist < decimal(0.0_fl)) return false;
         }
         else {
 
@@ -142,7 +142,7 @@ bool ConvexMeshShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider
 
             // Update the current ray intersection by clipping it with the current face plane
             // If the place faces the ray
-            if (denom < decimal(0.0)) {
+            if (denom < decimal(0.0_fl)) {
                 // Clip the current ray intersection as it enters the convex mesh
                 if (t > tMin) {
                     tMin = t;
@@ -163,10 +163,10 @@ bool ConvexMeshShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider
     if (isIntersectionFound) {
 
         // The ray intersects with the convex mesh
-        assert(tMin >= decimal(0.0));
+        assert(tMin >= decimal(0.0_fl));
         assert(tMax <= ray.maxFraction);
         assert(tMin <= tMax);
-        assert(currentFaceNormal.lengthSquare() > decimal(0.0));
+        assert(currentFaceNormal.lengthSquare() > decimal(0.0_fl));
 
         // The ray intersects the three slabs, we compute the hit point
         Vector3 localHitPoint = ray.point1 + tMin * direction;
@@ -197,14 +197,14 @@ bool ConvexMeshShape::testPointInside(const Vector3& localPoint, Collider* colli
         const Vector3 facePoint = mPolyhedronMesh->getVertex(faceVertex.vertexPointIndex);
 
         // If the point is out of the face plane, it is outside of the convex mesh
-        if (computePointToPlaneDistance(localPoint, faceNormal, facePoint) > decimal(0.0)) return false;
+        if (computePointToPlaneDistance(localPoint, faceNormal, facePoint) > decimal(0.0_fl)) return false;
     }
 
     return true;
 }
 
 // Return the string representation of the shape
-std::string ConvexMeshShape::to_string() const {
+FString ConvexMeshShape::to_string() const {
 
     std::stringstream ss;
     ss << "ConvexMeshShape{" << std::endl;

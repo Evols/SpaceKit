@@ -62,7 +62,7 @@ DefaultLogger::Formatter* DefaultLogger::getFormatter(Format format) const {
 }
 
 // Add a log file destination to the logger
-void DefaultLogger::addFileDestination(const std::string& filePath, uint logLevelFlag, Format format) {
+void DefaultLogger::addFileDestination(const FString& filePath, uint logLevelFlag, Format format) {
 
     FileDestination* destination = new (mAllocator.allocate(sizeof(FileDestination))) FileDestination(filePath, logLevelFlag, getFormatter(format));
     mDestinations.add(destination);
@@ -92,7 +92,7 @@ void DefaultLogger::removeAllDestinations() {
 }
 
 // Log something
-void DefaultLogger::log(Level level, const std::string& physicsWorldName, Category category, const std::string& message, const char* filename, int lineNumber) {
+void DefaultLogger::log(Level level, const FString& physicsWorldName, Category category, const FString& message, const char* filename, int lineNumber) {
 
     // Get current time
     auto now = std::chrono::system_clock::now();

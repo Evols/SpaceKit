@@ -76,7 +76,7 @@ class PhysicsWorld {
         struct WorldSettings {
 
             /// Name of the world
-            std::string worldName;
+            FString worldName;
 
             /// Gravity force vector of the world (in Newtons)
             Vector3 gravity;
@@ -127,18 +127,18 @@ class PhysicsWorld {
             WorldSettings() {
 
                 worldName = "";
-                gravity = Vector3(0, decimal(-9.81), 0);
+                gravity = Vector3(0.0_fl, decimal(-9.81), 0.0_fl);
                 persistentContactDistanceThreshold = decimal(0.03);
                 defaultFrictionCoefficient = decimal(0.3);
                 defaultBounciness = decimal(0.5);
                 restitutionVelocityThreshold = decimal(0.5);
-                defaultRollingRestistance = decimal(0.0);
+                defaultRollingRestistance = decimal(0.0_fl);
                 isSleepingEnabled = true;
                 defaultVelocitySolverNbIterations = 10;
                 defaultPositionSolverNbIterations = 5;
                 defaultTimeBeforeSleep = 1.0f;
                 defaultSleepLinearVelocity = decimal(0.02);
-                defaultSleepAngularVelocity = decimal(3.0) * (PI / decimal(180.0));
+                defaultSleepAngularVelocity = decimal(3.0_fl) * (decimal(PI) / decimal(180.0_fl));
                 nbMaxContactManifolds = 3;
                 cosAngleSimilarContactManifold = decimal(0.95);
 
@@ -147,27 +147,27 @@ class PhysicsWorld {
             ~WorldSettings() = default;
 
             /// Return a string with the world settings
-            std::string to_string() const {
+            FString to_string() const {
 
-                std::stringstream ss;
+                FString ss;
 
-                ss << "worldName=" << worldName << std::endl;
-                ss << "gravity=" << gravity.to_string() << std::endl;
-                ss << "persistentContactDistanceThreshold=" << persistentContactDistanceThreshold << std::endl;
-                ss << "defaultFrictionCoefficient=" << defaultFrictionCoefficient << std::endl;
-                ss << "defaultBounciness=" << defaultBounciness << std::endl;
-                ss << "restitutionVelocityThreshold=" << restitutionVelocityThreshold << std::endl;
-                ss << "defaultRollingRestistance=" << defaultRollingRestistance << std::endl;
-                ss << "isSleepingEnabled=" << isSleepingEnabled << std::endl;
-                ss << "defaultVelocitySolverNbIterations=" << defaultVelocitySolverNbIterations << std::endl;
-                ss << "defaultPositionSolverNbIterations=" << defaultPositionSolverNbIterations << std::endl;
-                ss << "defaultTimeBeforeSleep=" << defaultTimeBeforeSleep << std::endl;
-                ss << "defaultSleepLinearVelocity=" << defaultSleepLinearVelocity << std::endl;
-                ss << "defaultSleepAngularVelocity=" << defaultSleepAngularVelocity << std::endl;
-                ss << "nbMaxContactManifolds=" << nbMaxContactManifolds << std::endl;
-                ss << "cosAngleSimilarContactManifold=" << cosAngleSimilarContactManifold << std::endl;
+                ss += "worldName=" + worldName + "\n";
+                ss += "gravity=" + gravity.to_string() + "\n";
+                ss += "persistentContactDistanceThreshold=" + persistentContactDistanceThreshold.ToString() + "\n";
+                ss += "defaultFrictionCoefficient=" + defaultFrictionCoefficient.ToString() + "\n";
+                ss += "defaultBounciness=" + defaultBounciness.ToString() += "\n";
+                ss += "restitutionVelocityThreshold=" + restitutionVelocityThreshold.ToString() + "\n";
+                ss += "defaultRollingRestistance=" + defaultRollingRestistance.ToString() + "\n";
+                ss += "isSleepingEnabled=" + FString::FromInt(isSleepingEnabled) + "\n";
+                ss += "defaultVelocitySolverNbIterations=" + FString::FromInt(defaultVelocitySolverNbIterations) + "\n";
+                ss += "defaultPositionSolverNbIterations=" + FString::FromInt(defaultPositionSolverNbIterations) + "\n";
+                ss += "defaultTimeBeforeSleep=" + FString::SanitizeFloat(defaultTimeBeforeSleep) + "\n";
+                ss += "defaultSleepLinearVelocity=" + defaultSleepLinearVelocity.ToString() + "\n";
+                ss += "defaultSleepAngularVelocity=" + defaultSleepAngularVelocity.ToString() + "\n";
+                ss += "nbMaxContactManifolds=" + FString::FromInt(nbMaxContactManifolds) + "\n";
+                ss += "cosAngleSimilarContactManifold=" + cosAngleSimilarContactManifold.ToString() + "\n";
 
-                return ss.str();
+                return ss;
             }
         };
 
@@ -185,7 +185,7 @@ class PhysicsWorld {
         EntityManager mEntityManager;
 
         /// Debug renderer
-        DebugRenderer mDebugRenderer;
+        // DebugRenderer mDebugRenderer;
 
         /// True if debug rendering is enabled
         bool mIsDebugRenderingEnabled;
@@ -227,7 +227,7 @@ class PhysicsWorld {
         EventListener* mEventListener;
 
         /// Name of the physics world
-        std::string mName;
+        FString mName;
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
@@ -356,7 +356,7 @@ class PhysicsWorld {
         AABB getWorldAABB(const Collider* collider) const;
 
         /// Return the name of the world
-        const std::string& getName() const;
+        const FString& getName() const;
 
         /// Deleted copy-constructor
         PhysicsWorld(const PhysicsWorld& world) = delete;
@@ -464,7 +464,7 @@ class PhysicsWorld {
         void setIsDebugRenderingEnabled(bool isEnabled);
 
         /// Return a reference to the Debug Renderer of the world
-        DebugRenderer& getDebugRenderer();
+        // DebugRenderer& getDebugRenderer();
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
@@ -490,7 +490,7 @@ class PhysicsWorld {
         friend class SliderJoint;
         friend class CollisionCallback::CallbackData;
         friend class OverlapCallback::CallbackData;
-        friend class DebugRenderer;
+        // friend class DebugRenderer;
 };
 
 // Set the collision dispatch configuration
@@ -588,7 +588,7 @@ inline MemoryManager& PhysicsWorld::getMemoryManager() {
 /**
  * @return Name of the world
  */
-inline const std::string& PhysicsWorld::getName() const {
+inline const FString& PhysicsWorld::getName() const {
     return mName;
 }
 
@@ -743,10 +743,12 @@ inline void PhysicsWorld::setIsDebugRenderingEnabled(bool isEnabled) {
 /**
  * @return A reference to the DebugRenderer object of the world
  */
+/*
 inline DebugRenderer& PhysicsWorld::getDebugRenderer() {
     return mDebugRenderer;
 }
 
 }
+*/
 
 #endif

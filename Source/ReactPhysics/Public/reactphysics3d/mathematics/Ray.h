@@ -56,7 +56,7 @@ struct Ray {
         // -------------------- Methods -------------------- //
 
         /// Constructor with arguments
-        Ray(const Vector3& p1, const Vector3& p2, decimal maxFrac = decimal(1.0))
+        Ray(const Vector3& p1, const Vector3& p2, decimal maxFrac = decimal(1.0_fl))
            : point1(p1), point2(p2), maxFraction(maxFrac) {
 
         }

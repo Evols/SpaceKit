@@ -147,14 +147,14 @@ class Matrix2x2 {
         Vector2& operator[](int row);
 
         /// Return the string representation
-        std::string to_string() const;
+        FString to_string() const;
 };
 
 // Constructor of the class Matrix2x2
 inline Matrix2x2::Matrix2x2() {
 
     // Initialize all values in the matrix to zero
-    setAllValues(0.0, 0.0, 0.0, 0.0);
+    setAllValues(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Constructor
@@ -224,26 +224,26 @@ inline decimal Matrix2x2::getTrace() const {
 
 // Set the matrix to the identity matrix
 inline void Matrix2x2::setToIdentity() {
-    mRows[0][0] = 1.0; mRows[0][1] = 0.0;
-    mRows[1][0] = 0.0; mRows[1][1] = 1.0;
+    mRows[0][0] = 1.0_fl; mRows[0][1] = 0.0_fl;
+    mRows[1][0] = 0.0_fl; mRows[1][1] = 1.0_fl;
 }
 
 // Return the 2x2 identity matrix
 inline Matrix2x2 Matrix2x2::identity() {
 
     // Return the isdentity matrix
-    return Matrix2x2(1.0, 0.0, 0.0, 1.0);
+    return Matrix2x2(1.0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
 }
 
 // Return the 2x2 zero matrix
 inline Matrix2x2 Matrix2x2::zero() {
-    return Matrix2x2(0.0, 0.0, 0.0, 0.0);
+    return Matrix2x2(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Return the matrix with absolute values
 inline Matrix2x2 Matrix2x2::getAbsoluteMatrix() const {
-    return Matrix2x2(fabs(mRows[0][0]), fabs(mRows[0][1]),
-                     fabs(mRows[1][0]), fabs(mRows[1][1]));
+    return Matrix2x2(URealFloatMath::Abs(mRows[0][0]), URealFloatMath::Abs(mRows[0][1]),
+                     URealFloatMath::Abs(mRows[1][0]), URealFloatMath::Abs(mRows[1][1]));
 }
 
 // Overloaded operator for addition
@@ -344,9 +344,9 @@ inline Vector2& Matrix2x2::operator[](int row) {
 }
 
 // Get the string representation
-inline std::string Matrix2x2::to_string() const {
-    return "Matrix2x2(" + std::to_string(mRows[0][0]) + "," + std::to_string(mRows[0][1]) + "," +
-           std::to_string(mRows[1][0]) + "," + std::to_string(mRows[1][1]) + ")";
+inline FString Matrix2x2::to_string() const {
+    return "Matrix2x2(" + URealFloatMath::ConvRealToString(mRows[0][0]) + "," + URealFloatMath::ConvRealToString(mRows[0][1]) + "," +
+           URealFloatMath::ConvRealToString(mRows[1][0]) + "," + URealFloatMath::ConvRealToString(mRows[1][1]) + ")";
 }
 
 }

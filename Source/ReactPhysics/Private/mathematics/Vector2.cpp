@@ -38,7 +38,7 @@ Vector2 Vector2::getUnit() const {
     }
 
     // Compute and return the unit vector
-    decimal lengthInv = decimal(1.0) / lengthVector;
+    decimal lengthInv = decimal(1.0_fl) / lengthVector;
     return Vector2(x * lengthInv, y * lengthInv);
 }
 

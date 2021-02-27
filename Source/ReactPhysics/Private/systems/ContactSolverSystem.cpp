@@ -193,7 +193,7 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
             mContactPoints[mNbContactPoints].isRestingContact = externalContact.getIsRestingContact();
             externalContact.setIsRestingContact(true);
             mContactPoints[mNbContactPoints].penetrationImpulse = externalContact.getPenetrationImpulse();
-            mContactPoints[mNbContactPoints].penetrationSplitImpulse = 0.0;
+            mContactPoints[mNbContactPoints].penetrationSplitImpulse = 0.0_fl;
 
             mContactConstraints[mNbContactManifolds].frictionPointBody1.x += p1.x;
             mContactConstraints[mNbContactManifolds].frictionPointBody1.y += p1.y;
@@ -233,13 +233,13 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
             decimal massPenetration = mContactConstraints[mNbContactManifolds].massInverseBody1 + mContactConstraints[mNbContactManifolds].massInverseBody2 +
                     ((mContactPoints[mNbContactPoints].i1TimesR1CrossN).cross(mContactPoints[mNbContactPoints].r1)).dot(mContactPoints[mNbContactPoints].normal) +
                     ((mContactPoints[mNbContactPoints].i2TimesR2CrossN).cross(mContactPoints[mNbContactPoints].r2)).dot(mContactPoints[mNbContactPoints].normal);
-            mContactPoints[mNbContactPoints].inversePenetrationMass = massPenetration > decimal(0.0) ? decimal(1.0) / massPenetration : decimal(0.0);
+            mContactPoints[mNbContactPoints].inversePenetrationMass = massPenetration > decimal(0.0_fl) ? decimal(1.0_fl) / massPenetration : decimal(0.0_fl);
 
             // Compute the restitution velocity bias "b". We compute this here instead
             // of inside the solve() method because we need to use the velocity difference
             // at the beginning of the contact. Note that if it is a resting contact (normal
             // velocity bellow a given threshold), we do not add a restitution velocity bias
-            mContactPoints[mNbContactPoints].restitutionBias = 0.0;
+            mContactPoints[mNbContactPoints].restitutionBias = 0.0_fl;
             // deltaVDotN = deltaV.dot(mContactPoints[mNbContactPoints].normal);
             decimal deltaVDotN = deltaV.x * mContactPoints[mNbContactPoints].normal.x +
                                  deltaV.y * mContactPoints[mNbContactPoints].normal.y +
@@ -282,7 +282,7 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
             decimal det = mContactConstraints[mNbContactManifolds].inverseRollingResistance.getDeterminant();
 
             // If the matrix is not inversible
-            if (approxEqual(det, decimal(0.0))) {
+            if (approxEqual(det, decimal(0.0_fl))) {
                mContactConstraints[mNbContactManifolds].inverseRollingResistance.setToZero();
             }
             else {
@@ -330,9 +330,9 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
                                        mContactConstraints[mNbContactManifolds].normal) +
                                     mContactConstraints[mNbContactManifolds].normal.dot(mContactConstraints[mNbContactManifolds].inverseInertiaTensorBody2 *
                                        mContactConstraints[mNbContactManifolds].normal);
-        mContactConstraints[mNbContactManifolds].inverseFriction1Mass = friction1Mass > decimal(0.0) ? decimal(1.0) / friction1Mass : decimal(0.0);
-        mContactConstraints[mNbContactManifolds].inverseFriction2Mass = friction2Mass > decimal(0.0) ? decimal(1.0) / friction2Mass : decimal(0.0);
-        mContactConstraints[mNbContactManifolds].inverseTwistFrictionMass = frictionTwistMass > decimal(0.0) ? decimal(1.0) / frictionTwistMass : decimal(0.0);
+        mContactConstraints[mNbContactManifolds].inverseFriction1Mass = friction1Mass > decimal(0.0_fl) ? decimal(1.0_fl) / friction1Mass : decimal(0.0_fl);
+        mContactConstraints[mNbContactManifolds].inverseFriction2Mass = friction2Mass > decimal(0.0_fl) ? decimal(1.0_fl) / friction2Mass : decimal(0.0_fl);
+        mContactConstraints[mNbContactManifolds].inverseTwistFrictionMass = frictionTwistMass > decimal(0.0_fl) ? decimal(1.0_fl) / frictionTwistMass : decimal(0.0_fl);
 
         mNbContactManifolds++;
     }
@@ -387,7 +387,7 @@ void ContactSolverSystem::warmStart() {
             else {  // If it is a new contact point
 
                 // Initialize the accumulated impulses to zero
-                mContactPoints[contactPointIndex].penetrationImpulse = 0.0;
+                mContactPoints[contactPointIndex].penetrationImpulse = 0.0_fl;
             }
 
             contactPointIndex++;
@@ -487,9 +487,9 @@ void ContactSolverSystem::warmStart() {
         else {  // If it is a new contact manifold
 
             // Initialize the accumulated impulses to zero
-            mContactConstraints[c].friction1Impulse = 0.0;
-            mContactConstraints[c].friction2Impulse = 0.0;
-            mContactConstraints[c].frictionTwistImpulse = 0.0;
+            mContactConstraints[c].friction1Impulse = 0.0_fl;
+            mContactConstraints[c].friction2Impulse = 0.0_fl;
+            mContactConstraints[c].frictionTwistImpulse = 0.0_fl;
             mContactConstraints[c].rollingResistanceImpulse.setToZero();
         }
     }
@@ -509,7 +509,7 @@ void ContactSolverSystem::solve() {
     // For each contact manifold
     for (uint c=0; c<mNbContactManifolds; c++) {
 
-        decimal sumPenetrationImpulse = 0.0;
+        decimal sumPenetrationImpulse = 0.0_fl;
 
         // Get the constrained velocities
         const Vector3& v1 = mRigidBodyComponents.mConstrainedLinearVelocities[mContactConstraints[c].rigidBodyComponentIndexBody1];
@@ -534,7 +534,7 @@ void ContactSolverSystem::solve() {
             decimal Jv = deltaVDotN;
 
             // Compute the bias "b" of the constraint
-            decimal biasPenetrationDepth = 0.0;
+            decimal biasPenetrationDepth = 0.0_fl;
             if (mContactPoints[contactPointIndex].penetrationDepth > SLOP) biasPenetrationDepth = -(beta/mTimeStep) *
                     max(0.0f, float(mContactPoints[contactPointIndex].penetrationDepth - SLOP));
             decimal b = biasPenetrationDepth + mContactPoints[contactPointIndex].restitutionBias;
@@ -549,7 +549,7 @@ void ContactSolverSystem::solve() {
             }
             lambdaTemp = mContactPoints[contactPointIndex].penetrationImpulse;
             mContactPoints[contactPointIndex].penetrationImpulse = std::max(mContactPoints[contactPointIndex].penetrationImpulse +
-                                                       deltaLambda, decimal(0.0));
+                                                       deltaLambda, decimal(0.0_fl));
             deltaLambda = mContactPoints[contactPointIndex].penetrationImpulse - lambdaTemp;
 
             Vector3 linearImpulse(mContactPoints[contactPointIndex].normal.x * deltaLambda,
@@ -600,7 +600,7 @@ void ContactSolverSystem::solve() {
                 decimal lambdaTempSplit = mContactPoints[contactPointIndex].penetrationSplitImpulse;
                 mContactPoints[contactPointIndex].penetrationSplitImpulse = std::max(
                             mContactPoints[contactPointIndex].penetrationSplitImpulse +
-                            deltaLambdaSplit, decimal(0.0));
+                            deltaLambdaSplit, decimal(0.0_fl));
                 deltaLambdaSplit = mContactPoints[contactPointIndex].penetrationSplitImpulse - lambdaTempSplit;
 
                 Vector3 linearImpulse(mContactPoints[contactPointIndex].normal.x * deltaLambdaSplit,
@@ -790,7 +790,7 @@ decimal ContactSolverSystem::computeMixedRestitutionFactor(Collider* collider1, 
 decimal ContactSolverSystem::computeMixedFrictionCoefficient(Collider* collider1, Collider* collider2) const {
 
     // Use the geometric mean to compute the mixed friction coefficient
-    return std::sqrt(collider1->getMaterial().getFrictionCoefficient() *
+    return URealFloatMath::Sqrt(collider1->getMaterial().getFrictionCoefficient() *
                 collider2->getMaterial().getFrictionCoefficient());
 }
 
@@ -833,7 +833,7 @@ void ContactSolverSystem::computeFrictionVectors(const Vector3& deltaVelocity,
 
     RP3D_PROFILE("ContactSolver::computeFrictionVectors()", mProfiler);
 
-    assert(contact.normal.length() > decimal(0.0));
+    assert(contact.normal.length() > decimal(0.0_fl));
 
     // Compute the velocity difference vector in the tangential plane
     Vector3 normalVelocity(deltaVelocity.x * contact.normal.x * contact.normal.x,

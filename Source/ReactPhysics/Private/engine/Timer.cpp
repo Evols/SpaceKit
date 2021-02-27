@@ -31,7 +31,7 @@ using namespace reactphysics3d;
 
 // Constructor
 Timer::Timer(double timeStep) : mTimeStep(timeStep), mLastUpdateTime(0), mDeltaTime(0), mIsRunning(false) {
-    assert(timeStep > 0.0);
+    assert(timeStep > 0.0_fl);
 }
 
 // Return the current time of the system in seconds
@@ -47,7 +47,7 @@ long double Timer::getCurrentSystemTime() {
         // Initialize the lastUpdateTime with the current time in seconds
         timeval timeValue;
         gettimeofday(&timeValue, nullptr);
-        return (timeValue.tv_sec + (timeValue.tv_usec / 1000000.0));
+        return (timeValue.tv_sec + (timeValue.tv_usec / 1000000.0_fl));
     #endif
 }
 

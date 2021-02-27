@@ -38,9 +38,9 @@ const decimal SliderJoint::BETA = decimal(0.2);
 SliderJoint::SliderJoint(Entity entity, PhysicsWorld &world, const SliderJointInfo& jointInfo)
             : Joint(entity, world) {
 
-    assert(mWorld.mSliderJointsComponents.getUpperLimit(mEntity) >= decimal(0.0));
-    assert(mWorld.mSliderJointsComponents.getLowerLimit(mEntity) <= decimal(0.0));
-    assert(mWorld.mSliderJointsComponents.getMaxMotorForce(mEntity) >= decimal(0.0));
+    assert(mWorld.mSliderJointsComponents.getUpperLimit(mEntity) >= decimal(0.0_fl));
+    assert(mWorld.mSliderJointsComponents.getLowerLimit(mEntity) <= decimal(0.0_fl));
+    assert(mWorld.mSliderJointsComponents.getMaxMotorForce(mEntity) >= decimal(0.0_fl));
 
     // Compute the local-space anchor point for each body
     const Transform& transform1 = mWorld.mTransformComponents.getTransform(jointInfo.body1->getEntity());
@@ -96,7 +96,7 @@ void SliderJoint::enableLimit(bool isLimitEnabled) {
 void SliderJoint::enableMotor(bool isMotorEnabled) {
 
     mWorld.mSliderJointsComponents.setIsMotorEnabled(mEntity, isMotorEnabled);
-    mWorld.mSliderJointsComponents.setImpulseMotor(mEntity, decimal(0.0));
+    mWorld.mSliderJointsComponents.setImpulseMotor(mEntity, decimal(0.0_fl));
 
     // Wake up the two bodies of the joint
     awakeBodies();
@@ -176,8 +176,8 @@ void SliderJoint::setMaxTranslationLimit(decimal upperLimit) {
 void SliderJoint::resetLimits() {
 
     // Reset the accumulated impulses for the limits
-    mWorld.mSliderJointsComponents.setImpulseLowerLimit(mEntity, decimal(0.0));
-    mWorld.mSliderJointsComponents.setImpulseUpperLimit(mEntity, decimal(0.0));
+    mWorld.mSliderJointsComponents.setImpulseLowerLimit(mEntity, decimal(0.0_fl));
+    mWorld.mSliderJointsComponents.setImpulseUpperLimit(mEntity, decimal(0.0_fl));
 
     // Wake up the two bodies of the joint
     awakeBodies();
@@ -208,7 +208,7 @@ void SliderJoint::setMaxMotorForce(decimal maxMotorForce) {
 
     if (maxMotorForce != maxForce) {
 
-        assert(maxForce >= decimal(0.0));
+        assert(maxForce >= decimal(0.0_fl));
         mWorld.mSliderJointsComponents.setMaxMotorForce(mEntity, maxMotorForce);
 
         // Wake up the two bodies of the joint
@@ -274,12 +274,12 @@ decimal SliderJoint::getMaxTranslationLimit() const {
     return mWorld.mSliderJointsComponents.getUpperLimit(mEntity);
 }
 // Return a string representation
-std::string SliderJoint::to_string() const {
-    return "SliderJoint{ lowerLimit=" + std::to_string(mWorld.mSliderJointsComponents.getLowerLimit(mEntity)) + ", upperLimit=" + std::to_string(mWorld.mSliderJointsComponents.getUpperLimit(mEntity)) +
+FString SliderJoint::to_string() const {
+    return "SliderJoint{ lowerLimit=" + URealFloatMath::ConvRealToString(mWorld.mSliderJointsComponents.getLowerLimit(mEntity)) + ", upperLimit=" + URealFloatMath::ConvRealToString(mWorld.mSliderJointsComponents.getUpperLimit(mEntity)) +
             "localAnchorPointBody1=" + mWorld.mSliderJointsComponents.getLocalAnchorPointBody1(mEntity).to_string() + ", localAnchorPointBody2=" +
             mWorld.mSliderJointsComponents.getLocalAnchorPointBody2(mEntity).to_string() + ", sliderAxisBody1=" + mWorld.mSliderJointsComponents.getSliderAxisBody1(mEntity).to_string() +
             ", initOrientationDifferenceInv=" +
-            mWorld.mSliderJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() + ", motorSpeed=" + std::to_string(getMotorSpeed()) +
-            ", maxMotorForce=" + std::to_string(getMaxMotorForce()) + ", isLimitEnabled=" +
+            mWorld.mSliderJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() + ", motorSpeed=" + URealFloatMath::ConvRealToString(getMotorSpeed()) +
+            ", maxMotorForce=" + URealFloatMath::ConvRealToString(getMaxMotorForce()) + ", isLimitEnabled=" +
             (mWorld.mSliderJointsComponents.getIsLimitEnabled(mEntity) ? "true" : "false") + ", isMotorEnabled=" + (mWorld.mSliderJointsComponents.getIsMotorEnabled(mEntity) ? "true" : "false") + "}";
 }

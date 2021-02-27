@@ -46,9 +46,9 @@ Matrix2x2 Matrix2x2::getInverse() const {
     decimal determinant = getDeterminant();
 
     // Check if the determinant is equal to zero
-    assert(std::abs(determinant) > MACHINE_EPSILON);
+    assert(URealFloatMath::Abs(determinant) > MACHINE_EPSILON);
 
-    decimal invDeterminant = decimal(1.0) / determinant;
+    decimal invDeterminant = decimal(1.0_fl) / determinant;
 
     Matrix2x2 tempMatrix(mRows[1][1], -mRows[0][1], -mRows[1][0], mRows[0][0]);
 

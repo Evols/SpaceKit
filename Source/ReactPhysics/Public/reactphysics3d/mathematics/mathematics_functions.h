@@ -34,6 +34,8 @@
 #include <cmath>
 #include <reactphysics3d/containers/List.h>
 
+#include "SpaceKitPrecision/Public/RealFloat.h"
+
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
 
@@ -45,7 +47,7 @@ struct Vector2;
 /// Function to test if two real numbers are (almost) equal
 /// We test if two numbers a and b are such that (a-b) are in [-EPSILON; EPSILON]
 inline bool approxEqual(decimal a, decimal b, decimal epsilon = MACHINE_EPSILON) {
-    return (std::fabs(a - b) < epsilon);
+    return (URealFloatMath::Abs(a - b) < epsilon);
 }
 
 /// Function to test if two vectors are (almost) equal
@@ -80,7 +82,7 @@ inline decimal max3(decimal a, decimal b, decimal c) {
 
 /// Return true if two values have the same sign
 inline bool sameSign(decimal a, decimal b) {
-    return a * b >= decimal(0.0);
+    return a * b >= decimal(0.0_fl);
 }
 
 /// Return true if two vectors are parallel

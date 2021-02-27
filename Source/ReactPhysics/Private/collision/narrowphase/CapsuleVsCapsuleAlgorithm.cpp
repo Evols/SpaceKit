@@ -93,14 +93,14 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(CapsuleVsCapsuleNarrowPhaseInfoBat
             decimal t2 = computePlaneSegmentIntersection(capsule2SegA, capsule2SegB, d2, -seg1);
 
             // If the segments were overlapping (the clip segment is valid)
-            if (t1 > decimal(0.0) && t2 > decimal(0.0)) {
+            if (t1 > decimal(0.0_fl) && t2 > decimal(0.0_fl)) {
 
                 if (narrowPhaseInfoBatch.reportContacts[batchIndex]) {
 
                     // Clip the inner segment of capsule 2
-                    if (t1 > decimal(1.0)) t1 = decimal(1.0);
+                    if (t1 > decimal(1.0_fl)) t1 = decimal(1.0_fl);
                     const Vector3 clipPointA = capsule2SegB - t1 * seg2;
-                    if (t2 > decimal(1.0)) t2 = decimal(1.0);
+                    if (t2 > decimal(1.0_fl)) t2 = decimal(1.0_fl);
                     const Vector3 clipPointB = capsule2SegA + t2 * seg2;
 
                     // Project point capsule2SegA onto line of innner segment of capsule 1
@@ -128,8 +128,8 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(CapsuleVsCapsuleNarrowPhaseInfoBat
                         Vector3 seg2Normalized = seg2.getUnit();
 
                         // Get the vectors (among vec1 and vec2) that is the most orthogonal to the capsule 2 inner segment (smallest absolute dot product)
-                        decimal cosA1 = std::abs(seg2Normalized.x);		// abs(vec1.dot(seg2))
-                        decimal cosA2 = std::abs(seg2Normalized.y);	    // abs(vec2.dot(seg2))
+                        decimal cosA1 = URealFloatMath::Abs(seg2Normalized.x);		// abs(vec1.dot(seg2))
+                        decimal cosA2 = URealFloatMath::Abs(seg2Normalized.y);	    // abs(vec2.dot(seg2))
 
                         segment1ToSegment2.setToZero();
 
@@ -176,7 +176,7 @@ bool CapsuleVsCapsuleAlgorithm::testCollision(CapsuleVsCapsuleNarrowPhaseInfoBat
                 // If the distance between the inner segments is not zero
                 if (closestPointsDistanceSquare > MACHINE_EPSILON) {
 
-                    decimal closestPointsDistance = std::sqrt(closestPointsDistanceSquare);
+                    decimal closestPointsDistance = URealFloatMath::Sqrt(closestPointsDistanceSquare);
                     closestPointsSeg1ToSeg2 /= closestPointsDistance;
 
                     const Vector3 contactPointCapsule1Local = capsule1ToCapsule2SpaceTransform.getInverse() * (closestPointCapsule1Seg + closestPointsSeg1ToSeg2 * capsule1Radius);

@@ -79,8 +79,8 @@ void Collider::setCollisionCategoryBits(unsigned short collisionCategoryBits) {
     mBody->mWorld.mCollisionDetection.askForBroadPhaseCollisionCheck(this);
 
     RP3D_LOG(mBody->mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Collider,
-             "Collider " + std::to_string(broadPhaseId) + ": Set collisionCategoryBits=" +
-             std::to_string(collisionCategoryBits),  __FILE__, __LINE__);
+             "Collider " + URealFloatMath::ConvRealToString(broadPhaseId) + ": Set collisionCategoryBits=" +
+             URealFloatMath::ConvRealToString(collisionCategoryBits),  __FILE__, __LINE__);
 }
 
 // Set the collision bits mask
@@ -97,8 +97,8 @@ void Collider::setCollideWithMaskBits(unsigned short collideWithMaskBits) {
     mBody->mWorld.mCollisionDetection.askForBroadPhaseCollisionCheck(this);
 
     RP3D_LOG(mBody->mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Collider,
-             "Collider" + std::to_string(broadPhaseId) + ": Set collideWithMaskBits=" +
-             std::to_string(collideWithMaskBits),  __FILE__, __LINE__);
+             "Collider" + URealFloatMath::ConvRealToString(broadPhaseId) + ": Set collideWithMaskBits=" +
+             URealFloatMath::ConvRealToString(collideWithMaskBits),  __FILE__, __LINE__);
 }
 
 // Set the local to  body transform
@@ -121,7 +121,7 @@ void Collider::setLocalToBodyTransform(const Transform& transform) {
     mBody->mWorld.mCollisionDetection.updateCollider(mEntity, 0);
 
     RP3D_LOG(mBody->mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Collider,
-             "Collider " + std::to_string(getBroadPhaseId()) + ": Set localToBodyTransform=" +
+             "Collider " + URealFloatMath::ConvRealToString(getBroadPhaseId()) + ": Set localToBodyTransform=" +
              transform.to_string(),  __FILE__, __LINE__);
 }
 
@@ -226,7 +226,7 @@ void Collider::setMaterial(const Material& material) {
     mMaterial = material;
 
     RP3D_LOG(mBody->mWorld.mConfig.worldName, Logger::Level::Information, Logger::Category::Collider,
-             "Collider " + std::to_string(mEntity.id) + ": Set Material" + mMaterial.to_string(),  __FILE__, __LINE__);
+             "Collider " + URealFloatMath::ConvRealToString(mEntity.id) + ": Set Material" + mMaterial.to_string(),  __FILE__, __LINE__);
 }
 
 // Return the local to world transform

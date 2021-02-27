@@ -86,7 +86,7 @@ void GJKAlgorithm::testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uin
         // Initialize the margin (sum of margins of both objects)
         decimal margin = shape1->getMargin() + shape2->getMargin();
         decimal marginSquare = margin * margin;
-        assert(margin > decimal(0.0));
+        assert(margin > decimal(0.0_fl));
 
         // Create a simplex set
         VoronoiSimplex simplex;
@@ -121,7 +121,7 @@ void GJKAlgorithm::testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uin
             vDotw = v.dot(w);
 
             // If the enlarge objects (with margins) do not intersect
-            if (vDotw > decimal(0.0) && vDotw * vDotw > distSquare * marginSquare) {
+            if (vDotw > decimal(0.0_fl) && vDotw * vDotw > distSquare * marginSquare) {
 
                 // Cache the current separating axis for frame coherence
                 lastFrameCollisionInfo->gjkSeparatingAxis = v;
@@ -191,8 +191,8 @@ void GJKAlgorithm::testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uin
 
             // Project those two points on the margins to have the closest points of both
             // object with the margins
-            decimal dist = std::sqrt(distSquare);
-            assert(dist > decimal(0.0));
+            decimal dist = URealFloatMath::Sqrt(distSquare);
+            assert(dist > decimal(0.0_fl));
             pA = (pA - (shape1->getMargin() / dist) * v);
             pB = body2Tobody1.getInverse() * (pB + (shape2->getMargin() / dist) * v);
 
@@ -201,7 +201,7 @@ void GJKAlgorithm::testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uin
             decimal penetrationDepth = margin - dist;
 
             // If the penetration depth is negative (due too numerical errors), there is no contact
-            if (penetrationDepth <= decimal(0.0)) {
+            if (penetrationDepth <= decimal(0.0_fl)) {
                 assert(gjkResults.size() == batchIndex);
                 gjkResults.add(GJKResult::SEPARATED);
                 continue;

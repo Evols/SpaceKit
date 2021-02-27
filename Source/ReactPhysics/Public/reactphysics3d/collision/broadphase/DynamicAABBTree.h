@@ -209,7 +209,7 @@ class DynamicAABBTree {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        DynamicAABBTree(MemoryAllocator& allocator, decimal fatAABBInflatePercentage = decimal(0.0));
+        DynamicAABBTree(MemoryAllocator& allocator, decimal fatAABBInflatePercentage = decimal(0.0_fl));
 
         /// Destructor
         ~DynamicAABBTree();

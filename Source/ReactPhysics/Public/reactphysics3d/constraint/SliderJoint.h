@@ -84,8 +84,8 @@ struct SliderJointInfo : public JointInfo {
                        : JointInfo(rigidBody1, rigidBody2, JointType::SLIDERJOINT),
                          anchorPointWorldSpace(initAnchorPointWorldSpace),
                          sliderAxisWorldSpace(initSliderAxisWorldSpace),
-                         isLimitEnabled(false), isMotorEnabled(false), minTranslationLimit(-1.0),
-                         maxTranslationLimit(1.0), motorSpeed(0), maxMotorForce(0) {}
+                         isLimitEnabled(false), isMotorEnabled(false), minTranslationLimit(-1.0_fl),
+                         maxTranslationLimit(1.0_fl), motorSpeed(0), maxMotorForce(0) {}
 
         /// Constructor with limits and no motor
         /**
@@ -217,7 +217,7 @@ class SliderJoint : public Joint {
         decimal getMotorForce(decimal timeStep) const;
 
         /// Return a string representation
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 };
 
 // Return the number of bytes used by the joint

@@ -57,7 +57,7 @@ FixedJoint::FixedJoint(Entity entity, PhysicsWorld &world, const FixedJointInfo&
 }
 
 // Return a string representation
-std::string FixedJoint::to_string() const {
+FString FixedJoint::to_string() const {
     return "FixedJoint{ localAnchorPointBody1=" + mWorld.mFixedJointsComponents.getLocalAnchorPointBody1(mEntity).to_string() +
                         ", localAnchorPointBody2=" + mWorld.mFixedJointsComponents.getLocalAnchorPointBody2(mEntity).to_string() +
                         ", initOrientationDifferenceInv=" + mWorld.mFixedJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() +

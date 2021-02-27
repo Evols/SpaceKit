@@ -161,15 +161,15 @@ void TriangleVertexArray::computeVerticesNormals() {
 
             Vector3 crossProduct = a.cross(b);
             decimal sinA = crossProduct.length() / (edgesLengths[previousVertex] * edgesLengths[v]);
-            sinA = std::min(std::max(sinA, decimal(0.0)), decimal(1.0));
-            decimal arcSinA = std::asin(sinA);
-            assert(arcSinA >= decimal(0.0));
+            sinA = std::min(std::max(sinA, decimal(0.0_fl)), decimal(1.0_fl));
+            decimal arcSinA = URealFloatMath::AsinRad(sinA);
+            assert(arcSinA >= decimal(0.0_fl));
             Vector3 normalComponent = arcSinA * crossProduct;
 
             // Add the normal component of this vertex into the normals array
-            verticesNormals[verticesIndices[v] * 3] += normalComponent.x;
-            verticesNormals[verticesIndices[v] * 3 + 1] += normalComponent.y;
-            verticesNormals[verticesIndices[v] * 3 + 2] += normalComponent.z;
+            verticesNormals[verticesIndices[v] * 3] += normalComponent.x.ToFloat();
+            verticesNormals[verticesIndices[v] * 3 + 1] += normalComponent.y.ToFloat();
+            verticesNormals[verticesIndices[v] * 3 + 2] += normalComponent.z.ToFloat();
         }
     }
 
@@ -177,12 +177,12 @@ void TriangleVertexArray::computeVerticesNormals() {
     for (uint v=0; v<mNbVertices * 3; v += 3) {
 
         // Normalize the normal
-        Vector3 normal(verticesNormals[v], verticesNormals[v + 1], verticesNormals[v + 2]);
+        Vector3 normal(FRealFloat(verticesNormals[v]), FRealFloat(verticesNormals[v + 1]), FRealFloat(verticesNormals[v + 2]));
         normal.normalize();
 
-        verticesNormals[v] = normal.x;
-        verticesNormals[v + 1] = normal.y;
-        verticesNormals[v + 2] = normal.z;
+        verticesNormals[v] = normal.x.ToFloat();
+        verticesNormals[v + 1] = normal.y.ToFloat();
+        verticesNormals[v + 2] = normal.z.ToFloat();
     }
 
     const void* verticesNormalsPointer = static_cast<const void*>(verticesNormals);

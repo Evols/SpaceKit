@@ -176,7 +176,7 @@ class TriangleShape : public ConvexPolyhedronShape {
                                                      decimal penetrationDepth, Vector3& outSmoothVertexNormal);
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         // ---------- Friendship ---------- //
 
@@ -223,7 +223,7 @@ inline void TriangleShape::getLocalBounds(Vector3& min, Vector3& max) const {
  * @param mass Mass to use to compute the inertia tensor of the collision shape
  */
 inline Vector3 TriangleShape::getLocalInertiaTensor(decimal mass) const {
-    return Vector3(0, 0, 0);
+    return Vector3(0.0_fl, 0.0_fl, 0.0_fl);
 }
 
 // Return true if a point is inside the collision shape
@@ -280,7 +280,7 @@ inline Vector3 TriangleShape::getFaceNormal(uint faceIndex) const {
 
 // Return the centroid of the box
 inline Vector3 TriangleShape::getCentroid() const {
-    return (mPoints[0] + mPoints[1] + mPoints[2]) / decimal(3.0);
+    return (mPoints[0] + mPoints[1] + mPoints[2]) / decimal(3.0_fl);
 }
 
 // Return the number of half-edges of the polyhedron
@@ -302,14 +302,14 @@ inline void TriangleShape::setRaycastTestType(TriangleRaycastSide testType) {
 }
 
 // Return the string representation of the shape
-inline std::string TriangleShape::to_string() const {
+inline FString TriangleShape::to_string() const {
     return "TriangleShape{v1=" + mPoints[0].to_string() + ", v2=" + mPoints[1].to_string() + "," +
             "v3=" + mPoints[2].to_string() + "}";
 }
 
 // Compute and return the volume of the collision shape
 inline decimal TriangleShape::getVolume() const {
-    return decimal(0.0);
+    return decimal(0.0_fl);
 }
 
 }

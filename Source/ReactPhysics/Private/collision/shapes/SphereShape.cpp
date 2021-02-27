@@ -38,7 +38,7 @@ using namespace reactphysics3d;
  */
 SphereShape::SphereShape(decimal radius, MemoryAllocator& allocator)
             : ConvexShape(CollisionShapeName::SPHERE, CollisionShapeType::SPHERE, allocator, radius) {
-    assert(radius > decimal(0.0));
+    assert(radius > decimal(0.0_fl));
 }
 
 // Update the AABB of a body using its collision shape
@@ -66,14 +66,14 @@ bool SphereShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* co
     decimal c = m.dot(m) - mMargin * mMargin;
 
     // If the origin of the ray is inside the sphere, we return no intersection
-    if (c < decimal(0.0)) return false;
+    if (c < decimal(0.0_fl)) return false;
 
     const Vector3 rayDirection = ray.point2 - ray.point1;
     decimal b = m.dot(rayDirection);
 
     // If the origin of the ray is outside the sphere and the ray
     // is pointing away from the sphere, there is no intersection
-    if (b > decimal(0.0)) return false;
+    if (b > decimal(0.0_fl)) return false;
 
     decimal raySquareLength = rayDirection.lengthSquare();
 
@@ -81,12 +81,12 @@ bool SphereShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* co
     decimal discriminant = b * b - raySquareLength * c;
 
     // If the discriminant is negative or the ray length is very small, there is no intersection
-    if (discriminant < decimal(0.0) || raySquareLength < MACHINE_EPSILON) return false;
+    if (discriminant < decimal(0.0_fl) || raySquareLength < MACHINE_EPSILON) return false;
 
     // Compute the solution "t" closest to the origin
-    decimal t = -b - std::sqrt(discriminant);
+    decimal t = -b - URealFloatMath::Sqrt(discriminant);
 
-    assert(t >= decimal(0.0));
+    assert(t >= decimal(0.0_fl));
 
     // If the hit point is withing the segment ray fraction
     if (t < ray.maxFraction * raySquareLength) {

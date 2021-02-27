@@ -184,7 +184,7 @@ decimal PolyhedronMesh::getFaceArea(uint faceIndex) const {
 /// We use the divergence theorem to compute the volume of the polyhedron using a sum over its faces.
 decimal PolyhedronMesh::getVolume() const {
 
-    decimal sum = 0.0;
+    decimal sum = 0.0_fl;
 
     // For each face of the polyhedron
     for (uint f=0; f < getNbFaces(); f++) {
@@ -197,5 +197,5 @@ decimal PolyhedronMesh::getVolume() const {
         sum += faceVertex.dot(faceNormal) * faceArea;
     }
 
-    return std::abs(sum) / decimal(3.0);
+    return URealFloatMath::Abs(sum) / decimal(3.0_fl);
 }

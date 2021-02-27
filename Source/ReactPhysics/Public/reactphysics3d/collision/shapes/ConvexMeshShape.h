@@ -66,7 +66,7 @@ class ConvexMeshShape : public ConvexPolyhedronShape {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        ConvexMeshShape(PolyhedronMesh* polyhedronMesh,  MemoryAllocator& allocator, const Vector3& scale = Vector3(1,1,1));
+        ConvexMeshShape(PolyhedronMesh* polyhedronMesh,  MemoryAllocator& allocator, const Vector3& scale = Vector3(1.0_fl,1.0_fl,1.0_fl));
 
         /// Recompute the bounds of the mesh
         void recalculateBounds();
@@ -139,7 +139,7 @@ class ConvexMeshShape : public ConvexPolyhedronShape {
         virtual decimal getVolume() const override;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         // ----- Friendship ----- //
 
@@ -182,7 +182,7 @@ inline void ConvexMeshShape::getLocalBounds(Vector3& min, Vector3& max) const {
 * @param mass Mass to use to compute the inertia tensor of the collision shape
 */
 inline Vector3 ConvexMeshShape::getLocalInertiaTensor(decimal mass) const {
-    const decimal factor = (decimal(1.0) / decimal(3.0)) * mass;
+    const decimal factor = (decimal(1.0_fl) / decimal(3.0_fl)) * mass;
     const Vector3 realExtent = decimal(0.5) * (mMaxBounds - mMinBounds);
     assert(realExtent.x > 0 && realExtent.y > 0 && realExtent.z > 0);
     const decimal xSquare = realExtent.x * realExtent.x;

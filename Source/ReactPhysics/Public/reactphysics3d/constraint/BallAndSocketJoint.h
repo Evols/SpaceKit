@@ -97,7 +97,7 @@ class BallAndSocketJoint : public Joint {
         BallAndSocketJoint(const BallAndSocketJoint& constraint) = delete;
 
         /// Return a string representation
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         /// Deleted assignment operator
         BallAndSocketJoint& operator=(const BallAndSocketJoint& constraint) = delete;

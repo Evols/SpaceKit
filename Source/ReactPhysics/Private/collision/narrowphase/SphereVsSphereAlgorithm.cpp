@@ -64,7 +64,7 @@ bool SphereVsSphereAlgorithm::testCollision(SphereVsSphereNarrowPhaseInfoBatch& 
                 const Transform transform1Inverse = transform1.getInverse();
                 const Transform transform2Inverse = transform2.getInverse();
 
-                decimal penetrationDepth = sumRadiuses - std::sqrt(squaredDistanceBetweenCenters);
+                decimal penetrationDepth = sumRadiuses - URealFloatMath::Sqrt(squaredDistanceBetweenCenters);
                 Vector3 intersectionOnBody1;
                 Vector3 intersectionOnBody2;
                 Vector3 normal;

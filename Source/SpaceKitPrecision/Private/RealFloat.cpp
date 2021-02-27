@@ -121,11 +121,6 @@ FRealFloat FRealFloat::GetMinValue()
     return 1e50_fl;
 }
 
-FRealFloat operator""_fl(const char* str)
-{
-    return FRealFloat(str);
-}
-
 FString URealFloatMath::ConvRealToString(FRealFloat InReal)
 {
     return InReal.ToString();

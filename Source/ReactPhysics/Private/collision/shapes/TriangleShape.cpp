@@ -172,7 +172,7 @@ void TriangleShape::computeSmoothMeshContact(Vector3 localContactPointTriangle, 
     Vector3 triangleToOtherShapePenAxis = isTriangleShape1 ? outSmoothWorldContactTriangleNormal : -outSmoothWorldContactTriangleNormal;
 
     // The triangle normal should be the one in the direction out of the current colliding face of the triangle
-    if (triangleWorldNormal.dot(triangleToOtherShapePenAxis) < decimal(0.0)) {
+    if (triangleWorldNormal.dot(triangleToOtherShapePenAxis) < decimal(0.0_fl)) {
         triangleWorldNormal = -triangleWorldNormal;
         triangleLocalNormal = -triangleLocalNormal;
     }
@@ -260,18 +260,18 @@ bool TriangleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* 
     const Vector3 m = pq.cross(pc);
     decimal u = pb.dot(m);
     if (mRaycastTestType == TriangleRaycastSide::FRONT) {
-        if (u < decimal(0.0)) return false;
+        if (u < decimal(0.0_fl)) return false;
     }
     else if (mRaycastTestType == TriangleRaycastSide::BACK) {
-        if (u > decimal(0.0)) return false;
+        if (u > decimal(0.0_fl)) return false;
     }
 
     decimal v = -pa.dot(m);
     if (mRaycastTestType == TriangleRaycastSide::FRONT) {
-        if (v < decimal(0.0)) return false;
+        if (v < decimal(0.0_fl)) return false;
     }
     else if (mRaycastTestType == TriangleRaycastSide::BACK) {
-        if (v > decimal(0.0)) return false;
+        if (v > decimal(0.0_fl)) return false;
     }
     else if (mRaycastTestType == TriangleRaycastSide::FRONT_AND_BACK) {
         if (!sameSign(u, v)) return false;
@@ -279,10 +279,10 @@ bool TriangleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* 
 
     decimal w = pa.dot(pq.cross(pb));
     if (mRaycastTestType == TriangleRaycastSide::FRONT) {
-        if (w < decimal(0.0)) return false;
+        if (w < decimal(0.0_fl)) return false;
     }
     else if (mRaycastTestType == TriangleRaycastSide::BACK) {
-        if (w > decimal(0.0)) return false;
+        if (w > decimal(0.0_fl)) return false;
     }
     else if (mRaycastTestType == TriangleRaycastSide::FRONT_AND_BACK) {
         if (!sameSign(u, w)) return false;
@@ -293,7 +293,7 @@ bool TriangleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* 
 
     // Compute the barycentric coordinates (u, v, w) to determine the
     // intersection point R, R = u * a + v * b + w * c
-    decimal denom = decimal(1.0) / (u + v + w);
+    decimal denom = decimal(1.0_fl) / (u + v + w);
     u *= denom;
     v *= denom;
     w *= denom;
@@ -302,10 +302,10 @@ bool TriangleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* 
     const Vector3 localHitPoint = u * mPoints[0] + v * mPoints[1] + w * mPoints[2];
     const decimal hitFraction = (localHitPoint - ray.point1).length() / pq.length();
 
-    if (hitFraction < decimal(0.0) || hitFraction > ray.maxFraction) return false;
+    if (hitFraction < decimal(0.0_fl) || hitFraction > ray.maxFraction) return false;
 
     Vector3 localHitNormal = (mPoints[1] - mPoints[0]).cross(mPoints[2] - mPoints[0]);
-    if (localHitNormal.dot(pq) > decimal(0.0)) localHitNormal = -localHitNormal;
+    if (localHitNormal.dot(pq) > decimal(0.0_fl)) localHitNormal = -localHitNormal;
 
     raycastInfo.body = collider->getBody();
     raycastInfo.collider = collider;

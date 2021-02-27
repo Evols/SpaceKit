@@ -71,17 +71,17 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Return the header to write at the beginning of the stream
-                virtual std::string getHeader() const {
+                virtual FString getHeader() const {
                     return "";
                 }
 
                 /// Return the tail to write at the end of the stream
-                virtual std::string getTail() const {
+                virtual FString getTail() const {
                     return "";
                 }
 
                 /// Format a log message
-                virtual std::string format(const time_t& time, const std::string& physicsWorldName, const std::string& message, Level level, Category category,
+                virtual FString format(const time_t& time, const FString& physicsWorldName, const FString& message, Level level, Category category,
                                            const char* filename, int lineNumber) = 0;
         };
 
@@ -100,7 +100,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Return the header to write at the beginning of the stream
-                virtual std::string getHeader() const override {
+                virtual FString getHeader() const override {
 
                     // Get current date
                     auto now = std::chrono::system_clock::now();
@@ -116,7 +116,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Format a log message
-                virtual std::string format(const time_t& time, const std::string& physicsWorldName, const std::string& message,
+                virtual FString format(const time_t& time, const FString& physicsWorldName, const FString& message,
                                            Level level, Category category, const char* filename, int lineNumber) override {
                     std::stringstream ss;
 
@@ -136,10 +136,10 @@ class DefaultLogger : public Logger {
                     ss << message << std::endl;
 
                     // Filename
-                    ss << " (in file " << std::string(filename);
+                    ss << " (in file " << FString(filename);
 
                     // Line number
-                    ss << " at line " << std::to_string(lineNumber) << ")";
+                    ss << " at line " << URealFloatMath::ConvRealToString(lineNumber) << ")";
 
                     return ss.str();
                 }
@@ -150,7 +150,7 @@ class DefaultLogger : public Logger {
             private:
 
                 /// Return the header to write at the beginning of the stream
-                virtual std::string getHeader() const override {
+                virtual FString getHeader() const override {
 
                     // Get current date
                     auto now = std::chrono::system_clock::now();
@@ -175,7 +175,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Return the tail to write at the end of the stream
-                virtual std::string getTail() const override {
+                virtual FString getTail() const override {
 
                     std::stringstream ss;
 
@@ -185,7 +185,7 @@ class DefaultLogger : public Logger {
                     return ss.str();
                 }
 
-            std::string generateCSS() const {
+            FString generateCSS() const {
                 return "body {"
                        "  background-color: #e6e6e6;"
                        "  font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace; "
@@ -254,8 +254,8 @@ class DefaultLogger : public Logger {
             }
 
             /// Convert a string to lower case
-            std::string toLowerCase(const std::string& text) {
-                std::string textLower = text;
+            FString toLowerCase(const FString& text) {
+                FString textLower = text;
                 std::transform(textLower.begin(), textLower.end(), textLower.begin(), ::tolower);
                 return textLower;
             }
@@ -273,7 +273,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Format a log message
-                virtual std::string format(const time_t& time, const std::string& physicsWorldName, const std::string& message, Level level,
+                virtual FString format(const time_t& time, const FString& physicsWorldName, const FString& message, Level level,
                                            Category category, const char* filename, int lineNumber) override {
 
                     std::stringstream ss;
@@ -307,8 +307,8 @@ class DefaultLogger : public Logger {
                     ss << "</div>";
 
                     // Filename + line number
-                    ss << "<div class='file'> (in file " << std::string(filename) <<
-                          " at line " << std::to_string(lineNumber) << ")" << std::endl;
+                    ss << "<div class='file'> (in file " << FString(filename) <<
+                          " at line " << URealFloatMath::ConvRealToString(lineNumber) << ")" << std::endl;
                     ss << "</div>";
 
                     ss << "</div>";
@@ -341,7 +341,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Write a message into the output stream
-                virtual void write(const time_t& time, const std::string& physicsWorldName, const std::string& message, Level level, Category category, const char* filename, int lineNumber) = 0;
+                virtual void write(const time_t& time, const FString& physicsWorldName, const FString& message, Level level, Category category, const char* filename, int lineNumber) = 0;
 
                 /// Return the size in bytes of the type
                 virtual size_t getSizeBytes() const=0;
@@ -351,7 +351,7 @@ class DefaultLogger : public Logger {
 
             private:
 
-                std::string mFilePath;
+                FString mFilePath;
 
                 /// Output file stream
                 std::ofstream mFileStream;
@@ -359,7 +359,7 @@ class DefaultLogger : public Logger {
             public:
 
                 /// Constructor
-                FileDestination(const std::string& filePath, uint maxLevelFlag, Formatter* formatter)
+                FileDestination(const FString& filePath, uint maxLevelFlag, Formatter* formatter)
                    :Destination(maxLevelFlag, formatter), mFilePath(filePath),
                     mFileStream(filePath, std::ios::binary) {
 
@@ -385,7 +385,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Write a message into the output stream
-                virtual void write(const time_t& time, const std::string& physicsWorldName, const std::string& message, Level level, Category category,
+                virtual void write(const time_t& time, const FString& physicsWorldName, const FString& message, Level level, Category category,
                                    const char* filename, int lineNumber) override {
 
                     if (static_cast<int>(level) <= static_cast<int>(maxLevelFlag)) {
@@ -425,7 +425,7 @@ class DefaultLogger : public Logger {
                 }
 
                 /// Write a message into the output stream
-                virtual void write(const time_t& time, const std::string& physicsWorldName, const std::string& message, Level level, Category category,
+                virtual void write(const time_t& time, const FString& physicsWorldName, const FString& message, Level level, Category category,
                                    const char* filename, int lineNumber) override {
 
                     if (static_cast<int>(level) <= static_cast<int>(maxLevelFlag)) {
@@ -472,7 +472,7 @@ class DefaultLogger : public Logger {
         // -------------------- Methods -------------------- //
 
         /// Add a file destination to the logger
-        void addFileDestination(const std::string& filePath, uint logLevelFlag, Format format);
+        void addFileDestination(const FString& filePath, uint logLevelFlag, Format format);
 
         /// Add a stream destination to the logger
         void addStreamDestination(std::ostream& outputStream, uint logLevelFlag, Format format);
@@ -481,7 +481,7 @@ class DefaultLogger : public Logger {
         void removeAllDestinations();
 
         /// Log something
-        virtual void log(Level level, const std::string& physicsWorldName, Category category, const std::string& message, const char* filename, int lineNumber) override;
+        virtual void log(Level level, const FString& physicsWorldName, Category category, const FString& message, const char* filename, int lineNumber) override;
 
         // ---------- Friendship ---------- //
 

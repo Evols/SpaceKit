@@ -235,7 +235,7 @@ void Profiler::printReport() {
 }
 
 // Add a file destination to the profiler
-void Profiler::addFileDestination(const std::string& filePath, Format format) {
+void Profiler::addFileDestination(const FString& filePath, Format format) {
 
     if (mNbAllocatedDestinations == mNbDestinations) {
         allocatedDestinations(mNbAllocatedDestinations * 2);

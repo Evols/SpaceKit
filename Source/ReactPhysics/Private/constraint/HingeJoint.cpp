@@ -36,8 +36,8 @@ HingeJoint::HingeJoint(Entity entity, PhysicsWorld &world, const HingeJointInfo&
 
     const decimal lowerLimit = mWorld.mHingeJointsComponents.getLowerLimit(mEntity);
     const decimal upperLimit = mWorld.mHingeJointsComponents.getUpperLimit(mEntity);
-    assert(lowerLimit <= decimal(0) && lowerLimit >= decimal(-2.0) * PI);
-    assert(upperLimit >= decimal(0) && upperLimit <= decimal(2.0) * PI);
+    assert(lowerLimit <= decimal(0) && lowerLimit >= decimal(-2.0_fl) * decimal(PI));
+    assert(upperLimit >= decimal(0) && upperLimit <= decimal(2.0_fl) * decimal(PI));
 
     // Compute the local-space anchor point for each body
     const Transform& transform1 = mWorld.mTransformComponents.getTransform(jointInfo.body1->getEntity());
@@ -85,7 +85,7 @@ void HingeJoint::enableLimit(bool isLimitEnabled) {
 void HingeJoint::enableMotor(bool isMotorEnabled) {
 
     mWorld.mHingeJointsComponents.setIsMotorEnabled(mEntity, isMotorEnabled);
-    mWorld.mHingeJointsComponents.setImpulseMotor(mEntity, decimal(0.0));
+    mWorld.mHingeJointsComponents.setImpulseMotor(mEntity, decimal(0.0_fl));
 
     // Wake up the two bodies of the joint
     awakeBodies();
@@ -99,7 +99,7 @@ void HingeJoint::setMinAngleLimit(decimal lowerLimit) {
 
     const decimal limit = mWorld.mHingeJointsComponents.getLowerLimit(mEntity);
 
-    assert(limit <= decimal(0.0) && limit >= decimal(-2.0) * PI);
+    assert(limit <= decimal(0.0_fl) && limit >= decimal(-2.0_fl) * decimal(PI));
 
     if (lowerLimit != limit) {
 
@@ -118,7 +118,7 @@ void HingeJoint::setMaxAngleLimit(decimal upperLimit) {
 
     const decimal limit = mWorld.mHingeJointsComponents.getUpperLimit(mEntity);
 
-    assert(limit >= decimal(0) && limit <= decimal(2.0) * PI);
+    assert(limit >= decimal(0) && limit <= decimal(2.0_fl) * decimal(PI));
 
     if (upperLimit != limit) {
 
@@ -133,8 +133,8 @@ void HingeJoint::setMaxAngleLimit(decimal upperLimit) {
 void HingeJoint::resetLimits() {
 
     // Reset the accumulated impulses for the limits
-    mWorld.mHingeJointsComponents.setImpulseLowerLimit(mEntity, decimal(0.0));
-    mWorld.mHingeJointsComponents.setImpulseUpperLimit(mEntity, decimal(0.0));
+    mWorld.mHingeJointsComponents.setImpulseLowerLimit(mEntity, decimal(0.0_fl));
+    mWorld.mHingeJointsComponents.setImpulseUpperLimit(mEntity, decimal(0.0_fl));
 
     // Wake up the two bodies of the joint
     awakeBodies();
@@ -162,7 +162,7 @@ void HingeJoint::setMaxMotorTorque(decimal maxMotorTorque) {
 
     if (maxMotorTorque != torque) {
 
-        assert(torque >= decimal(0.0));
+        assert(torque >= decimal(0.0_fl));
         mWorld.mHingeJointsComponents.setMaxMotorTorque(mEntity, maxMotorTorque);
 
         // Wake up the two bodies of the joint
@@ -251,16 +251,16 @@ decimal HingeJoint::getAngle() const {
 }
 
 // Return a string representation
-std::string HingeJoint::to_string() const {
-    return "HingeJoint{ lowerLimit=" + std::to_string(mWorld.mHingeJointsComponents.getLowerLimit(mEntity)) +
-            ", upperLimit=" + std::to_string(mWorld.mHingeJointsComponents.getUpperLimit(mEntity)) +
+FString HingeJoint::to_string() const {
+    return "HingeJoint{ lowerLimit=" + URealFloatMath::ConvRealToString(mWorld.mHingeJointsComponents.getLowerLimit(mEntity)) +
+            ", upperLimit=" + URealFloatMath::ConvRealToString(mWorld.mHingeJointsComponents.getUpperLimit(mEntity)) +
             "localAnchorPointBody1=" + mWorld.mHingeJointsComponents.getLocalAnchorPointBody1(mEntity).to_string() + ", localAnchorPointBody2=" +
             mWorld.mHingeJointsComponents.getLocalAnchorPointBody2(mEntity).to_string() + ", hingeLocalAxisBody1=" +
             mWorld.mHingeJointsComponents.getHingeLocalAxisBody1(mEntity).to_string() +
             ", hingeLocalAxisBody2=" + mWorld.mHingeJointsComponents.getHingeLocalAxisBody2(mEntity).to_string() +
             ", initOrientationDifferenceInv=" + mWorld.mHingeJointsComponents.getInitOrientationDifferenceInv(mEntity).to_string() +
-            ", motorSpeed=" + std::to_string(mWorld.mHingeJointsComponents.getMotorSpeed(mEntity)) +
-            ", maxMotorTorque=" + std::to_string(mWorld.mHingeJointsComponents.getMaxMotorTorque(mEntity)) + ", isLimitEnabled=" +
+            ", motorSpeed=" + URealFloatMath::ConvRealToString(mWorld.mHingeJointsComponents.getMotorSpeed(mEntity)) +
+            ", maxMotorTorque=" + URealFloatMath::ConvRealToString(mWorld.mHingeJointsComponents.getMaxMotorTorque(mEntity)) + ", isLimitEnabled=" +
             (mWorld.mHingeJointsComponents.getIsLimitEnabled(mEntity) ? "true" : "false") + ", isMotorEnabled=" +
             (mWorld.mHingeJointsComponents.getIsMotorEnabled(mEntity) ? "true" : "false") + "}";
 }

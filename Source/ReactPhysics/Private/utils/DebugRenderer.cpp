@@ -37,6 +37,8 @@
 #include <reactphysics3d/engine/PhysicsWorld.h>
 #include <reactphysics3d/containers/Pair.h>
 
+#if 0
+
 using namespace reactphysics3d;
 
 // Constructor
@@ -124,12 +126,12 @@ void DebugRenderer::drawSphere(const Vector3& position, decimal radius, uint32 c
     Vector3 vertices[(NB_SECTORS_SPHERE + 1) * (NB_STACKS_SPHERE + 1) + (NB_SECTORS_SPHERE + 1)];
 	
 	// Vertices
-	const decimal sectorStep = 2 * PI / NB_SECTORS_SPHERE;
-	const decimal stackStep = PI / NB_STACKS_SPHERE;
+	const decimal sectorStep = 2 * decimal(PI) / NB_SECTORS_SPHERE;
+	const decimal stackStep = decimal(PI) / NB_STACKS_SPHERE;
 	
 	for (uint i = 0; i <= NB_STACKS_SPHERE; i++) {
 
-		const decimal stackAngle = PI / 2 - i * stackStep;
+		const decimal stackAngle = decimal(PI) / 2 - i * stackStep;
 		const decimal radiusCosStackAngle = radius * std::cos(stackAngle);
 		const decimal z = radius * std::sin(stackAngle);
 
@@ -178,15 +180,15 @@ void DebugRenderer::drawCapsule(const Transform& transform, decimal radius, deci
 	const uint nbHalfStacks = nbStacks / 2;
 	
 	// Vertices
-	const decimal sectorStep = 2 * PI / NB_SECTORS_SPHERE;
-	const decimal stackStep = PI / nbStacks;
+	const decimal sectorStep = 2 * decimal(PI) / NB_SECTORS_SPHERE;
+	const decimal stackStep = decimal(PI) / nbStacks;
 	
 	uint vertexIndex = 0;
 	
 	// Top cap sphere vertices
     for (uint i = 0; i <= nbHalfStacks; i++) {
 
-		const decimal stackAngle = PI / 2 - i * stackStep;
+		const decimal stackAngle = decimal(PI) / 2 - i * stackStep;
 		const decimal radiusCosStackAngle = radius * std::cos(stackAngle);
         const decimal y = radius * std::sin(stackAngle);
 
@@ -206,7 +208,7 @@ void DebugRenderer::drawCapsule(const Transform& transform, decimal radius, deci
 	// Bottom cap sphere vertices
     for (uint i = 0; i <= nbHalfStacks; i++) {
 
-        const decimal stackAngle = PI / 2 - (nbHalfStacks + i) * stackStep;
+        const decimal stackAngle = decimal(PI) / 2 - (nbHalfStacks + i) * stackStep;
 		const decimal radiusCosStackAngle = radius * std::cos(stackAngle);
         const decimal y = radius * std::sin(stackAngle);
 
@@ -476,3 +478,5 @@ void DebugRenderer::onContact(const CollisionCallback::CallbackData& callbackDat
 		}
 	}
 }
+
+#endif

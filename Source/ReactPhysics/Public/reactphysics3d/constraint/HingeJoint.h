@@ -214,7 +214,7 @@ class HingeJoint : public Joint {
         decimal getAngle() const;
 
         /// Return a string representation
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 };
 
 

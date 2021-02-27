@@ -74,7 +74,7 @@ struct ContactPointInfo {
                            localPoint1(localPt1), localPoint2(localPt2) {
 
             assert(contactNormal.lengthSquare() > decimal(0.8));
-            assert(penDepth > decimal(0.0));
+            assert(penDepth > decimal(0.0_fl));
         }
 
         /// Destructor

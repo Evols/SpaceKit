@@ -167,7 +167,7 @@ void PhysicsCommon::destroyPhysicsWorld(PhysicsWorld* world) {
  */
 SphereShape* PhysicsCommon::createSphereShape(const decimal radius) {
 
-    if (radius <= decimal(0.0)) {
+    if (radius <= decimal(0.0_fl)) {
 
         RP3D_LOG("PhysicsCommon", Logger::Level::Error, Logger::Category::PhysicCommon,
                  "Error when creating a SphereShape: radius must be a positive value",  __FILE__, __LINE__);
@@ -208,7 +208,7 @@ void PhysicsCommon::destroySphereShape(SphereShape* sphereShape) {
  */
 BoxShape* PhysicsCommon::createBoxShape(const Vector3& halfExtents) {
 
-    if (halfExtents.x <= decimal(0.0) || halfExtents.y <= decimal(0.0) || halfExtents.z <= decimal(0.0)) {
+    if (halfExtents.x <= decimal(0.0_fl) || halfExtents.y <= decimal(0.0_fl) || halfExtents.z <= decimal(0.0_fl)) {
 
         RP3D_LOG("PhysicsCommon", Logger::Level::Error, Logger::Category::PhysicCommon,
                  "Error when creating a BoxShape: the half extents must be positive values",  __FILE__, __LINE__);
@@ -250,13 +250,13 @@ void PhysicsCommon::destroyBoxShape(BoxShape* boxShape) {
  */
 CapsuleShape* PhysicsCommon::createCapsuleShape(decimal radius, decimal height) {
 
-    if (radius <= decimal(0.0)) {
+    if (radius <= decimal(0.0_fl)) {
 
         RP3D_LOG("PhysicsCommon", Logger::Level::Error, Logger::Category::PhysicCommon,
                  "Error when creating a CapsuleShape: radius must be a positive value",  __FILE__, __LINE__);
     }
 
-    if (height <= decimal(0.0)) {
+    if (height <= decimal(0.0_fl)) {
 
         RP3D_LOG("PhysicsCommon", Logger::Level::Error, Logger::Category::PhysicCommon,
                  "Error when creating a CapsuleShape: height must be a positive value",  __FILE__, __LINE__);

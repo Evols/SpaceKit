@@ -230,7 +230,7 @@ void AABBOverlapCallback::notifyOverlappingNode(int nodeId) {
 // Called for a broad-phase shape that has to be tested for raycast
 decimal BroadPhaseRaycastCallback::raycastBroadPhaseShape(int32 nodeId, const Ray& ray) {
 
-    decimal hitFraction = decimal(-1.0);
+    decimal hitFraction = decimal(-1.0_fl);
 
     // Get the collider from the node
     Collider* collider = static_cast<Collider*>(mDynamicAABBTree.getNodeDataPointer(nodeId));

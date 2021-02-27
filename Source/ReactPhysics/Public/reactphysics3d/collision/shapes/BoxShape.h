@@ -129,7 +129,7 @@ class BoxShape : public ConvexPolyhedronShape {
         virtual Vector3 getCentroid() const override;
 
         /// Return the string representation of the shape
-        virtual std::string to_string() const override;
+        virtual FString to_string() const override;
 
         // ----- Friendship ----- //
 
@@ -179,9 +179,9 @@ inline size_t BoxShape::getSizeInBytes() const {
 // Return a local support point in a given direction without the object margin
 inline Vector3 BoxShape::getLocalSupportPointWithoutMargin(const Vector3& direction) const {
 
-    return Vector3(direction.x < decimal(0.0) ? -mHalfExtents.x : mHalfExtents.x,
-                   direction.y < decimal(0.0) ? -mHalfExtents.y : mHalfExtents.y,
-                   direction.z < decimal(0.0) ? -mHalfExtents.z : mHalfExtents.z);
+    return Vector3(direction.x < decimal(0.0_fl) ? -mHalfExtents.x : mHalfExtents.x,
+                   direction.y < decimal(0.0_fl) ? -mHalfExtents.y : mHalfExtents.y,
+                   direction.z < decimal(0.0_fl) ? -mHalfExtents.z : mHalfExtents.z);
 }
 
 // Return true if a point is inside the collision shape
@@ -239,12 +239,12 @@ inline Vector3 BoxShape::getFaceNormal(uint faceIndex) const {
     assert(faceIndex < getNbFaces());
 
     switch(faceIndex) {
-        case 0: return Vector3(0, 0, 1);
-        case 1: return Vector3(1, 0, 0);
-        case 2: return Vector3(0, 0, -1);
-        case 3: return Vector3(-1, 0, 0);
-        case 4: return Vector3(0, -1, 0);
-        case 5: return Vector3(0, 1, 0);
+        case 0: return Vector3(0.0_fl, 0.0_fl, 1.0_fl);
+        case 1: return Vector3(1.0_fl, 0.0_fl, 0.0_fl);
+        case 2: return Vector3(0.0_fl, 0.0_fl, -1.0_fl);
+        case 3: return Vector3(-1.0_fl, 0.0_fl, 0.0_fl);
+        case 4: return Vector3(0.0_fl, -1.0_fl, 0.0_fl);
+        case 5: return Vector3(0.0_fl, 1.0_fl, 0.0_fl);
     }
 
     assert(false);
@@ -258,11 +258,11 @@ inline Vector3 BoxShape::getCentroid() const {
 
 // Compute and return the volume of the collision shape
 inline decimal BoxShape::getVolume() const {
-    return 8 * mHalfExtents.x * mHalfExtents.y * mHalfExtents.z;
+    return 8.0_fl * mHalfExtents.x * mHalfExtents.y * mHalfExtents.z;
 }
 
 // Return the string representation of the shape
-inline std::string BoxShape::to_string() const {
+inline FString BoxShape::to_string() const {
     return "BoxShape{extents=" + mHalfExtents.to_string() + "}";
 }
 

@@ -98,7 +98,7 @@ void HeightFieldShape::computeOverlappingTriangles(const AABB& localAABB, List<V
     RP3D_PROFILE("HeightFieldShape::computeOverlappingTriangles()", mProfiler);
 
    // Compute the non-scaled AABB
-   Vector3 inverseScale(decimal(1.0) / mScale.x, decimal(1.0) / mScale.y, decimal(1.0) / mScale.z);
+   Vector3 inverseScale(decimal(1.0_fl) / mScale.x, decimal(1.0_fl) / mScale.y, decimal(1.0_fl) / mScale.z);
    AABB aabb(localAABB.getMin() * inverseScale, localAABB.getMax() * inverseScale);
 
    // Compute the integer grid coordinates inside the area we need to test for collision
@@ -271,7 +271,7 @@ bool HeightFieldShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collide
         // If the ray hit the collision shape
         if (isTriangleHit && triangleRaycastInfo.hitFraction <= smallestHitFraction) {
 
-            assert(triangleRaycastInfo.hitFraction >= decimal(0.0));
+            assert(triangleRaycastInfo.hitFraction >= decimal(0.0_fl));
 
             raycastInfo.body = triangleRaycastInfo.body;
             raycastInfo.collider = triangleRaycastInfo.collider;
@@ -315,7 +315,7 @@ Vector3 HeightFieldShape::getVertexAt(int x, int y) const {
 }
 
 // Return the string representation of the shape
-std::string HeightFieldShape::to_string() const {
+FString HeightFieldShape::to_string() const {
 
     std::stringstream ss;
 
