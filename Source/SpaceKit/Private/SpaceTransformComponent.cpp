@@ -2,6 +2,7 @@
 
 
 #include "SpaceTransformComponent.h"
+#include "ReactPhysics/Public/reactphysics3d/reactphysics3d.h"
 
 USpaceTransformComponent::USpaceTransformComponent()
 {
