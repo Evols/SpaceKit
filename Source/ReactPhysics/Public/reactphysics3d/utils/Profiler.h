@@ -53,7 +53,7 @@ class ProfileNode {
         const char* mName;
 
         /// Total number of calls of this node
-        uint mNbTotalCalls;
+        uint8 mNbTotalCalls;
 
         /// Starting time of the sampling of corresponding block of code
         long double mStartingTime;
@@ -99,7 +99,7 @@ class ProfileNode {
         const char* getName();
 
         /// Return the total number of call of the corresponding block of code
-        uint getNbTotalCalls() const;
+        uint8 getNbTotalCalls() const;
 
         /// Return the total time spent in the block of code
         long double getTotalTime() const;
@@ -165,7 +165,7 @@ class ProfileNodeIterator {
         long double getCurrentTotalTime();
 
         /// Return the total number of calls of the current node
-        uint getCurrentNbTotalCalls();
+        uint8 getCurrentNbTotalCalls();
 
         /// Return the name of the current parent node
         const char* getCurrentParentName();
@@ -174,7 +174,7 @@ class ProfileNodeIterator {
         long double getCurrentParentTotalTime();
 
         /// Return the total number of calls of the current parent node
-        uint getCurrentParentNbTotalCalls();
+        uint8 getCurrentParentNbTotalCalls();
 };
 
 // Class Profiler
@@ -287,16 +287,16 @@ class Profiler {
         ProfileNode* mCurrentNode;
 
         /// Frame counter
-        uint mFrameCounter;
+        uint8 mFrameCounter;
 
         /// Starting profiling time
         long double mProfilingStartTime;
 
         /// Number of allocated destinations
-        uint mNbAllocatedDestinations;
+        uint8 mNbAllocatedDestinations;
 
         /// Number of destinations
-        uint mNbDestinations;
+        uint8 mNbDestinations;
 
         /// Array with all the output destinations
         Destination** mDestinations;
@@ -333,7 +333,7 @@ class Profiler {
         void reset();
 
         /// Return the number of frames
-        uint getNbFrames();
+        uint8 getNbFrames();
 
         /// Return the elasped time since the start/reset of the profiling
         long double getElapsedTimeSinceStart();
@@ -345,7 +345,7 @@ class Profiler {
         ProfileNodeIterator* getIterator();
 
         // Allocate memory for the destinations
-        void allocatedDestinations(uint nbDestinationsToAllocate);
+        void allocatedDestinations(uint8 nbDestinationsToAllocate);
 
         // Add a file destination to the profiler
         void addFileDestination(const FString& filePath, Format format);
@@ -421,7 +421,7 @@ inline long double ProfileNodeIterator::getCurrentTotalTime() {
 }
 
 // Return the total number of calls of the current node
-inline uint ProfileNodeIterator::getCurrentNbTotalCalls() {
+inline uint8 ProfileNodeIterator::getCurrentNbTotalCalls() {
     return mCurrentChildNode->getNbTotalCalls();
 }
 
@@ -436,7 +436,7 @@ inline long double ProfileNodeIterator::getCurrentParentTotalTime() {
 }
 
 // Return the total number of calls of the current parent node
-inline uint ProfileNodeIterator::getCurrentParentNbTotalCalls() {
+inline uint8 ProfileNodeIterator::getCurrentParentNbTotalCalls() {
     return mCurrentParentNode->getNbTotalCalls();
 }
 
@@ -471,7 +471,7 @@ inline const char* ProfileNode::getName() {
 }
 
 // Return the total number of call of the corresponding block of code
-inline uint ProfileNode::getNbTotalCalls() const {
+inline uint8 ProfileNode::getNbTotalCalls() const {
     return mNbTotalCalls;
 }
 
@@ -481,7 +481,7 @@ inline long double ProfileNode::getTotalTime() const {
 }
 
 // Return the number of frames
-inline uint Profiler::getNbFrames() {
+inline uint8 Profiler::getNbFrames() {
     return mFrameCounter;
 }
 

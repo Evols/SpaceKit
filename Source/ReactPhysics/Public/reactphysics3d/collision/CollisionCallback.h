@@ -172,14 +172,14 @@ class CollisionCallback {
                 /**
                  * @return The number of contact points in the contact pair
                  */
-                uint getNbContactPoints() const;
+                uint8 getNbContactPoints() const;
 
                 /// Return a given contact point
                 /**
                  * @param index Index of the contact point to retrieve
                  * @return A contact point object
                  */
-                ContactPoint getContactPoint(uint index) const;
+                ContactPoint getContactPoint(uint8 index) const;
 
                 /// Return a pointer to the first body in contact
                 /**
@@ -239,10 +239,10 @@ class CollisionCallback {
                 List<reactphysics3d::ContactPair>& mLostContactPairs;
 
                 /// List of indices of the mContactPairs list that are contact events (not overlap/triggers)
-                List<uint> mContactPairsIndices;
+                List<uint8> mContactPairsIndices;
 
                 /// List of indices of the mLostContactPairs list that are contact events (not overlap/triggers)
-                List<uint> mLostContactPairsIndices;
+                List<uint8> mLostContactPairsIndices;
 
                 /// Reference to the physics world
                 PhysicsWorld& mWorld;
@@ -271,14 +271,14 @@ class CollisionCallback {
                 /**
                  * @return The number of contact pairs
                  */
-                uint getNbContactPairs() const;
+                uint8 getNbContactPairs() const;
 
                 /// Return a given contact pair
                 /**
                  * @param index Index of the contact pair to retrieve
                  * @return A contact pair object
                  */
-                ContactPair getContactPair(uint index) const;
+                ContactPair getContactPair(uint8 index) const;
 
                 // -------------------- Friendship -------------------- //
 
@@ -296,7 +296,7 @@ class CollisionCallback {
 /**
  * @return The number of contact pairs
  */
-inline uint CollisionCallback::CallbackData::getNbContactPairs() const {
+inline uint8 CollisionCallback::CallbackData::getNbContactPairs() const {
     return mContactPairsIndices.size() + mLostContactPairsIndices.size();
 }
 
@@ -304,7 +304,7 @@ inline uint CollisionCallback::CallbackData::getNbContactPairs() const {
 /**
  * @return The number of contact points
  */
-inline uint CollisionCallback::ContactPair::getNbContactPoints() const {
+inline uint8 CollisionCallback::ContactPair::getNbContactPoints() const {
    return mContactPair.nbToTalContactPoints;
 }
 

@@ -23,10 +23,10 @@
 *                                                                               *
 ********************************************************************************/
 
-#pragma once
-
 #ifndef REACTPHYSICS3D_CONFIGURATION_H
 #define	REACTPHYSICS3D_CONFIGURATION_H
+
+#include "EngineMinimal.h"
 
 // Libraries
 #include <limits>
@@ -51,7 +51,8 @@ namespace reactphysics3d {
 
 // ------------------- Type definitions ------------------- //
 
-using uint = unsigned int;
+/*
+using uint8 = unsigned int;
 using uchar = unsigned char;
 using ushort = unsigned short;
 using luint = long unsigned int;
@@ -64,6 +65,7 @@ using int32 = std::int32_t;
 using uint32 = std::uint32_t;
 using int64 = std::int64_t;
 using uint64 = std::uint64_t;
+*/
 
 struct Entity;
 using bodypair = Pair<Entity, Entity>;
@@ -106,7 +108,7 @@ const decimal PI_TIMES_2 = 6.28318530_fl;
 const decimal DYNAMIC_TREE_FAT_AABB_INFLATE_PERCENTAGE = 0.08_fl;
 
 /// Current version of ReactPhysics3D
-const FString RP3D_VERSION = FString("0.8.0_fl");
+const FString RP3D_VERSION = FString("0.8.0");
 
 }
 

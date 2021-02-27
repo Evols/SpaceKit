@@ -97,8 +97,8 @@ class GJKAlgorithm {
         GJKAlgorithm& operator=(const GJKAlgorithm& algorithm) = delete;
 
         /// Compute a contact info if the two bounding volumes collide.
-        void testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uint batchStartIndex,
-                           uint batchNbItems, List<GJKResult>& gjkResults);
+        void testCollision(NarrowPhaseInfoBatch& narrowPhaseInfoBatch, uint8 batchStartIndex,
+                           uint8 batchNbItems, List<GJKResult>& gjkResults);
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 

@@ -302,10 +302,10 @@ class ContactSolverSystem {
         ContactPointSolver* mContactPoints;
 
         /// Number of contact point constraints
-        uint mNbContactPoints;
+        uint8 mNbContactPoints;
 
         /// Number of contact constraints
-        uint mNbContactManifolds;
+        uint8 mNbContactManifolds;
 
         /// Reference to the islands
         Islands& mIslands;
@@ -371,7 +371,7 @@ class ContactSolverSystem {
         void init(List<ContactManifold>* contactManifolds, List<ContactPoint>* contactPoints, decimal timeStep);
 
         /// Initialize the constraint solver for a given island
-        void initializeForIsland(uint islandIndex);
+        void initializeForIsland(uint8 islandIndex);
 
         /// Store the computed impulses to use them to
         /// warm start the solver at the next iteration

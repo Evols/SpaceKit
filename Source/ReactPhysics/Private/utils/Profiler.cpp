@@ -179,7 +179,7 @@ Profiler::~Profiler() {
 void Profiler::removeAllDestinations() {
 
     // Delete all the destinations
-    for (uint i=0; i<mNbDestinations; i++) {
+    for (uint8 i=0; i<mNbDestinations; i++) {
         delete mDestinations[i];
     }
 
@@ -222,7 +222,7 @@ void Profiler::reset() {
 void Profiler::printReport() {
 
     // For each destination
-    for (uint i=0; i < mNbDestinations; i++) {
+    for (uint8 i=0; i < mNbDestinations; i++) {
 
         ProfileNodeIterator* iterator = Profiler::getIterator();
 
@@ -248,7 +248,7 @@ void Profiler::addFileDestination(const FString& filePath, Format format) {
 }
 
 // Allocate memory for the destinations
-void Profiler::allocatedDestinations(uint nbDestinationsToAllocate) {
+void Profiler::allocatedDestinations(uint8 nbDestinationsToAllocate) {
 
     if (mNbAllocatedDestinations >= nbDestinationsToAllocate) return;
 
@@ -286,12 +286,12 @@ void Profiler::printRecursiveNodeReport(ProfileNodeIterator* iterator,
     long double parentTime = iterator->isRoot() ? getElapsedTimeSinceStart() :
                                                   iterator->getCurrentParentTotalTime();
     long double accumulatedTime = 0.0L;
-    uint nbFrames = Profiler::getNbFrames();
+    uint8 nbFrames = Profiler::getNbFrames();
     for (int i=0; i<spacing; i++) outputStream << " ";
-    outputStream << "---------------" << std::endl;
+    outputStream << "---------------" + "\n";
     for (int i=0; i<spacing; i++) outputStream << " ";
     outputStream << "| Profiling : " << iterator->getCurrentParentName() <<
-                    " (total running time : " << parentTime << " ms) ---" << std::endl;
+                    " (total running time : " << parentTime << " ms) ---" + "\n";
 
     // Recurse over the children of the current node
     int nbChildren = 0;
@@ -309,13 +309,13 @@ void Profiler::printRecursiveNodeReport(ProfileNodeIterator* iterator,
     }
 
     if (parentTime < accumulatedTime) {
-        outputStream << "Something is wrong !" << std::endl;
+        outputStream << "Something is wrong !" + "\n";
     }
     for (int i=0; i<spacing; i++) outputStream << " ";
     long double percentage = parentTime > std::numeric_limits<long double>::epsilon() ?
                 ((parentTime - accumulatedTime) / parentTime) * 100.0L : 0.0L;
     long double difference = parentTime - accumulatedTime;
-    outputStream << "| Unaccounted : " << difference << " ms (" << percentage << " %)" << std::endl;
+    outputStream << "| Unaccounted : " << difference << " ms (" << percentage << " %)" + "\n";
 
     for (int i=0; i<nbChildren; i++){
         iterator->enterChild(i);

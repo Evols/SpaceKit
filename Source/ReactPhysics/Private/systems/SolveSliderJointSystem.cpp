@@ -138,12 +138,12 @@ void SolveSliderJointSystem::initBeforeSolve() {
         decimal lowerLimitError = uDotSliderAxis - mSliderJointComponents.mLowerLimit[i];
         decimal upperLimitError = mSliderJointComponents.mUpperLimit[i] - uDotSliderAxis;
         bool oldIsLowerLimitViolated = mSliderJointComponents.mIsLowerLimitViolated[i];
-        mSliderJointComponents.mIsLowerLimitViolated[i] = lowerLimitError <= 0;
+        mSliderJointComponents.mIsLowerLimitViolated[i] = lowerLimitError <= 0_fl;
         if (!mSliderJointComponents.mIsLowerLimitViolated[i] || mSliderJointComponents.mIsLowerLimitViolated[i] != oldIsLowerLimitViolated) {
             mSliderJointComponents.mImpulseLowerLimit[i] = decimal(0.0_fl);
         }
         bool oldIsUpperLimitViolated = mSliderJointComponents.mIsUpperLimitViolated[i];
-        mSliderJointComponents.mIsUpperLimitViolated[i] = upperLimitError <= 0;
+        mSliderJointComponents.mIsUpperLimitViolated[i] = upperLimitError <= 0_fl;
         if (!mSliderJointComponents.mIsUpperLimitViolated[i] || mSliderJointComponents.mIsUpperLimitViolated[i] != oldIsUpperLimitViolated) {
             mSliderJointComponents.mImpulseUpperLimit[i] = decimal(0.0_fl);
         }
@@ -756,7 +756,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 1
         x1 += v1;
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse P=J^T * lambda for the 2 translation constraints of body 2
@@ -769,7 +769,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 2
         x2 += v2;
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
     }
 
@@ -844,7 +844,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
         w1 = mSliderJointComponents.mI1[i] * angularImpulseBody1;
 
         // Update the body position/orientation of body 1
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse P=J^T * lambda for the 3 rotation constraints of body 2
@@ -854,7 +854,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
         w2 = mSliderJointComponents.mI2[i] * angularImpulseBody2;
 
         // Update the body position/orientation of body 2
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
 
         // --------------- Limits Constraints --------------- //
@@ -904,7 +904,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
 
                 // Update the body position/orientation of body 1
                 x1 += v1;
-                q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+                q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
                 q1.normalize();
 
                 // Compute the impulse P=J^T * lambda for the lower limit constraint of body 2
@@ -917,7 +917,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
 
                 // Update the body position/orientation of body 2
                 x2 += v2;
-                q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+                q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
                 q2.normalize();
             }
 
@@ -943,7 +943,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
 
                 // Update the body position/orientation of body 1
                 x1 += v1;
-                q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+                q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
                 q1.normalize();
 
                 // Compute the impulse P=J^T * lambda for the upper limit constraint of body 2
@@ -956,7 +956,7 @@ void SolveSliderJointSystem::solvePositionConstraint() {
 
                 // Update the body position/orientation of body 2
                 x2 += v2;
-                q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+                q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
                 q2.normalize();
             }
         }

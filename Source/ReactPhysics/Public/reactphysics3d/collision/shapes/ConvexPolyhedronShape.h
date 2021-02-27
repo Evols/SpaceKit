@@ -59,28 +59,28 @@ class ConvexPolyhedronShape : public ConvexShape {
         ConvexPolyhedronShape& operator=(const ConvexPolyhedronShape& shape) = delete;
 
         /// Return the number of faces of the polyhedron
-        virtual uint getNbFaces() const=0;
+        virtual uint8 getNbFaces() const=0;
 
         /// Return a given face of the polyhedron
-        virtual const HalfEdgeStructure::Face& getFace(uint faceIndex) const=0;
+        virtual const HalfEdgeStructure::Face& getFace(uint8 faceIndex) const=0;
 
         /// Return the number of vertices of the polyhedron
-        virtual uint getNbVertices() const=0;
+        virtual uint8 getNbVertices() const=0;
 
         /// Return a given vertex of the polyhedron
-        virtual HalfEdgeStructure::Vertex getVertex(uint vertexIndex) const=0;
+        virtual HalfEdgeStructure::Vertex getVertex(uint8 vertexIndex) const=0;
 
         /// Return the position of a given vertex
-        virtual Vector3 getVertexPosition(uint vertexIndex) const=0;
+        virtual Vector3 getVertexPosition(uint8 vertexIndex) const=0;
 
         /// Return the normal vector of a given face of the polyhedron
-        virtual Vector3 getFaceNormal(uint faceIndex) const=0;
+        virtual Vector3 getFaceNormal(uint8 faceIndex) const=0;
 
         /// Return the number of half-edges of the polyhedron
-        virtual uint getNbHalfEdges() const=0;
+        virtual uint8 getNbHalfEdges() const=0;
 
         /// Return a given half-edge of the polyhedron
-        virtual const HalfEdgeStructure::Edge& getHalfEdge(uint edgeIndex) const=0;
+        virtual const HalfEdgeStructure::Edge& getHalfEdge(uint8 edgeIndex) const=0;
 
         /// Return true if the collision shape is a polyhedron
         virtual bool isPolyhedron() const override;
@@ -90,7 +90,7 @@ class ConvexPolyhedronShape : public ConvexShape {
 
         /// Find and return the index of the polyhedron face with the most anti-parallel face
         /// normal given a direction vector
-        uint findMostAntiParallelFace(const Vector3& direction) const;
+        uint8 findMostAntiParallelFace(const Vector3& direction) const;
 };
 
 // Return true if the collision shape is a polyhedron

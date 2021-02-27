@@ -77,9 +77,9 @@ struct LastFrameCollisionInfo {
     // SAT Algorithm
     bool satIsAxisFacePolyhedron1;
     bool satIsAxisFacePolyhedron2;
-    uint satMinAxisFaceIndex;
-    uint satMinEdge1Index;
-    uint satMinEdge2Index;
+    uint8 satMinAxisFaceIndex;
+    uint8 satMinEdge1Index;
+    uint8 satMinEdge2Index;
 
     /// Constructor
     LastFrameCollisionInfo() {

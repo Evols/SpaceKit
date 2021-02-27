@@ -211,13 +211,13 @@ void SliderJointComponents::addComponent(Entity jointEntity, bool isSleeping, co
     new (mLocalAnchorPointBody2 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mI1 + index) Matrix3x3();
     new (mI2 + index) Matrix3x3();
-    new (mImpulseTranslation + index) Vector2(0, 0);
+    new (mImpulseTranslation + index) Vector2(0_fl, 0_fl);
     new (mImpulseRotation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mInverseMassMatrixTranslation + index) Matrix2x2();
     new (mInverseMassMatrixRotation + index) Matrix3x3();
-    new (mBiasTranslation + index) Vector2(0, 0);
+    new (mBiasTranslation + index) Vector2(0_fl, 0_fl);
     new (mBiasRotation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
-    new (mInitOrientationDifferenceInv + index) Quaternion(0, 0, 0, 0);
+    new (mInitOrientationDifferenceInv + index) Quaternion(0_fl, 0_fl, 0_fl, 0_fl);
     new (mSliderAxisBody1 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mSliderAxisWorld + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mR1 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);

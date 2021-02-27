@@ -56,15 +56,15 @@ PoolAllocator::PoolAllocator(MemoryAllocator& baseAllocator) : mBaseAllocator(ba
 
         // Initialize the array that contains the sizes of the memory units that will
         // be allocated in each different heap
-        for (uint i=0; i < NB_HEAPS; i++) {
+        for (uint8 i=0; i < NB_HEAPS; i++) {
             mUnitSizes[i] = (i+1) * 8;
         }
 
         // Initialize the lookup table that maps the size to allocated to the
         // corresponding heap we will use for the allocation
-        uint j = 0;
+        uint8 j = 0;
         mMapSizeToHeapIndex[0] = -1;    // This element should not be used
-        for (uint i=1; i <= MAX_UNIT_SIZE; i++) {
+        for (uint8 i=1; i <= MAX_UNIT_SIZE; i++) {
             if (i <= mUnitSizes[j]) {
                 mMapSizeToHeapIndex[i] = j;
             }
@@ -82,7 +82,7 @@ PoolAllocator::PoolAllocator(MemoryAllocator& baseAllocator) : mBaseAllocator(ba
 PoolAllocator::~PoolAllocator() {
 
     // Release the memory allocated for each block
-    for (uint i=0; i<mNbCurrentMemoryBlocks; i++) {
+    for (uint8 i=0; i<mNbCurrentMemoryBlocks; i++) {
         mBaseAllocator.release(mMemoryBlocks[i].memoryUnits, BLOCK_SIZE);
     }
 
@@ -151,7 +151,7 @@ void* PoolAllocator::allocate(size_t size) {
         newBlock->memoryUnits = static_cast<MemoryUnit*>(mBaseAllocator.allocate(BLOCK_SIZE));
         assert(newBlock->memoryUnits != nullptr);
         size_t unitSize = mUnitSizes[indexHeap];
-        uint nbUnits = BLOCK_SIZE / unitSize;
+        uint8 nbUnits = BLOCK_SIZE / unitSize;
         assert(nbUnits * unitSize <= BLOCK_SIZE);
         void* memoryUnitsStart = static_cast<void*>(newBlock->memoryUnits);
         char* memoryUnitsStartChar = static_cast<char*>(memoryUnitsStart);

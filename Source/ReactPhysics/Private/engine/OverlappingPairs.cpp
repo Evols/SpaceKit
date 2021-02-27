@@ -260,8 +260,8 @@ uint64 OverlappingPairs::addPair(Collider* shape1, Collider* shape2) {
     const Entity collider1 = shape1->getEntity();
     const Entity collider2 = shape2->getEntity();
 
-    const uint collider1Index = mColliderComponents.getEntityIndex(collider1);
-    const uint collider2Index = mColliderComponents.getEntityIndex(collider2);
+    const uint8 collider1Index = mColliderComponents.getEntityIndex(collider1);
+    const uint8 collider2Index = mColliderComponents.getEntityIndex(collider2);
 
     const CollisionShape* collisionShape1 = mColliderComponents.mCollisionShapes[collider1Index];
     const CollisionShape* collisionShape2 = mColliderComponents.mCollisionShapes[collider2Index];

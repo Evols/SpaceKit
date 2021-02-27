@@ -137,13 +137,13 @@ class CollisionBody {
         AABB getAABB() const;
 
         /// Return a const pointer to a given collider of the body
-        const Collider* getCollider(uint colliderIndex) const;
+        const Collider* getCollider(uint8 colliderIndex) const;
 
         /// Return a pointer to a given collider of the body
-        Collider* getCollider(uint colliderIndex);
+        Collider* getCollider(uint8 colliderIndex);
 
         /// Return the number of colliders associated with this body
-        uint getNbColliders() const;
+        uint8 getNbColliders() const;
 
         /// Return the world-space coordinates of a point given the local-space coordinates of the body
         Vector3 getWorldPoint(const Vector3& localPoint) const;

@@ -329,7 +329,7 @@ Vector3 RigidBody::computeCenterOfMass() const {
 
     // Compute the local center of mass
     const List<Entity>& colliderEntities = mWorld.mCollisionBodyComponents.getColliders(mEntity);
-    for (uint i=0; i < colliderEntities.size(); i++) {
+    for (uint8 i=0; i < colliderEntities.size(); i++) {
 
         Collider* collider = mWorld.mCollidersComponents.getCollider(colliderEntities[i]);
 
@@ -361,7 +361,7 @@ void RigidBody::computeMassAndInertiaTensorLocal(Vector3& inertiaTensorLocal, de
 
     // Compute the inertia tensor using all the colliders
     const List<Entity>& colliderEntities = mWorld.mCollisionBodyComponents.getColliders(mEntity);
-    for (uint i=0; i < colliderEntities.size(); i++) {
+    for (uint8 i=0; i < colliderEntities.size(); i++) {
 
         Collider* collider = mWorld.mCollidersComponents.getCollider(colliderEntities[i]);
 
@@ -436,7 +436,7 @@ void RigidBody::updateMassFromColliders() {
 
     // Compute the total mass of the body
     const List<Entity>& colliderEntities = mWorld.mCollisionBodyComponents.getColliders(mEntity);
-    for (uint i=0; i < colliderEntities.size(); i++) {
+    for (uint8 i=0; i < colliderEntities.size(); i++) {
         Collider* collider = mWorld.mCollidersComponents.getCollider(colliderEntities[i]);
 
         const decimal colliderVolume = mWorld.mCollidersComponents.getCollisionShape(colliderEntities[i])->getVolume();
@@ -854,12 +854,12 @@ void RigidBody::updateOverlappingPairs() {
 
     // For each collider of the body
     const List<Entity>& colliderEntities = mWorld.mCollisionBodyComponents.getColliders(mEntity);
-    for (uint i=0; i < colliderEntities.size(); i++) {
+    for (uint8 i=0; i < colliderEntities.size(); i++) {
 
         // Get the currently overlapping pairs for this collider
         List<uint64> overlappingPairs = mWorld.mCollidersComponents.getOverlappingPairs(colliderEntities[i]);
 
-        for (uint j=0; j < overlappingPairs.size(); j++) {
+        for (uint8 j=0; j < overlappingPairs.size(); j++) {
 
             mWorld.mCollisionDetection.mOverlappingPairs.updateOverlappingPairIsActive(overlappingPairs[j]);
         }
@@ -933,7 +933,7 @@ void RigidBody::setProfiler(Profiler* profiler) {
 
     // Set the profiler for each collider
     const List<Entity>& colliderEntities = mWorld.mCollisionBodyComponents.getColliders(mEntity);
-    for (uint i=0; i < colliderEntities.size(); i++) {
+    for (uint8 i=0; i < colliderEntities.size(); i++) {
 
         Collider* collider = mWorld.mCollidersComponents.getCollider(colliderEntities[i]);
 

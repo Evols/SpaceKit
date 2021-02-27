@@ -92,7 +92,7 @@ void HeightFieldShape::getLocalBounds(Vector3& min, Vector3& max) const {
 // to test for collision. We compute the sub-grid points that are inside the other body's AABB
 // and then for each rectangle in the sub-grid we generate two triangles that we use to test collision.
 void HeightFieldShape::computeOverlappingTriangles(const AABB& localAABB, List<Vector3>& triangleVertices,
-                                                   List<Vector3>& triangleVerticesNormals, List<uint>& shapeIds,
+                                                   List<Vector3>& triangleVerticesNormals, List<uint8>& shapeIds,
                                                    MemoryAllocator& allocator) const {
 
     RP3D_PROFILE("HeightFieldShape::computeOverlappingTriangles()", mProfiler);
@@ -238,7 +238,7 @@ bool HeightFieldShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collide
     // Compute the triangles overlapping with the ray AABB
     List<Vector3> triangleVertices(allocator);
     List<Vector3> triangleVerticesNormals(allocator);
-    List<uint> shapeIds(allocator);
+    List<uint8> shapeIds(allocator);
     computeOverlappingTriangles(rayAABB, triangleVertices, triangleVerticesNormals, shapeIds, allocator);
 
     assert(triangleVertices.size() == triangleVerticesNormals.size());
@@ -250,7 +250,7 @@ bool HeightFieldShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collide
     decimal smallestHitFraction = ray.maxFraction;
 
     // For each overlapping triangle
-    for (uint i=0; i < shapeIds.size(); i++)
+    for (uint8 i=0; i < shapeIds.size(); i++)
     {
         // Create a triangle collision shape
         TriangleShape triangleShape(&(triangleVertices[i * 3]), &(triangleVerticesNormals[i * 3]), shapeIds[i], allocator);
@@ -300,11 +300,11 @@ Vector3 HeightFieldShape::getVertexAt(int x, int y) const {
 
     Vector3 vertex;
     switch (mUpAxis) {
-        case 0: vertex = Vector3(heightOrigin + height, -mWidth * decimal(0.5) + x, -mLength * decimal(0.5) + y);
+        case 0: vertex = Vector3(heightOrigin + height, -mWidth * decimal(0.5) + decimal(x), -mLength * decimal(0.5) + decimal(y));
                 break;
-        case 1: vertex = Vector3(-mWidth * decimal(0.5) + x, heightOrigin + height, -mLength * decimal(0.5) + y);
-                break;
-        case 2: vertex = Vector3(-mWidth * decimal(0.5) + x, -mLength * decimal(0.5) + y, heightOrigin + height);
+        case 1: vertex = Vector3(-mWidth * decimal(0.5) + decimal(x), heightOrigin + height, -mLength * decimal(0.5) + decimal(y));
+            break;
+        case 2: vertex = Vector3(-mWidth * decimal(0.5) + decimal(x), -mLength * decimal(0.5) + decimal(y), heightOrigin + height);
                 break;
         default: assert(false);
     }
@@ -317,19 +317,19 @@ Vector3 HeightFieldShape::getVertexAt(int x, int y) const {
 // Return the string representation of the shape
 FString HeightFieldShape::to_string() const {
 
-    std::stringstream ss;
+    FString ss;
 
-    ss << "HeightFieldShape{" << std::endl;
+    ss += "HeightFieldShape{\n";
 
-    ss << "nbColumns=" << mNbColumns << std::endl;
-    ss << ", nbRows=" << mNbRows << std::endl;
-    ss << ", width=" << mWidth << std::endl;
-    ss << ", length=" << mLength << std::endl;
-    ss << ", minHeight=" << mMinHeight << std::endl;
-    ss << ", maxHeight=" << mMaxHeight << std::endl;
-    ss << ", upAxis=" << mUpAxis << std::endl;
-    ss << ", integerHeightScale=" << mIntegerHeightScale << std::endl;
-    ss << "}";
+    ss += "nbColumns=" + FString::FromInt(mNbColumns) + "\n";
+    ss += ", nbRows=" + FString::FromInt(mNbRows) + "\n";
+    ss += ", width=" + mWidth.ToString() + "\n";
+    ss += ", length=" + mLength.ToString() + "\n";
+    ss += ", minHeight=" + mMinHeight.ToString() + "\n";
+    ss += ", maxHeight=" + mMaxHeight.ToString() + "\n";
+    ss += ", upAxis=" + FString::FromInt(mUpAxis) + "\n";
+    ss += ", integerHeightScale=" + mIntegerHeightScale.ToString() + "\n";
+    ss += "}";
 
-    return ss.str();
+    return ss;
 }

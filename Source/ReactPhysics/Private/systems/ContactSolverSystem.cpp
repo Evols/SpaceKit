@@ -73,8 +73,8 @@ void ContactSolverSystem::init(List<ContactManifold>* contactManifolds, List<Con
 
     mTimeStep = timeStep;
 
-    uint nbContactManifolds = mAllContactManifolds->size();
-    uint nbContactPoints = mAllContactPoints->size();
+    uint8 nbContactManifolds = mAllContactManifolds->size();
+    uint8 nbContactPoints = mAllContactPoints->size();
 
     mNbContactManifolds = 0;
     mNbContactPoints = 0;
@@ -93,7 +93,7 @@ void ContactSolverSystem::init(List<ContactManifold>* contactManifolds, List<Con
     assert(mContactConstraints != nullptr);
 
     // For each island of the world
-    for (uint i = 0; i < mIslands.getNbIslands(); i++) {
+    for (uint8 i = 0; i < mIslands.getNbIslands(); i++) {
 
         if (mIslands.nbContactManifolds[i] > 0) {
             initializeForIsland(i);
@@ -112,7 +112,7 @@ void ContactSolverSystem::reset() {
 }
 
 // Initialize the constraint solver for a given island
-void ContactSolverSystem::initializeForIsland(uint islandIndex) {
+void ContactSolverSystem::initializeForIsland(uint8 islandIndex) {
 
     RP3D_PROFILE("ContactSolver::initializeForIsland()", mProfiler);
 
@@ -120,9 +120,9 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
     assert(mIslands.nbContactManifolds[islandIndex] > 0);
 
     // For each contact manifold of the island
-    uint contactManifoldsIndex = mIslands.contactManifoldsIndices[islandIndex];
-    uint nbContactManifolds = mIslands.nbContactManifolds[islandIndex];
-    for (uint m=contactManifoldsIndex; m < contactManifoldsIndex + nbContactManifolds; m++) {
+    uint8 contactManifoldsIndex = mIslands.contactManifoldsIndices[islandIndex];
+    uint8 nbContactManifolds = mIslands.nbContactManifolds[islandIndex];
+    for (uint8 m=contactManifoldsIndex; m < contactManifoldsIndex + nbContactManifolds; m++) {
 
         ContactManifold& externalManifold = (*mAllContactManifolds)[m];
 
@@ -136,8 +136,8 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
         assert(!mBodyComponents.getIsEntityDisabled(externalManifold.bodyEntity1));
         assert(!mBodyComponents.getIsEntityDisabled(externalManifold.bodyEntity2));
 
-        const uint rigidBodyIndex1 = mRigidBodyComponents.getEntityIndex(externalManifold.bodyEntity1);
-        const uint rigidBodyIndex2 = mRigidBodyComponents.getEntityIndex(externalManifold.bodyEntity2);
+        const uint8 rigidBodyIndex1 = mRigidBodyComponents.getEntityIndex(externalManifold.bodyEntity1);
+        const uint8 rigidBodyIndex2 = mRigidBodyComponents.getEntityIndex(externalManifold.bodyEntity2);
 
         Collider* collider1 = mColliderComponents.getCollider(externalManifold.colliderEntity1);
         Collider* collider2 = mColliderComponents.getCollider(externalManifold.colliderEntity2);
@@ -170,9 +170,9 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
 
         // For each  contact point of the contact manifold
         assert(externalManifold.nbContactPoints > 0);
-        uint contactPointsStartIndex = externalManifold.contactPointsIndex;
-        uint nbContactPoints = static_cast<uint>(externalManifold.nbContactPoints);
-        for (uint c=contactPointsStartIndex; c < contactPointsStartIndex + nbContactPoints; c++) {
+        uint8 contactPointsStartIndex = externalManifold.contactPointsIndex;
+        uint8 nbContactPoints = static_cast<uint8>(externalManifold.nbContactPoints);
+        for (uint8 c=contactPointsStartIndex; c < contactPointsStartIndex + nbContactPoints; c++) {
 
             ContactPoint& externalContact = (*mAllContactPoints)[c];
 
@@ -276,7 +276,7 @@ void ContactSolverSystem::initializeForIsland(uint islandIndex) {
         bool isBody1DynamicType = body1->getType() == BodyType::DYNAMIC;
         bool isBody2DynamicType = body2->getType() == BodyType::DYNAMIC;
         mContactConstraints[mNbContactManifolds].inverseRollingResistance.setToZero();
-        if (mContactConstraints[mNbContactManifolds].rollingResistanceFactor > 0 && (isBody1DynamicType || isBody2DynamicType)) {
+        if (mContactConstraints[mNbContactManifolds].rollingResistanceFactor > 0_fl && (isBody1DynamicType || isBody2DynamicType)) {
 
             mContactConstraints[mNbContactManifolds].inverseRollingResistance = mContactConstraints[mNbContactManifolds].inverseInertiaTensorBody1 + mContactConstraints[mNbContactManifolds].inverseInertiaTensorBody2;
             decimal det = mContactConstraints[mNbContactManifolds].inverseRollingResistance.getDeterminant();
@@ -346,10 +346,10 @@ void ContactSolverSystem::warmStart() {
 
     RP3D_PROFILE("ContactSolver::warmStart()", mProfiler);
 
-    uint contactPointIndex = 0;
+    uint8 contactPointIndex = 0;
 
     // For each constraint
-    for (uint c=0; c<mNbContactManifolds; c++) {
+    for (uint8 c=0; c<mNbContactManifolds; c++) {
 
         bool atLeastOneRestingContactPoint = false;
 
@@ -502,12 +502,12 @@ void ContactSolverSystem::solve() {
 
     decimal deltaLambda;
     decimal lambdaTemp;
-    uint contactPointIndex = 0;
+    uint8 contactPointIndex = 0;
 
     const decimal beta = mIsSplitImpulseActive ? BETA_SPLIT_IMPULSE : BETA;
 
     // For each contact manifold
-    for (uint c=0; c<mNbContactManifolds; c++) {
+    for (uint8 c=0; c<mNbContactManifolds; c++) {
 
         decimal sumPenetrationImpulse = 0.0_fl;
 
@@ -535,8 +535,8 @@ void ContactSolverSystem::solve() {
 
             // Compute the bias "b" of the constraint
             decimal biasPenetrationDepth = 0.0_fl;
-            if (mContactPoints[contactPointIndex].penetrationDepth > SLOP) biasPenetrationDepth = -(beta/mTimeStep) *
-                    max(0.0f, float(mContactPoints[contactPointIndex].penetrationDepth - SLOP));
+            if (mContactPoints[contactPointIndex].penetrationDepth > SLOP) biasPenetrationDepth = decimal(-(beta/mTimeStep) *
+                    std::max(0_fl, mContactPoints[contactPointIndex].penetrationDepth - SLOP));
             decimal b = biasPenetrationDepth + mContactPoints[contactPointIndex].restitutionBias;
 
             // Compute the Lagrange multiplier lambda
@@ -755,7 +755,7 @@ void ContactSolverSystem::solve() {
 
         // --------- Rolling resistance constraint at the center of the contact manifold --------- //
 
-        if (mContactConstraints[c].rollingResistanceFactor > 0) {
+        if (mContactConstraints[c].rollingResistanceFactor > 0_fl) {
 
             // Compute J*v
             const Vector3 JvRolling = w2 - w1;
@@ -805,10 +805,10 @@ void ContactSolverSystem::storeImpulses() {
 
     RP3D_PROFILE("ContactSolver::storeImpulses()", mProfiler);
 
-    uint contactPointIndex = 0;
+    uint8 contactPointIndex = 0;
 
     // For each contact manifold
-    for (uint c=0; c<mNbContactManifolds; c++) {
+    for (uint8 c=0; c<mNbContactManifolds; c++) {
 
         for (short int i=0; i<mContactConstraints[c].nbContacts; i++) {
 

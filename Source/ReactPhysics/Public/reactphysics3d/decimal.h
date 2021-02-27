@@ -26,6 +26,8 @@
 #ifndef REACTPHYSICS3D_DECIMAL_H
 #define	REACTPHYSICS3D_DECIMAL_H
 
+#include <algorithm>
+
 #include "SpaceKitPrecision/Public/RealFloat.h"
 
 /// ReactPhysiscs3D namespace

@@ -185,7 +185,7 @@ void RigidBodyComponents::addComponent(Entity bodyEntity, bool isSleeping, const
     new (mSplitLinearVelocities + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mSplitAngularVelocities + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mConstrainedPositions + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
-    new (mConstrainedOrientations + index) Quaternion(0, 0, 0, 1);
+    new (mConstrainedOrientations + index) Quaternion(0_fl, 0_fl, 0_fl, 1_fl);
     new (mCentersOfMassLocal + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mCentersOfMassWorld + index) Vector3(component.worldPosition);
     mIsGravityEnabled[index] = true;

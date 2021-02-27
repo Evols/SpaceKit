@@ -45,7 +45,7 @@ using namespace reactphysics3d;
  * @param verticesNormals The three vertices normals for smooth mesh collision
  * @param margin The collision margin (in meters) around the collision shape
  */
-TriangleShape::TriangleShape(const Vector3* vertices, const Vector3* verticesNormals, uint shapeId,
+TriangleShape::TriangleShape(const Vector3* vertices, const Vector3* verticesNormals, uint8 shapeId,
                              MemoryAllocator& allocator)
     : ConvexPolyhedronShape(CollisionShapeName::TRIANGLE, allocator), mFaces{HalfEdgeStructure::Face(allocator), HalfEdgeStructure::Face(allocator)} {
 
@@ -75,7 +75,7 @@ TriangleShape::TriangleShape(const Vector3* vertices, const Vector3* verticesNor
     mFaces[1].edgeIndex = 1;
 
     // Edges
-    for (uint i=0; i<6; i++) {
+    for (uint8 i=0; i<6; i++) {
         switch(i) {
             case 0:
                 mEdges[0].vertexIndex = 0;
@@ -289,7 +289,7 @@ bool TriangleShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collider* 
     }
 
     // If the line PQ is in the triangle plane (case where u=v=w=0)
-    if (approxEqual(u, 0) && approxEqual(v, 0) && approxEqual(w, 0)) return false;
+    if (approxEqual(u, 0_fl) && approxEqual(v, 0_fl) && approxEqual(w, 0_fl)) return false;
 
     // Compute the barycentric coordinates (u, v, w) to determine the
     // intersection point R, R = u * a + v * b + w * c

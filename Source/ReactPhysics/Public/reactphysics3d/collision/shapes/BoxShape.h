@@ -102,28 +102,28 @@ class BoxShape : public ConvexPolyhedronShape {
         virtual decimal getVolume() const override;
 
         /// Return the number of faces of the polyhedron
-        virtual uint getNbFaces() const override;
+        virtual uint8 getNbFaces() const override;
 
         /// Return a given face of the polyhedron
-        virtual const HalfEdgeStructure::Face& getFace(uint faceIndex) const override;
+        virtual const HalfEdgeStructure::Face& getFace(uint8 faceIndex) const override;
 
         /// Return the number of vertices of the polyhedron
-        virtual uint getNbVertices() const override;
+        virtual uint8 getNbVertices() const override;
 
         /// Return a given vertex of the polyhedron
-        virtual HalfEdgeStructure::Vertex getVertex(uint vertexIndex) const override;
+        virtual HalfEdgeStructure::Vertex getVertex(uint8 vertexIndex) const override;
 
         /// Return the number of half-edges of the polyhedron
-        virtual uint getNbHalfEdges() const override;
+        virtual uint8 getNbHalfEdges() const override;
 
         /// Return a given half-edge of the polyhedron
-        virtual const HalfEdgeStructure::Edge& getHalfEdge(uint edgeIndex) const override;
+        virtual const HalfEdgeStructure::Edge& getHalfEdge(uint8 edgeIndex) const override;
 
         /// Return the position of a given vertex
-        virtual Vector3 getVertexPosition(uint vertexIndex) const override;
+        virtual Vector3 getVertexPosition(uint8 vertexIndex) const override;
 
         /// Return the normal vector of a given face of the polyhedron
-        virtual Vector3 getFaceNormal(uint faceIndex) const override;
+        virtual Vector3 getFaceNormal(uint8 faceIndex) const override;
 
         /// Return the centroid of the polyhedron
         virtual Vector3 getCentroid() const override;
@@ -192,29 +192,29 @@ inline bool BoxShape::testPointInside(const Vector3& localPoint, Collider* colli
 }
 
 // Return the number of faces of the polyhedron
-inline uint BoxShape::getNbFaces() const {
+inline uint8 BoxShape::getNbFaces() const {
     return 6;
 }
 
 // Return a given face of the polyhedron
-inline const HalfEdgeStructure::Face& BoxShape::getFace(uint faceIndex) const {
+inline const HalfEdgeStructure::Face& BoxShape::getFace(uint8 faceIndex) const {
     assert(faceIndex < mHalfEdgeStructure.getNbFaces());
     return mHalfEdgeStructure.getFace(faceIndex);
 }
 
 // Return the number of vertices of the polyhedron
-inline uint BoxShape::getNbVertices() const {
+inline uint8 BoxShape::getNbVertices() const {
     return 8;
 }
 
 // Return a given vertex of the polyhedron
-inline HalfEdgeStructure::Vertex BoxShape::getVertex(uint vertexIndex) const {
+inline HalfEdgeStructure::Vertex BoxShape::getVertex(uint8 vertexIndex) const {
     assert(vertexIndex < getNbVertices());
     return mHalfEdgeStructure.getVertex(vertexIndex);
 }
 
 // Return the position of a given vertex
-inline Vector3 BoxShape::getVertexPosition(uint vertexIndex) const {
+inline Vector3 BoxShape::getVertexPosition(uint8 vertexIndex) const {
     assert(vertexIndex < getNbVertices());
 
     Vector3 extent = getHalfExtents();
@@ -235,7 +235,7 @@ inline Vector3 BoxShape::getVertexPosition(uint vertexIndex) const {
 }
 
 // Return the normal vector of a given face of the polyhedron
-inline Vector3 BoxShape::getFaceNormal(uint faceIndex) const {
+inline Vector3 BoxShape::getFaceNormal(uint8 faceIndex) const {
     assert(faceIndex < getNbFaces());
 
     switch(faceIndex) {
@@ -267,12 +267,12 @@ inline FString BoxShape::to_string() const {
 }
 
 // Return the number of half-edges of the polyhedron
-inline uint BoxShape::getNbHalfEdges() const {
+inline uint8 BoxShape::getNbHalfEdges() const {
     return 24;
 }
 
 // Return a given half-edge of the polyhedron
-inline const HalfEdgeStructure::Edge& BoxShape::getHalfEdge(uint edgeIndex) const {
+inline const HalfEdgeStructure::Edge& BoxShape::getHalfEdge(uint8 edgeIndex) const {
     assert(edgeIndex < getNbHalfEdges());
     return mHalfEdgeStructure.getHalfEdge(edgeIndex);
 }

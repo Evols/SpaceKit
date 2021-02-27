@@ -63,7 +63,7 @@ class ContactManifold {
         // -------------------- Attributes -------------------- //
 
         /// Index of the first contact point of the manifold in the list of contact points
-        uint contactPointsIndex;
+        uint8 contactPointsIndex;
 
         /// Entity of the first body in contact
         Entity bodyEntity1;
@@ -107,7 +107,7 @@ class ContactManifold {
 
         /// Constructor
         ContactManifold(Entity bodyEntity1, Entity bodyEntity2, Entity colliderEntity1, Entity colliderEntity2,
-                        uint contactPointsIndex, int8 nbContactPoints);
+                        uint8 contactPointsIndex, int8 nbContactPoints);
 
         /// Destructor
         ~ContactManifold();

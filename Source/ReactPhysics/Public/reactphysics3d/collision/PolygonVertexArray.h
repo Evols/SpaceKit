@@ -56,17 +56,17 @@ class PolygonVertexArray {
         struct PolygonFace {
 
             /// Number of vertices in the polygon face
-            uint nbVertices;
+            uint8 nbVertices;
 
             /// Index of the first vertex of the polygon face
             /// inside the array with all vertex indices
-            uint indexBase;
+            uint8 indexBase;
         };
 
     protected:
 
         /// Number of vertices in the array
-        uint mNbVertices;
+        uint8 mNbVertices;
 
         /// Pointer to the first vertex value in the array
         const unsigned char* mVerticesStart;
@@ -83,7 +83,7 @@ class PolygonVertexArray {
         int mIndicesStride;
 
         /// Number of polygon faces in the array
-        uint mNbFaces;
+        uint8 mNbFaces;
 
         /// Pointer to the first polygon face in the polyhedron
         PolygonFace* mPolygonFacesStart;
@@ -97,9 +97,9 @@ class PolygonVertexArray {
     public:
 
         /// Constructor
-        PolygonVertexArray(uint nbVertices, const void* verticesStart, int verticesStride,
+        PolygonVertexArray(uint8 nbVertices, const void* verticesStart, int verticesStride,
                            const void* indexesStart, int indexesStride,
-                           uint nbFaces, PolygonFace* facesStart,
+                           uint8 nbFaces, PolygonFace* facesStart,
                            VertexDataType vertexDataType, IndexDataType indexDataType);
 
         /// Destructor
@@ -112,10 +112,10 @@ class PolygonVertexArray {
         IndexDataType getIndexDataType() const;
 
         /// Return the number of vertices
-        uint getNbVertices() const;
+        uint8 getNbVertices() const;
 
         /// Return the number of faces
-        uint getNbFaces() const;
+        uint8 getNbFaces() const;
 
         /// Return the vertices stride (number of bytes)
         int getVerticesStride() const;
@@ -124,10 +124,10 @@ class PolygonVertexArray {
         int getIndicesStride() const;
 
         /// Return the vertex index of a given vertex in a face
-        uint getVertexIndexInFace(uint faceIndex, uint noVertexInFace) const;
+        uint8 getVertexIndexInFace(uint8 faceIndex, uint8 noVertexInFace) const;
 
         /// Return a polygon face of the polyhedron
-        PolygonFace* getPolygonFace(uint faceIndex) const;
+        PolygonFace* getPolygonFace(uint8 faceIndex) const;
 
         /// Return the pointer to the start of the vertices array
         const unsigned char* getVerticesStart() const;
@@ -156,7 +156,7 @@ inline PolygonVertexArray::IndexDataType PolygonVertexArray::getIndexDataType() 
 /**
  * @return The number of vertices in the array
  */
-inline uint PolygonVertexArray::getNbVertices() const {
+inline uint8 PolygonVertexArray::getNbVertices() const {
     return mNbVertices;
 }
 
@@ -164,7 +164,7 @@ inline uint PolygonVertexArray::getNbVertices() const {
 /**
  * @return The number of faces in the array
  */
-inline uint PolygonVertexArray::getNbFaces() const {
+inline uint8 PolygonVertexArray::getNbFaces() const {
     return mNbFaces;
 }
 
@@ -189,7 +189,7 @@ inline int PolygonVertexArray::getIndicesStride() const {
  * @param faceIndex Index of a given face
  * @return A polygon face
  */
-inline PolygonVertexArray::PolygonFace* PolygonVertexArray::getPolygonFace(uint faceIndex) const {
+inline PolygonVertexArray::PolygonFace* PolygonVertexArray::getPolygonFace(uint8 faceIndex) const {
     assert(faceIndex < mNbFaces);
     return &mPolygonFacesStart[faceIndex];
 }

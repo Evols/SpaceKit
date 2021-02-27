@@ -120,7 +120,7 @@ class HeightFieldShape : public ConcaveShape {
         void computeMinMaxGridCoordinates(int* minCoords, int* maxCoords, const AABB& aabbToCollide) const;
 
         /// Compute the shape Id for a given triangle
-        uint computeTriangleShapeId(uint iIndex, uint jIndex, uint secondTriangleIncrement) const;
+        uint8 computeTriangleShapeId(uint8 iIndex, uint8 jIndex, uint8 secondTriangleIncrement) const;
 
         /// Destructor
         virtual ~HeightFieldShape() override = default;
@@ -153,7 +153,7 @@ class HeightFieldShape : public ConcaveShape {
 
         /// Use a callback method on all triangles of the concave shape inside a given AABB
         virtual void computeOverlappingTriangles(const AABB& localAABB, List<Vector3>& triangleVertices,
-                                                   List<Vector3>& triangleVerticesNormals, List<uint>& shapeIds,
+                                                   List<Vector3>& triangleVerticesNormals, List<uint8>& shapeIds,
                                                    MemoryAllocator& allocator) const override;
 
         /// Return the string representation of the shape
@@ -193,20 +193,20 @@ inline decimal HeightFieldShape::getHeightAt(int x, int y) const {
     assert(y >= 0 && y < mNbRows);
 
     switch(mHeightDataType) {
-        case HeightDataType::HEIGHT_FLOAT_TYPE : return ((float*)mHeightFieldData)[y * mNbColumns + x];
-        case HeightDataType::HEIGHT_DOUBLE_TYPE : return ((double*)mHeightFieldData)[y * mNbColumns + x];
-        case HeightDataType::HEIGHT_INT_TYPE : return ((int*)mHeightFieldData)[y * mNbColumns + x] * mIntegerHeightScale;
-        default: assert(false); return 0;
+        case HeightDataType::HEIGHT_FLOAT_TYPE : return decimal(((float*)mHeightFieldData)[y * mNbColumns + x]);
+        case HeightDataType::HEIGHT_DOUBLE_TYPE : return decimal(((double*)mHeightFieldData)[y * mNbColumns + x]);
+        case HeightDataType::HEIGHT_INT_TYPE : return decimal(((int*)mHeightFieldData)[y * mNbColumns + x]) * mIntegerHeightScale;
+        default: assert(false); return 0.0_fl;
     }
 }
 
 // Return the closest inside integer grid value of a given floating grid value
 inline int HeightFieldShape::computeIntegerGridValue(decimal value) const {
-    return (value < decimal(0.0_fl)) ? value - decimal(0.5) : value + decimal(0.5);
+    return ((value < 0.0_fl) ? value - 0.5_fl : value + 0.5_fl).ToFloat();
 }
 
 // Compute the shape Id for a given triangle
-inline uint HeightFieldShape::computeTriangleShapeId(uint iIndex, uint jIndex, uint secondTriangleIncrement) const {
+inline uint8 HeightFieldShape::computeTriangleShapeId(uint8 iIndex, uint8 jIndex, uint8 secondTriangleIncrement) const {
 
     return (jIndex * (mNbColumns - 1) + iIndex) * 2 + secondTriangleIncrement;
 }

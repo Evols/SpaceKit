@@ -106,11 +106,11 @@ class DefaultLogger : public Logger {
                     auto now = std::chrono::system_clock::now();
                     auto time = std::chrono::system_clock::to_time_t(now);
 
-                    std::stringstream ss;
-                    ss << "ReactPhysics3D Logs" << std::endl;
-                    ss << "ReactPhysics3D Version: " << RP3D_VERSION << std::endl;
-                    ss << "Date: " << std::put_time(std::localtime(&time), "%Y-%m-%d") << std::endl;
-                    ss << "---------------------------------------------------------" << std::endl;
+                    FString ss;
+                    ss += "ReactPhysics3D Logs" + "\n";
+                    ss += "ReactPhysics3D Version: " << RP3D_VERSION + "\n";
+                    ss += "Date: " << std::put_time(std::localtime(&time), "%Y-%m-%d") + "\n";
+                    ss += "---------------------------------------------------------" + "\n";
 
                     return ss.str();
                 }
@@ -118,28 +118,28 @@ class DefaultLogger : public Logger {
                 /// Format a log message
                 virtual FString format(const time_t& time, const FString& physicsWorldName, const FString& message,
                                            Level level, Category category, const char* filename, int lineNumber) override {
-                    std::stringstream ss;
+                    FString ss;
 
                     // Time
-                    ss << std::put_time(std::localtime(&time), "%X") << " ";
+                    ss += std::put_time(std::localtime(&time), "%X") << " ";
 
                     // World
-                    ss << "World:" << physicsWorldName << std::endl;
+                    ss += "World:" << physicsWorldName + "\n";
 
                     // Level
-                    ss << getLevelName(level) << " ";
+                    ss += getLevelName(level) << " ";
 
                     // Category
-                    ss << getCategoryName(category) << " ";
+                    ss += getCategoryName(category) << " ";
 
                     // Message
-                    ss << message << std::endl;
+                    ss += message + "\n";
 
                     // Filename
-                    ss << " (in file " << FString(filename);
+                    ss += " (in file " << FString(filename);
 
                     // Line number
-                    ss << " at line " << URealFloatMath::ConvRealToString(lineNumber) << ")";
+                    ss += " at line " << URealFloatMath::ConvRealToString(lineNumber) << ")";
 
                     return ss.str();
                 }
@@ -156,20 +156,20 @@ class DefaultLogger : public Logger {
                     auto now = std::chrono::system_clock::now();
                     auto time = std::chrono::system_clock::to_time_t(now);
 
-                    std::stringstream ss;
-                    ss << "<!DOCTYPE HTML>" << std::endl;
-                    ss << "<html>" << std::endl;
-                    ss << "<head>" << std::endl;
-                    ss << "<title>ReactPhysics3D Logs</title>" << std::endl;
-                    ss << "<style>" << generateCSS() << "</style>" << std::endl;
-                    ss << "</head>" << std::endl;
-                    ss << "<body>" << std::endl;
-                    ss << "<h1>ReactPhysics3D Logs</h1>" << std::endl;
-                    ss << "<div class='general_info'>" << std::endl;
-                    ss << "<p>ReactPhysics3D version: " << RP3D_VERSION << "</p>" << std::endl;
-                    ss << "<p>Date: " << std::put_time(std::localtime(&time), "%Y-%m-%d") << "</p>" << std::endl;
-                    ss << "</div>" << std::endl;
-                    ss << "<hr>";
+                    FString ss;
+                    ss += "<!DOCTYPE HTML>" + "\n";
+                    ss += "<html>" + "\n";
+                    ss += "<head>" + "\n";
+                    ss += "<title>ReactPhysics3D Logs</title>" + "\n";
+                    ss += "<style>" << generateCSS() << "</style>" + "\n";
+                    ss += "</head>" + "\n";
+                    ss += "<body>" + "\n";
+                    ss += "<h1>ReactPhysics3D Logs</h1>" + "\n";
+                    ss += "<div class='general_info'>" + "\n";
+                    ss += "<p>ReactPhysics3D version: " << RP3D_VERSION << "</p>" + "\n";
+                    ss += "<p>Date: " << std::put_time(std::localtime(&time), "%Y-%m-%d") << "</p>" + "\n";
+                    ss += "</div>" + "\n";
+                    ss += "<hr>";
 
                     return ss.str();
                 }
@@ -177,10 +177,10 @@ class DefaultLogger : public Logger {
                 /// Return the tail to write at the end of the stream
                 virtual FString getTail() const override {
 
-                    std::stringstream ss;
+                    FString ss;
 
-                    ss << "</body>" << std::endl;
-                    ss << "</html>" << std::endl;
+                    ss += "</body>" + "\n";
+                    ss += "</html>" + "\n";
 
                     return ss.str();
                 }
@@ -276,42 +276,42 @@ class DefaultLogger : public Logger {
                 virtual FString format(const time_t& time, const FString& physicsWorldName, const FString& message, Level level,
                                            Category category, const char* filename, int lineNumber) override {
 
-                    std::stringstream ss;
+                    FString ss;
 
-                    ss << "<div class='line " + toLowerCase(getCategoryName(category)) + " " + toLowerCase(getLevelName(level)) + "'>";
+                    ss += "<div class='line " + toLowerCase(getCategoryName(category)) + " " + toLowerCase(getLevelName(level)) + "'>";
 
                     // Time
-                    ss << "<div class='time'>";
-                    ss << std::put_time(std::localtime(&time), "%X");
-                    ss << "</div>";
+                    ss += "<div class='time'>";
+                    ss += std::put_time(std::localtime(&time), "%X");
+                    ss += "</div>";
 
                     // Message
-                    ss << "<div class='world-name'>";
-                    ss << physicsWorldName;
-                    ss << "</div>";
+                    ss += "<div class='world-name'>";
+                    ss += physicsWorldName;
+                    ss += "</div>";
 
                     // Level
-                    ss << "<div class='level'>";
-                    ss << getLevelName(level);
-                    ss << "</div>";
+                    ss += "<div class='level'>";
+                    ss += getLevelName(level);
+                    ss += "</div>";
 
                     // Category
-                    ss << "<div class='category'>";
-                    ss << getCategoryName(category);
-                    ss << "</div>";
+                    ss += "<div class='category'>";
+                    ss += getCategoryName(category);
+                    ss += "</div>";
 
                     // Message
-                    ss << "<div class='message " << toLowerCase(getCategoryName(category)) <<
-                          " " + toLowerCase(getLevelName(level)) << "'>" << std::endl;
-                    ss << message;
-                    ss << "</div>";
+                    ss += "<div class='message " << toLowerCase(getCategoryName(category)) <<
+                          " " + toLowerCase(getLevelName(level)) << "'>" + "\n";
+                    ss += message;
+                    ss += "</div>";
 
                     // Filename + line number
-                    ss << "<div class='file'> (in file " << FString(filename) <<
-                          " at line " << URealFloatMath::ConvRealToString(lineNumber) << ")" << std::endl;
-                    ss << "</div>";
+                    ss += "<div class='file'> (in file " << FString(filename) <<
+                          " at line " << URealFloatMath::ConvRealToString(lineNumber) << ")" + "\n";
+                    ss += "</div>";
 
-                    ss << "</div>";
+                    ss += "</div>";
 
                     return ss.str();
                 }
@@ -324,13 +324,13 @@ class DefaultLogger : public Logger {
             public:
 
                 /// Maximum Log level flag for this destination
-                uint maxLevelFlag;
+                uint8 maxLevelFlag;
 
                 /// Pointer to the formatter
                 Formatter* formatter;
 
                 /// Constructor
-                Destination(uint maxLevelFlag, Formatter* logFormatter)
+                Destination(uint8 maxLevelFlag, Formatter* logFormatter)
                     : maxLevelFlag(maxLevelFlag), formatter(logFormatter) {
 
                 }
@@ -359,7 +359,7 @@ class DefaultLogger : public Logger {
             public:
 
                 /// Constructor
-                FileDestination(const FString& filePath, uint maxLevelFlag, Formatter* formatter)
+                FileDestination(const FString& filePath, uint8 maxLevelFlag, Formatter* formatter)
                    :Destination(maxLevelFlag, formatter), mFilePath(filePath),
                     mFileStream(filePath, std::ios::binary) {
 
@@ -368,14 +368,14 @@ class DefaultLogger : public Logger {
                     }
 
                     // Writer the head
-                    mFileStream << formatter->getHeader() << std::endl;
+                    mFileStream << formatter->getHeader() + "\n";
                 }
 
                 /// Destructor
                 virtual ~FileDestination() override {
 
                     // Writer the tail
-                    mFileStream << formatter->getTail() << std::endl;
+                    mFileStream << formatter->getTail() + "\n";
 
                     if (mFileStream.is_open()) {
 
@@ -389,7 +389,7 @@ class DefaultLogger : public Logger {
                                    const char* filename, int lineNumber) override {
 
                     if (static_cast<int>(level) <= static_cast<int>(maxLevelFlag)) {
-                        mFileStream << formatter->format(time, physicsWorldName, message, level, category, filename, lineNumber) << std::endl << std::flush;
+                        mFileStream << formatter->format(time, physicsWorldName, message, level, category, filename, lineNumber) + "\n" << std::flush;
                     }
                 }
 
@@ -410,18 +410,18 @@ class DefaultLogger : public Logger {
             public:
 
                 /// Constructor
-                StreamDestination(std::ostream& outputStream, uint maxlevelFlag, Formatter* formatter)
+                StreamDestination(std::ostream& outputStream, uint8 maxlevelFlag, Formatter* formatter)
                    :Destination(maxlevelFlag, formatter), mOutputStream(outputStream) {
 
                     // Writer the head
-                    mOutputStream << formatter->getHeader() << std::endl;
+                    mOutputStream << formatter->getHeader() + "\n";
                 }
 
                 /// Destructor
                 virtual ~StreamDestination() override {
 
                     // Writer the tail
-                    mOutputStream << formatter->getTail() << std::endl;
+                    mOutputStream << formatter->getTail() + "\n";
                 }
 
                 /// Write a message into the output stream
@@ -429,7 +429,7 @@ class DefaultLogger : public Logger {
                                    const char* filename, int lineNumber) override {
 
                     if (static_cast<int>(level) <= static_cast<int>(maxLevelFlag)) {
-                        mOutputStream << formatter->format(time, physicsWorldName, message, level, category, filename, lineNumber) << std::endl << std::flush;
+                        mOutputStream << formatter->format(time, physicsWorldName, message, level, category, filename, lineNumber) + "\n" << std::flush;
                     }
                 }
 
@@ -472,10 +472,10 @@ class DefaultLogger : public Logger {
         // -------------------- Methods -------------------- //
 
         /// Add a file destination to the logger
-        void addFileDestination(const FString& filePath, uint logLevelFlag, Format format);
+        void addFileDestination(const FString& filePath, uint8 logLevelFlag, Format format);
 
         /// Add a stream destination to the logger
-        void addStreamDestination(std::ostream& outputStream, uint logLevelFlag, Format format);
+        void addStreamDestination(std::ostream& outputStream, uint8 logLevelFlag, Format format);
 
         /// Remove all logs destination previously set
         void removeAllDestinations();

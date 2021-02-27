@@ -58,10 +58,10 @@ class Deque {
         // -------------------- Constants -------------------- //
 
         /// Number of items in a chunk
-        const uint CHUNK_NB_ITEMS = 17;
+        const uint8 CHUNK_NB_ITEMS = 17;
 
         /// First item index in a chunk
-        const uint CHUNK_FIRST_ITEM_INDEX = CHUNK_NB_ITEMS / 2;
+        const uint8 CHUNK_FIRST_ITEM_INDEX = CHUNK_NB_ITEMS / 2;
 
         // -------------------- Attributes -------------------- //
 
@@ -541,13 +541,13 @@ class Deque {
         }
 
         /// Overloaded index operator
-        T& operator[](const uint index) {
+        T& operator[](const uint8 index) {
            assert(index < mSize);
            return getItem(index);
         }
 
         /// Overloaded const index operator
-        const T& operator[](const uint index) const {
+        const T& operator[](const uint8 index) const {
            assert(index < mSize);
            return getItem(index);
         }

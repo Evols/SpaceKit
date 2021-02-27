@@ -46,7 +46,7 @@ struct ContactManifoldInfo {
         // -------------------- Attributes -------------------- //
 
         /// Indices of the contact points in the mPotentialContactPoints array
-        List<uint> potentialContactPointsIndices;
+        List<uint8> potentialContactPointsIndices;
 
         /// Overlapping pair id
         uint64 pairId;

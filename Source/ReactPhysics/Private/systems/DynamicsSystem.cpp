@@ -64,7 +64,7 @@ void DynamicsSystem::integrateRigidBodiesPositions(decimal timeStep, bool isSpli
 
         // Update the new constrained position and orientation of the body
         mRigidBodyComponents.mConstrainedPositions[i] = currentPosition + newLinVelocity * timeStep;
-        mRigidBodyComponents.mConstrainedOrientations[i] = currentOrientation + Quaternion(0, newAngVelocity) *
+        mRigidBodyComponents.mConstrainedOrientations[i] = currentOrientation + Quaternion(0_fl, newAngVelocity) *
                                                            currentOrientation * decimal(0.5) * timeStep;
     }
 }
@@ -166,8 +166,8 @@ void DynamicsSystem::integrateRigidBodiesVelocities(decimal timeStep) {
 
         const decimal linDampingFactor = mRigidBodyComponents.mLinearDampings[i];
         const decimal angDampingFactor = mRigidBodyComponents.mAngularDampings[i];
-        const decimal linearDamping = std::pow(decimal(1.0_fl) - linDampingFactor, timeStep);
-        const decimal angularDamping = std::pow(decimal(1.0_fl) - angDampingFactor, timeStep);
+        const decimal linearDamping = URealFloatMath::Pow(decimal(1.0_fl) - linDampingFactor, timeStep);
+        const decimal angularDamping = URealFloatMath::Pow(decimal(1.0_fl) - angDampingFactor, timeStep);
         mRigidBodyComponents.mConstrainedLinearVelocities[i] = mRigidBodyComponents.mConstrainedLinearVelocities[i] * linearDamping;
         mRigidBodyComponents.mConstrainedAngularVelocities[i] = mRigidBodyComponents.mConstrainedAngularVelocities[i] * angularDamping;
     }

@@ -57,10 +57,10 @@ struct Islands {
 
 
         /// For each island, index of the first contact manifold of the island in the array of contact manifolds
-        List<uint> contactManifoldsIndices;
+        List<uint8> contactManifoldsIndices;
 
         /// For each island, number of contact manifolds in the island
-        List<uint> nbContactManifolds;
+        List<uint8> nbContactManifolds;
 
         /// For each island, list of all the entities of the bodies in the island
         List<List<Entity>> bodyEntities;

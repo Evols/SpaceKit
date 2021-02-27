@@ -50,13 +50,13 @@ void ConcaveMeshShape::initBVHTree() {
     // TODO : Try to randomly add the triangles into the tree to obtain a better tree
 
     // For each sub-part of the mesh
-    for (uint subPart=0; subPart<mTriangleMesh->getNbSubparts(); subPart++) {
+    for (uint8 subPart=0; subPart<mTriangleMesh->getNbSubparts(); subPart++) {
 
         // Get the triangle vertex array of the current sub-part
         TriangleVertexArray* triangleVertexArray = mTriangleMesh->getSubpart(subPart);
 
         // For each triangle of the concave mesh
-        for (uint triangleIndex=0; triangleIndex<triangleVertexArray->getNbTriangles(); triangleIndex++) {
+        for (uint8 triangleIndex=0; triangleIndex<triangleVertexArray->getNbTriangles(); triangleIndex++) {
 
             Vector3 trianglePoints[3];
 
@@ -73,7 +73,7 @@ void ConcaveMeshShape::initBVHTree() {
 }
 
 // Return the three vertices coordinates (in the array outTriangleVertices) of a triangle
-void ConcaveMeshShape::getTriangleVertices(uint subPart, uint triangleIndex, Vector3* outTriangleVertices) const {
+void ConcaveMeshShape::getTriangleVertices(uint8 subPart, uint8 triangleIndex, Vector3* outTriangleVertices) const {
 
     // Get the triangle vertex array of the current sub-part
     TriangleVertexArray* triangleVertexArray = mTriangleMesh->getSubpart(subPart);
@@ -94,7 +94,7 @@ void ConcaveMeshShape::getTriangleVertices(uint subPart, uint triangleIndex, Vec
 }
 
 // Return the three vertex normals (in the array outVerticesNormals) of a triangle
-void ConcaveMeshShape::getTriangleVerticesNormals(uint subPart, uint triangleIndex, Vector3* outVerticesNormals) const {
+void ConcaveMeshShape::getTriangleVerticesNormals(uint8 subPart, uint8 triangleIndex, Vector3* outVerticesNormals) const {
 
     // Get the triangle vertex array of the current sub-part
     TriangleVertexArray* triangleVertexArray = mTriangleMesh->getSubpart(subPart);
@@ -104,7 +104,7 @@ void ConcaveMeshShape::getTriangleVerticesNormals(uint subPart, uint triangleInd
 }
 
 // Return the indices of the three vertices of a given triangle in the array
-void ConcaveMeshShape::getTriangleVerticesIndices(uint subPart, uint triangleIndex, uint* outVerticesIndices) const {
+void ConcaveMeshShape::getTriangleVerticesIndices(uint8 subPart, uint8 triangleIndex, uint8* outVerticesIndices) const {
 
     // Get the triangle vertex array of the current sub-part
     TriangleVertexArray* triangleVertexArray = mTriangleMesh->getSubpart(subPart);
@@ -114,13 +114,13 @@ void ConcaveMeshShape::getTriangleVerticesIndices(uint subPart, uint triangleInd
 }
 
 // Return the number of sub parts contained in this mesh
-uint ConcaveMeshShape::getNbSubparts() const
+uint8 ConcaveMeshShape::getNbSubparts() const
 {
 	return mTriangleMesh->getNbSubparts();
 }
 		
 // Return the number of triangles in a sub part of the mesh
-uint ConcaveMeshShape::getNbTriangles(uint subPart) const
+uint8 ConcaveMeshShape::getNbTriangles(uint8 subPart) const
 {
 	assert(mTriangleMesh->getSubpart(subPart));
 	return mTriangleMesh->getSubpart(subPart)->getNbTriangles();
@@ -128,7 +128,7 @@ uint ConcaveMeshShape::getNbTriangles(uint subPart) const
 
 // Compute all the triangles of the mesh that are overlapping with the AABB in parameter
 void ConcaveMeshShape::computeOverlappingTriangles(const AABB& localAABB, List<Vector3>& triangleVertices,
-                                                   List<Vector3>& triangleVerticesNormals, List<uint>& shapeIds,
+                                                   List<Vector3>& triangleVerticesNormals, List<uint8>& shapeIds,
                                                    MemoryAllocator& allocator) const {
 
     RP3D_PROFILE("ConcaveMeshShape::computeOverlappingTriangles()", mProfiler);
@@ -142,14 +142,14 @@ void ConcaveMeshShape::computeOverlappingTriangles(const AABB& localAABB, List<V
     List<int> overlappingNodes(allocator);
     mDynamicAABBTree.reportAllShapesOverlappingWithAABB(aabb, overlappingNodes);
 
-    const uint nbOverlappingNodes = overlappingNodes.size();
+    const uint8 nbOverlappingNodes = overlappingNodes.size();
 
     // Add space in the list of triangles vertices/normals for the new triangles
     triangleVertices.addWithoutInit(nbOverlappingNodes * 3);
     triangleVerticesNormals.addWithoutInit(nbOverlappingNodes * 3);
 
     // For each overlapping node
-    for (uint i=0; i < nbOverlappingNodes; i++) {
+    for (uint8 i=0; i < nbOverlappingNodes; i++) {
 
         int nodeId = overlappingNodes[i];
 
@@ -201,13 +201,13 @@ bool ConcaveMeshShape::raycast(const Ray& ray, RaycastInfo& raycastInfo, Collide
 }
 
 // Compute the shape Id for a given triangle of the mesh
-uint ConcaveMeshShape::computeTriangleShapeId(uint subPart, uint triangleIndex) const {
+uint8 ConcaveMeshShape::computeTriangleShapeId(uint8 subPart, uint8 triangleIndex) const {
 
     RP3D_PROFILE("ConcaveMeshShape::computeTriangleShapeId()", mProfiler);
 
-    uint shapeId = 0;
+    uint8 shapeId = 0;
 
-    uint i=0;
+    uint8 i=0;
     while (i < subPart) {
 
         shapeId += mTriangleMesh->getSubpart(i)->getNbTriangles();
@@ -284,63 +284,63 @@ void ConcaveMeshRaycastCallback::raycastTriangles() {
 // Return the string representation of the shape
 FString ConcaveMeshShape::to_string() const {
 
-    std::stringstream ss;
+    FString ss;
 
-    ss << "ConcaveMeshShape{" << std::endl;
-    ss << "nbSubparts=" << mTriangleMesh->getNbSubparts() << std::endl;
+    ss += "ConcaveMeshShape{" + "\n";
+    ss += "nbSubparts=" << mTriangleMesh->getNbSubparts() + "\n";
 
     // Vertices array
-    for (uint subPart=0; subPart<mTriangleMesh->getNbSubparts(); subPart++) {
+    for (uint8 subPart=0; subPart<mTriangleMesh->getNbSubparts(); subPart++) {
 
         // Get the triangle vertex array of the current sub-part
         TriangleVertexArray* triangleVertexArray = mTriangleMesh->getSubpart(subPart);
 
-        ss << "subpart" << subPart << "={" << std::endl;
-        ss << "nbVertices=" << triangleVertexArray->getNbVertices() << std::endl;
-        ss << "nbTriangles=" << triangleVertexArray->getNbTriangles() << std::endl;
+        ss += "subpart" << subPart << "={" + "\n";
+        ss += "nbVertices=" << triangleVertexArray->getNbVertices() + "\n";
+        ss += "nbTriangles=" << triangleVertexArray->getNbTriangles() + "\n";
 
-        ss << "vertices=[";
+        ss += "vertices=[";
 
         // For each triangle of the concave mesh
-        for (uint v=0; v<triangleVertexArray->getNbVertices(); v++) {
+        for (uint8 v=0; v<triangleVertexArray->getNbVertices(); v++) {
 
             Vector3 vertex;
             triangleVertexArray->getVertex(v, &vertex);
 
-            ss << vertex.to_string() << ", ";
+            ss += vertex.to_string() << ", ";
         }
 
-        ss << "], " << std::endl;
+        ss += "], " + "\n";
 
-        ss << "normals=[";
+        ss += "normals=[";
 
         // For each triangle of the concave mesh
-        for (uint v=0; v<triangleVertexArray->getNbVertices(); v++) {
+        for (uint8 v=0; v<triangleVertexArray->getNbVertices(); v++) {
 
             Vector3 normal;
             triangleVertexArray->getNormal(v, &normal);
 
-            ss << normal.to_string() << ", ";
+            ss += normal.to_string() << ", ";
         }
 
-        ss << "], " << std::endl;
+        ss += "], " + "\n";
 
-        ss << "triangles=[";
+        ss += "triangles=[";
 
         // For each triangle of the concave mesh
         // For each triangle of the concave mesh
-        for (uint triangleIndex=0; triangleIndex<triangleVertexArray->getNbTriangles(); triangleIndex++) {
+        for (uint8 triangleIndex=0; triangleIndex<triangleVertexArray->getNbTriangles(); triangleIndex++) {
 
-            uint indices[3];
+            uint8 indices[3];
 
             triangleVertexArray->getTriangleVerticesIndices(triangleIndex, indices);
 
-            ss << "(" << indices[0] << "," << indices[1] << "," << indices[2] << "), ";
+            ss += "(" << indices[0] << "," << indices[1] << "," << indices[2] << "), ";
         }
 
-        ss << "], " << std::endl;
+        ss += "], " + "\n";
 
-        ss << "}" << std::endl;
+        ss += "}" + "\n";
     }
 
     return ss.str();

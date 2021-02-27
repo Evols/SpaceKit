@@ -51,10 +51,10 @@ class Stack {
         T* mArray;
 
         /// Number of elements in the stack
-        uint mNbElements;
+        uint8 mNbElements;
 
         /// Number of allocated elements in the stack
-        uint mCapacity;
+        uint8 mCapacity;
 
         // -------------------- Methods -------------------- //
 

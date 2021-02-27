@@ -62,30 +62,30 @@ class TriangleVertexArray {
         // -------------------- Attributes -------------------- //
 
         /// Number of vertices in the array
-        uint mNbVertices;
+        uint8 mNbVertices;
 
         /// Pointer to the first vertex value in the array
         const uchar* mVerticesStart;
 
         /// Stride (number of bytes) between the beginning of two vertices
         /// values in the array
-        uint mVerticesStride;
+        uint8 mVerticesStride;
 
         /// Pointer to the first vertex normal value in the array
         const uchar* mVerticesNormalsStart;
 
         /// Stride (number of bytes) between the beginning of two vertex normals
         /// values in the array
-        uint mVerticesNormalsStride;
+        uint8 mVerticesNormalsStride;
 
         /// Number of triangles in the array
-        uint mNbTriangles;
+        uint8 mNbTriangles;
 
         /// Pointer to the first vertex index of the array
         const uchar* mIndicesStart;
 
         /// Stride (number of bytes) between the beginning of the three indices of two triangles
-        uint mIndicesStride;
+        uint8 mIndicesStride;
 
         /// Data type of the vertices in the array
         VertexDataType mVertexDataType;
@@ -109,14 +109,14 @@ class TriangleVertexArray {
         // -------------------- Methods -------------------- //
 
         /// Constructor without vertices normals
-        TriangleVertexArray(uint nbVertices, const void* verticesStart, uint verticesStride,
-                            uint nbTriangles, const void* indexesStart, uint indexesStride,
+        TriangleVertexArray(uint8 nbVertices, const void* verticesStart, uint8 verticesStride,
+                            uint8 nbTriangles, const void* indexesStart, uint8 indexesStride,
                             VertexDataType vertexDataType, IndexDataType indexDataType);
 
         /// Constructor with vertices normals
-        TriangleVertexArray(uint nbVertices, const void* verticesStart, uint verticesStride,
-                            const void* verticesNormalsStart, uint uverticesNormalsStride,
-                            uint nbTriangles, const void* indexesStart, uint indexesStride,
+        TriangleVertexArray(uint8 nbVertices, const void* verticesStart, uint8 verticesStride,
+                            const void* verticesNormalsStart, uint8 uverticesNormalsStride,
+                            uint8 nbTriangles, const void* indexesStart, uint8 indexesStride,
                             VertexDataType vertexDataType, NormalDataType normalDataType,
                             IndexDataType indexDataType);
 
@@ -139,19 +139,19 @@ class TriangleVertexArray {
         IndexDataType getIndexDataType() const;
 
         /// Return the number of vertices
-        uint getNbVertices() const;
+        uint8 getNbVertices() const;
 
         /// Return the number of triangles
-        uint getNbTriangles() const;
+        uint8 getNbTriangles() const;
 
         /// Return the vertices stride (number of bytes)
-        uint getVerticesStride() const;
+        uint8 getVerticesStride() const;
 
         /// Return the vertex normals stride (number of bytes)
-        uint getVerticesNormalsStride() const;
+        uint8 getVerticesNormalsStride() const;
 
         /// Return the indices stride (number of bytes)
-        uint getIndicesStride() const;
+        uint8 getIndicesStride() const;
 
         /// Return the pointer to the start of the vertices array
         const void* getVerticesStart() const;
@@ -163,19 +163,19 @@ class TriangleVertexArray {
         const void* getIndicesStart() const;
 
         /// Return the vertices coordinates of a triangle
-        void getTriangleVertices(uint triangleIndex, Vector3* outTriangleVertices) const;
+        void getTriangleVertices(uint8 triangleIndex, Vector3* outTriangleVertices) const;
 
         /// Return the three vertices normals of a triangle
-        void getTriangleVerticesNormals(uint triangleIndex, Vector3* outTriangleVerticesNormals) const;
+        void getTriangleVerticesNormals(uint8 triangleIndex, Vector3* outTriangleVerticesNormals) const;
 
         /// Return the indices of the three vertices of a given triangle in the array
-        void getTriangleVerticesIndices(uint triangleIndex, uint* outVerticesIndices) const;
+        void getTriangleVerticesIndices(uint8 triangleIndex, uint8* outVerticesIndices) const;
 
         /// Return a vertex of the array
-        void getVertex(uint vertexIndex, Vector3* outVertex);
+        void getVertex(uint8 vertexIndex, Vector3* outVertex);
 
         /// Return a vertex normal of the array
-        void getNormal(uint vertexIndex, Vector3* outNormal);
+        void getNormal(uint8 vertexIndex, Vector3* outNormal);
 };
 
 // Return the vertex data type
@@ -206,7 +206,7 @@ inline TriangleVertexArray::IndexDataType TriangleVertexArray::getIndexDataType(
 /**
  * @return The number of vertices in the array
  */
-inline uint TriangleVertexArray::getNbVertices() const {
+inline uint8 TriangleVertexArray::getNbVertices() const {
     return mNbVertices;
 }
 
@@ -214,7 +214,7 @@ inline uint TriangleVertexArray::getNbVertices() const {
 /**
  * @return The number of triangles in the array
  */
-inline uint TriangleVertexArray::getNbTriangles() const {
+inline uint8 TriangleVertexArray::getNbTriangles() const {
     return mNbTriangles;
 }
 
@@ -222,7 +222,7 @@ inline uint TriangleVertexArray::getNbTriangles() const {
 /**
  * @return The number of bytes separating two consecutive vertices in the array
  */
-inline uint TriangleVertexArray::getVerticesStride() const {
+inline uint8 TriangleVertexArray::getVerticesStride() const {
     return mVerticesStride;
 }
 
@@ -230,7 +230,7 @@ inline uint TriangleVertexArray::getVerticesStride() const {
 /**
  * @return The number of bytes separating two consecutive normals in the array
  */
-inline uint TriangleVertexArray::getVerticesNormalsStride() const {
+inline uint8 TriangleVertexArray::getVerticesNormalsStride() const {
     return mVerticesNormalsStride;
 }
 
@@ -238,7 +238,7 @@ inline uint TriangleVertexArray::getVerticesNormalsStride() const {
 /**
  * @return The number of bytes separating two consecutive face indices in the array
  */
-inline uint TriangleVertexArray::getIndicesStride() const {
+inline uint8 TriangleVertexArray::getIndicesStride() const {
     return mIndicesStride;
 }
 

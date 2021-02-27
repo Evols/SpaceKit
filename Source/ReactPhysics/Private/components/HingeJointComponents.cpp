@@ -197,12 +197,12 @@ void HingeJointComponents::addComponent(Entity jointEntity, bool isSleeping, con
     new (mI1 + index) Matrix3x3();
     new (mI2 + index) Matrix3x3();
     new (mImpulseTranslation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
-    new (mImpulseRotation + index) Vector2(0, 0);
+    new (mImpulseRotation + index) Vector2(0_fl, 0_fl);
     new (mInverseMassMatrixTranslation + index) Matrix3x3();
     new (mInverseMassMatrixRotation + index) Matrix2x2();
     new (mBiasTranslation + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
-    new (mBiasRotation + index) Vector2(0, 0);
-    new (mInitOrientationDifferenceInv + index) Quaternion(0, 0, 0, 0);
+    new (mBiasRotation + index) Vector2(0_fl, 0_fl);
+    new (mInitOrientationDifferenceInv + index) Quaternion(0_fl, 0_fl, 0_fl, 0_fl);
     new (mHingeLocalAxisBody1 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mHingeLocalAxisBody2 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);
     new (mA1 + index) Vector3(0.0_fl, 0.0_fl, 0.0_fl);

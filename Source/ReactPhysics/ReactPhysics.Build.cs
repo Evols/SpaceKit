@@ -6,8 +6,9 @@ public class ReactPhysics : ModuleRules
 {
     public ReactPhysics(ReadOnlyTargetRules Target) : base(Target)
     {
-		PCHUsage = ModuleRules.PCHUsageMode.UseSharedPCHs;
-        PrivatePCHHeaderFile = "ReactPhysics.h";
+		PCHUsage = ModuleRules.PCHUsageMode.NoSharedPCHs;
+		MinSourceFilesForUnityBuildOverride = 5000000;
+		PrivatePCHHeaderFile = "ReactPhysics.h";
 
         bEnforceIWYU = true;
 

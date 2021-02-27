@@ -280,7 +280,7 @@ inline Quaternion Quaternion::getUnit() const {
 
 // Return the identity quaternion
 inline Quaternion Quaternion::identity() {
-    return Quaternion(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
+    return Quaternion(0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
 }
 
 // Return the conjugate of the quaternion (inline)

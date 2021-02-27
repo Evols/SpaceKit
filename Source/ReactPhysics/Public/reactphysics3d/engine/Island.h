@@ -54,17 +54,17 @@ class Island {
         ContactManifold** mContactManifolds;
 
         /// Current number of bodies in the island
-        uint mNbBodies;
+        uint8 mNbBodies;
 
         /// Current number of contact manifold in the island
-        uint mNbContactManifolds;
+        uint8 mNbContactManifolds;
 
     public:
 
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        Island(uint nbMaxBodies, uint nbMaxContactManifolds, MemoryManager& memoryManager);
+        Island(uint8 nbMaxBodies, uint8 nbMaxContactManifolds, MemoryManager& memoryManager);
 
         /// Destructor
         ~Island();
@@ -85,13 +85,13 @@ class Island {
         void addJoint(Joint* joint);
 
         /// Return the number of bodies in the island
-        uint getNbBodies() const;
+        uint8 getNbBodies() const;
 
         /// Return the number of contact manifolds in the island
-        uint getNbContactManifolds() const;
+        uint8 getNbContactManifolds() const;
 
         /// Return the number of joints in the island
-        uint getNbJoints() const;
+        uint8 getNbJoints() const;
 
         /// Return a pointer to the array of bodies
         RigidBody** getBodies();
@@ -118,12 +118,12 @@ inline void Island::addContactManifold(ContactManifold* contactManifold) {
 }
 
 // Return the number of bodies in the island
-inline uint Island::getNbBodies() const {
+inline uint8 Island::getNbBodies() const {
     return mNbBodies;
 }
 
 // Return the number of contact manifolds in the island
-inline uint Island::getNbContactManifolds() const {
+inline uint8 Island::getNbContactManifolds() const {
     return mNbContactManifolds;
 }
 

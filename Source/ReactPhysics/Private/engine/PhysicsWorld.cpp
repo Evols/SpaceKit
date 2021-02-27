@@ -42,7 +42,7 @@ using namespace std;
 
 // Static initializations
 
-uint PhysicsWorld::mNbWorlds = 0;
+uint8 PhysicsWorld::mNbWorlds = 0;
 
 // Constructor
 /**
@@ -75,11 +75,11 @@ PhysicsWorld::PhysicsWorld(MemoryManager& memoryManager, const WorldSettings& wo
     // Automatically generate a name for the world
     if (mName == "") {
 
-        std::stringstream ss;
-        ss << "world";
+        FString ss;
+        ss += "world";
 
         if (mNbWorlds > 0) {
-            ss << mNbWorlds;
+            ss += mNbWorlds;
         }
 
         mName = ss.str();
@@ -239,7 +239,7 @@ void PhysicsWorld::setBodyDisabled(Entity bodyEntity, bool isDisabled) {
 
     // For each collider of the body
     const List<Entity>& collidersEntities = mCollisionBodyComponents.getColliders(bodyEntity);
-    for (uint i=0; i < collidersEntities.size(); i++) {
+    for (uint8 i=0; i < collidersEntities.size(); i++) {
 
         mCollidersComponents.setIsEntityDisabled(collidersEntities[i], isDisabled);
     }
@@ -403,7 +403,7 @@ void PhysicsWorld::solveContactsAndConstraints(decimal timeStep) {
     mConstraintSolverSystem.initialize(timeStep);
 
     // For each iteration of the velocity solver
-    for (uint i=0; i<mNbVelocitySolverIterations; i++) {
+    for (uint8 i=0; i<mNbVelocitySolverIterations; i++) {
 
         mConstraintSolverSystem.solveVelocityConstraints();
 
@@ -424,7 +424,7 @@ void PhysicsWorld::solvePositionCorrection() {
     // ---------- Solve the position error correction for the constraints ---------- //
 
     // For each iteration of the position (error correction) solver
-    for (uint i=0; i<mNbPositionSolverIterations; i++) {
+    for (uint8 i=0; i<mNbPositionSolverIterations; i++) {
 
         // Solve the position constraints
         mConstraintSolverSystem.solvePositionConstraints();
@@ -716,7 +716,7 @@ void PhysicsWorld::destroyJoint(Joint* joint) {
 /**
  * @param nbIterations Number of iterations for the velocity solver
  */
-void PhysicsWorld::setNbIterationsVelocitySolver(uint nbIterations) {
+void PhysicsWorld::setNbIterationsVelocitySolver(uint8 nbIterations) {
 
     mNbVelocitySolverIterations = nbIterations;
 
@@ -755,7 +755,7 @@ void PhysicsWorld::createIslands() {
     assert(mProcessContactPairsOrderIslands.size() == 0);
 
     // Reset all the isAlreadyInIsland variables of bodies and joints
-    for (uint b=0; b < mRigidBodyComponents.getNbComponents(); b++) {
+    for (uint8 b=0; b < mRigidBodyComponents.getNbComponents(); b++) {
 
         mRigidBodyComponents.mIsAlreadyInIsland[b] = false;
     }
@@ -766,10 +766,10 @@ void PhysicsWorld::createIslands() {
     // Create a stack for the bodies to visit during the Depth First Search
     Stack<Entity> bodyEntityIndicesToVisit(mMemoryManager.getSingleFrameAllocator());
 
-    uint nbTotalManifolds = 0;
+    uint8 nbTotalManifolds = 0;
 
     // For each rigid body component
-    for (uint b=0; b < mRigidBodyComponents.getNbEnabledComponents(); b++) {
+    for (uint8 b=0; b < mRigidBodyComponents.getNbEnabledComponents(); b++) {
 
         // If the body has already been added to an island, we go to the next body
         if (mRigidBodyComponents.mIsAlreadyInIsland[b]) continue;
@@ -809,8 +809,8 @@ void PhysicsWorld::createIslands() {
             if (itBodyContactPairs != mCollisionDetection.mMapBodyToContactPairs.end()) {
 
                 // For each contact pair in which the current body is involded
-                List<uint>& contactPairs = itBodyContactPairs->second;
-                for (uint p=0; p < contactPairs.size(); p++) {
+                List<uint8>& contactPairs = itBodyContactPairs->second;
+                for (uint8 p=0; p < contactPairs.size(); p++) {
 
                     ContactPair& pair = (*mCollisionDetection.mCurrentContactPairs)[contactPairs[p]];
 
@@ -872,7 +872,7 @@ void PhysicsWorld::createIslands() {
 
         // Reset the isAlreadyIsland variable of the static bodies so that they
         // can also be included in the other islands
-        for (uint j=0; j < mRigidBodyComponents.getNbEnabledComponents(); j++) {
+        for (uint8 j=0; j < mRigidBodyComponents.getNbEnabledComponents(); j++) {
 
             if (mRigidBodyComponents.mBodyTypes[j] == BodyType::STATIC) {
                 mRigidBodyComponents.mIsAlreadyInIsland[j] = false;
@@ -894,12 +894,12 @@ void PhysicsWorld::updateSleepingBodies(decimal timeStep) {
     const decimal sleepAngularVelocitySquare = mSleepAngularVelocity * mSleepAngularVelocity;
 
     // For each island of the world
-    for (uint i=0; i<mIslands.getNbIslands(); i++) {
+    for (uint8 i=0; i<mIslands.getNbIslands(); i++) {
 
         decimal minSleepTime = DECIMAL_LARGEST;
 
         // For each body of the island
-        for (uint b=0; b < mIslands.bodyEntities[i].size(); b++) {
+        for (uint8 b=0; b < mIslands.bodyEntities[i].size(); b++) {
 
             const Entity bodyEntity = mIslands.bodyEntities[i][b];
 
@@ -933,7 +933,7 @@ void PhysicsWorld::updateSleepingBodies(decimal timeStep) {
         if (minSleepTime >= mTimeBeforeSleep) {
 
             // Put all the bodies of the island to sleep
-            for (uint b=0; b < mIslands.bodyEntities[i].size(); b++) {
+            for (uint8 b=0; b < mIslands.bodyEntities[i].size(); b++) {
 
                 const Entity bodyEntity = mIslands.bodyEntities[i][b];
                 RigidBody* body = mRigidBodyComponents.getRigidBody(bodyEntity);
@@ -972,7 +972,7 @@ void PhysicsWorld::enableSleeping(bool isSleepingEnabled) {
 /**
  * @param nbIterations Number of iterations for the position solver
  */
-void PhysicsWorld::setNbIterationsPositionSolver(uint nbIterations) {
+void PhysicsWorld::setNbIterationsPositionSolver(uint8 nbIterations) {
 
     mNbPositionSolverIterations = nbIterations;
 
@@ -1051,7 +1051,7 @@ void PhysicsWorld::setIsGravityEnabled(bool isGravityEnabled) {
  * @param index Index of a CollisionBody in the world
  * @return Constant pointer to a given CollisionBody
  */
-const CollisionBody* PhysicsWorld::getCollisionBody(uint index) const {
+const CollisionBody* PhysicsWorld::getCollisionBody(uint8 index) const {
 
     if (index >= getNbCollisionBodies()) {
 
@@ -1069,7 +1069,7 @@ const CollisionBody* PhysicsWorld::getCollisionBody(uint index) const {
  * @param index Index of a CollisionBody in the world
  * @return Pointer to a given CollisionBody
  */
-CollisionBody* PhysicsWorld::getCollisionBody(uint index) {
+CollisionBody* PhysicsWorld::getCollisionBody(uint8 index) {
 
     if (index >= getNbCollisionBodies()) {
 
@@ -1087,7 +1087,7 @@ CollisionBody* PhysicsWorld::getCollisionBody(uint index) {
  * @param index Index of a RigidBody in the world
  * @return Constant pointer to a given RigidBody
  */
-const RigidBody* PhysicsWorld::getRigidBody(uint index) const {
+const RigidBody* PhysicsWorld::getRigidBody(uint8 index) const {
 
     if (index >= getNbRigidBodies()) {
 
@@ -1105,7 +1105,7 @@ const RigidBody* PhysicsWorld::getRigidBody(uint index) const {
  * @param index Index of a RigidBody in the world
  * @return Pointer to a given RigidBody
  */
-RigidBody* PhysicsWorld::getRigidBody(uint index) {
+RigidBody* PhysicsWorld::getRigidBody(uint8 index) {
 
     if (index >= getNbRigidBodies()) {
 

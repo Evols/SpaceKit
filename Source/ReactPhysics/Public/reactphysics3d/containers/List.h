@@ -295,7 +295,7 @@ class List {
         }
 
         /// Add a given numbers of elements at the end of the list but do not init them
-        void addWithoutInit(uint nbElements) {
+        void addWithoutInit(uint8 nbElements) {
 
             // If we need to allocate more memory
             if (mSize == mCapacity) {
@@ -310,7 +310,7 @@ class List {
         /// this method returns the end() iterator
         Iterator find(const T& element) {
 
-            for (uint i=0; i<mSize; i++) {
+            for (uint8 i=0; i<mSize; i++) {
                 if (element == static_cast<T*>(mBuffer)[i]) {
                     return Iterator(mBuffer, i, mSize);
                 }
@@ -332,7 +332,7 @@ class List {
         }
 
         /// Remove an element from the list at a given index (all the following items will be moved)
-        Iterator removeAt(uint index) {
+        Iterator removeAt(uint8 index) {
 
           assert(index >= 0 && index < mSize);
 
@@ -364,7 +364,7 @@ class List {
             }
 
             // Add the elements of the list to the current one
-            for(uint i=0; i<list.size(); i++) {
+            for(uint8 i=0; i<list.size(); i++) {
 
                 new (static_cast<char*>(mBuffer) + mSize * sizeof(T)) T(list[i]);
                 mSize++;
@@ -375,7 +375,7 @@ class List {
         void clear(bool releaseMemory = false) {
 
             // Call the destructor of each element
-            for (uint i=0; i < mSize; i++) {
+            for (uint8 i=0; i < mSize; i++) {
                 (static_cast<T*>(mBuffer)[i]).~T();
             }
 
@@ -403,13 +403,13 @@ class List {
         }
 
         /// Overloaded index operator
-        T& operator[](const uint index) {
+        T& operator[](const uint8 index) {
            assert(index >= 0 && index < mSize);
            return (static_cast<T*>(mBuffer)[index]);
         }
 
         /// Overloaded const index operator
-        const T& operator[](const uint index) const {
+        const T& operator[](const uint8 index) const {
            assert(index >= 0 && index < mSize);
            return (static_cast<T*>(mBuffer)[index]);
         }

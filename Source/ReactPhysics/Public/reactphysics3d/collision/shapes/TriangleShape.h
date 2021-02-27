@@ -109,7 +109,7 @@ class TriangleShape : public ConvexPolyhedronShape {
 
         /// Constructor
         TriangleShape(const Vector3* vertices, const Vector3* verticesNormals,
-                      uint shapeId, MemoryAllocator& allocator);
+                      uint8 shapeId, MemoryAllocator& allocator);
 
         /// Destructor
         virtual ~TriangleShape() override = default;
@@ -140,28 +140,28 @@ class TriangleShape : public ConvexPolyhedronShape {
         void setRaycastTestType(TriangleRaycastSide testType);
 
         /// Return the number of faces of the polyhedron
-        virtual uint getNbFaces() const override;
+        virtual uint8 getNbFaces() const override;
 
         /// Return a given face of the polyhedron
-        virtual const HalfEdgeStructure::Face& getFace(uint faceIndex) const override;
+        virtual const HalfEdgeStructure::Face& getFace(uint8 faceIndex) const override;
 
         /// Return the number of vertices of the polyhedron
-        virtual uint getNbVertices() const override;
+        virtual uint8 getNbVertices() const override;
 
         /// Return a given vertex of the polyhedron
-        virtual HalfEdgeStructure::Vertex getVertex(uint vertexIndex) const override;
+        virtual HalfEdgeStructure::Vertex getVertex(uint8 vertexIndex) const override;
 
         /// Return the position of a given vertex
-        virtual Vector3 getVertexPosition(uint vertexIndex) const override;
+        virtual Vector3 getVertexPosition(uint8 vertexIndex) const override;
 
         /// Return the normal vector of a given face of the polyhedron
-        virtual Vector3 getFaceNormal(uint faceIndex) const override;
+        virtual Vector3 getFaceNormal(uint8 faceIndex) const override;
 
         /// Return the number of half-edges of the polyhedron
-        virtual uint getNbHalfEdges() const override;
+        virtual uint8 getNbHalfEdges() const override;
 
         /// Return a given half-edge of the polyhedron
-        virtual const HalfEdgeStructure::Edge& getHalfEdge(uint edgeIndex) const override;
+        virtual const HalfEdgeStructure::Edge& getHalfEdge(uint8 edgeIndex) const override;
 
         /// Return the centroid of the polyhedron
         virtual Vector3 getCentroid() const override;
@@ -232,23 +232,23 @@ inline bool TriangleShape::testPointInside(const Vector3& localPoint, Collider* 
 }
 
 // Return the number of faces of the polyhedron
-inline uint TriangleShape::getNbFaces() const {
+inline uint8 TriangleShape::getNbFaces() const {
     return 2;
 }
 
 // Return a given face of the polyhedron
-inline const HalfEdgeStructure::Face& TriangleShape::getFace(uint faceIndex) const {
+inline const HalfEdgeStructure::Face& TriangleShape::getFace(uint8 faceIndex) const {
     assert(faceIndex < 2);
     return mFaces[faceIndex];
 }
 
 // Return the number of vertices of the polyhedron
-inline uint TriangleShape::getNbVertices() const {
+inline uint8 TriangleShape::getNbVertices() const {
     return 3;
 }
 
 // Return a given vertex of the polyhedron
-inline HalfEdgeStructure::Vertex TriangleShape::getVertex(uint vertexIndex) const {
+inline HalfEdgeStructure::Vertex TriangleShape::getVertex(uint8 vertexIndex) const {
     assert(vertexIndex < 3);
 
     HalfEdgeStructure::Vertex vertex(vertexIndex);
@@ -261,19 +261,19 @@ inline HalfEdgeStructure::Vertex TriangleShape::getVertex(uint vertexIndex) cons
 }
 
 // Return a given half-edge of the polyhedron
-inline const HalfEdgeStructure::Edge& TriangleShape::getHalfEdge(uint edgeIndex) const {
+inline const HalfEdgeStructure::Edge& TriangleShape::getHalfEdge(uint8 edgeIndex) const {
     assert(edgeIndex < getNbHalfEdges());
     return mEdges[edgeIndex];
 }
 
 // Return the position of a given vertex
-inline Vector3 TriangleShape::getVertexPosition(uint vertexIndex) const {
+inline Vector3 TriangleShape::getVertexPosition(uint8 vertexIndex) const {
     assert(vertexIndex < 3);
     return mPoints[vertexIndex];
 }
 
 // Return the normal vector of a given face of the polyhedron
-inline Vector3 TriangleShape::getFaceNormal(uint faceIndex) const {
+inline Vector3 TriangleShape::getFaceNormal(uint8 faceIndex) const {
     assert(faceIndex < 2);
     return faceIndex == 0 ? mNormal : -mNormal;
 }
@@ -284,7 +284,7 @@ inline Vector3 TriangleShape::getCentroid() const {
 }
 
 // Return the number of half-edges of the polyhedron
-inline uint TriangleShape::getNbHalfEdges() const {
+inline uint8 TriangleShape::getNbHalfEdges() const {
     return 6;
 }
 

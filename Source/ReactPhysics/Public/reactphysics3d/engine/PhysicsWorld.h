@@ -100,10 +100,10 @@ class PhysicsWorld {
             bool isSleepingEnabled;
 
             /// Number of iterations when solving the velocity constraints of the Sequential Impulse technique
-            uint defaultVelocitySolverNbIterations;
+            uint8 defaultVelocitySolverNbIterations;
 
             /// Number of iterations when solving the position constraints of the Sequential Impulse technique
-            uint defaultPositionSolverNbIterations;
+            uint8 defaultPositionSolverNbIterations;
 
             /// Time (in seconds) that a body must stay still to be considered sleeping
             float defaultTimeBeforeSleep;
@@ -117,7 +117,7 @@ class PhysicsWorld {
             decimal defaultSleepAngularVelocity;
 
             /// Maximum number of contact manifolds in an overlapping pair
-            uint nbMaxContactManifolds;
+            uint8 nbMaxContactManifolds;
 
             /// This is used to test if two contact manifold are similar (same contact normal) in order to
             /// merge them. If the cosine of the angle between the normals of the two manifold are larger
@@ -236,7 +236,7 @@ class PhysicsWorld {
 #endif
 
         /// Total number of worlds
-        static uint mNbWorlds;
+        static uint8 mNbWorlds;
 
         /// All the islands of bodies of the current frame
         Islands mIslands;
@@ -256,10 +256,10 @@ class PhysicsWorld {
         DynamicsSystem mDynamicsSystem;
 
         /// Number of iterations for the velocity solver of the Sequential Impulses technique
-        uint mNbVelocitySolverIterations;
+        uint8 mNbVelocitySolverIterations;
 
         /// Number of iterations for the position solver of the Sequential Impulses technique
-        uint mNbPositionSolverIterations;
+        uint8 mNbPositionSolverIterations;
 
         /// True if the spleeping technique for inactive bodies is enabled
         bool mIsSleepingEnabled;
@@ -281,7 +281,7 @@ class PhysicsWorld {
         decimal mTimeBeforeSleep;
 
         /// Current joint id
-        uint mCurrentJointId;
+        uint8 mCurrentJointId;
 
         // -------------------- Methods -------------------- //
 
@@ -368,16 +368,16 @@ class PhysicsWorld {
         void update(decimal timeStep);
 
         /// Get the number of iterations for the velocity constraint solver
-        uint getNbIterationsVelocitySolver() const;
+        uint8 getNbIterationsVelocitySolver() const;
 
         /// Set the number of iterations for the velocity constraint solver
-        void setNbIterationsVelocitySolver(uint nbIterations);
+        void setNbIterationsVelocitySolver(uint8 nbIterations);
 
         /// Get the number of iterations for the position constraint solver
-        uint getNbIterationsPositionSolver() const;
+        uint8 getNbIterationsPositionSolver() const;
 
         /// Set the number of iterations for the position constraint solver
-        void setNbIterationsPositionSolver(uint nbIterations);
+        void setNbIterationsPositionSolver(uint8 nbIterations);
 
         /// Set the position correction technique used for contacts
         void setContactsPositionCorrectionTechnique(ContactsPositionCorrectionTechnique technique);
@@ -440,22 +440,22 @@ class PhysicsWorld {
         void setEventListener(EventListener* eventListener);
 
         /// Return the number of CollisionBody in the physics world
-        uint getNbCollisionBodies() const;
+        uint8 getNbCollisionBodies() const;
 
         /// Return a constant pointer to a given CollisionBody of the world
-        const CollisionBody* getCollisionBody(uint index) const;
+        const CollisionBody* getCollisionBody(uint8 index) const;
 
         /// Return a pointer to a given CollisionBody of the world
-        CollisionBody* getCollisionBody(uint index) ;
+        CollisionBody* getCollisionBody(uint8 index) ;
 
         /// Return the number of RigidBody in the physics world
-        uint getNbRigidBodies() const;
+        uint8 getNbRigidBodies() const;
 
         /// Return a constant pointer to a given RigidBody of the world
-        const RigidBody* getRigidBody(uint index) const;
+        const RigidBody* getRigidBody(uint8 index) const;
 
         /// Return a pointer to a given RigidBody of the world
-        RigidBody* getRigidBody(uint index) ;
+        RigidBody* getRigidBody(uint8 index) ;
 
         /// Return true if the debug rendering is enabled
         bool getIsDebugRenderingEnabled() const;
@@ -608,7 +608,7 @@ inline Profiler* PhysicsWorld::getProfiler() {
 /**
  * @return The number of iterations of the velocity constraint solver
  */
-inline uint PhysicsWorld::getNbIterationsVelocitySolver() const {
+inline uint8 PhysicsWorld::getNbIterationsVelocitySolver() const {
     return mNbVelocitySolverIterations;
 }
 
@@ -616,7 +616,7 @@ inline uint PhysicsWorld::getNbIterationsVelocitySolver() const {
 /**
  * @return The number of iterations of the position constraint solver
  */
-inline uint PhysicsWorld::getNbIterationsPositionSolver() const {
+inline uint8 PhysicsWorld::getNbIterationsPositionSolver() const {
     return mNbPositionSolverIterations;
 }
 
@@ -711,7 +711,7 @@ inline void PhysicsWorld::setEventListener(EventListener* eventListener) {
 /**
  * @return The number of collision bodies in the physics world
  */
-inline uint PhysicsWorld::getNbCollisionBodies() const {
+inline uint8 PhysicsWorld::getNbCollisionBodies() const {
    return mCollisionBodies.size();
 }
 
@@ -719,7 +719,7 @@ inline uint PhysicsWorld::getNbCollisionBodies() const {
 /**
  * @return The number of rigid bodies in the physics world
  */
-inline uint PhysicsWorld::getNbRigidBodies() const {
+inline uint8 PhysicsWorld::getNbRigidBodies() const {
    return mRigidBodies.size();
 }
 

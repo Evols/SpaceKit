@@ -138,10 +138,10 @@ class OverlapCallback {
                 List<ContactPair>& mLostContactPairs;
 
                 /// List of indices of the mContactPairs list that are overlap/triggers events (not contact events)
-                List<uint> mContactPairsIndices;
+                List<uint8> mContactPairsIndices;
 
                 /// List of indices of the mLostContactPairs list that are overlap/triggers events (not contact events)
-                List<uint> mLostContactPairsIndices;
+                List<uint8> mLostContactPairsIndices;
 
                 /// Reference to the physics world
                 PhysicsWorld& mWorld;
@@ -165,10 +165,10 @@ class OverlapCallback {
                 // -------------------- Methods -------------------- //
 
                 /// Return the number of overlapping pairs of bodies
-                uint getNbOverlappingPairs() const;
+                uint8 getNbOverlappingPairs() const;
 
                 /// Return a given overlapping pair of bodies
-                OverlapPair getOverlappingPair(uint index) const;
+                OverlapPair getOverlappingPair(uint8 index) const;
 
                 // -------------------- Friendship -------------------- //
 
@@ -185,7 +185,7 @@ class OverlapCallback {
 };
 
 // Return the number of overlapping pairs of bodies
-inline uint OverlapCallback::CallbackData::getNbOverlappingPairs() const {
+inline uint8 OverlapCallback::CallbackData::getNbOverlappingPairs() const {
     return mContactPairsIndices.size() + mLostContactPairsIndices.size();
 }
 
@@ -193,7 +193,7 @@ inline uint OverlapCallback::CallbackData::getNbOverlappingPairs() const {
 /// Note that the returned OverlapPair object is only valid during the call of the CollisionCallback::onOverlap()
 /// method. Therefore, you need to get contact data from it and make a copy. Do not make a copy of the OverlapPair
 /// object itself because it won't be valid after the CollisionCallback::onOverlap() call.
-inline OverlapCallback::OverlapPair OverlapCallback::CallbackData::getOverlappingPair(uint index) const {
+inline OverlapCallback::OverlapPair OverlapCallback::CallbackData::getOverlappingPair(uint8 index) const {
 
     assert(index < getNbOverlappingPairs());
 

@@ -102,7 +102,7 @@ void Components::removeComponent(Entity entity) {
 
     assert(mMapEntityToComponentIndex.containsKey(entity));
 
-    uint index = mMapEntityToComponentIndex[entity];
+    uint8 index = mMapEntityToComponentIndex[entity];
 
     assert(index < mNbComponents);
 

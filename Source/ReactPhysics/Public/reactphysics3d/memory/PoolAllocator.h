@@ -115,10 +115,10 @@ class PoolAllocator : public MemoryAllocator {
         MemoryBlock* mMemoryBlocks;
 
         /// Number of allocated memory blocks
-        uint mNbAllocatedMemoryBlocks;
+        uint8 mNbAllocatedMemoryBlocks;
 
         /// Current number of used memory blocks
-        uint mNbCurrentMemoryBlocks;
+        uint8 mNbCurrentMemoryBlocks;
 
 #ifndef NDEBUG
         /// This variable is incremented by one when the allocate() method has been

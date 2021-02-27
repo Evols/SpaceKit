@@ -458,7 +458,7 @@ void SolveFixedJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 1
         x1 += v1;
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the impulse of body 2
@@ -472,7 +472,7 @@ void SolveFixedJointSystem::solvePositionConstraint() {
 
         // Update the body position/orientation of body 2
         x2 += v2;
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
 
         // --------------- Rotation Constraints --------------- //
@@ -523,14 +523,14 @@ void SolveFixedJointSystem::solvePositionConstraint() {
         w1 = mFixedJointComponents.mI1[i] * angularImpulseBody1;
 
         // Update the body position/orientation of body 1
-        q1 += Quaternion(0, w1) * q1 * decimal(0.5);
+        q1 += Quaternion(0_fl, w1) * q1 * decimal(0.5);
         q1.normalize();
 
         // Compute the pseudo velocity of body 2
         w2 = mFixedJointComponents.mI2[i] * lambdaRotation;
 
         // Update the body position/orientation of body 2
-        q2 += Quaternion(0, w2) * q2 * decimal(0.5);
+        q2 += Quaternion(0_fl, w2) * q2 * decimal(0.5);
         q2.normalize();
     }
 }

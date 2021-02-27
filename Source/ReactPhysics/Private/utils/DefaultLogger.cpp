@@ -62,14 +62,14 @@ DefaultLogger::Formatter* DefaultLogger::getFormatter(Format format) const {
 }
 
 // Add a log file destination to the logger
-void DefaultLogger::addFileDestination(const FString& filePath, uint logLevelFlag, Format format) {
+void DefaultLogger::addFileDestination(const FString& filePath, uint8 logLevelFlag, Format format) {
 
     FileDestination* destination = new (mAllocator.allocate(sizeof(FileDestination))) FileDestination(filePath, logLevelFlag, getFormatter(format));
     mDestinations.add(destination);
 }
 
 /// Add a stream destination to the logger
-void DefaultLogger::addStreamDestination(std::ostream& outputStream, uint logLevelFlag, Format format) {
+void DefaultLogger::addStreamDestination(std::ostream& outputStream, uint8 logLevelFlag, Format format) {
 
     StreamDestination* destination = new (mAllocator.allocate(sizeof(StreamDestination))) StreamDestination(outputStream, logLevelFlag, getFormatter(format));
     mDestinations.add(destination);
@@ -79,7 +79,7 @@ void DefaultLogger::addStreamDestination(std::ostream& outputStream, uint logLev
 void DefaultLogger::removeAllDestinations() {
 
     // Delete all the destinations
-    for (uint i=0; i<mDestinations.size(); i++) {
+    for (uint8 i=0; i<mDestinations.size(); i++) {
 
         size_t size = mDestinations[i]->getSizeBytes();
 
