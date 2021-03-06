@@ -37,7 +37,7 @@ struct SPACEKITPRECISION_API FRealFloat
     using ttBigType = float256;
 #else
     // Alternatively, if you prefer to use the ttmath numbers, you can use this
-    using ttBigType = ttmath::Big<TTMATH_BITS(64), TTMATH_BITS(REAL_FLOAT_MANTISSA_SIZE)>; 
+    using ttBigType = ttmath::Big<TTMATH_BITS(64), TTMATH_BITS(TT_REAL_FLOAT_SIZE)>; 
 #endif
 
 /*

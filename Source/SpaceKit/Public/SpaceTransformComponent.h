@@ -3,15 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+#include "Components/ActorComponent.h"
 
-#include "SpaceKitPrecision/Public/VectorFixed.h"
 #include "SpaceKitPrecision/Public/RotatorFloat.h"
 
 #include "SpaceTransformComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+/**
+ * This enables actor that possess it will have its location and rotation in FVectorFloat (precise) instead of FVector (single precision).
+ * Note that this shouldn't be spawned in a BlueprintClass, because for some reason, you can't edit the position if you do that.
+ */
+UCLASS()
 class SPACEKIT_API USpaceTransformComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -19,10 +22,13 @@ class SPACEKIT_API USpaceTransformComponent : public UActorComponent
 public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category="SpaceTransform")
-	FVectorFixed Location;
-
+	FVectorFloat Location;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category="SpaceTransform")
 	FRotatorFloat Rotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category="SpaceTransform")
+	FRealFloat Mass;
 
 public:
 

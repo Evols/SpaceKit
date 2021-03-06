@@ -12,7 +12,7 @@
 using real_fixed_type = real_fixed<REAL_FIXED_MANTISSA_SIZE, REAL_FIXED_EXPONENT>;
 
 // Whether to use boost for big numbers. Default is 1
-#define USE_BOOST_BIG 1
+#define USE_BOOST_BIG 0
 
 // Parameters for boost cpp_bin_float. Default is 192
 #define BOOST_REAL_FLOAT_SIZE 192

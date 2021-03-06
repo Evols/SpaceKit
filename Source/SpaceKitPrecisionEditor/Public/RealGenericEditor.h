@@ -11,10 +11,9 @@
 
 #include "PropertyEditor/Public/DetailWidgetRow.h"
 #include "PropertyEditor/Public/DetailLayoutBuilder.h"
+#include "Runtime/Launch/Resources/Version.h"
 
-#include "SpaceKitPrecision/Public/RealFixed.h"
 #include "RealFloat.h"
-#include "Kismet/KismetStringLibrary.h"
 
 /**
  * This is a wrapper, that will be provided to SNumericEntryBox<>, in place of a real type.
@@ -53,11 +52,13 @@ struct TRealNumericBoxWrapper
 		return Val.ToDouble();
 	}
 
+#if ENGINE_MINOR_VERSION >= 26
 	// This is very weird, but it seems to work, so, here we go !
 	operator double&()
 	{
 		return Repr;
 	}
+#endif
 
 	TRealNumericBoxWrapper& operator+=(const TRealNumericBoxWrapper& Other)
 	{

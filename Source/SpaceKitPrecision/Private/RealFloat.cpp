@@ -2,6 +2,8 @@
 // Copyright 2020 Baptiste Hutteau Licensed under the Apache License, Version 2.0
 
 #include "SpaceKitPrecision/Public/RealFloat.h"
+
+#include "SpaceKitPrecision/SpaceKitPrecision.h"
 #include "SpaceKitPrecision/Public/RealFixed.h"
 
 
@@ -57,12 +59,20 @@ FRealFloat::FRealFloat(const char* InValue)
 
 FRealFloat::FRealFloat(const std::string& InValue)
 {
-    Value = ttBigType(InValue.c_str());
+	if (IsFloat(FString(InValue.c_str())))
+	{
+		// UE_LOG(LogTemp, Log, TEXT("FRealFloat::FRealFloat std::string: %s %f"), *FString(InValue.c_str()), FCString::Atod(*FString(InValue.c_str())));
+	    Value = ttBigType(InValue.c_str());
+    }
 }
 
 FRealFloat::FRealFloat(const FString& InValue)
 {
-    Value = ttBigType(TCHAR_TO_ANSI(*InValue));
+	if (IsFloat(InValue))
+	{
+		// UE_LOG(LogTemp, Log, TEXT("FRealFloat::FRealFloat FString: %s %f"), *InValue, FCString::Atod(*InValue));
+		Value = ttBigType(TCHAR_TO_ANSI(*InValue));
+    }
 }
 
 static FRealFloat::ttBigType GenPi()
@@ -82,18 +92,18 @@ FRealFloat FRealFloat::DegToRad = FRealFloat::Pi / 180_fl;
 // Converts this number to a double number. Note that this can lead to huge precision loss
 double FRealFloat::ToDouble() const
 {
-    return (double)Value;
+    return Value.ToFloat();
 }
 
 // Converts this number to a float number. Note that this can lead to huge precision loss
 float FRealFloat::ToFloat() const
 {
-    return (float)Value;
+    return Value.ToFloat();
 }
 
 FString FRealFloat::ToString() const
 {
-    return Value.str().c_str();
+    return Value.ToString().c_str();
 }
 
 bool FRealFloat::ExportTextItem(FString& ValueStr, FRealFloat const& DefaultValue, UObject* Parent, int32 PortFlags, UObject* ExportRootScope) const
@@ -213,17 +223,17 @@ FRealFloat URealFloatMath::NormalizeAngleRad(FRealFloat InVal)
 
 FRealFloat URealFloatMath::SinRad(FRealFloat InVal)
 {
-    return FRealFloat(sin(InVal.Value));
+	return FRealFloat(ttmath::Sin(InVal.Value));
 }
 
 FRealFloat URealFloatMath::CosRad(FRealFloat InVal)
 {
-    return FRealFloat(cos(InVal.Value));
+    return FRealFloat(ttmath::Cos(InVal.Value));
 }
 
 FRealFloat URealFloatMath::TanRad(FRealFloat InVal)
 {
-    return FRealFloat(tan(InVal.Value));
+    return FRealFloat(ttmath::Tan(InVal.Value));
 }
 
 FRealFloat URealFloatMath::NormalizeAngleDeg(FRealFloat InVal)
@@ -234,32 +244,32 @@ FRealFloat URealFloatMath::NormalizeAngleDeg(FRealFloat InVal)
 
 FRealFloat URealFloatMath::SinDeg(FRealFloat InVal)
 {
-    return FRealFloat(sin((InVal * FRealFloat::DegToRad).Value));
+    return FRealFloat(ttmath::Sin((InVal * FRealFloat::DegToRad).Value));
 }
 
 FRealFloat URealFloatMath::CosDeg(FRealFloat InVal)
 {
-    return FRealFloat(cos((InVal * FRealFloat::DegToRad).Value));
+    return FRealFloat(ttmath::Cos((InVal * FRealFloat::DegToRad).Value));
 }
 
 FRealFloat URealFloatMath::TanDeg(FRealFloat InVal)
 {
-    return FRealFloat(atan((InVal * FRealFloat::DegToRad).Value));
+    return FRealFloat(ttmath::ATan((InVal * FRealFloat::DegToRad).Value));
 }
 
 FRealFloat URealFloatMath::AsinRad(FRealFloat InVal)
 {
-    return FRealFloat(asin(InVal.Value));
+    return FRealFloat(ttmath::ASin(InVal.Value));
 }
 
 FRealFloat URealFloatMath::AcosRad(FRealFloat InVal)
 {
-    return FRealFloat(acos(InVal.Value));
+    return FRealFloat(ttmath::ACos(InVal.Value));
 }
 
 FRealFloat URealFloatMath::AtanRad(FRealFloat InVal)
 {
-    return FRealFloat(atan(InVal.Value));
+    return FRealFloat(ttmath::ATan(InVal.Value));
 }
 
 FRealFloat URealFloatMath::Atan2Rad(FRealFloat Y, FRealFloat X)
@@ -304,17 +314,17 @@ FRealFloat URealFloatMath::Atan2Rad(FRealFloat Y, FRealFloat X)
 
 FRealFloat URealFloatMath::AsinDeg(FRealFloat InVal)
 {
-    return FRealFloat(asin(InVal.Value)) / FRealFloat::DegToRad;
+    return FRealFloat(ttmath::ASin(InVal.Value)) / FRealFloat::DegToRad;
 }
 
 FRealFloat URealFloatMath::AcosDeg(FRealFloat InVal)
 {
-    return FRealFloat(acos(InVal.Value)) / FRealFloat::DegToRad;
+    return FRealFloat(ttmath::ACos(InVal.Value)) / FRealFloat::DegToRad;
 }
 
 FRealFloat URealFloatMath::AtanDeg(FRealFloat InVal)
 {
-    return FRealFloat(atan(InVal.Value)) / FRealFloat::DegToRad;
+    return FRealFloat(ttmath::ATan(InVal.Value)) / FRealFloat::DegToRad;
 }
 
 FRealFloat URealFloatMath::Atan2Deg(FRealFloat Y, FRealFloat X)
@@ -326,32 +336,33 @@ FRealFloat URealFloatMath::Atan2Deg(FRealFloat Y, FRealFloat X)
 
 FRealFloat URealFloatMath::Pow(FRealFloat X, FRealFloat Y)
 {
-    return FRealFloat(pow(X.Value, Y.Value));
+	// a^b = e^(b*ln(a))
+    return FRealFloat(ttmath::Exp(Y.Value * ttmath::Ln(X.Value)));
 }
 
 FRealFloat URealFloatMath::Sqrt(FRealFloat Val)
 {
-    return FRealFloat(sqrt(Val.Value));
+    return FRealFloat(ttmath::Sqrt(Val.Value));
 }
 
 FRealFloat URealFloatMath::Exp(FRealFloat Val)
 {
-    return FRealFloat(exp(Val.Value));
+    return FRealFloat(ttmath::Exp(Val.Value));
 }
 
 FRealFloat URealFloatMath::LogE(FRealFloat Val)
 {
-    return FRealFloat(log(Val.Value));
+    return FRealFloat(ttmath::Ln(Val.Value));
 }
 
 FRealFloat URealFloatMath::Log2(FRealFloat Val)
 {
-    return FRealFloat(log2(Val.Value));
+    return FRealFloat(ttmath::Log(Val.Value, FRealFloat(2).Value));
 }
 
 FRealFloat URealFloatMath::Log10(FRealFloat Val)
 {
-    return FRealFloat(log10(Val.Value));
+    return FRealFloat(ttmath::Log(Val.Value, FRealFloat(10).Value));
 }
 
 FRealFloat URealFloatMath::Min(FRealFloat First, FRealFloat Second)
@@ -371,10 +382,10 @@ FRealFloat URealFloatMath::Clamp(FRealFloat Val, FRealFloat MinVal, FRealFloat M
 
 FRealFloat URealFloatMath::Abs(FRealFloat Val)
 {
-    return FRealFloat(abs(Val.Value));
+    return FRealFloat(ttmath::Abs(Val.Value));
 }
 
 FRealFloat URealFloatMath::Sign(FRealFloat Val)
 {
-    return FRealFloat(sign(Val.Value));
+    return FRealFloat(Val < FRealFloat(0) ? 1 : -1);
 }

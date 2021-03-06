@@ -41,7 +41,7 @@ void USpaceTransformComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			const auto NewLocation = Actor->GetActorLocation();
 			if (NewLocation != CachedLocation)
 			{
-				Location = FVectorFixed(NewLocation);
+				Location = FVectorFloat(NewLocation);
 				CachedLocation = NewLocation;
 			}
 

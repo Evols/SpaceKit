@@ -4,3 +4,13 @@
 
 #include "CoreMinimal.h"
 
+#include <sstream>
+
+inline bool IsFloat(FString Str)
+{
+	std::string myString = TCHAR_TO_ANSI(*Str);
+    std::istringstream iss(myString);
+    float f;
+    iss >> std::noskipws >> f;
+    return iss.eof() && !iss.fail(); 
+}
