@@ -50,6 +50,14 @@ void USpaceGameStateComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
+reactphysics3d::PhysicsWorld* USpaceGameStateComponent::GetPhysicsWorld(UWorld* World)
+{
+	if (!World) return nullptr;
+	auto* GameState = World->GetGameState(); if (!GameState) return nullptr;
+	auto* SpaceGameStateComponent = Cast<USpaceGameStateComponent>(GameState->GetComponentByClass(USpaceGameStateComponent::StaticClass())); if (!SpaceGameStateComponent) return nullptr;
+	return SpaceGameStateComponent->PhysicsWorld;
+}
+
 ASpaceGameState::ASpaceGameState()
 {
 	SpaceGameStateComponent = CreateDefaultSubobject<USpaceGameStateComponent>(TEXT("SpaceGameStateComponent"));

@@ -10,6 +10,11 @@
 #include "SpaceMovementComponent.generated.h"
 
 
+namespace reactphysics3d
+{
+	class RigidBody;
+}
+
 class USpaceTransformComponent;
 
 /**
@@ -24,14 +29,22 @@ public:
 
 	USpaceMovementComponent();
 
+	virtual void InitializeComponent() override;
+	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintReadWrite, Category="SpaceKit")
 	FVectorFloat SpaceVelocity;
+
+	reactphysics3d::RigidBody* GetPhysicsBody();
 	
 protected:
 
 	UFUNCTION()
 	USpaceTransformComponent* GetSpaceUpdatedComponent();
 
+private:
+
+	reactphysics3d::RigidBody* PhysicsBody;
+	
 };

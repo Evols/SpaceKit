@@ -57,6 +57,11 @@ Quaternion::Quaternion(const Quaternion& quaternion)
 
 }
 
+Quaternion::Quaternion(const FQuatFloat& quaternion)
+        :x(quaternion.X), y(quaternion.X), z(quaternion.Z), w(quaternion.W)
+{
+}
+
 // Create a unit quaternion from a rotation matrix
 Quaternion::Quaternion(const Matrix3x3& matrix) {
 

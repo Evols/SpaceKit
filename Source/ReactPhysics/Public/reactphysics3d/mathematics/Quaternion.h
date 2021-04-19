@@ -30,6 +30,8 @@
 #include <reactphysics3d/decimal.h>
 #include <reactphysics3d/mathematics/Vector3.h>
 
+#include "QuatFloat.h"
+
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
 
@@ -41,7 +43,7 @@ class Matrix3x3;
  * This class represents a quaternion. We use the notation :
  * q = (x*i, y*j, z*k, w) to represent a quaternion.
  */
-struct Quaternion {
+REACTPHYSICS_API struct Quaternion {
 
     public :
 
@@ -62,22 +64,25 @@ struct Quaternion {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        Quaternion();
+        REACTPHYSICS_API Quaternion();
 
         /// Constructor with arguments
-        Quaternion(decimal newX, decimal newY, decimal newZ, decimal newW);
+        REACTPHYSICS_API Quaternion(decimal newX, decimal newY, decimal newZ, decimal newW);
 
         /// Constructor with the component w and the vector v=(x y z)
-        Quaternion(decimal newW, const Vector3& v);
+        REACTPHYSICS_API Quaternion(decimal newW, const Vector3& v);
 
         /// Constructor with the component w and the vector v=(x y z)
-        Quaternion(const Vector3& v, decimal newW);
+        REACTPHYSICS_API Quaternion(const Vector3& v, decimal newW);
+        
+        /// Copy-constructor
+        REACTPHYSICS_API Quaternion(const Quaternion& quaternion);
 
         /// Copy-constructor
-        Quaternion(const Quaternion& quaternion);
+        REACTPHYSICS_API Quaternion(const FQuatFloat& quaternion);
 
         /// Create a unit quaternion from a rotation matrix
-        Quaternion(const Matrix3x3& matrix);
+        REACTPHYSICS_API Quaternion(const Matrix3x3& matrix);
 
         /// Destructor
         ~Quaternion() = default;

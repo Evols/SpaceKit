@@ -29,6 +29,11 @@
 // Namespaces
 using namespace reactphysics3d;
 
+Vector3::Vector3(const FVectorFloat& vector)
+	: x(vector.X), y(vector.Y), z(vector.Z)
+{
+}
+
 // Return the corresponding unit vector
 Vector3 Vector3::getUnit() const {
     decimal lengthVector = length();

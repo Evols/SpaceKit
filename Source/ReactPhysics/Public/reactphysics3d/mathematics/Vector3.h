@@ -31,6 +31,8 @@
 #include <reactphysics3d/mathematics/mathematics_functions.h>
 #include <reactphysics3d/decimal.h>
 
+#include "VectorFloat.h"
+
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
 
@@ -38,7 +40,7 @@ namespace reactphysics3d {
 /**
  * This class represents a 3D vector.
  */
-struct Vector3 {
+REACTPHYSICS_API struct Vector3 {
 
     public:
 
@@ -56,117 +58,120 @@ struct Vector3 {
         // -------------------- Methods -------------------- //
 
         /// Constructor of the struct Vector3
-        Vector3();
+        REACTPHYSICS_API Vector3();
 
         /// Constructor with arguments
-        Vector3(decimal newX, decimal newY, decimal newZ);
+        REACTPHYSICS_API Vector3(decimal newX, decimal newY, decimal newZ);
+        
+        /// Copy-constructor
+        REACTPHYSICS_API Vector3(const Vector3& vector);
 
         /// Copy-constructor
-        Vector3(const Vector3& vector);
+        REACTPHYSICS_API Vector3(const FVectorFloat& vector);
 
         /// Destructor
-        ~Vector3() = default;
+        REACTPHYSICS_API ~Vector3() = default;
 
         /// Set all the values of the vector
-        void setAllValues(decimal newX, decimal newY, decimal newZ);
+        REACTPHYSICS_API void setAllValues(decimal newX, decimal newY, decimal newZ);
 
         /// Set the vector to zero
-        void setToZero();
+        REACTPHYSICS_API void setToZero();
 
         /// Return the length of the vector
-        decimal length() const;
+        REACTPHYSICS_API decimal length() const;
 
         /// Return the square of the length of the vector
-        decimal lengthSquare() const;
+        REACTPHYSICS_API decimal lengthSquare() const;
 
         /// Return the corresponding unit vector
-        Vector3 getUnit() const;
+        REACTPHYSICS_API Vector3 getUnit() const;
 
         /// Return one unit orthogonal vector of the current vector
-        Vector3 getOneUnitOrthogonalVector() const;
+        REACTPHYSICS_API Vector3 getOneUnitOrthogonalVector() const;
 
         /// Return true if the vector is unit and false otherwise
-        bool isUnit() const;
+        REACTPHYSICS_API bool isUnit() const;
 
         /// Return true if the current vector is the zero vector
-        bool isZero() const;
+        REACTPHYSICS_API bool isZero() const;
 
         /// Dot product of two vectors
-        decimal dot(const Vector3& vector) const;
+        REACTPHYSICS_API decimal dot(const Vector3& vector) const;
 
         /// Cross product of two vectors
-        Vector3 cross(const Vector3& vector) const;
+        REACTPHYSICS_API Vector3 cross(const Vector3& vector) const;
 
         /// Normalize the vector
-        void normalize();
+        REACTPHYSICS_API void normalize();
 
         /// Return the corresponding absolute value vector
-        Vector3 getAbsoluteVector() const;
+        REACTPHYSICS_API Vector3 getAbsoluteVector() const;
 
         /// Return the axis with the minimal value
-        int getMinAxis() const;
+        REACTPHYSICS_API int getMinAxis() const;
 
         /// Return the axis with the maximal value
-        int getMaxAxis() const;
+        REACTPHYSICS_API int getMaxAxis() const;
 
         /// Return the minimum value among the three components of a vector
-        decimal getMinValue() const;
+        REACTPHYSICS_API decimal getMinValue() const;
 
         /// Return the maximum value among the three components of a vector
-        decimal getMaxValue() const;
+        REACTPHYSICS_API decimal getMaxValue() const;
 
         /// Overloaded operator for the equality condition
-        bool operator== (const Vector3& vector) const;
+        REACTPHYSICS_API bool operator== (const Vector3& vector) const;
 
         /// Overloaded operator for the is different condition
-        bool operator!= (const Vector3& vector) const;
+        REACTPHYSICS_API bool operator!= (const Vector3& vector) const;
 
         /// Overloaded operator for addition with assignment
-        Vector3& operator+=(const Vector3& vector);
+        REACTPHYSICS_API Vector3& operator+=(const Vector3& vector);
 
         /// Overloaded operator for substraction with assignment
-        Vector3& operator-=(const Vector3& vector);
+        REACTPHYSICS_API Vector3& operator-=(const Vector3& vector);
 
         /// Overloaded operator for multiplication with a number with assignment
-        Vector3& operator*=(decimal number);
+        REACTPHYSICS_API Vector3& operator*=(decimal number);
 
         /// Overloaded operator for division by a number with assignment
-        Vector3& operator/=(decimal number);
+        REACTPHYSICS_API Vector3& operator/=(decimal number);
 
         /// Overloaded operator for value access
-        decimal& operator[] (int index);
+        REACTPHYSICS_API decimal& operator[] (int index);
 
         /// Overloaded operator for value access
-        const decimal& operator[] (int index) const;
+        REACTPHYSICS_API const decimal& operator[] (int index) const;
 
         /// Overloaded operator
-        Vector3& operator=(const Vector3& vector);
+        REACTPHYSICS_API Vector3& operator=(const Vector3& vector);
 
         /// Overloaded less than operator for ordering to be used inside std::set for instance
-        bool operator<(const Vector3& vector) const;
+        REACTPHYSICS_API bool operator<(const Vector3& vector) const;
 
         /// Get the string representation
-        std::string to_string() const;
+        REACTPHYSICS_API std::string to_string() const;
 
         /// Return a vector taking the minimum components of two vectors
-        static Vector3 min(const Vector3& vector1, const Vector3& vector2);
+        REACTPHYSICS_API static Vector3 min(const Vector3& vector1, const Vector3& vector2);
 
         /// Return a vector taking the maximum components of two vectors
-        static Vector3 max(const Vector3& vector1, const Vector3& vector2);
+        REACTPHYSICS_API static Vector3 max(const Vector3& vector1, const Vector3& vector2);
 
         /// Return the zero vector
-        static Vector3 zero();
+        REACTPHYSICS_API static Vector3 zero();
 
         // -------------------- Friends -------------------- //
 
-        friend Vector3 operator+(const Vector3& vector1, const Vector3& vector2);
-        friend Vector3 operator-(const Vector3& vector1, const Vector3& vector2);
-        friend Vector3 operator-(const Vector3& vector);
-        friend Vector3 operator*(const Vector3& vector, decimal number);
-        friend Vector3 operator*(decimal number, const Vector3& vector);
-        friend Vector3 operator*(const Vector3& vector1, const Vector3& vector2);
-        friend Vector3 operator/(const Vector3& vector, decimal number);
-        friend Vector3 operator/(const Vector3& vector1, const Vector3& vector2);
+        REACTPHYSICS_API friend Vector3 operator+(const Vector3& vector1, const Vector3& vector2);
+        REACTPHYSICS_API friend Vector3 operator-(const Vector3& vector1, const Vector3& vector2);
+        REACTPHYSICS_API friend Vector3 operator-(const Vector3& vector);
+        REACTPHYSICS_API friend Vector3 operator*(const Vector3& vector, decimal number);
+        REACTPHYSICS_API friend Vector3 operator*(decimal number, const Vector3& vector);
+        REACTPHYSICS_API friend Vector3 operator*(const Vector3& vector1, const Vector3& vector2);
+        REACTPHYSICS_API friend Vector3 operator/(const Vector3& vector, decimal number);
+        REACTPHYSICS_API friend Vector3 operator/(const Vector3& vector1, const Vector3& vector2);
 };
 
 // Constructor of the struct Vector3
