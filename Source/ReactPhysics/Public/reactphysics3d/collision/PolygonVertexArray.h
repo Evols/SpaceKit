@@ -42,7 +42,7 @@ namespace reactphysics3d {
  * part. Therefore, make sure that the data pointed by a PolygonVertexArray
  * remains valid during the PolygonVertexArray life.
  */
-class PolygonVertexArray {
+REACTPHYSICS_API class PolygonVertexArray {
 
     public:
 

@@ -42,7 +42,7 @@ namespace reactphysics3d {
  * An island represent an isolated group of awake bodies that are connected with each other by
  * some contraints (contacts or joints).
  */
-struct Islands {
+REACTPHYSICS_API struct Islands {
 
     private:
 

@@ -44,7 +44,7 @@ class TriangleVertexArray;
  * A TriangleMesh object can be used to create a ConcaveMeshShape from a triangle
  * mesh for instance.
  */
-class TriangleMesh {
+REACTPHYSICS_API class TriangleMesh {
 
     protected:
 

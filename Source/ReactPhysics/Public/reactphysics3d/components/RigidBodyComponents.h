@@ -58,7 +58,7 @@ enum class BodyType {STATIC, KINEMATIC, DYNAMIC};
  * This class represent the component of the ECS that contains data about a rigid body.
  * The components of the sleeping entities (bodies) are always stored at the end of the array.
  */
-class RigidBodyComponents : public Components {
+REACTPHYSICS_API class RigidBodyComponents : public Components {
 
     private:
 

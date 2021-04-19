@@ -42,7 +42,7 @@ class EntityManager;
 /**
  * This class represent the abstract class to store components of the ECS.
  */
-class Components {
+REACTPHYSICS_API class Components {
 
     protected:
 

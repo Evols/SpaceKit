@@ -41,7 +41,7 @@ class ConstraintSolverSystem;
  * This structure is used to gather the information needed to create a slider
  * joint. This structure will be used to create the actual slider joint.
  */
-struct SliderJointInfo : public JointInfo {
+REACTPHYSICS_API struct SliderJointInfo : public JointInfo {
 
     public :
 
@@ -139,7 +139,7 @@ struct SliderJointInfo : public JointInfo {
  * It only allows relative translation of the bodies along a single direction and no
  * rotation.
  */
-class SliderJoint : public Joint {
+REACTPHYSICS_API class SliderJoint : public Joint {
 
     private :
 

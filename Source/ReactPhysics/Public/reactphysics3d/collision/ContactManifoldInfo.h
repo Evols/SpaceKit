@@ -39,7 +39,7 @@ namespace reactphysics3d {
  * This structure contains informations about a collision contact
  * manifold computed during the narrow-phase collision detection.
  */
-struct ContactManifoldInfo {
+REACTPHYSICS_API struct ContactManifoldInfo {
 
     public:
 

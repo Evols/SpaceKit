@@ -48,7 +48,7 @@ namespace reactphysics3d {
  * uses functions that depend on the current platform to get the
  * current time.
  */
-class Timer {
+REACTPHYSICS_API class Timer {
 
     private :
 

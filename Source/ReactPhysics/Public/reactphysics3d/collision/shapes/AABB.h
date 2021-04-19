@@ -39,7 +39,7 @@ namespace reactphysics3d {
  * with the world coordinate system. The AABB is defined by the
  * minimum and maximum world coordinates of the three axis.
  */
-class AABB {
+REACTPHYSICS_API class AABB {
 
     private :
 

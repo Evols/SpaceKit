@@ -52,7 +52,7 @@ class PhysicsWorld;
  * you should use this only for debugging purpose and you should disable it when you compile the final release
  * version of your application because computing/rendering phyiscs debug information can be expensive.
  */
-class DebugRenderer : public EventListener {
+REACTPHYSICS_API class DebugRenderer : public EventListener {
 
     public:
 

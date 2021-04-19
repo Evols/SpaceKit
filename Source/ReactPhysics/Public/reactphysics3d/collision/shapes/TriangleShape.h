@@ -54,7 +54,7 @@ enum class TriangleRaycastSide {
  * of this class are created when the user creates an HeightFieldShape and
  * a ConcaveMeshShape
  */
-class TriangleShape : public ConvexPolyhedronShape {
+REACTPHYSICS_API class TriangleShape : public ConvexPolyhedronShape {
 
     protected:
 

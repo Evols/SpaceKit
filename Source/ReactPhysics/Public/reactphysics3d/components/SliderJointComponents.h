@@ -47,7 +47,7 @@ enum class JointType;
 /**
  * This class represent the component of the ECS with data for the SliderJoint.
  */
-class SliderJointComponents : public Components {
+REACTPHYSICS_API class SliderJointComponents : public Components {
 
     private:
 

@@ -41,7 +41,7 @@ class PhysicsWorld;
 /**
  * This class is responsible to solve the FixedJoint constraints
  */
-class SolveFixedJointSystem {
+REACTPHYSICS_API class SolveFixedJointSystem {
 
     private :
 

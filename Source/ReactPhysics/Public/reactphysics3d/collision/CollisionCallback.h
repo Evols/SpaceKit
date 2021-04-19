@@ -48,7 +48,7 @@ class MemoryManager;
  * the notifyContact() method. This method will called each time a contact
  * point is reported.
  */
-class CollisionCallback {
+REACTPHYSICS_API class CollisionCallback {
 
     public:
 

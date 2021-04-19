@@ -38,7 +38,7 @@ namespace reactphysics3d {
 /**
  * This structure represents a pair of shapes that are in contact during narrow-phase.
  */
-struct ContactPair {
+REACTPHYSICS_API struct ContactPair {
 
     public:
 

@@ -47,7 +47,7 @@ class TriangleShape;
  * that for instance, if the minimum height value is -200 and the maximum value is 400, the final
  * minimum height of the field in the simulation will be -300 and the maximum height will be 300.
  */
-class HeightFieldShape : public ConcaveShape {
+REACTPHYSICS_API class HeightFieldShape : public ConcaveShape {
 
     public:
 

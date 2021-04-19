@@ -46,7 +46,7 @@ class MemoryAllocator;
  * This abstract class is the base class for a narrow-phase collision
  * callback class.
  */
-class NarrowPhaseCallback {
+REACTPHYSICS_API class NarrowPhaseCallback {
 
     public:
 
@@ -64,7 +64,7 @@ class NarrowPhaseCallback {
  * detection algorithm. The goal of the narrow phase algorithm is to
  * compute information about the contact between two colliders.
  */
-class NarrowPhaseAlgorithm {
+REACTPHYSICS_API class NarrowPhaseAlgorithm {
 
     protected :
 

@@ -51,7 +51,7 @@ struct Vector3;
  * This structure contains everything that is needed to perform the narrow-phase
  * collision detection.
  */
-class NarrowPhaseInput {
+REACTPHYSICS_API class NarrowPhaseInput {
 
     private:
 

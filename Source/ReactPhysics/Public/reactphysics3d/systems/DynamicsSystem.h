@@ -42,7 +42,7 @@ class PhysicsWorld;
  * This class is responsible to compute and update the dynamics of the bodies that are simulated
  * using physics.
  */
-class DynamicsSystem {
+REACTPHYSICS_API class DynamicsSystem {
 
     private :
 

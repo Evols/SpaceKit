@@ -49,7 +49,7 @@ class Collider;
  * different bodies. We also make sure that colliders of sleeping entities (bodies) are
  * always stored at the end of the array.
  */
-class ColliderComponents : public Components {
+REACTPHYSICS_API class ColliderComponents : public Components {
 
     private:
 

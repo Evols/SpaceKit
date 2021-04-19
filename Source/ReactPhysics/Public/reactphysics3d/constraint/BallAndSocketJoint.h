@@ -37,7 +37,7 @@ namespace reactphysics3d {
  * This structure is used to gather the information needed to create a ball-and-socket
  * joint. This structure will be used to create the actual ball-and-socket joint.
  */
-struct BallAndSocketJointInfo : public JointInfo {
+REACTPHYSICS_API struct BallAndSocketJointInfo : public JointInfo {
 
     public :
 
@@ -65,7 +65,7 @@ struct BallAndSocketJointInfo : public JointInfo {
  * between two bodies. This joint has three degrees of freedom. It can be used to
  * create a chain of bodies for instance.
  */
-class BallAndSocketJoint : public Joint {
+REACTPHYSICS_API class BallAndSocketJoint : public Joint {
 
     private :
 

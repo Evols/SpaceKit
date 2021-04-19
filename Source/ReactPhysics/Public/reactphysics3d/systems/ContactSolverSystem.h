@@ -119,7 +119,7 @@ class ColliderComponents;
  * friction but also another twist friction constraint to prevent spin of the body around the
  * contact manifold center.
  */
-class ContactSolverSystem {
+REACTPHYSICS_API class ContactSolverSystem {
 
     private:
 

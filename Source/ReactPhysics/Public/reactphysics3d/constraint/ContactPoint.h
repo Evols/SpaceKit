@@ -42,7 +42,7 @@ class CollisionBody;
  * This class represents a collision contact point between two
  * bodies in the physics engine.
  */
-class ContactPoint {
+REACTPHYSICS_API class ContactPoint {
 
     private :
 

@@ -36,7 +36,7 @@ namespace reactphysics3d {
 /**
  * Abstract class with the basic interface of all the derived memory allocators
  */
-class MemoryAllocator {
+REACTPHYSICS_API class MemoryAllocator {
 
     public:
 

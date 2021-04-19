@@ -61,7 +61,7 @@ class CollisionBody;
  * This abstract class represents the collision shape associated with a
  * body that is used during the narrow-phase collision detection.
  */
-class CollisionShape {
+REACTPHYSICS_API class CollisionShape {
         
     protected :
 

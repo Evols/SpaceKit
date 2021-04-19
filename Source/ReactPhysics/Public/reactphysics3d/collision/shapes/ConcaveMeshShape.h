@@ -40,7 +40,7 @@ class TriangleShape;
 class TriangleMesh;
 
 // class ConvexTriangleAABBOverlapCallback
-class ConvexTriangleAABBOverlapCallback : public DynamicAABBTreeOverlapCallback {
+REACTPHYSICS_API class ConvexTriangleAABBOverlapCallback : public DynamicAABBTreeOverlapCallback {
 
     private:
 
@@ -68,7 +68,7 @@ class ConvexTriangleAABBOverlapCallback : public DynamicAABBTreeOverlapCallback 
 };
 
 /// Class ConcaveMeshRaycastCallback
-class ConcaveMeshRaycastCallback : public DynamicAABBTreeRaycastCallback {
+REACTPHYSICS_API class ConcaveMeshRaycastCallback : public DynamicAABBTreeRaycastCallback {
 
     private :
 
@@ -126,7 +126,7 @@ class ConcaveMeshRaycastCallback : public DynamicAABBTreeRaycastCallback {
  * with a concave mesh shape can be very expensive. You should only use
  * this shape for a static mesh.
  */
-class ConcaveMeshShape : public ConcaveShape {
+REACTPHYSICS_API class ConcaveMeshShape : public ConcaveShape {
 
     protected:
 

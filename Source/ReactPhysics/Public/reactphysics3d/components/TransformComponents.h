@@ -45,7 +45,7 @@ class EntityManager;
  * different entities. The position and orientation of the bodies are stored there.
  * The components of the sleeping entities (bodies) are always stored at the end of the array.
  */
-class TransformComponents : public Components {
+REACTPHYSICS_API class TransformComponents : public Components {
 
     private:
 

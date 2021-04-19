@@ -44,7 +44,7 @@ struct Vector3;
  * part. Therefore, make sure that the data pointed by a TriangleVertexArray
  * remains valid during the TriangleVertexArray life.
  */
-class TriangleVertexArray {
+REACTPHYSICS_API class TriangleVertexArray {
 
     public:
 

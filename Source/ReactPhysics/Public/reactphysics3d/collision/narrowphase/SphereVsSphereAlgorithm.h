@@ -44,7 +44,7 @@ struct SphereVsSphereNarrowPhaseInfoBatch;
  * This case is simple, we do not need to use GJK or SAT algorithm. We
  * directly compute the contact points if any.
  */
-class SphereVsSphereAlgorithm : public NarrowPhaseAlgorithm {
+REACTPHYSICS_API class SphereVsSphereAlgorithm : public NarrowPhaseAlgorithm {
 
     protected :
 

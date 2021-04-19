@@ -42,7 +42,7 @@ class PhysicsWorld;
 /**
  * This class is responsible to solve the BallAndSocketJoint constraints
  */
-class SolveBallAndSocketJointSystem {
+REACTPHYSICS_API class SolveBallAndSocketJointSystem {
 
     private :
 

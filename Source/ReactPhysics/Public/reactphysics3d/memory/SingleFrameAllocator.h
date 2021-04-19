@@ -39,7 +39,7 @@ namespace reactphysics3d {
  * This class represent a memory allocator used to efficiently allocate
  * memory on the heap that is used during a single frame.
  */
-class SingleFrameAllocator : public MemoryAllocator {
+REACTPHYSICS_API class SingleFrameAllocator : public MemoryAllocator {
 
     private :
 

@@ -64,7 +64,7 @@ class CollisionDispatch;
  * collide and then we run a narrow-phase algorithm to compute the
  * collision contacts between bodies.
  */
-class CollisionDetectionSystem {
+REACTPHYSICS_API class CollisionDetectionSystem {
 
     private :
 

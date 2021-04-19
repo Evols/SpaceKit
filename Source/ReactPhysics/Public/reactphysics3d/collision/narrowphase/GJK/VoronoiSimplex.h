@@ -44,7 +44,7 @@ typedef unsigned int Bits;
  * is closest to the origin and also the smallest simplex needed to represent
  * that closest point.
  */
-class VoronoiSimplex {
+REACTPHYSICS_API class VoronoiSimplex {
 
     private:
 

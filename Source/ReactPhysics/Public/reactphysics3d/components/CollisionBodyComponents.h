@@ -45,7 +45,7 @@ class CollisionBody;
  * This class represent the component of the ECS that contains data about a collision body.
  * The components of the sleeping entities (bodies) are always stored at the end of the array.
  */
-class CollisionBodyComponents : public Components {
+REACTPHYSICS_API class CollisionBodyComponents : public Components {
 
     private:
 

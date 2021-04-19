@@ -43,7 +43,7 @@ namespace reactphysics3d {
 /**
  * It represents a profile sample in the profiler tree.
  */
-class ProfileNode {
+REACTPHYSICS_API class ProfileNode {
 
     private :
 
@@ -121,7 +121,7 @@ class ProfileNode {
 /**
  * This class allows us to iterator over the profiler tree.
  */
-class ProfileNodeIterator {
+REACTPHYSICS_API class ProfileNodeIterator {
 
     private :
 
@@ -182,7 +182,7 @@ class ProfileNodeIterator {
  * This is the main class of the profiler. This profiler is based on "Real-Time Hierarchical
  * Profiling" article from "Game Programming Gems 3" by Greg Hjelstrom and Byon Garrabrant.
  */
-class Profiler {
+REACTPHYSICS_API class Profiler {
 
     public:
 
@@ -369,7 +369,7 @@ class Profiler {
  * beginning of a code block we want to profile and destructed at the end of the
  * scope to profile.
  */
-class ProfileSample {
+REACTPHYSICS_API class ProfileSample {
 
 	private:
 

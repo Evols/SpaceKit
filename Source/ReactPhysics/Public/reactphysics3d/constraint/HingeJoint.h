@@ -37,7 +37,7 @@ namespace reactphysics3d {
  * This structure is used to gather the information needed to create a hinge joint.
  * This structure will be used to create the actual hinge joint.
  */
-struct HingeJointInfo : public JointInfo {
+REACTPHYSICS_API struct HingeJointInfo : public JointInfo {
 
     public :
 
@@ -138,7 +138,7 @@ struct HingeJointInfo : public JointInfo {
  * between two bodies around a single axis. This joint has one degree of freedom. It
  * can be useful to simulate doors or pendulumns.
  */
-class HingeJoint : public Joint {
+REACTPHYSICS_API class HingeJoint : public Joint {
 
     private :
 

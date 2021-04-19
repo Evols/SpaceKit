@@ -46,7 +46,7 @@ enum class JointType;
  * This class represent the component of the ECS that contains generic information about
  * all the joints.
  */
-class JointComponents : public Components {
+REACTPHYSICS_API class JointComponents : public Components {
 
     private:
 

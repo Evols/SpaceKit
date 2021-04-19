@@ -50,7 +50,7 @@ class DynamicsComponents;
  * This structure contains data from the constraint solver that are used to solve
  * each joint constraint.
  */
-struct ConstraintSolverData {
+REACTPHYSICS_API struct ConstraintSolverData {
 
     public :
 
@@ -143,7 +143,7 @@ struct ConstraintSolverData {
  * friction but also another twist friction constraint to prevent spin of the body around the
  * contact manifold center.
  */
-class ConstraintSolverSystem {
+REACTPHYSICS_API class ConstraintSolverSystem {
 
     private :
 
@@ -203,11 +203,13 @@ class ConstraintSolverSystem {
         /// Solve the position constraints
         void solvePositionConstraints();
 
+		// SpaceKit: edited
         /// Return true if the Non-Linear-Gauss-Seidel position correction technique is active
-        bool getIsNonLinearGaussSeidelPositionCorrectionActive() const;
+        bool getIsNonLinearGaussSeidelPositionCorrectionActive() const { return false; }
 
+		// SpaceKit: edited
         /// Enable/Disable the Non-Linear-Gauss-Seidel position correction technique.
-        void setIsNonLinearGaussSeidelPositionCorrectionActive(bool isActive);
+        void setIsNonLinearGaussSeidelPositionCorrectionActive(bool isActive) {}
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 

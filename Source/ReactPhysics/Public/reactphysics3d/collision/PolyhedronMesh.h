@@ -41,7 +41,7 @@ class PolygonVertexArray;
  * This class describes a polyhedron mesh made of faces and vertices.
  * The faces do not have to be triangles.
  */
-class PolyhedronMesh {
+REACTPHYSICS_API class PolyhedronMesh {
 
     private:
 

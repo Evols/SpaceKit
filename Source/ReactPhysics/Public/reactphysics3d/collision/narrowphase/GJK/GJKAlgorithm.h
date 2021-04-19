@@ -59,7 +59,7 @@ constexpr int MAX_ITERATIONS_GJK_RAYCAST = 32;
  * If the original objects (without margin) intersect, we exit GJK and run
  * the SAT algorithm to get contacts and collision data.
  */
-class GJKAlgorithm {
+REACTPHYSICS_API class GJKAlgorithm {
 
     private :
 

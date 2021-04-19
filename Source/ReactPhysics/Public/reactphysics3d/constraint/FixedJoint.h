@@ -37,7 +37,7 @@ namespace reactphysics3d {
  * This structure is used to gather the information needed to create a fixed
  * joint. This structure will be used to create the actual fixed joint.
  */
-struct FixedJointInfo : public JointInfo {
+REACTPHYSICS_API struct FixedJointInfo : public JointInfo {
 
     public :
 
@@ -64,7 +64,7 @@ struct FixedJointInfo : public JointInfo {
  * This class represents a fixed joint that is used to forbid any translation or rotation
  * between two bodies.
  */
-class FixedJoint : public Joint {
+REACTPHYSICS_API class FixedJoint : public Joint {
 
     private :
 

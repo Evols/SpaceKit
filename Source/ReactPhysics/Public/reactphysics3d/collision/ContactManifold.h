@@ -51,7 +51,7 @@ class DefaultPoolAllocator;
  * points among the frames for better stability (warm starting of the
  * contact solver)
  */
-class ContactManifold {
+REACTPHYSICS_API class ContactManifold {
 
     public:
 

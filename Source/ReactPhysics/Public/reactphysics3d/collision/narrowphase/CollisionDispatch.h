@@ -55,7 +55,7 @@ enum class NarrowPhaseAlgorithmType {
  * Collision dispatching decides which collision
  * algorithm to use given two types of colliders.
  */
-class CollisionDispatch {
+REACTPHYSICS_API class CollisionDispatch {
 
     protected:
 

@@ -49,7 +49,7 @@ class Profiler;
  * If none is found, the objects are separated. Otherwise, the two objects are
  * in contact and we use clipping to get the contact points.
  */
-class SATAlgorithm {
+REACTPHYSICS_API class SATAlgorithm {
 
     private :
 

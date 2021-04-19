@@ -38,7 +38,7 @@ namespace reactphysics3d {
  * that have to be tested during narrow-phase collision detection. This class collects all the
  * sphere vs sphere collision detection tests.
  */
-struct SphereVsSphereNarrowPhaseInfoBatch : public NarrowPhaseInfoBatch {
+REACTPHYSICS_API struct SphereVsSphereNarrowPhaseInfoBatch : public NarrowPhaseInfoBatch {
 
     public:
 

@@ -47,7 +47,7 @@ enum class BodyType;
  * has a constant mass. This class inherits from the
  * CollisionBody class.
   */
-class RigidBody : public CollisionBody {
+REACTPHYSICS_API class RigidBody : public CollisionBody {
 
     protected :
 

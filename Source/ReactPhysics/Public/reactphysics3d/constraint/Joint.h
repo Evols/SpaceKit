@@ -46,7 +46,7 @@ class RigidBody;
 /**
  * This structure is used to gather the information needed to create a joint.
  */
-struct JointInfo {
+REACTPHYSICS_API struct JointInfo {
 
     public :
 
@@ -92,7 +92,7 @@ struct JointInfo {
 /**
  * This abstract class represents a joint between two bodies.
  */
-class Joint {
+REACTPHYSICS_API class Joint {
 
     protected :
 

@@ -46,7 +46,7 @@ enum class JointType;
 /**
  * This class represent the component of the ECS with data for the FixedJoint.
  */
-class FixedJointComponents : public Components {
+REACTPHYSICS_API class FixedJointComponents : public Components {
 
     private:
 

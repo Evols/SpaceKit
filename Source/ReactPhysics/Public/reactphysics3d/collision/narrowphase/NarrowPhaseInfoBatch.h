@@ -45,7 +45,7 @@ struct ContactPointInfo;
  * this class for each kind of collision detection test. For instance, one for sphere vs sphere,
  * one for sphere vs capsule, ...
  */
-struct NarrowPhaseInfoBatch {
+REACTPHYSICS_API struct NarrowPhaseInfoBatch {
 
     protected:
 

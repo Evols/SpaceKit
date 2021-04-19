@@ -38,7 +38,7 @@ namespace reactphysics3d {
  * the dynamics simulation like the friction coefficient or the bounciness of the rigid
  * body.
  */
-class Material {
+REACTPHYSICS_API class Material {
 
     private :
 

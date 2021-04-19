@@ -44,7 +44,7 @@ struct SphereVsCapsuleNarrowPhaseInfoBatch;
  * contact points and contact normal. This is based on the "Robust Contact
  * Creation for Physics Simulation" presentation by Dirk Gregorius.
  */
-class SphereVsCapsuleAlgorithm : public NarrowPhaseAlgorithm {
+REACTPHYSICS_API class SphereVsCapsuleAlgorithm : public NarrowPhaseAlgorithm {
 
     protected :
 

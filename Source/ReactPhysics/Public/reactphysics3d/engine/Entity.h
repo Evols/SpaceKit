@@ -54,7 +54,7 @@ namespace reactphysics3d {
  * This implementation is based on the following article:
  * http://bitsquid.blogspot.com/2014/08/building-data-oriented-entity-system.html
  */
-struct Entity {
+REACTPHYSICS_API struct Entity {
 
     private:
 

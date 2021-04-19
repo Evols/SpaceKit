@@ -49,7 +49,7 @@ class MemoryAllocator;
 /**
  * This structure represents a node of the dynamic AABB tree.
  */
-struct TreeNode {
+REACTPHYSICS_API struct TreeNode {
 
     // -------------------- Constants -------------------- //
 
@@ -99,7 +99,7 @@ struct TreeNode {
  * Overlapping callback method that has to be used as parameter of the
  * reportAllShapesOverlappingWithNode() method.
  */
-class DynamicAABBTreeOverlapCallback {
+REACTPHYSICS_API class DynamicAABBTreeOverlapCallback {
 
     public :
 
@@ -116,7 +116,7 @@ class DynamicAABBTreeOverlapCallback {
  * Raycast callback in the Dynamic AABB Tree called when the AABB of a leaf
  * node is hit by the ray.
  */
-class DynamicAABBTreeRaycastCallback {
+REACTPHYSICS_API class DynamicAABBTreeRaycastCallback {
 
     public:
 
@@ -134,7 +134,7 @@ class DynamicAABBTreeRaycastCallback {
  * based on the one from Erin Catto in Box2D as described in the book
  * "Introduction to Game Physics with Box2D" by Ian Parberry.
  */
-class DynamicAABBTree {
+REACTPHYSICS_API class DynamicAABBTree {
 
     private:
 

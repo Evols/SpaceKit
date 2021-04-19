@@ -47,7 +47,7 @@ class MemoryManager;
 class Profiler;
 
 // class AABBOverlapCallback
-class AABBOverlapCallback : public DynamicAABBTreeOverlapCallback {
+REACTPHYSICS_API class AABBOverlapCallback : public DynamicAABBTreeOverlapCallback {
 
     public:
 
@@ -69,7 +69,7 @@ class AABBOverlapCallback : public DynamicAABBTreeOverlapCallback {
  * Callback called when the AABB of a leaf node is hit by a ray the
  * broad-phase Dynamic AABB Tree.
  */
-class BroadPhaseRaycastCallback : public DynamicAABBTreeRaycastCallback {
+REACTPHYSICS_API class BroadPhaseRaycastCallback : public DynamicAABBTreeRaycastCallback {
 
     private :
 
@@ -105,7 +105,7 @@ class BroadPhaseRaycastCallback : public DynamicAABBTreeRaycastCallback {
  * later for collision during the narrow-phase collision detection. A dynamic AABB
  * tree data structure is used for fast broad-phase collision detection.
  */
-class BroadPhaseSystem {
+REACTPHYSICS_API class BroadPhaseSystem {
 
     protected :
 

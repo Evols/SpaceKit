@@ -38,7 +38,7 @@ namespace reactphysics3d {
  * that have to be tested during narrow-phase collision detection. This class collects all the
  * capsule vs capsule collision detection tests.
  */
-struct CapsuleVsCapsuleNarrowPhaseInfoBatch : public NarrowPhaseInfoBatch {
+REACTPHYSICS_API struct CapsuleVsCapsuleNarrowPhaseInfoBatch : public NarrowPhaseInfoBatch {
 
     public:
 

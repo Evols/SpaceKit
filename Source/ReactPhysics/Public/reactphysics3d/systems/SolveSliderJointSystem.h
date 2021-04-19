@@ -41,7 +41,7 @@ class PhysicsWorld;
 /**
  * This class is responsible to solve the SliderJoint constraints
  */
-class SolveSliderJointSystem {
+REACTPHYSICS_API class SolveSliderJointSystem {
 
     private :
 

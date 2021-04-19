@@ -48,7 +48,7 @@ namespace reactphysics3d {
  * This class is the default logger class used to log information, warnings
  * or errors during the execution of the library code for easier debugging.
  */
-class DefaultLogger : public Logger {
+REACTPHYSICS_API class DefaultLogger : public Logger {
 
     public:
 

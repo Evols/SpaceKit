@@ -45,7 +45,7 @@ class ContactPoint;
  * This is based on the "Robust Contact Creation for Physics Simulation"
  * presentation by Dirk Gregorius.
  */
-class CapsuleVsCapsuleAlgorithm : public NarrowPhaseAlgorithm {
+REACTPHYSICS_API class CapsuleVsCapsuleAlgorithm : public NarrowPhaseAlgorithm {
 
     protected :
 

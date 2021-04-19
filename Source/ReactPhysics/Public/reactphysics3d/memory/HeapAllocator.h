@@ -41,7 +41,7 @@ namespace reactphysics3d {
  * This class is used to efficiently allocate memory on the heap.
  * It is used to allocate memory that cannot be allocated in a single frame allocator or a pool allocator.
  */
-class HeapAllocator : public MemoryAllocator {
+REACTPHYSICS_API class HeapAllocator : public MemoryAllocator {
 
     private :
 

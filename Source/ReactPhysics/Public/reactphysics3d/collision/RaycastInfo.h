@@ -42,7 +42,7 @@ struct Ray;
 /**
  * This structure contains the information about a raycast hit.
  */
-struct RaycastInfo {
+REACTPHYSICS_API struct RaycastInfo {
 
     private:
 
@@ -96,7 +96,7 @@ struct RaycastInfo {
  * the notifyRaycastHit() method. This method will be called for each collider
  * that is hit by the ray.
  */
-class RaycastCallback {
+REACTPHYSICS_API class RaycastCallback {
 
     public:
 
@@ -127,7 +127,7 @@ class RaycastCallback {
 };
 
 /// Structure RaycastTest
-struct RaycastTest {
+REACTPHYSICS_API struct RaycastTest {
 
     public:
 

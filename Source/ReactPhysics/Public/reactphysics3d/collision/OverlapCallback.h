@@ -44,7 +44,7 @@ struct Entity;
  * This class can be used to register a callback for collision overlap queries between bodies.
  * You should implement your own class inherited from this one and implement the onOverlap() method.
  */
-class OverlapCallback {
+REACTPHYSICS_API class OverlapCallback {
 
     public:
 

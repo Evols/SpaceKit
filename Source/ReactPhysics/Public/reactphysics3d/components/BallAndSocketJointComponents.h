@@ -46,7 +46,7 @@ enum class JointType;
 /**
  * This class represent the component of the ECS with data for the BallAndSocketJoint.
  */
-class BallAndSocketJointComponents : public Components {
+REACTPHYSICS_API class BallAndSocketJointComponents : public Components {
 
     private:
 

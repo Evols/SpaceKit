@@ -39,7 +39,7 @@ namespace reactphysics3d {
 /**
  * This class is responsible to manage the entities of the ECS.
  */
-class EntityManager {
+REACTPHYSICS_API class EntityManager {
 
     private:
 

@@ -44,7 +44,7 @@ class DefaultAllocator;
  * axis x, y, z local axis. The "transform" of the corresponding
  * body will give an orientation and a position to the box.
  */
-class BoxShape : public ConvexPolyhedronShape {
+REACTPHYSICS_API class BoxShape : public ConvexPolyhedronShape {
 
     protected :
 

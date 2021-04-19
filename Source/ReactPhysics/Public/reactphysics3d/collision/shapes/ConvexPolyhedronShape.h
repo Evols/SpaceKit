@@ -38,7 +38,7 @@ namespace reactphysics3d {
  * This abstract class represents a convex polyhedron collision shape associated with a
  * body that is used during the narrow-phase collision detection.
  */
-class ConvexPolyhedronShape : public ConvexShape {
+REACTPHYSICS_API class ConvexPolyhedronShape : public ConvexShape {
 
     protected :
 

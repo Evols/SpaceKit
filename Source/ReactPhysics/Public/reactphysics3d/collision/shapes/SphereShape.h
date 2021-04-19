@@ -44,7 +44,7 @@ class CollisionBody;
  * radius of the sphere. Therefore, no need to specify an object margin
  * for a sphere shape.
  */
-class SphereShape : public ConvexShape {
+REACTPHYSICS_API class SphereShape : public ConvexShape {
 
     protected :
 

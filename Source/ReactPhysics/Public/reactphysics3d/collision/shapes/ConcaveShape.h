@@ -38,7 +38,7 @@ namespace reactphysics3d {
  * This class is used to encapsulate a callback method for
  * a single triangle of a ConcaveMesh.
  */
-class TriangleCallback {
+REACTPHYSICS_API class TriangleCallback {
 
     public:
 
@@ -56,7 +56,7 @@ class TriangleCallback {
  * This abstract class represents a concave collision shape associated with a
  * body that is used during the narrow-phase collision detection.
  */
-class ConcaveShape : public CollisionShape {
+REACTPHYSICS_API class ConcaveShape : public CollisionShape {
 
     protected :
 

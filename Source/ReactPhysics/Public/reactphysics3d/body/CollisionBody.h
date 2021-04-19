@@ -50,7 +50,7 @@ class Logger;
  * This class represents a body that is able to collide with others
  * bodies.
  */
-class CollisionBody {
+REACTPHYSICS_API class CollisionBody {
 
     protected :
 

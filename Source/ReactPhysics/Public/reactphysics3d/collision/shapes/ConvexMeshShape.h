@@ -45,7 +45,7 @@ class PhysicsWorld;
  * of the shape will be at the origin of the local-space geometry that you use to create
  * the mesh.
  */
-class ConvexMeshShape : public ConvexPolyhedronShape {
+REACTPHYSICS_API class ConvexMeshShape : public ConvexPolyhedronShape {
 
     protected :
 

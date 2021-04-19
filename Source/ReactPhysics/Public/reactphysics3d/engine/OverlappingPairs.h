@@ -52,7 +52,7 @@ class CollisionDispatch;
  * This structure contains collision info about the last frame.
  * This is used for temporal coherence between frames.
  */
-struct LastFrameCollisionInfo {
+REACTPHYSICS_API struct LastFrameCollisionInfo {
 
     /// True if we have information about the previous frame
     bool isValid;
@@ -102,7 +102,7 @@ struct LastFrameCollisionInfo {
  * overlap anymore. Each contains a contact manifold that
  * store all the contact points between the two bodies.
  */
-class OverlappingPairs {
+REACTPHYSICS_API class OverlappingPairs {
 
     private:
 

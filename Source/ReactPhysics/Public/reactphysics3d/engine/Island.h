@@ -41,7 +41,7 @@ class ContactManifold;
  * An island represent an isolated group of awake bodies that are connected with each other by
  * some contraints (contacts or joints).
  */
-class Island {
+REACTPHYSICS_API class Island {
 
     private:
 

@@ -47,7 +47,7 @@ enum class JointType;
 /**
  * This class represent the component of the ECS with data for the HingeJoint.
  */
-class HingeJointComponents : public Components {
+REACTPHYSICS_API class HingeJointComponents : public Components {
 
     private:
 

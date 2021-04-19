@@ -3,13 +3,22 @@
 #include "SpaceGameState.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "SpaceMovementComponent.h"
 #include "SpaceKit/Public/SpaceTransformComponent.h"
+#include "ReactPhysics/Public/reactphysics3d/reactphysics3d.h"
 
 
 USpaceGameStateComponent::USpaceGameStateComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
+
+	PhysicsCommon = new reactphysics3d::PhysicsCommon();
+}
+
+USpaceGameStateComponent::~USpaceGameStateComponent()
+{
+	delete PhysicsCommon;
 }
 
 void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -22,8 +31,26 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	{
 		auto* Actor = *ActorIt;
 		auto* SpaceTransformComponent = Cast<USpaceTransformComponent>(Actor->GetComponentByClass(USpaceTransformComponent::StaticClass()));
-		if (!SpaceTransformComponent) continue;
+		auto* SpaceMovementComponent = Cast<USpaceMovementComponent>(Actor->GetComponentByClass(USpaceMovementComponent::StaticClass()));
+		if (SpaceTransformComponent == nullptr || SpaceMovementComponent == nullptr) continue;
 
 		UE_LOG(LogTemp, Log, TEXT("USpaceGameStateComponent::TickComponent: %s"), *Actor->GetName());
 	}
+}
+
+void USpaceGameStateComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	PhysicsWorld = PhysicsCommon->createPhysicsWorld();
+}
+
+void USpaceGameStateComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+}
+
+ASpaceGameState::ASpaceGameState()
+{
+	SpaceGameStateComponent = CreateDefaultSubobject<USpaceGameStateComponent>(TEXT("SpaceGameStateComponent"));
 }

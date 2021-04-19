@@ -47,7 +47,7 @@ class MemoryAllocator;
  * is used to allocated objects of small size. Both SingleFrameAllocator and PoolAllocator will fall back to
  * HeapAllocator if an allocation request cannot be fulfilled.
  */
-class MemoryManager {
+REACTPHYSICS_API class MemoryManager {
 
     private:
 

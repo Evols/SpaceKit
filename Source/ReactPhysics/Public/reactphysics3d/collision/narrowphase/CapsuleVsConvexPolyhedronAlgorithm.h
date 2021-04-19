@@ -48,7 +48,7 @@ class ContactPoint;
  * This is based on the "Robust Contact Creation for Physics Simulation"
  * presentation by Dirk Gregorius.
  */
-class CapsuleVsConvexPolyhedronAlgorithm : public NarrowPhaseAlgorithm {
+REACTPHYSICS_API class CapsuleVsConvexPolyhedronAlgorithm : public NarrowPhaseAlgorithm {
 
     protected :
 

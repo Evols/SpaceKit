@@ -65,7 +65,7 @@ struct JointInfo;
 /**
  * This class represents a physics world.
  */
-class PhysicsWorld {
+REACTPHYSICS_API class PhysicsWorld {
 
     public:
 
@@ -73,7 +73,7 @@ class PhysicsWorld {
         /**
          * This class is used to describe some settings of a physics world.
          */
-        struct WorldSettings {
+        REACTPHYSICS_API struct WorldSettings {
 
             /// Name of the world
             std::string worldName;
@@ -124,7 +124,7 @@ class PhysicsWorld {
             /// than the value bellow, the manifold are considered to be similar.
             decimal cosAngleSimilarContactManifold;
 
-            WorldSettings() {
+            REACTPHYSICS_API WorldSettings() {
 
                 worldName = "";
                 gravity = Vector3(0_fl, decimal(-9.81), 0_fl);
@@ -144,10 +144,10 @@ class PhysicsWorld {
 
             }
 
-            ~WorldSettings() = default;
+            REACTPHYSICS_API ~WorldSettings() = default;
 
             /// Return a string with the world settings
-            std::string to_string() const {
+            REACTPHYSICS_API std::string to_string() const {
 
                 std::stringstream ss;
 
@@ -313,163 +313,163 @@ class PhysicsWorld {
         void addJointToBodies(Entity body1, Entity body2, Entity joint);
 
         /// Destructor
-        ~PhysicsWorld();
+        REACTPHYSICS_API ~PhysicsWorld();
 
     public :
 
         // -------------------- Methods -------------------- //
 
         /// Create a collision body
-        CollisionBody* createCollisionBody(const Transform& transform);
+        REACTPHYSICS_API CollisionBody* createCollisionBody(const Transform& transform);
 
         /// Destroy a collision body
-        void destroyCollisionBody(CollisionBody* collisionBody);
+        REACTPHYSICS_API void destroyCollisionBody(CollisionBody* collisionBody);
 
         /// Get the collision dispatch configuration
-        CollisionDispatch& getCollisionDispatch();
+        REACTPHYSICS_API CollisionDispatch& getCollisionDispatch();
 
         /// Ray cast method
-        void raycast(const Ray& ray, RaycastCallback* raycastCallback, unsigned short raycastWithCategoryMaskBits = 0xFFFF) const;
+        REACTPHYSICS_API void raycast(const Ray& ray, RaycastCallback* raycastCallback, unsigned short raycastWithCategoryMaskBits = 0xFFFF) const;
 
         /// Return true if two bodies overlap (collide)
-        bool testOverlap(CollisionBody* body1, CollisionBody* body2);
+        REACTPHYSICS_API bool testOverlap(CollisionBody* body1, CollisionBody* body2);
 
         /// Report all the bodies that overlap (collide) with the body in parameter
-        void testOverlap(CollisionBody* body, OverlapCallback& overlapCallback);
+        REACTPHYSICS_API void testOverlap(CollisionBody* body, OverlapCallback& overlapCallback);
 
         /// Report all the bodies that overlap (collide) in the world
-        void testOverlap(OverlapCallback& overlapCallback);
+        REACTPHYSICS_API void testOverlap(OverlapCallback& overlapCallback);
 
         /// Test collision and report contacts between two bodies.
-        void testCollision(CollisionBody* body1, CollisionBody* body2, CollisionCallback& callback);
+        REACTPHYSICS_API void testCollision(CollisionBody* body1, CollisionBody* body2, CollisionCallback& callback);
 
         /// Test collision and report all the contacts involving the body in parameter
-        void testCollision(CollisionBody* body, CollisionCallback& callback);
+        REACTPHYSICS_API void testCollision(CollisionBody* body, CollisionCallback& callback);
 
         /// Test collision and report contacts between each colliding bodies in the world
-        void testCollision(CollisionCallback& callback);
+        REACTPHYSICS_API void testCollision(CollisionCallback& callback);
 
         /// Return a reference to the memory manager of the world
-        MemoryManager& getMemoryManager();
+        REACTPHYSICS_API MemoryManager& getMemoryManager();
 
         /// Return the current world-space AABB of given collider
-        AABB getWorldAABB(const Collider* collider) const;
+        REACTPHYSICS_API AABB getWorldAABB(const Collider* collider) const;
 
         /// Return the name of the world
-        const std::string& getName() const;
+        REACTPHYSICS_API const std::string& getName() const;
 
         /// Deleted copy-constructor
-        PhysicsWorld(const PhysicsWorld& world) = delete;
+        REACTPHYSICS_API PhysicsWorld(const PhysicsWorld& world) = delete;
 
         /// Deleted assignment operator
-        PhysicsWorld& operator=(const PhysicsWorld& world) = delete;
+        REACTPHYSICS_API PhysicsWorld& operator=(const PhysicsWorld& world) = delete;
 
         /// Update the physics simulation
-        void update(decimal timeStep);
+        REACTPHYSICS_API void update(decimal timeStep);
 
         /// Get the number of iterations for the velocity constraint solver
-        uint getNbIterationsVelocitySolver() const;
+        REACTPHYSICS_API uint getNbIterationsVelocitySolver() const;
 
         /// Set the number of iterations for the velocity constraint solver
-        void setNbIterationsVelocitySolver(uint nbIterations);
+        REACTPHYSICS_API void setNbIterationsVelocitySolver(uint nbIterations);
 
         /// Get the number of iterations for the position constraint solver
-        uint getNbIterationsPositionSolver() const;
+        REACTPHYSICS_API uint getNbIterationsPositionSolver() const;
 
         /// Set the number of iterations for the position constraint solver
-        void setNbIterationsPositionSolver(uint nbIterations);
+        REACTPHYSICS_API void setNbIterationsPositionSolver(uint nbIterations);
 
         /// Set the position correction technique used for contacts
-        void setContactsPositionCorrectionTechnique(ContactsPositionCorrectionTechnique technique);
+        REACTPHYSICS_API void setContactsPositionCorrectionTechnique(ContactsPositionCorrectionTechnique technique);
 
         /// Set the position correction technique used for joints
-        void setJointsPositionCorrectionTechnique(JointsPositionCorrectionTechnique technique);
+        REACTPHYSICS_API void setJointsPositionCorrectionTechnique(JointsPositionCorrectionTechnique technique);
 
         /// Create a rigid body into the physics world.
-        RigidBody* createRigidBody(const Transform& transform);
+        REACTPHYSICS_API RigidBody* createRigidBody(const Transform& transform);
 
         /// Disable the joints for pair of sleeping bodies
-        void disableJointsOfSleepingBodies();
+        REACTPHYSICS_API void disableJointsOfSleepingBodies();
 
         /// Destroy a rigid body and all the joints which it belongs
-        void destroyRigidBody(RigidBody* rigidBody);
+        REACTPHYSICS_API void destroyRigidBody(RigidBody* rigidBody);
 
         /// Create a joint between two bodies in the world and return a pointer to the new joint
-        Joint* createJoint(const JointInfo& jointInfo);
+        REACTPHYSICS_API Joint* createJoint(const JointInfo& jointInfo);
 
         /// Destroy a joint
-        void destroyJoint(Joint* joint);
+        REACTPHYSICS_API void destroyJoint(Joint* joint);
 
         /// Return the gravity vector of the world
-        Vector3 getGravity() const;
+        REACTPHYSICS_API Vector3 getGravity() const;
 
         /// Set the gravity vector of the world
-        void setGravity(const Vector3& gravity);
+        REACTPHYSICS_API void setGravity(const Vector3& gravity);
 
         /// Return if the gravity is on
-        bool isGravityEnabled() const;
+        REACTPHYSICS_API bool isGravityEnabled() const;
 
         /// Enable/Disable the gravity
-        void setIsGravityEnabled(bool isGravityEnabled);
+        REACTPHYSICS_API void setIsGravityEnabled(bool isGravityEnabled);
 
         /// Return true if the sleeping technique is enabled
-        bool isSleepingEnabled() const;
+        REACTPHYSICS_API bool isSleepingEnabled() const;
 
         /// Enable/Disable the sleeping technique
-        void enableSleeping(bool isSleepingEnabled);
+        REACTPHYSICS_API void enableSleeping(bool isSleepingEnabled);
 
         /// Return the current sleep linear velocity
-        decimal getSleepLinearVelocity() const;
+        REACTPHYSICS_API decimal getSleepLinearVelocity() const;
 
         /// Set the sleep linear velocity.
-        void setSleepLinearVelocity(decimal sleepLinearVelocity);
+        REACTPHYSICS_API void setSleepLinearVelocity(decimal sleepLinearVelocity);
 
         /// Return the current sleep angular velocity
-        decimal getSleepAngularVelocity() const;
+        REACTPHYSICS_API decimal getSleepAngularVelocity() const;
 
         /// Set the sleep angular velocity.
-        void setSleepAngularVelocity(decimal sleepAngularVelocity);
+        REACTPHYSICS_API void setSleepAngularVelocity(decimal sleepAngularVelocity);
 
         /// Return the time a body is required to stay still before sleeping
-        decimal getTimeBeforeSleep() const;
+        REACTPHYSICS_API decimal getTimeBeforeSleep() const;
 
         /// Set the time a body is required to stay still before sleeping
-        void setTimeBeforeSleep(decimal timeBeforeSleep);
+        REACTPHYSICS_API void setTimeBeforeSleep(decimal timeBeforeSleep);
 
         /// Set an event listener object to receive events callbacks.
-        void setEventListener(EventListener* eventListener);
+        REACTPHYSICS_API void setEventListener(EventListener* eventListener);
 
         /// Return the number of CollisionBody in the physics world
-        uint getNbCollisionBodies() const;
+        REACTPHYSICS_API uint getNbCollisionBodies() const;
 
         /// Return a constant pointer to a given CollisionBody of the world
-        const CollisionBody* getCollisionBody(uint index) const;
+        REACTPHYSICS_API const CollisionBody* getCollisionBody(uint index) const;
 
         /// Return a pointer to a given CollisionBody of the world
-        CollisionBody* getCollisionBody(uint index) ;
+        REACTPHYSICS_API CollisionBody* getCollisionBody(uint index) ;
 
         /// Return the number of RigidBody in the physics world
-        uint getNbRigidBodies() const;
+        REACTPHYSICS_API uint getNbRigidBodies() const;
 
         /// Return a constant pointer to a given RigidBody of the world
-        const RigidBody* getRigidBody(uint index) const;
+        REACTPHYSICS_API const RigidBody* getRigidBody(uint index) const;
 
         /// Return a pointer to a given RigidBody of the world
-        RigidBody* getRigidBody(uint index) ;
+        REACTPHYSICS_API RigidBody* getRigidBody(uint index) ;
 
         /// Return true if the debug rendering is enabled
-        bool getIsDebugRenderingEnabled() const;
+        REACTPHYSICS_API bool getIsDebugRenderingEnabled() const;
 
         /// Set to true if debug rendering is enabled
-        void setIsDebugRenderingEnabled(bool isEnabled);
+        REACTPHYSICS_API void setIsDebugRenderingEnabled(bool isEnabled);
 
         /// Return a reference to the Debug Renderer of the world
-        DebugRenderer& getDebugRenderer();
+        REACTPHYSICS_API DebugRenderer& getDebugRenderer();
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
         /// Return a reference to the profiler
-        Profiler* getProfiler();
+        REACTPHYSICS_API Profiler* getProfiler();
 
 #endif
 

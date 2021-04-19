@@ -46,7 +46,7 @@ class CollisionBody;
  * and height of the shape. Therefore, no need to specify an object margin for a
  * capsule shape.
  */
-class CapsuleShape : public ConvexShape {
+REACTPHYSICS_API class CapsuleShape : public ConvexShape {
 
     protected :
 

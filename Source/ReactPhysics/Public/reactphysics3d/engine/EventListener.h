@@ -39,7 +39,7 @@ namespace reactphysics3d {
  * this one and you must override the methods that you need. Then, you will need to register your
  * new event listener class to the physics world using the PhysicsWorld::setEventListener() method.
  */
-class EventListener : public CollisionCallback {
+REACTPHYSICS_API class EventListener : public CollisionCallback {
 
     public :
 

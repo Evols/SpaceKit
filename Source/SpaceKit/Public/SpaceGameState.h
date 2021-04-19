@@ -5,7 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
 #include "Components/ActorComponent.h"
+
 #include "SpaceGameState.generated.h"
+
+namespace reactphysics3d
+{
+	class PhysicsCommon;
+	class PhysicsWorld;
+}
 
 /**
  *
@@ -18,9 +25,18 @@ class SPACEKIT_API USpaceGameStateComponent : public UActorComponent
 public:
 
 	USpaceGameStateComponent();
+	~USpaceGameStateComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	virtual void BeginPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
+	reactphysics3d::PhysicsCommon* PhysicsCommon;
+
+	reactphysics3d::PhysicsWorld* PhysicsWorld;
+	
 };
 
 /**
@@ -33,4 +49,9 @@ class SPACEKIT_API ASpaceGameState : public AGameStateBase
 	
 public:
 
+	UPROPERTY()
+	USpaceGameStateComponent* SpaceGameStateComponent;
+
+	ASpaceGameState();
+	
 };

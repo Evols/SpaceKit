@@ -44,7 +44,7 @@ class MemoryManager;
  * with many physics parameters like friction or bounciness. When you create a body, you need to attach
  * at least one collider to it if you want that body to be able to collide in the physics world.
  */
-class Collider {
+REACTPHYSICS_API class Collider {
 
     protected:
 

@@ -41,7 +41,7 @@ namespace reactphysics3d {
  * efficiently. This implementation is inspired by the small block allocator
  * described here : http://www.codeproject.com/useritems/Small_Block_Allocator.asp
  */
-class PoolAllocator : public MemoryAllocator {
+REACTPHYSICS_API class PoolAllocator : public MemoryAllocator {
 
     private :
 

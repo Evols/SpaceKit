@@ -38,7 +38,7 @@ namespace reactphysics3d {
 /**
  * This class represents a default memory allocator that uses default malloc/free methods
  */
-class DefaultAllocator : public MemoryAllocator {
+REACTPHYSICS_API class DefaultAllocator : public MemoryAllocator {
 
     public:
 

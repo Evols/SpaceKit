@@ -40,7 +40,7 @@ namespace reactphysics3d {
  * This abstract class is the base class used to log information, warnings or errors during the execution of the
  * library code for easier debugging.
  */
-class Logger {
+REACTPHYSICS_API class Logger {
 
     public:
 

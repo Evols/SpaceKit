@@ -43,7 +43,7 @@ class CollisionBody;
  * informations are used to compute the contact set for a contact
  * between two bodies.
  */
-struct ContactPointInfo {
+REACTPHYSICS_API struct ContactPointInfo {
 
     private:
 

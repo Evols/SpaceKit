@@ -37,7 +37,7 @@ namespace reactphysics3d {
  * The faces do not have to be triangle. Note that the half-edge structure
  * is only valid if the mesh is closed (each edge has two adjacent faces).
  */
-class HalfEdgeStructure {
+REACTPHYSICS_API class HalfEdgeStructure {
 
     public:
 

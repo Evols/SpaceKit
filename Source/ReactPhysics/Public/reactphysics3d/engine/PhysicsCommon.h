@@ -47,7 +47,7 @@ namespace reactphysics3d {
  * Then this class is used by the user as a factory to create the physics world and
  * other objects.
  */
-class PhysicsCommon {
+REACTPHYSICS_API class PhysicsCommon {
 
     private :
 
@@ -101,10 +101,10 @@ class PhysicsCommon {
 #ifdef IS_RP3D_PROFILING_ENABLED
 
         /// Create and return a new profiler
-        Profiler* createProfiler();
+        REACTPHYSICS_API Profiler* createProfiler();
 
         /// Destroy a profiler
-        void destroyProfiler(Profiler* profiler);
+        REACTPHYSICS_API void destroyProfiler(Profiler* profiler);
 
 #endif
 
@@ -113,79 +113,79 @@ class PhysicsCommon {
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        PhysicsCommon(MemoryAllocator* baseMemoryAllocator = nullptr);
+        REACTPHYSICS_API PhysicsCommon(MemoryAllocator* baseMemoryAllocator = nullptr);
 
         /// Destructor
-        ~PhysicsCommon();
+        REACTPHYSICS_API ~PhysicsCommon();
 
         /// Create and return an instance of PhysicsWorld
-        PhysicsWorld* createPhysicsWorld(const PhysicsWorld::WorldSettings& worldSettings = PhysicsWorld::WorldSettings());
+        REACTPHYSICS_API PhysicsWorld* createPhysicsWorld(const PhysicsWorld::WorldSettings& worldSettings = PhysicsWorld::WorldSettings());
 
         /// Destroy an instance of PhysicsWorld
-        void destroyPhysicsWorld(PhysicsWorld* world);
+        REACTPHYSICS_API void destroyPhysicsWorld(PhysicsWorld* world);
 
         /// Create and return a sphere collision shape
-        SphereShape* createSphereShape(const decimal radius);
+        REACTPHYSICS_API SphereShape* createSphereShape(const decimal radius);
 
         /// Destroy a sphere collision shape
-        void destroySphereShape(SphereShape* sphereShape);
+        REACTPHYSICS_API void destroySphereShape(SphereShape* sphereShape);
 
         /// Create and return a box collision shape
-        BoxShape* createBoxShape(const Vector3& extent);
+        REACTPHYSICS_API BoxShape* createBoxShape(const Vector3& extent);
 
         /// Destroy a box collision shape
-        void destroyBoxShape(BoxShape* boxShape);
+        REACTPHYSICS_API void destroyBoxShape(BoxShape* boxShape);
 
         /// Create and return a capsule shape
-        CapsuleShape* createCapsuleShape(decimal radius, decimal height);
+        REACTPHYSICS_API CapsuleShape* createCapsuleShape(decimal radius, decimal height);
 
         /// Destroy a capsule collision shape
-        void destroyCapsuleShape(CapsuleShape* capsuleShape);
+        REACTPHYSICS_API void destroyCapsuleShape(CapsuleShape* capsuleShape);
 
         /// Create and return a convex mesh shape
-        ConvexMeshShape* createConvexMeshShape(PolyhedronMesh* polyhedronMesh, const Vector3& scaling = Vector3(decimal(1), decimal(1), decimal(1)));
+        REACTPHYSICS_API ConvexMeshShape* createConvexMeshShape(PolyhedronMesh* polyhedronMesh, const Vector3& scaling = Vector3(decimal(1), decimal(1), decimal(1)));
 
         /// Destroy a convex mesh shape
-        void destroyConvexMeshShape(ConvexMeshShape* convexMeshShape);
+        REACTPHYSICS_API void destroyConvexMeshShape(ConvexMeshShape* convexMeshShape);
 
         /// Create and return a height-field shape
-        HeightFieldShape* createHeightFieldShape(int nbGridColumns, int nbGridRows, decimal minHeight, decimal maxHeight,
+        REACTPHYSICS_API HeightFieldShape* createHeightFieldShape(int nbGridColumns, int nbGridRows, decimal minHeight, decimal maxHeight,
                                                  const void* heightFieldData, HeightFieldShape::HeightDataType dataType,
                                                  int upAxis = 1, decimal integerHeightScale = decimal(1.0),
                                                   const Vector3& scaling = Vector3(decimal(1), decimal(1), decimal(1)));
 
         /// Destroy a height-field shape
-        void destroyHeightFieldShape(HeightFieldShape* heightFieldShape);
+        REACTPHYSICS_API void destroyHeightFieldShape(HeightFieldShape* heightFieldShape);
 
         /// Create and return a concave mesh shape
-        ConcaveMeshShape* createConcaveMeshShape(TriangleMesh* triangleMesh, const Vector3& scaling = Vector3(decimal(1), decimal(1), decimal(1)));
+        REACTPHYSICS_API ConcaveMeshShape* createConcaveMeshShape(TriangleMesh* triangleMesh, const Vector3& scaling = Vector3(decimal(1), decimal(1), decimal(1)));
 
         /// Destroy a concave mesh shape
-        void destroyConcaveMeshShape(ConcaveMeshShape* concaveMeshShape);
+        REACTPHYSICS_API void destroyConcaveMeshShape(ConcaveMeshShape* concaveMeshShape);
 
         /// Create a polyhedron mesh
-        PolyhedronMesh* createPolyhedronMesh(PolygonVertexArray* polygonVertexArray);
+        REACTPHYSICS_API PolyhedronMesh* createPolyhedronMesh(PolygonVertexArray* polygonVertexArray);
 
         /// Destroy a polyhedron mesh
-        void destroyPolyhedronMesh(PolyhedronMesh* polyhedronMesh);
+        REACTPHYSICS_API void destroyPolyhedronMesh(PolyhedronMesh* polyhedronMesh);
 
         /// Create a triangle mesh
-        TriangleMesh* createTriangleMesh();
+        REACTPHYSICS_API TriangleMesh* createTriangleMesh();
 
         /// Destroy a triangle mesh
-        void destroyTriangleMesh(TriangleMesh* triangleMesh);
+        REACTPHYSICS_API void destroyTriangleMesh(TriangleMesh* triangleMesh);
 
         /// Create and return a new default logger
-        DefaultLogger* createDefaultLogger();
+        REACTPHYSICS_API DefaultLogger* createDefaultLogger();
 
         /// Destroy a default logger
-        void destroyDefaultLogger(DefaultLogger* logger);
+        REACTPHYSICS_API void destroyDefaultLogger(DefaultLogger* logger);
 
         /// Return the current logger
-        static Logger* getLogger();
+        REACTPHYSICS_API static Logger* getLogger();
 
         /// Set the logger
-        static void setLogger(Logger* logger);
+        REACTPHYSICS_API static void setLogger(Logger* logger);
 
 };
 
