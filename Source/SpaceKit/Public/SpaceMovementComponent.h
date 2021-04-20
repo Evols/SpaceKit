@@ -32,9 +32,12 @@ public:
 	virtual void InitializeComponent() override;
 	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 	UPROPERTY(BlueprintReadWrite, Category="SpaceKit")
 	FVectorFloat SpaceVelocity;
+
+	UPROPERTY(BlueprintReadWrite, Category="SpaceKit")
+	FVectorFloat SpaceAngularVelocity;
 
 	reactphysics3d::RigidBody* GetPhysicsBody();
 	

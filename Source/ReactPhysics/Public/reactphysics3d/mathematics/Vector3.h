@@ -31,7 +31,7 @@
 #include <reactphysics3d/mathematics/mathematics_functions.h>
 #include <reactphysics3d/decimal.h>
 
-#include "VectorFloat.h"
+struct FVectorFloat;
 
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
@@ -78,6 +78,9 @@ REACTPHYSICS_API struct Vector3 {
         /// Set the vector to zero
         REACTPHYSICS_API void setToZero();
 
+		// Convert to FVectorFloat
+        REACTPHYSICS_API FVectorFloat toVectorFloat() const;
+	
         /// Return the length of the vector
         REACTPHYSICS_API decimal length() const;
 

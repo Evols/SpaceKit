@@ -30,7 +30,7 @@
 #include <reactphysics3d/decimal.h>
 #include <reactphysics3d/mathematics/Vector3.h>
 
-#include "QuatFloat.h"
+struct FQuatFloat;
 
 /// ReactPhysics3D namespace
 namespace reactphysics3d {
@@ -85,97 +85,99 @@ REACTPHYSICS_API struct Quaternion {
         REACTPHYSICS_API Quaternion(const Matrix3x3& matrix);
 
         /// Destructor
-        ~Quaternion() = default;
+        REACTPHYSICS_API ~Quaternion() = default;
 
         /// Set all the values
-        void setAllValues(decimal newX, decimal newY, decimal newZ, decimal newW);
+        REACTPHYSICS_API void setAllValues(decimal newX, decimal newY, decimal newZ, decimal newW);
 
         /// Set the quaternion to zero
-        void setToZero();
+        REACTPHYSICS_API void setToZero();
 
         /// Set to the identity quaternion
-        void setToIdentity();
+        REACTPHYSICS_API void setToIdentity();
 
+		REACTPHYSICS_API FQuatFloat toQuatFloat() const;
+	
         /// Return the vector v=(x y z) of the quaternion
-        Vector3 getVectorV() const;
+        REACTPHYSICS_API Vector3 getVectorV() const;
 
         /// Return the length of the quaternion
-        decimal length() const;
+        REACTPHYSICS_API decimal length() const;
 
         /// Return the square of the length of the quaternion
-        decimal lengthSquare() const;
+        REACTPHYSICS_API decimal lengthSquare() const;
 
         /// Normalize the quaternion
-        void normalize();
+        REACTPHYSICS_API void normalize();
 
         /// Inverse the quaternion
-        void inverse();
+        REACTPHYSICS_API void inverse();
 
         /// Return the unit quaternion
-        Quaternion getUnit() const;
+        REACTPHYSICS_API Quaternion getUnit() const;
 
         /// Return the conjugate quaternion
-        Quaternion getConjugate() const;
+        REACTPHYSICS_API Quaternion getConjugate() const;
 
         /// Return the inverse of the quaternion
-        Quaternion getInverse() const;
+        REACTPHYSICS_API Quaternion getInverse() const;
 
         /// Return the orientation matrix corresponding to this quaternion
-        Matrix3x3 getMatrix() const;
+        REACTPHYSICS_API Matrix3x3 getMatrix() const;
 
         /// Return the identity quaternion
-        static Quaternion identity();
+        REACTPHYSICS_API static Quaternion identity();
 
         /// Return a quaternion constructed from Euler angles (in radians)
-        static Quaternion fromEulerAngles(decimal angleX, decimal angleY, decimal angleZ);
+        REACTPHYSICS_API static Quaternion fromEulerAngles(decimal angleX, decimal angleY, decimal angleZ);
 
         /// Return a quaternion constructed from Euler angles (in radians)
-        static Quaternion fromEulerAngles(const Vector3& eulerAngles);
+        REACTPHYSICS_API static Quaternion fromEulerAngles(const Vector3& eulerAngles);
 
         /// Dot product between two quaternions
-        decimal dot(const Quaternion& quaternion) const;
+        REACTPHYSICS_API decimal dot(const Quaternion& quaternion) const;
 
         /// Compute the rotation angle (in radians) and the rotation axis
-        void getRotationAngleAxis(decimal& angle, Vector3& axis) const;
+        REACTPHYSICS_API void getRotationAngleAxis(decimal& angle, Vector3& axis) const;
 
         /// Return true if it is a unit quaternion
-        bool isUnit() const;
+        REACTPHYSICS_API bool isUnit() const;
 
         /// Return true if it is a valid quaternion
-        bool isValid() const;
+        REACTPHYSICS_API bool isValid() const;
 
         /// Compute the spherical linear interpolation between two quaternions
-        static Quaternion slerp(const Quaternion& quaternion1, const Quaternion& quaternion2, decimal t);
+        REACTPHYSICS_API static Quaternion slerp(const Quaternion& quaternion1, const Quaternion& quaternion2, decimal t);
 
         /// Overloaded operator for the addition
-        Quaternion operator+(const Quaternion& quaternion) const;
+        REACTPHYSICS_API Quaternion operator+(const Quaternion& quaternion) const;
 
         /// Overloaded operator for the substraction
-        Quaternion operator-(const Quaternion& quaternion) const;
+        REACTPHYSICS_API Quaternion operator-(const Quaternion& quaternion) const;
 
         /// Overloaded operator for addition with assignment
-        Quaternion& operator+=(const Quaternion& quaternion);
+        REACTPHYSICS_API Quaternion& operator+=(const Quaternion& quaternion);
 
         /// Overloaded operator for substraction with assignment
-        Quaternion& operator-=(const Quaternion& quaternion);
+        REACTPHYSICS_API Quaternion& operator-=(const Quaternion& quaternion);
 
         /// Overloaded operator for the multiplication with a constant
-        Quaternion operator*(decimal nb) const;
+        REACTPHYSICS_API Quaternion operator*(decimal nb) const;
 
         /// Overloaded operator for the multiplication
-        Quaternion operator*(const Quaternion& quaternion) const;
+        REACTPHYSICS_API Quaternion operator*(const Quaternion& quaternion) const;
 
         /// Overloaded operator for the multiplication with a vector
-        Vector3 operator*(const Vector3& point) const;
+        REACTPHYSICS_API Vector3 operator*(const Vector3& point) const;
 
         /// Overloaded operator for assignment
-        Quaternion& operator=(const Quaternion& quaternion);
+        REACTPHYSICS_API Quaternion& operator=(const Quaternion& quaternion);
 
         /// Overloaded operator for equality condition
-        bool operator==(const Quaternion& quaternion) const;
+        REACTPHYSICS_API bool operator==(const Quaternion& quaternion) const;
 
         /// Return the string representation
-        std::string to_string() const;
+        REACTPHYSICS_API std::string to_string() const;
 
     private:
 

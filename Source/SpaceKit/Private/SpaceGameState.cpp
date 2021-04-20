@@ -3,6 +3,7 @@
 #include "SpaceGameState.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "QuatFloat.h"
 #include "SpaceMovementComponent.h"
 #include "SpaceKit/Public/SpaceTransformComponent.h"
 #include "ReactPhysics/Public/reactphysics3d/reactphysics3d.h"
@@ -25,8 +26,10 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (!PhysicsWorld) return;
 	auto* World = GetWorld(); if (!World) return;
 
+	// Update physics bodies from UE4 components
 	for (TActorIterator<AActor> ActorIt(World, AActor::StaticClass()); ActorIt; ++ActorIt)
 	{
 		auto* Actor = *ActorIt;
@@ -34,7 +37,30 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		auto* SpaceMovementComponent = Cast<USpaceMovementComponent>(Actor->GetComponentByClass(USpaceMovementComponent::StaticClass()));
 		if (SpaceTransformComponent == nullptr || SpaceMovementComponent == nullptr) continue;
 
-		UE_LOG(LogTemp, Log, TEXT("USpaceGameStateComponent::TickComponent: %s"), *Actor->GetName());
+		SpaceMovementComponent->GetPhysicsBody()->setTransform(reactphysics3d::Transform(
+			reactphysics3d::Vector3(SpaceTransformComponent->Location),
+			reactphysics3d::Quaternion(FQuatFloat(SpaceTransformComponent->Rotation))
+		));
+		SpaceMovementComponent->GetPhysicsBody()->setLinearVelocity(SpaceMovementComponent->SpaceVelocity);
+		SpaceMovementComponent->GetPhysicsBody()->setAngularVelocity(SpaceMovementComponent->SpaceAngularVelocity);
+	}
+
+	PhysicsWorld->update(FRealFloat(DeltaTime));
+
+	// Update UE4 components from physics bodies
+	for (TActorIterator<AActor> ActorIt(World, AActor::StaticClass()); ActorIt; ++ActorIt)
+	{
+		auto* Actor = *ActorIt;
+		auto* SpaceTransformComponent = Cast<USpaceTransformComponent>(Actor->GetComponentByClass(USpaceTransformComponent::StaticClass()));
+		auto* SpaceMovementComponent = Cast<USpaceMovementComponent>(Actor->GetComponentByClass(USpaceMovementComponent::StaticClass()));
+		if (SpaceTransformComponent == nullptr || SpaceMovementComponent == nullptr) continue;
+
+		const auto& transform = SpaceMovementComponent->GetPhysicsBody()->getTransform();
+		SpaceTransformComponent->Location = transform.getPosition().toVectorFloat();
+		SpaceTransformComponent->Rotation = FRotatorFloat(transform.getOrientation().toQuatFloat());
+
+		SpaceMovementComponent->SpaceVelocity = SpaceMovementComponent->GetPhysicsBody()->getLinearVelocity().toVectorFloat();
+		SpaceMovementComponent->SpaceAngularVelocity = SpaceMovementComponent->GetPhysicsBody()->getAngularVelocity().toVectorFloat();
 	}
 }
 

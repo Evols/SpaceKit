@@ -113,37 +113,37 @@ REACTPHYSICS_API class CollisionBody {
         virtual void setIsActive(bool isActive);
 
         /// Return the current position and orientation
-        const Transform& getTransform() const;
+        REACTPHYSICS_API const Transform& getTransform() const;
 
         /// Set the current position and orientation
-        virtual void setTransform(const Transform& transform);
+        REACTPHYSICS_API virtual void setTransform(const Transform& transform);
 
         /// Create a new collider and add it to the body.
-        virtual Collider* addCollider(CollisionShape* collisionShape, const Transform& transform);
+        REACTPHYSICS_API virtual Collider* addCollider(CollisionShape* collisionShape, const Transform& transform);
 
         /// Remove a collider from the body
-        virtual void removeCollider(Collider* collider);
+        REACTPHYSICS_API virtual void removeCollider(Collider* collider);
 
         /// Return true if a point is inside the collision body
-        bool testPointInside(const Vector3& worldPoint) const;
+        REACTPHYSICS_API bool testPointInside(const Vector3& worldPoint) const;
 
         /// Raycast method with feedback information
-        bool raycast(const Ray& ray, RaycastInfo& raycastInfo);
+        REACTPHYSICS_API bool raycast(const Ray& ray, RaycastInfo& raycastInfo);
 
         /// Test if the collision body overlaps with a given AABB
-        bool testAABBOverlap(const AABB& worldAABB) const;
+        REACTPHYSICS_API bool testAABBOverlap(const AABB& worldAABB) const;
 
         /// Compute and return the AABB of the body by merging all colliders AABBs
-        AABB getAABB() const;
+        REACTPHYSICS_API AABB getAABB() const;
 
         /// Return a const pointer to a given collider of the body
-        const Collider* getCollider(uint colliderIndex) const;
+        REACTPHYSICS_API const Collider* getCollider(uint colliderIndex) const;
 
         /// Return a pointer to a given collider of the body
-        Collider* getCollider(uint colliderIndex);
+        REACTPHYSICS_API Collider* getCollider(uint colliderIndex);
 
         /// Return the number of colliders associated with this body
-        uint getNbColliders() const;
+        REACTPHYSICS_API uint getNbColliders() const;
 
         /// Return the world-space coordinates of a point given the local-space coordinates of the body
         Vector3 getWorldPoint(const Vector3& localPoint) const;

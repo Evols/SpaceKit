@@ -29,6 +29,8 @@
 #include <reactphysics3d/mathematics/Matrix3x3.h>
 #include <cassert>
 
+#include "QuatFloat.h"
+
 // Namespace
 using namespace reactphysics3d;
 
@@ -125,6 +127,11 @@ Quaternion::Quaternion(const Matrix3x3& matrix) {
         z = (matrix[1][0] - matrix[0][1]) * s;
         w = decimal(0.5) * r;
     }
+}
+
+FQuatFloat Quaternion::toQuatFloat() const
+{
+	return FQuatFloat(x, y, z, w);
 }
 
 // Compute the rotation angle (in radians) and the rotation axis

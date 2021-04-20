@@ -26,12 +26,19 @@
 // Libraries
 #include <reactphysics3d/mathematics/Vector3.h>
 
+#include "VectorFloat.h"
+
 // Namespaces
 using namespace reactphysics3d;
 
 Vector3::Vector3(const FVectorFloat& vector)
 	: x(vector.X), y(vector.Y), z(vector.Z)
 {
+}
+
+FVectorFloat Vector3::toVectorFloat() const
+{
+	return FVectorFloat(x, y, z);
 }
 
 // Return the corresponding unit vector

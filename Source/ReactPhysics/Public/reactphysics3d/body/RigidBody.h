@@ -54,134 +54,134 @@ REACTPHYSICS_API class RigidBody : public CollisionBody {
         // -------------------- Methods -------------------- //
 
         /// Set the variable to know whether or not the body is sleeping
-        void setIsSleeping(bool isSleeping);
+        REACTPHYSICS_API void setIsSleeping(bool isSleeping);
 
         /// Update whether the current overlapping pairs where this body is involed are active or not
-        void updateOverlappingPairs();
+        REACTPHYSICS_API void updateOverlappingPairs();
 
         /// Compute and return the local-space center of mass of the body using its colliders
-        Vector3 computeCenterOfMass() const;
+        REACTPHYSICS_API Vector3 computeCenterOfMass() const;
 
         /// Compute the local-space inertia tensor and total mass of the body using its colliders
-        void computeMassAndInertiaTensorLocal(Vector3& inertiaTensorLocal, decimal& totalMass) const;
+        REACTPHYSICS_API void computeMassAndInertiaTensorLocal(Vector3& inertiaTensorLocal, decimal& totalMass) const;
 
         /// Return the inverse of the inertia tensor in world coordinates.
-        static const Matrix3x3 getWorldInertiaTensorInverse(PhysicsWorld& world, Entity bodyEntity);
+        REACTPHYSICS_API static const Matrix3x3 getWorldInertiaTensorInverse(PhysicsWorld& world, Entity bodyEntity);
 
     public :
 
         // -------------------- Methods -------------------- //
 
         /// Constructor
-        RigidBody(PhysicsWorld& world, Entity entity);
+        REACTPHYSICS_API RigidBody(PhysicsWorld& world, Entity entity);
 
         /// Destructor
-        virtual ~RigidBody() override = default;
+        REACTPHYSICS_API virtual ~RigidBody() override = default;
 
         /// Deleted copy-constructor
-        RigidBody(const RigidBody& body) = delete;
+        REACTPHYSICS_API RigidBody(const RigidBody& body) = delete;
 
         /// Deleted assignment operator
-        RigidBody& operator=(const RigidBody& body) = delete;
+        REACTPHYSICS_API RigidBody& operator=(const RigidBody& body) = delete;
 
         /// Set the current position and orientation
-        virtual void setTransform(const Transform& transform) override;
+        REACTPHYSICS_API virtual void setTransform(const Transform& transform) override;
 
         /// Return the mass of the body
-        decimal getMass() const;
+        REACTPHYSICS_API decimal getMass() const;
 
         /// Set the mass of the rigid body
-        void setMass(decimal mass);
+        REACTPHYSICS_API void setMass(decimal mass);
 
         /// Return the linear velocity
-        Vector3 getLinearVelocity() const;
+        REACTPHYSICS_API Vector3 getLinearVelocity() const;
 
         /// Set the linear velocity of the body.
-        void setLinearVelocity(const Vector3& linearVelocity);
+        REACTPHYSICS_API void setLinearVelocity(const Vector3& linearVelocity);
 
         /// Return the angular velocity
-        Vector3 getAngularVelocity() const;
+        REACTPHYSICS_API Vector3 getAngularVelocity() const;
 
         /// Set the angular velocity.
-        void setAngularVelocity(const Vector3& angularVelocity);
+        REACTPHYSICS_API void setAngularVelocity(const Vector3& angularVelocity);
 
         /// Return the local inertia tensor of the body (in body coordinates)
-        const Vector3& getLocalInertiaTensor() const;
+        REACTPHYSICS_API const Vector3& getLocalInertiaTensor() const;
 
         /// Set the local inertia tensor of the body (in body coordinates)
-        void setLocalInertiaTensor(const Vector3& inertiaTensorLocal);
+        REACTPHYSICS_API void setLocalInertiaTensor(const Vector3& inertiaTensorLocal);
 
         /// Return the center of mass of the body (in local-space coordinates)
-        const Vector3& getLocalCenterOfMass() const;
+       REACTPHYSICS_API  const Vector3& getLocalCenterOfMass() const;
 
         /// Set the center of mass of the body (in local-space coordinates)
-        void setLocalCenterOfMass(const Vector3& centerOfMass);
+        REACTPHYSICS_API void setLocalCenterOfMass(const Vector3& centerOfMass);
 
         /// Compute and set the local-space center of mass of the body using its colliders
-        void updateLocalCenterOfMassFromColliders();
+        REACTPHYSICS_API void updateLocalCenterOfMassFromColliders();
 
         /// Compute and set the local-space inertia tensor of the body using its colliders
-        void updateLocalInertiaTensorFromColliders();
+        REACTPHYSICS_API void updateLocalInertiaTensorFromColliders();
 
         /// Compute and set the mass of the body using its colliders
-        void updateMassFromColliders();
+        REACTPHYSICS_API void updateMassFromColliders();
 
         /// Compute and set the center of mass, the mass and the local-space inertia tensor of the body using its colliders
-        void updateMassPropertiesFromColliders();
+        REACTPHYSICS_API void updateMassPropertiesFromColliders();
 
         /// Return the type of the body
-        BodyType getType() const;
+        REACTPHYSICS_API BodyType getType() const;
 
         /// Set the type of the body
-        void setType(BodyType type);
+        REACTPHYSICS_API void setType(BodyType type);
 
         /// Return true if the gravity needs to be applied to this rigid body
-        bool isGravityEnabled() const;
+        REACTPHYSICS_API bool isGravityEnabled() const;
 
         /// Set the variable to know if the gravity is applied to this rigid body
-        void enableGravity(bool isEnabled);
+        REACTPHYSICS_API void enableGravity(bool isEnabled);
 
         /// Return the linear velocity damping factor
-        decimal getLinearDamping() const;
+        REACTPHYSICS_API decimal getLinearDamping() const;
 
         /// Set the linear damping factor
-        void setLinearDamping(decimal linearDamping);
+        REACTPHYSICS_API void setLinearDamping(decimal linearDamping);
 
         /// Return the angular velocity damping factor
-        decimal getAngularDamping() const;
+        REACTPHYSICS_API decimal getAngularDamping() const;
 
         /// Set the angular damping factor
-        void setAngularDamping(decimal angularDamping);
+        REACTPHYSICS_API void setAngularDamping(decimal angularDamping);
 
         /// Apply an external force to the body at its center of mass.
-        void applyForceToCenterOfMass(const Vector3& force);
+        REACTPHYSICS_API void applyForceToCenterOfMass(const Vector3& force);
 
         /// Apply an external force to the body at a given point (in local-space coordinates).
-        void applyForceAtLocalPosition(const Vector3& force, const Vector3& point);
+        REACTPHYSICS_API void applyForceAtLocalPosition(const Vector3& force, const Vector3& point);
 
         /// Apply an external force to the body at a given point (in world-space coordinates).
-        void applyForceAtWorldPosition(const Vector3& force, const Vector3& point);
+        REACTPHYSICS_API void applyForceAtWorldPosition(const Vector3& force, const Vector3& point);
 
         /// Apply an external torque to the body.
-        void applyTorque(const Vector3& torque);
+        REACTPHYSICS_API void applyTorque(const Vector3& torque);
 
         /// Return whether or not the body is allowed to sleep
-        bool isAllowedToSleep() const;
+        REACTPHYSICS_API bool isAllowedToSleep() const;
 
         /// Set whether or not the body is allowed to go to sleep
-        void setIsAllowedToSleep(bool isAllowedToSleep);
+        REACTPHYSICS_API void setIsAllowedToSleep(bool isAllowedToSleep);
 
         /// Return whether or not the body is sleeping
-        bool isSleeping() const;
+        REACTPHYSICS_API bool isSleeping() const;
 
         /// Set whether or not the body is active
-        virtual void setIsActive(bool isActive) override;
+        REACTPHYSICS_API virtual void setIsActive(bool isActive) override;
 
         /// Create a new collider and add it to the body
-        virtual Collider* addCollider(CollisionShape* collisionShape, const Transform& transform) override;
+        REACTPHYSICS_API virtual Collider* addCollider(CollisionShape* collisionShape, const Transform& transform) override;
 
         /// Remove a collider from the body
-        virtual void removeCollider(Collider* collider) override;
+        REACTPHYSICS_API virtual void removeCollider(Collider* collider) override;
 
 #ifdef IS_RP3D_PROFILING_ENABLED
 
