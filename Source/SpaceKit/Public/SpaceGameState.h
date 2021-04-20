@@ -29,8 +29,8 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	virtual void BeginPlay() override;
-
+	virtual void InitializeComponent() override;
+	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 	reactphysics3d::PhysicsCommon* PhysicsCommon;

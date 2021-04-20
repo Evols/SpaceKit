@@ -15,6 +15,7 @@ USpaceGameStateComponent::USpaceGameStateComponent()
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 
 	PhysicsCommon = new reactphysics3d::PhysicsCommon();
+	PhysicsWorld = nullptr;
 }
 
 USpaceGameStateComponent::~USpaceGameStateComponent()
@@ -64,11 +65,11 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	}
 }
 
-void USpaceGameStateComponent::BeginPlay()
+void USpaceGameStateComponent::InitializeComponent()
 {
-	Super::BeginPlay();
-
 	PhysicsWorld = PhysicsCommon->createPhysicsWorld();
+
+	Super::InitializeComponent();
 }
 
 void USpaceGameStateComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)

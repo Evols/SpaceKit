@@ -7,6 +7,7 @@
 #include "SpaceActor.generated.h"
 
 
+class USpaceMovementComponent;
 class USpaceTransformComponent;
 
 UCLASS()
@@ -19,8 +20,11 @@ public:
 	ASpaceActor();
 
 public:
-
+	
 	UPROPERTY(Category = "Space", VisibleAnywhere, BlueprintReadOnly, meta = (ExposeFunctionCategories = "SpaceTransform", AllowPrivateAccess = "true"))
 	USpaceTransformComponent* SpaceTransform;
+	
+	UPROPERTY(Category = "Space", VisibleAnywhere, BlueprintReadOnly, meta = (ExposeFunctionCategories = "SpaceMovement", AllowPrivateAccess = "true"))
+	USpaceMovementComponent* SpaceMovement;
 	
 };

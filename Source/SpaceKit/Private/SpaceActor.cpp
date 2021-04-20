@@ -8,4 +8,5 @@
 ASpaceActor::ASpaceActor()
 {
 	SpaceTransform = CreateDefaultSubobject<USpaceTransformComponent>(TEXT("SpaceTransform"));
+	SpaceMovement = CreateDefaultSubobject<USpaceMovementComponent>(TEXT("SpaceMovement"));
 }
