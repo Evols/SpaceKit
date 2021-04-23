@@ -13,6 +13,7 @@ USpaceGameStateComponent::USpaceGameStateComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
+	bWantsInitializeComponent = true;
 
 	PhysicsCommon = new reactphysics3d::PhysicsCommon();
 	PhysicsWorld = nullptr;
@@ -67,9 +68,9 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 void USpaceGameStateComponent::InitializeComponent()
 {
-	PhysicsWorld = PhysicsCommon->createPhysicsWorld();
-
 	Super::InitializeComponent();
+
+	PhysicsWorld = PhysicsCommon->createPhysicsWorld();
 }
 
 void USpaceGameStateComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -87,5 +88,6 @@ reactphysics3d::PhysicsWorld* USpaceGameStateComponent::GetPhysicsWorld(UWorld* 
 
 ASpaceGameState::ASpaceGameState()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	SpaceGameStateComponent = CreateDefaultSubobject<USpaceGameStateComponent>(TEXT("SpaceGameStateComponent"));
 }

@@ -30,17 +30,17 @@ public:
 	USpaceMovementComponent();
 
 	virtual void InitializeComponent() override;
-	
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
-	UPROPERTY(BlueprintReadWrite, Category="SpaceKit")
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="SpaceKit")
 	FVectorFloat SpaceVelocity;
 
-	UPROPERTY(BlueprintReadWrite, Category="SpaceKit")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="SpaceKit")
 	FVectorFloat SpaceAngularVelocity;
 
 	reactphysics3d::RigidBody* GetPhysicsBody();
-	
+
 protected:
 
 	UFUNCTION()

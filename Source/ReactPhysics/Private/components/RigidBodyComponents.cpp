@@ -98,7 +98,7 @@ void RigidBodyComponents::allocate(uint32 nbComponentsToAllocate) {
         memcpy(newBodies, mRigidBodies, mNbComponents * sizeof(RigidBody*));
         memcpy(newIsAllowedToSleep, mIsAllowedToSleep, mNbComponents * sizeof(bool));
         memcpy(newIsSleeping, mIsSleeping, mNbComponents * sizeof(bool));
-        memcpy(newSleepTimes, mSleepTimes, mNbComponents * sizeof(bool));
+        memcpy(newSleepTimes, mSleepTimes, mNbComponents * sizeof(decimal));
         memcpy(newBodyTypes, mBodyTypes, mNbComponents * sizeof(BodyType));
         memcpy(newLinearVelocities, mLinearVelocities, mNbComponents * sizeof(Vector3));
         memcpy(newAngularVelocities, mAngularVelocities, mNbComponents * sizeof(Vector3));
@@ -157,6 +157,13 @@ void RigidBodyComponents::allocate(uint32 nbComponentsToAllocate) {
     mJoints = newJoints;
 }
 
+void assignBogusDecimal(decimal& dec, const decimal& value)
+{
+	const auto ezStack = decimal(0.0);
+    FMemory::Memcpy(&dec, &ezStack, sizeof(ezStack));
+	dec = value;
+}
+
 // Add a component
 void RigidBodyComponents::addComponent(Entity bodyEntity, bool isSleeping, const RigidBodyComponent& component) {
 
@@ -168,16 +175,16 @@ void RigidBodyComponents::addComponent(Entity bodyEntity, bool isSleeping, const
     mRigidBodies[index] = component.body;
     mIsAllowedToSleep[index] = true;
     mIsSleeping[index] = false;
-    mSleepTimes[index] = decimal(0);
+	assignBogusDecimal(mSleepTimes[index], decimal(0.0));
     mBodyTypes[index] = component.bodyType;
     new (mLinearVelocities + index) Vector3(0_fl, 0_fl, 0_fl);
     new (mAngularVelocities + index) Vector3(0_fl, 0_fl, 0_fl);
     new (mExternalForces + index) Vector3(0_fl, 0_fl, 0_fl);
     new (mExternalTorques + index) Vector3(0_fl, 0_fl, 0_fl);
-    mLinearDampings[index] = decimal(0.0);
-    mAngularDampings[index] = decimal(0.0);
-    mMasses[index] = decimal(1.0);
-    mInverseMasses[index] = decimal(1.0);
+	assignBogusDecimal(mLinearDampings[index], decimal(0.0));
+	assignBogusDecimal(mAngularDampings[index], decimal(0.0));
+	assignBogusDecimal(mMasses[index], decimal(1.0));
+	assignBogusDecimal(mInverseMasses[index], decimal(1.0));
     new (mLocalInertiaTensors + index) Vector3(1.0_fl, 1.0_fl, 1.0_fl);
     new (mInverseInertiaTensorsLocal + index) Vector3(1.0_fl, 1.0_fl, 1.0_fl);
     new (mConstrainedLinearVelocities + index) Vector3(0_fl, 0_fl, 0_fl);

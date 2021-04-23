@@ -61,7 +61,6 @@ FRealFloat::FRealFloat(const std::string& InValue)
 {
 	if (IsFloat(FString(InValue.c_str())))
 	{
-		// UE_LOG(LogTemp, Log, TEXT("FRealFloat::FRealFloat std::string: %s %f"), *FString(InValue.c_str()), FCString::Atod(*FString(InValue.c_str())));
 	    Value = ttBigType(InValue.c_str());
     }
 }
@@ -70,7 +69,6 @@ FRealFloat::FRealFloat(const FString& InValue)
 {
 	if (IsFloat(InValue))
 	{
-		// UE_LOG(LogTemp, Log, TEXT("FRealFloat::FRealFloat FString: %s %f"), *InValue, FCString::Atod(*InValue));
 		Value = ttBigType(TCHAR_TO_ANSI(*InValue));
     }
 }

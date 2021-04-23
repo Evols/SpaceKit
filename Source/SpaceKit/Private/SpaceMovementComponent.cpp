@@ -3,7 +3,6 @@
 
 #include "SpaceMovementComponent.h"
 
-
 #include "SpaceGameState.h"
 #include "SpaceTransformComponent.h"
 #include "ReactPhysics/Public/reactphysics3d/reactphysics3d.h"
@@ -11,6 +10,7 @@
 
 USpaceMovementComponent::USpaceMovementComponent()
 {
+	bWantsInitializeComponent = true;
 }
 
 void USpaceMovementComponent::InitializeComponent()
@@ -20,12 +20,13 @@ void USpaceMovementComponent::InitializeComponent()
 	auto* PhysicsWorld = USpaceGameStateComponent::GetPhysicsWorld(GetWorld()); if (!PhysicsWorld) return;
 	auto* SpaceUpdatedComponent = GetSpaceUpdatedComponent(); if (!SpaceUpdatedComponent) return;
 
-	PhysicsBody = PhysicsWorld->createRigidBody(
-		reactphysics3d::Transform(
-			reactphysics3d::Vector3(SpaceUpdatedComponent->Location),
-			reactphysics3d::Quaternion(FQuatFloat(SpaceUpdatedComponent->Rotation))
-		)
-	); 
+	const auto transform = reactphysics3d::Transform(
+		reactphysics3d::Vector3(SpaceUpdatedComponent->Location),
+		reactphysics3d::Quaternion(FQuatFloat(SpaceUpdatedComponent->Rotation))
+	);
+
+	PhysicsBody = PhysicsWorld->createRigidBody(transform);
+	PhysicsBody->setMass(FRealFloat(5.0));
 }
 
 

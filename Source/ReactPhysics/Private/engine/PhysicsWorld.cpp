@@ -477,7 +477,7 @@ RigidBody* PhysicsWorld::createRigidBody(const Transform& transform) {
     mCollisionBodyComponents.addComponent(entity, false, bodyComponent);
 
     RigidBodyComponents::RigidBodyComponent rigidBodyComponent(rigidBody, BodyType::DYNAMIC, transform.getPosition());
-    mRigidBodyComponents.addComponent(entity, false, rigidBodyComponent);
+	mRigidBodyComponents.addComponent(entity, false, rigidBodyComponent);
 
     // Compute the inverse mass
     mRigidBodyComponents.setMassInverse(entity, decimal(1.0) / mRigidBodyComponents.getMass(entity));
