@@ -45,6 +45,7 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		));
 		SpaceMovementComponent->GetPhysicsBody()->setLinearVelocity(SpaceMovementComponent->SpaceVelocity);
 		SpaceMovementComponent->GetPhysicsBody()->setAngularVelocity(SpaceMovementComponent->SpaceAngularVelocity);
+		SpaceMovementComponent->GetPhysicsBody()->setMass(SpaceMovementComponent->SpaceMass);
 	}
 
 	PhysicsWorld->update(FRealFloat(DeltaTime));

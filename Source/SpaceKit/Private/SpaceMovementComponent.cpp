@@ -11,6 +11,7 @@
 USpaceMovementComponent::USpaceMovementComponent()
 {
 	bWantsInitializeComponent = true;
+	SpaceMass = 500.0_fl;
 }
 
 void USpaceMovementComponent::InitializeComponent()
@@ -26,7 +27,7 @@ void USpaceMovementComponent::InitializeComponent()
 	);
 
 	PhysicsBody = PhysicsWorld->createRigidBody(transform);
-	PhysicsBody->setMass(FRealFloat(5.0));
+	PhysicsBody->setMass(SpaceMass);
 }
 
 
