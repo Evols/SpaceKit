@@ -56,10 +56,12 @@ void AABB::mergeWithAABB(const AABB& aabb) {
 
 // Replace the current AABB with a new AABB that is the union of two AABBs in parameters
 void AABB::mergeTwoAABBs(const AABB& aabb1, const AABB& aabb2) {
+	mMinCoordinates = Vector3();
     mMinCoordinates.x = std::min(aabb1.mMinCoordinates.x, aabb2.mMinCoordinates.x);
     mMinCoordinates.y = std::min(aabb1.mMinCoordinates.y, aabb2.mMinCoordinates.y);
     mMinCoordinates.z = std::min(aabb1.mMinCoordinates.z, aabb2.mMinCoordinates.z);
 
+	mMaxCoordinates = Vector3();
     mMaxCoordinates.x = std::max(aabb1.mMaxCoordinates.x, aabb2.mMaxCoordinates.x);
     mMaxCoordinates.y = std::max(aabb1.mMaxCoordinates.y, aabb2.mMaxCoordinates.y);
     mMaxCoordinates.z = std::max(aabb1.mMaxCoordinates.z, aabb2.mMaxCoordinates.z);

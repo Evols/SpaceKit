@@ -38,7 +38,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="SpaceKit")
 	FVectorFloat SpaceAngularVelocity;
-	
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="SpaceKit")
 	FRealFloat SpaceMass;
 
@@ -52,5 +52,5 @@ protected:
 private:
 
 	reactphysics3d::RigidBody* PhysicsBody;
-	
+
 };

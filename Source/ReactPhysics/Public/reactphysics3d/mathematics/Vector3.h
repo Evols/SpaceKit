@@ -178,7 +178,7 @@ REACTPHYSICS_API struct Vector3 {
 };
 
 // Constructor of the struct Vector3
-inline Vector3::Vector3() : x(0.0), y(0.0), z(0.0) {
+inline Vector3::Vector3() : x(0.0_fl), y(0.0_fl), z(0.0_fl) {
 
 }
 
@@ -364,8 +364,12 @@ inline Vector3 operator*(const Vector3& vector1, const Vector3& vector2) {
 // Assignment operator
 inline Vector3& Vector3::operator=(const Vector3& vector) {
     if (&vector != this) {
+    	auto source = decimal();
+    	FMemory::Memcpy(&x, &source, sizeof decimal);
         x = vector.x;
+    	FMemory::Memcpy(&y, &source, sizeof decimal);
         y = vector.y;
+    	FMemory::Memcpy(&z, &source, sizeof decimal);
         z = vector.z;
     }
     return *this;

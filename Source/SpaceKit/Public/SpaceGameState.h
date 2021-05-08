@@ -38,7 +38,8 @@ public:
 	reactphysics3d::PhysicsWorld* PhysicsWorld;
 
 	static reactphysics3d::PhysicsWorld* GetPhysicsWorld(UWorld* World);
-	
+	static reactphysics3d::PhysicsCommon* GetPhysicsCommon(UWorld* World);
+
 };
 
 /**

@@ -46,6 +46,8 @@ void USpaceGameStateComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		SpaceMovementComponent->GetPhysicsBody()->setLinearVelocity(SpaceMovementComponent->SpaceVelocity);
 		SpaceMovementComponent->GetPhysicsBody()->setAngularVelocity(SpaceMovementComponent->SpaceAngularVelocity);
 		SpaceMovementComponent->GetPhysicsBody()->setMass(SpaceMovementComponent->SpaceMass);
+
+		// UE_LOG(LogTemp, Log, TEXT("Before %s -> %s"), *Actor->GetName(), )
 	}
 
 	PhysicsWorld->update(FRealFloat(DeltaTime));
@@ -85,6 +87,14 @@ reactphysics3d::PhysicsWorld* USpaceGameStateComponent::GetPhysicsWorld(UWorld* 
 	auto* GameState = World->GetGameState(); if (!GameState) return nullptr;
 	auto* SpaceGameStateComponent = Cast<USpaceGameStateComponent>(GameState->GetComponentByClass(USpaceGameStateComponent::StaticClass())); if (!SpaceGameStateComponent) return nullptr;
 	return SpaceGameStateComponent->PhysicsWorld;
+}
+
+reactphysics3d::PhysicsCommon* USpaceGameStateComponent::GetPhysicsCommon(UWorld* World)
+{
+	if (!World) return nullptr;
+	auto* GameState = World->GetGameState(); if (!GameState) return nullptr;
+	auto* SpaceGameStateComponent = Cast<USpaceGameStateComponent>(GameState->GetComponentByClass(USpaceGameStateComponent::StaticClass())); if (!SpaceGameStateComponent) return nullptr;
+	return SpaceGameStateComponent->PhysicsCommon;
 }
 
 ASpaceGameState::ASpaceGameState()
