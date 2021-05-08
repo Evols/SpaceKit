@@ -8,12 +8,6 @@
 
 #include "SpaceGameState.generated.h"
 
-namespace reactphysics3d
-{
-	class PhysicsCommon;
-	class PhysicsWorld;
-}
-
 /**
  *
  */
@@ -25,7 +19,6 @@ class SPACEKIT_API USpaceGameStateComponent : public UActorComponent
 public:
 
 	USpaceGameStateComponent();
-	~USpaceGameStateComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -33,13 +26,6 @@ public:
 	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	reactphysics3d::PhysicsCommon* PhysicsCommon;
-
-	reactphysics3d::PhysicsWorld* PhysicsWorld;
-
-	static reactphysics3d::PhysicsWorld* GetPhysicsWorld(UWorld* World);
-	static reactphysics3d::PhysicsCommon* GetPhysicsCommon(UWorld* World);
-
 };
 
 /**

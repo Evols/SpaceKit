@@ -18,7 +18,6 @@ public class SpaceKit : ModuleRules
 			"Engine",
 			"InputCore",
 			"SpaceKitPrecision",
-			"ReactPhysics",
 			"Boost",
 		});
 	}

@@ -2,8 +2,8 @@
   "FileVersion": 3,
 
   "FriendlyName": "Space Kit",
-  "Version": 4.26,
-  "VersionName": "4.26",
+  "Version": 4.25,
+  "VersionName": "4.25",
   "Description": "Adds utilities to handle space simulations in UE4.",
   "Category": "Space",
   "CreatedBy": "Baptiste Hutteau",
@@ -16,14 +16,6 @@
       "LoadingPhase": "Default",
       "AdditionalDependencies": [
         "SpaceKitPrecision"
-      ]
-    },
-    {
-      "Name": "ReactPhysics",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "AdditionalDependencies": [
-        "Engine"
       ]
     },
     {

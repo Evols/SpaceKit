@@ -80,7 +80,6 @@ public:
 
     FRealFloat& operator=(const FRealFloat& Other)
     {
-	    // Value = 0.0;
         Value = Other.Value;
         return *this;
     };

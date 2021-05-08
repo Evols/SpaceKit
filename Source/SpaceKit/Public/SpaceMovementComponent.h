@@ -10,11 +10,6 @@
 #include "SpaceMovementComponent.generated.h"
 
 
-namespace reactphysics3d
-{
-	class RigidBody;
-}
-
 class USpaceTransformComponent;
 
 /**
@@ -42,15 +37,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="SpaceKit")
 	FRealFloat SpaceMass;
 
-	reactphysics3d::RigidBody* GetPhysicsBody();
-
 protected:
 
 	UFUNCTION()
 	USpaceTransformComponent* GetSpaceUpdatedComponent();
-
-private:
-
-	reactphysics3d::RigidBody* PhysicsBody;
 
 };
