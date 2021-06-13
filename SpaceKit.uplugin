@@ -27,6 +27,14 @@
       ]
     },
     {
+      "Name": "SpaceKitBullet",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "AdditionalDependencies": [
+        "Engine"
+      ]
+    },
+    {
       "Name": "SpaceKitPrecisionEditor",
       "Type": "Editor",
       "LoadingPhase": "Default",
