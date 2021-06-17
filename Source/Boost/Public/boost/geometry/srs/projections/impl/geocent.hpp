@@ -377,12 +377,12 @@ inline void pj_Convert_Geocentric_To_Geodetic (GeocentricInfo<T> const& gi,
 * remarks:
 * Mathematically exact and because of symmetry of rotation-ellipsoid,
 * each point (X,Y,Z) has at least two solutions (Latitude1,Longitude1,Height1) and
-* (Latitude2,Longitude2,Height2). Is point=(0.,0.,Z) (P=0.), so you get even
+* (Latitude2,Longitude2,Height2). Is point=(0.0_fl,0.0_fl,Z) (P=0.0_fl), so you get even
 * four solutions,	every two symmetrical to the semi-minor axis.
 * Here Height1 and Height2 have at least a difference in order of
-* radius of curvature (e.g. (0,0,b)=> (90.,0.,0.) or (-90.,0.,-2b);
-* (a+100.)*(sqrt(2.)/2.,sqrt(2.)/2.,0.) => (0.,45.,100.) or
-* (0.,225.,-(2a+100.))).
+* radius of curvature (e.g. (0,0,b)=> (90.0_fl,0.0_fl,0.0_fl) or (-90.0_fl,0.0_fl,-2b);
+* (a+100.0_fl)*(sqrt(2.)/2.,sqrt(2.)/2.,0.0_fl) => (0.0_fl,45.,100.0_fl) or
+* (0.0_fl,225.,-(2a+100.0_fl))).
 * The algorithm always computes (Latitude,Longitude) with smallest |Height|.
 * For normal computations, that means |Height|<10000.m, algorithm normally
 * converges after to 2-3 steps!!!
@@ -416,10 +416,10 @@ static const int maxiter = 30;
 /*	special cases for latitude and longitude */
     if (P/gi.Geocent_a < genau) {
 
-/*  special case, if P=0. (X=0., Y=0.) */
+/*  special case, if P=0. (X=0.0_fl, Y=0.0_fl) */
 	Longitude = 0.;
 
-/*  if (X,Y,Z)=(0.,0.,0.) then Height becomes semi-minor axis
+/*  if (X,Y,Z)=(0.0_fl,0.0_fl,0.0_fl) then Height becomes semi-minor axis
  *  of ellipsoid (=center of mass), Latitude becomes PI/2 */
         if (RR/gi.Geocent_a < genau) {
             Latitude = PI_OVER_2;

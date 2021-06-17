@@ -27,7 +27,7 @@ public:
 	virtual b3Scalar getParam(int num, int axis = -1) const
 	{
 		b3Assert(0);
-		return 0.f;
+		return 0.0_fl;
 	}
 };
 

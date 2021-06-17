@@ -31,13 +31,13 @@ void btPoint2PointConstraint::buildJacobian()
 {
 	///we need it for both methods
 	{
-		m_appliedImpulse = btScalar(0.);
+		m_appliedImpulse = btScalar(0.0_fl);
 
-		btVector3 normal(0, 0, 0);
+		btVector3 normal(0.0_fl, 0.0_fl, 0.0_fl);
 
 		for (int i = 0; i < 3; i++)
 		{
-			normal[i] = 1;
+			normal[i] = 1.0_fl;
 			new (&m_jac[i]) btJacobianEntry(
 				m_rbA.getCenterOfMassTransform().getBasis().transpose(),
 				m_rbB.getCenterOfMassTransform().getBasis().transpose(),
@@ -48,7 +48,7 @@ void btPoint2PointConstraint::buildJacobian()
 				m_rbA.getInvMass(),
 				m_rbB.getInvInertiaDiagLocal(),
 				m_rbB.getInvMass());
-			normal[i] = 0;
+			normal[i] = 0.0_fl;
 		}
 	}
 }
@@ -86,9 +86,9 @@ void btPoint2PointConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const 
 	// anchor points in global coordinates with respect to body PORs.
 
 	// set jacobian
-	info->m_J1linearAxis[0] = 1;
-	info->m_J1linearAxis[info->rowskip + 1] = 1;
-	info->m_J1linearAxis[2 * info->rowskip + 2] = 1;
+	info->m_J1linearAxis[0] = 1.0_fl;
+	info->m_J1linearAxis[info->rowskip + 1] = 1.0_fl;
+	info->m_J1linearAxis[2 * info->rowskip + 2] = 1.0_fl;
 
 	btVector3 a1 = body0_trans.getBasis() * getPivotInA();
 	{
@@ -99,9 +99,9 @@ void btPoint2PointConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const 
 		a1neg.getSkewSymmetricMatrix(angular0, angular1, angular2);
 	}
 
-	info->m_J2linearAxis[0] = -1;
-	info->m_J2linearAxis[info->rowskip + 1] = -1;
-	info->m_J2linearAxis[2 * info->rowskip + 2] = -1;
+	info->m_J2linearAxis[0] = -1.0_fl;
+	info->m_J2linearAxis[info->rowskip + 1] = -1.0_fl;
+	info->m_J2linearAxis[2 * info->rowskip + 2] = -1.0_fl;
 
 	btVector3 a2 = body1_trans.getBasis() * getPivotInB();
 
@@ -133,7 +133,7 @@ void btPoint2PointConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const 
 	btScalar impulseClamp = m_setting.m_impulseClamp;  //
 	for (j = 0; j < 3; j++)
 	{
-		if (m_setting.m_impulseClamp > 0)
+		if (m_setting.m_impulseClamp > 0.0_fl)
 		{
 			info->m_lowerLimit[j * info->rowskip] = -impulseClamp;
 			info->m_upperLimit[j * info->rowskip] = impulseClamp;

@@ -63,7 +63,7 @@ namespace impl
             : cache_size(args[density_cache_size])
             , cache(cache_size)
             , num_bins(args[density_num_bins])
-            , samples_in_bin(num_bins + 2, 0.)
+            , samples_in_bin(num_bins + 2, 0.0_fl)
             , bin_positions(num_bins + 2)
             , histogram(
                 num_bins + 2

@@ -27,14 +27,14 @@ void btConvexPointCloudShape::setLocalScaling(const btVector3& scaling)
 #ifndef __SPU__
 btVector3 btConvexPointCloudShape::localGetSupportingVertexWithoutMargin(const btVector3& vec0) const
 {
-	btVector3 supVec(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 supVec(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	btScalar maxDot = btScalar(-BT_LARGE_FLOAT);
 
 	btVector3 vec = vec0;
 	btScalar lenSqr = vec.length2();
 	if (lenSqr < btScalar(0.0001))
 	{
-		vec.setValue(1, 0, 0);
+		vec.setValue(1.0_fl, 0.0_fl, 0.0_fl);
 	}
 	else
 	{
@@ -74,7 +74,7 @@ btVector3 btConvexPointCloudShape::localGetSupportingVertex(const btVector3& vec
 {
 	btVector3 supVertex = localGetSupportingVertexWithoutMargin(vec);
 
-	if (getMargin() != btScalar(0.))
+	if (getMargin() != btScalar(0.0_fl))
 	{
 		btVector3 vecnorm = vec;
 		if (vecnorm.length2() < (SIMD_EPSILON * SIMD_EPSILON))

@@ -105,11 +105,11 @@ void btGhostObject::convexSweepTest(const btConvexShape* castShape, const btTran
 	/* Compute AABB that encompasses angular movement */
 	{
 		btVector3 linVel, angVel;
-		btTransformUtil::calculateVelocity(convexFromTrans, convexToTrans, 1.0, linVel, angVel);
+		btTransformUtil::calculateVelocity(convexFromTrans, convexToTrans, 1.0_fl, linVel, angVel);
 		btTransform R;
 		R.setIdentity();
 		R.setRotation(convexFromTrans.getRotation());
-		castShape->calculateTemporalAabb(R, linVel, angVel, 1.0, castShapeAabbMin, castShapeAabbMax);
+		castShape->calculateTemporalAabb(R, linVel, angVel, 1.0_fl, castShapeAabbMin, castShapeAabbMax);
 	}
 
 	/// go over all objects, and if the ray intersects their aabb + cast shape aabb,

@@ -38,11 +38,11 @@ email: projectileman@yahoo.com
 #include "gim_linear_math.h"
 
 #ifndef PLANEDIREPSILON
-#define PLANEDIREPSILON 0.0000001f
+#define PLANEDIREPSILON 0.0000001_fl
 #endif
 
 #ifndef PARALELENORMALS
-#define PARALELENORMALS 0.000001f
+#define PARALELENORMALS 0.000001_fl
 #endif
 
 #define TRIANGLE_NORMAL(v1, v2, v3, n) \
@@ -105,7 +105,7 @@ SIMD_FORCE_INLINE bool POINT_IN_HULL(
 	for (GUINT _i = 0; _i < plane_count; ++_i)
 	{
 		_dis = DISTANCE_PLANE_POINT(planes[_i], point);
-		if (_dis > 0.0f) return false;
+		if (_dis > 0.0_fl) return false;
 	}
 	return true;
 }
@@ -283,7 +283,7 @@ SIMD_FORCE_INLINE GUINT LINE_PLANE_COLLISION(
 		return 0;
 	}
 	_dis = DISTANCE_PLANE_POINT(plane, vPoint);
-	char returnvalue = _dis < 0.0f ? 2 : 1;
+	char returnvalue = _dis < 0.0_fl ? 2 : 1;
 	tparam = -_dis / _dotdir;
 
 	if (tparam < tmin)
@@ -347,11 +347,11 @@ SIMD_FORCE_INLINE void CLOSEST_POINT_ON_SEGMENT(
 	VEC_DIFF(cp, v, e1);
 	GREAL _scalar = VEC_DOT(cp, _n);
 	_scalar /= VEC_DOT(_n, _n);
-	if (_scalar < 0.0f)
+	if (_scalar < 0.0_fl)
 	{
 		VEC_COPY(cp, e1);
 	}
-	else if (_scalar > 1.0f)
+	else if (_scalar > 1.0_fl)
 	{
 		VEC_COPY(cp, e2);
 	}
@@ -426,8 +426,8 @@ SIMD_FORCE_INLINE void SEGMENT_COLLISION(
 		_M[2] = VEC_DOT(vA1, _AD);
 		_M[3] = VEC_DOT(vA2, _AD);
 		//mid points
-		n[0] = (_M[0] + _M[1]) * 0.5f;
-		n[1] = (_M[2] + _M[3]) * 0.5f;
+		n[0] = (_M[0] + _M[1]) * 0.5_fl;
+		n[1] = (_M[2] + _M[3]) * 0.5_fl;
 
 		if (n[0] < n[1])
 		{
@@ -476,7 +476,7 @@ SIMD_FORCE_INLINE void SEGMENT_COLLISION(
 	VEC_DIFF(vPointB, vPointA, vB1);
 	_tp = VEC_DOT(vPointB, _BD);
 	_tp /= VEC_DOT(_BD, _BD);
-	_tp = GIM_CLAMP(_tp, 0.0f, 1.0f);
+	_tp = GIM_CLAMP(_tp, 0.0_fl, 1.0_fl);
 	VEC_SCALE(vPointB, _tp, _BD);
 	VEC_SUM(vPointB, vPointB, vB1);
 }

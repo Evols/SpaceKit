@@ -55,9 +55,9 @@ bool matrixToEulerXYZ(const b3Matrix3x3& mat, b3Vector3& xyz)
 	//
 
 	b3Scalar fi = btGetMatrixElem(mat, 2);
-	if (fi < b3Scalar(1.0f))
+	if (fi < b3Scalar(1.0_fl))
 	{
-		if (fi > b3Scalar(-1.0f))
+		if (fi > b3Scalar(-1.0_fl))
 		{
 			xyz[0] = b3Atan2(-btGetMatrixElem(mat, 5), btGetMatrixElem(mat, 8));
 			xyz[1] = b3Asin(btGetMatrixElem(mat, 2));
@@ -69,7 +69,7 @@ bool matrixToEulerXYZ(const b3Matrix3x3& mat, b3Vector3& xyz)
 			// WARNING.  Not unique.  XA - ZA = -atan2(r10,r11)
 			xyz[0] = -b3Atan2(btGetMatrixElem(mat, 3), btGetMatrixElem(mat, 4));
 			xyz[1] = -B3_HALF_PI;
-			xyz[2] = b3Scalar(0.0);
+			xyz[2] = b3Scalar(0.0_fl);
 			return false;
 		}
 	}
@@ -78,7 +78,7 @@ bool matrixToEulerXYZ(const b3Matrix3x3& mat, b3Vector3& xyz)
 		// WARNING.  Not unique.  XAngle + ZAngle = atan2(r10,r11)
 		xyz[0] = b3Atan2(btGetMatrixElem(mat, 3), btGetMatrixElem(mat, 4));
 		xyz[1] = B3_HALF_PI;
-		xyz[2] = 0.0;
+		xyz[2] = 0.0_fl;
 	}
 	return false;
 }
@@ -128,7 +128,7 @@ int b3TranslationalLimitMotor::testLimitValue(int limitIndex, b3Scalar test_valu
 	if (loLimit > hiLimit)
 	{
 		m_currentLimit[limitIndex] = 0;  //Free from violation
-		m_currentLimitError[limitIndex] = b3Scalar(0.f);
+		m_currentLimitError[limitIndex] = b3Scalar(0.0_fl);
 		return 0;
 	}
 
@@ -146,7 +146,7 @@ int b3TranslationalLimitMotor::testLimitValue(int limitIndex, b3Scalar test_valu
 	};
 
 	m_currentLimit[limitIndex] = 0;  //Free from violation
-	m_currentLimitError[limitIndex] = b3Scalar(0.f);
+	m_currentLimitError[limitIndex] = b3Scalar(0.0_fl);
 	return 0;
 }
 
@@ -209,15 +209,15 @@ void b3Generic6DofConstraint::calculateTransforms(const b3Transform& transA, con
 		b3Scalar miB = bodies[m_rbB].m_invMass;
 		m_hasStaticBody = (miA < B3_EPSILON) || (miB < B3_EPSILON);
 		b3Scalar miS = miA + miB;
-		if (miS > b3Scalar(0.f))
+		if (miS > b3Scalar(0.0_fl))
 		{
 			m_factA = miB / miS;
 		}
 		else
 		{
-			m_factA = b3Scalar(0.5f);
+			m_factA = b3Scalar(0.5_fl);
 		}
-		m_factB = b3Scalar(1.0f) - m_factA;
+		m_factB = b3Scalar(1.0_fl) - m_factA;
 	}
 }
 
@@ -319,7 +319,7 @@ int b3Generic6DofConstraint::setLinearLimits(b3ConstraintInfo2* info, int row, c
 	{
 		if (m_linearLimits.needApplyForce(i))
 		{  // re-use rotational motor code
-			limot.m_bounce = b3Scalar(0.f);
+			limot.m_bounce = b3Scalar(0.0_fl);
 			limot.m_currentLimit = m_linearLimits.m_currentLimit[i];
 			limot.m_currentPosition = m_linearLimits.m_currentLinearDiff[i];
 			limot.m_currentLimitError = m_linearLimits.m_currentLimitError[i];
@@ -328,7 +328,7 @@ int b3Generic6DofConstraint::setLinearLimits(b3ConstraintInfo2* info, int row, c
 			limot.m_hiLimit = m_linearLimits.m_upperLimit[i];
 			limot.m_limitSoftness = m_linearLimits.m_limitSoftness;
 			limot.m_loLimit = m_linearLimits.m_lowerLimit[i];
-			limot.m_maxLimitForce = b3Scalar(0.f);
+			limot.m_maxLimitForce = b3Scalar(0.0_fl);
 			limot.m_maxMotorForce = m_linearLimits.m_maxMotorForce[i];
 			limot.m_targetVelocity = m_linearLimits.m_targetVelocity[i];
 			b3Vector3 axis = m_calculatedTransformA.getBasis().getColumn(i);
@@ -420,9 +420,9 @@ void b3Generic6DofConstraint::calcAnchorPos(const b3RigidBodyData* bodies)
 	b3Scalar imA = bodies[m_rbA].m_invMass;
 	b3Scalar imB = bodies[m_rbB].m_invMass;
 	b3Scalar weight;
-	if (imB == b3Scalar(0.0))
+	if (imB == b3Scalar(0.0_fl))
 	{
-		weight = b3Scalar(1.0);
+		weight = b3Scalar(1.0_fl);
 	}
 	else
 	{
@@ -430,7 +430,7 @@ void b3Generic6DofConstraint::calcAnchorPos(const b3RigidBodyData* bodies)
 	}
 	const b3Vector3& pA = m_calculatedTransformA.getOrigin();
 	const b3Vector3& pB = m_calculatedTransformB.getOrigin();
-	m_AnchorPos = pA * weight + pB * (b3Scalar(1.0) - weight);
+	m_AnchorPos = pA * weight + pB * (b3Scalar(1.0_fl) - weight);
 	return;
 }
 
@@ -521,7 +521,7 @@ int b3Generic6DofConstraint::get_limit_motor_info2(
 		// if we're limited low and high simultaneously, the joint motor is
 		// ineffective
 		if (limit && (limot->m_loLimit == limot->m_hiLimit)) powered = false;
-		info->m_constraintError[srow] = b3Scalar(0.f);
+		info->m_constraintError[srow] = b3Scalar(0.0_fl);
 		if (powered)
 		{
 			info->cfm[srow] = limot->m_normalCFM;

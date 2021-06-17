@@ -127,7 +127,7 @@ public: // For VisualAge C++
         {
             point_difference result;
             for (std::size_t i = 0; i < Dims; ++i)
-                result[i] = (b[i] == 0.) ? 0. : a[i] / b[i];
+                result[i] = (b[i] == 0.0_fl) ? 0. : a[i] / b[i];
             return result;
         }
 

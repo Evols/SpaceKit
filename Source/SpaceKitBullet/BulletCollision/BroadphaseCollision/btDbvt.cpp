@@ -249,7 +249,7 @@ static bool leftOfAxis(const btDbvtNode* node,
 					   const btVector3& org,
 					   const btVector3& axis)
 {
-	return btDot(axis, node->volume.Center() - org) <= 0;
+	return btDot(axis, node->volume.Center() - org) <= 0_fl;
 }
 
 // Partitions leaves such that leaves[0, n) are on the
@@ -354,9 +354,9 @@ static btDbvtNode* topdown(btDbvt* pdbvt,
 						   int count,
 						   int bu_treshold)
 {
-	static const btVector3 axis[] = {btVector3(1, 0, 0),
-									 btVector3(0, 1, 0),
-									 btVector3(0, 0, 1)};
+	static const btVector3 axis[] = {btVector3(1.0_fl, 0.0_fl, 0.0_fl),
+									 btVector3(0_fl, 1_fl, 0_fl),
+									 btVector3(0_fl, 0_fl, 1_fl)};
 	btAssert(bu_treshold > 2);
 	if (count > 1)
 	{
@@ -374,7 +374,7 @@ static btDbvtNode* topdown(btDbvt* pdbvt,
 				const btVector3 x = leaves[i]->volume.Center() - org;
 				for (int j = 0; j < 3; ++j)
 				{
-					++splitcount[j][btDot(x, axis[j]) > 0 ? 1 : 0];
+					++splitcount[j][btDot(x, axis[j]) > 0_fl ? 1 : 0];
 				}
 			}
 			for (i = 0; i < 3; ++i)
@@ -1148,7 +1148,7 @@ void btDbvt::benchmark()
 		vectors.resize(cfgBenchmark10_Iterations);
 		for (int i = 0; i < vectors.size(); ++i)
 		{
-			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1, 1, 1)) * cfgBenchmark10_Scale;
+			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1.0_fl, 1.0_fl, 1.0_fl)) * cfgBenchmark10_Scale;
 		}
 		btDbvtBenchmark::RandTree(cfgVolumeCenterScale, cfgVolumeExentsBase, cfgVolumeExentsScale, cfgLeaves, dbvt);
 		dbvt.optimizeTopDown();
@@ -1221,7 +1221,7 @@ void btDbvt::benchmark()
 		vectors.resize(cfgBenchmark13_Iterations);
 		for (int i = 0; i < vectors.size(); ++i)
 		{
-			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1, 1, 1)).normalized();
+			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1.0_fl, 1.0_fl, 1.0_fl)).normalized();
 		}
 		btDbvtBenchmark::RandTree(cfgVolumeCenterScale, cfgVolumeExentsBase, cfgVolumeExentsScale, cfgLeaves, dbvt);
 		dbvt.optimizeTopDown();
@@ -1246,7 +1246,7 @@ void btDbvt::benchmark()
 		vectors.resize(cfgBenchmark14_Iterations);
 		for (int i = 0; i < vectors.size(); ++i)
 		{
-			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1, 1, 1)).normalized();
+			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1.0_fl, 1.0_fl, 1.0_fl)).normalized();
 		}
 		btDbvtBenchmark::RandTree(cfgVolumeCenterScale, cfgVolumeExentsBase, cfgVolumeExentsScale, cfgLeaves, dbvt);
 		dbvt.optimizeTopDown();
@@ -1273,7 +1273,7 @@ void btDbvt::benchmark()
 		vectors.resize(cfgBenchmark15_Iterations);
 		for (int i = 0; i < vectors.size(); ++i)
 		{
-			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1, 1, 1)).normalized();
+			vectors[i] = (btDbvtBenchmark::RandVector3() * 2 - btVector3(1.0_fl, 1.0_fl, 1.0_fl)).normalized();
 		}
 		btDbvtBenchmark::RandTree(cfgVolumeCenterScale, cfgVolumeExentsBase, cfgVolumeExentsScale, cfgLeaves, dbvt);
 		dbvt.optimizeTopDown();

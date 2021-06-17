@@ -56,7 +56,7 @@ the Dantzig algorithm proceeds as follows:
     * i is added to the appropriate index set depending on what line segment
       it hits.
 
-we restrict lo(i) <= 0 and hi(i) >= 0. this makes the algorithm a bit
+we restrict lo(i) <= 0 and hi(i) >= 0.0_flthis makes the algorithm a bit
 simpler, because the starting point for x(i),w(i) is always on the dotted
 line x=0 and x will only ever increase in one direction, so it can only hit
 two out of the three line segments.
@@ -152,8 +152,8 @@ static void btSolveL1_1(const btScalar *L, btScalar *B, int n, int lskip1)
 	{
 		/* compute all 2 x 1 block of X, from rows i..i+2-1 */
 		/* set the Z matrix to 0 */
-		Z11 = 0;
-		Z21 = 0;
+		Z11 = 0.0_fl;
+		Z21 = 0.0_fl;
 		ell = L + i * lskip1;
 		ex = B;
 		/* the inner loop that computes outer products and adds them to Z */
@@ -227,10 +227,10 @@ static void btSolveL1_2(const btScalar *L, btScalar *B, int n, int lskip1)
 	{
 		/* compute all 2 x 2 block of X, from rows i..i+2-1 */
 		/* set the Z matrix to 0 */
-		Z11 = 0;
-		Z12 = 0;
-		Z21 = 0;
-		Z22 = 0;
+		Z11 = 0.0_fl;
+		Z12 = 0.0_fl;
+		Z21 = 0.0_fl;
+		Z22 = 0.0_fl;
 		ell = L + i * lskip1;
 		ex = B;
 		/* the inner loop that computes outer products and adds them to Z */
@@ -314,9 +314,9 @@ void btFactorLDLT(btScalar *A, btScalar *d, int n, int nskip1)
 		btSolveL1_2(A, A + i * nskip1, i, nskip1);
 		/* scale the elements in a 2 x i block at A(i,0), and also */
 		/* compute Z = the outer product matrix that we'll need. */
-		Z11 = 0;
-		Z21 = 0;
-		Z22 = 0;
+		Z11 = 0.0_fl;
+		Z21 = 0.0_fl;
+		Z22 = 0.0_fl;
 		ell = A + i * nskip1;
 		dee = d;
 		for (j = i - 6; j >= 0; j -= 6)
@@ -431,7 +431,7 @@ void btFactorLDLT(btScalar *A, btScalar *d, int n, int nskip1)
 		/* factorize row 1 */
 		dee[0] = btRecip(Z11);
 		/* factorize row 2 */
-		sum = 0;
+		sum = 0.0_fl;
 		q1 = Z21;
 		q2 = q1 * dee[0];
 		Z21 = q2;
@@ -450,7 +450,7 @@ void btFactorLDLT(btScalar *A, btScalar *d, int n, int nskip1)
 			btSolveL1_1(A, A + i * nskip1, i, nskip1);
 			/* scale the elements in a 1 x i block at A(i,0), and also */
 			/* compute Z = the outer product matrix that we'll need. */
-			Z11 = 0;
+			Z11 = 0.0_fl;
 			ell = A + i * nskip1;
 			dee = d;
 			for (j = i - 6; j >= 0; j -= 6)
@@ -544,10 +544,10 @@ void btSolveL1(const btScalar *L, btScalar *B, int n, int lskip1)
 	{
 		/* compute all 4 x 1 block of X, from rows i..i+4-1 */
 		/* set the Z matrix to 0 */
-		Z11 = 0;
-		Z21 = 0;
-		Z31 = 0;
-		Z41 = 0;
+		Z11 = 0.0_fl;
+		Z21 = 0.0_fl;
+		Z31 = 0.0_fl;
+		Z41 = 0.0_fl;
 		ell = L + i * lskip1;
 		ex = B;
 		/* the inner loop that computes outer products and adds them to Z */
@@ -731,7 +731,7 @@ void btSolveL1(const btScalar *L, btScalar *B, int n, int lskip1)
 	{
 		/* compute all 1 x 1 block of X, from rows i..i+1-1 */
 		/* set the Z matrix to 0 */
-		Z11 = 0;
+		Z11 = 0.0_fl;
 		ell = L + i * lskip1;
 		ex = B;
 		/* the inner loop that computes outer products and adds them to Z */
@@ -848,10 +848,10 @@ void btSolveL1T(const btScalar *L, btScalar *B, int n, int lskip1)
 	{
 		/* compute all 4 x 1 block of X, from rows i..i+4-1 */
 		/* set the Z matrix to 0 */
-		Z11 = 0;
-		Z21 = 0;
-		Z31 = 0;
-		Z41 = 0;
+		Z11 = 0.0_fl;
+		Z21 = 0.0_fl;
+		Z31 = 0.0_fl;
+		Z41 = 0.0_fl;
 		ell = L - i;
 		ex = B;
 		/* the inner loop that computes outer products and adds them to Z */
@@ -968,7 +968,7 @@ void btSolveL1T(const btScalar *L, btScalar *B, int n, int lskip1)
 	{
 		/* compute all 1 x 1 block of X, from rows i..i+1-1 */
 		/* set the Z matrix to 0 */
-		Z11 = 0;
+		Z11 = 0.0_fl;
 		ell = L - i;
 		ex = B;
 		/* the inner loop that computes outer products and adds them to Z */
@@ -1323,7 +1323,7 @@ btLCP::btLCP(int _n, int _nskip, int _nub, btScalar *_Adata, btScalar *_x, btSca
 		for (int k = m_nub; k < n; ++k)
 		{
 			if (findex && findex[k] >= 0) continue;
-			if (lo[k] == -BT_INFINITY && hi[k] == BT_INFINITY)
+			if (lo[k].ToDouble() == -BT_INFINITY && hi[k].ToDouble() == BT_INFINITY)
 			{
 				btSwapProblem(m_A, m_x, m_b, m_w, lo, hi, m_p, m_state, findex, n, m_nub, k, m_nskip, 0);
 				m_nub++;
@@ -1509,22 +1509,22 @@ void btLDLTAddTL(btScalar *L, btScalar *d, const btScalar *a, int n, int nskip, 
 
 	btScalar *W2 = W1 + nskip;
 
-	W1[0] = btScalar(0.0);
-	W2[0] = btScalar(0.0);
+	W1[0] = btScalar(0.0_fl);
+	W2[0] = btScalar(0.0_fl);
 	for (int j = 1; j < n; ++j)
 	{
 		W1[j] = W2[j] = (btScalar)(a[j] * SIMDSQRT12);
 	}
-	btScalar W11 = (btScalar)((btScalar(0.5) * a[0] + 1) * SIMDSQRT12);
-	btScalar W21 = (btScalar)((btScalar(0.5) * a[0] - 1) * SIMDSQRT12);
+	btScalar W11 = (btScalar)((btScalar(0.5) * a[0] + 1.0_fl) * SIMDSQRT12);
+	btScalar W21 = (btScalar)((btScalar(0.5) * a[0] - 1.0_fl) * SIMDSQRT12);
 
-	btScalar alpha1 = btScalar(1.0);
-	btScalar alpha2 = btScalar(1.0);
+	btScalar alpha1 = btScalar(1.0_fl);
+	btScalar alpha2 = btScalar(1.0_fl);
 
 	{
 		btScalar dee = d[0];
 		btScalar alphanew = alpha1 + (W11 * W11) * dee;
-		btAssert(alphanew != btScalar(0.0));
+		btAssert(alphanew != btScalar(0.0_fl));
 		dee /= alphanew;
 		btScalar gamma1 = W11 * dee;
 		dee *= alpha1;
@@ -1533,7 +1533,7 @@ void btLDLTAddTL(btScalar *L, btScalar *d, const btScalar *a, int n, int nskip, 
 		dee /= alphanew;
 		//btScalar gamma2 = W21 * dee;
 		alpha2 = alphanew;
-		btScalar k1 = btScalar(1.0) - W21 * gamma1;
+		btScalar k1 = btScalar(1.0_fl) - W21 * gamma1;
 		btScalar k2 = W21 * gamma1 * W11 - W21;
 		btScalar *ll = L + nskip;
 		for (int p = 1; p < n; ll += nskip, ++p)
@@ -1553,7 +1553,7 @@ void btLDLTAddTL(btScalar *L, btScalar *d, const btScalar *a, int n, int nskip, 
 
 		btScalar dee = d[j];
 		btScalar alphanew = alpha1 + (k1 * k1) * dee;
-		btAssert(alphanew != btScalar(0.0));
+		btAssert(alphanew != btScalar(0.0_fl));
 		dee /= alphanew;
 		btScalar gamma1 = k1 * dee;
 		dee *= alpha1;
@@ -1617,7 +1617,7 @@ void btLDLTRemove(btScalar **A, const int *p, btScalar *L, btScalar *d,
 			{
 				a[i] = -BTGETA(p[i], p_0);
 			}
-			a[0] += btScalar(1.0);
+			a[0] += btScalar(1.0_fl);
 			btLDLTAddTL(L, d, a, n2, nskip, scratch);
 		}
 		else
@@ -1627,7 +1627,7 @@ void btLDLTRemove(btScalar **A, const int *p, btScalar *L, btScalar *d,
 				btScalar *Lcurr = L + r * nskip;
 				for (int i = 0; i < r; ++Lcurr, ++i)
 				{
-					btAssert(d[i] != btScalar(0.0));
+					btAssert(d[i] != btScalar(0.0_fl));
 					t[i] = *Lcurr / d[i];
 				}
 			}
@@ -1641,7 +1641,7 @@ void btLDLTRemove(btScalar **A, const int *p, btScalar *L, btScalar *d,
 					a[i] = btLargeDot(Lcurr, t, r) - BTGETA(pp_r[i], p_r);
 				}
 			}
-			a[0] += btScalar(1.0);
+			a[0] += btScalar(1.0_fl);
 			btLDLTAddTL(L + r * nskip + r, d + r, a, n2 - r, nskip, scratch);
 		}
 	}
@@ -1921,10 +1921,10 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 			for (int k = i; k < n; ++k)
 			{
 				btScalar wfk = scratchMem.delta_w[findex[k]];
-				if (wfk == 0)
+				if (wfk == 0.0_fl)
 				{
-					hi[k] = 0;
-					lo[k] = 0;
+					hi[k] = 0.0_fl;
+					lo[k] = 0.0_fl;
 				}
 				else
 				{
@@ -1950,21 +1950,21 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 		// these indexes may be incorrect, but that doesn't matter.
 
 		// see if x(i),w(i) is in a valid region
-		if (lo[i] == 0 && w[i] >= 0)
+		if (lo[i] == 0.0_fl && w[i] >= 0.0_fl)
 		{
 			lcp.transfer_i_to_N(i);
 			scratchMem.state[i] = false;
 		}
-		else if (hi[i] == 0 && w[i] <= 0)
+		else if (hi[i] == 0.0_fl && w[i] <= 0.0_fl)
 		{
 			lcp.transfer_i_to_N(i);
 			scratchMem.state[i] = true;
 		}
-		else if (w[i] == 0)
+		else if (w[i] == 0.0_fl)
 		{
 			// this is a degenerate case. by the time we get to this test we know
 			// that lo != 0, which means that lo < 0 as lo is not allowed to be +ve,
-			// and similarly that hi > 0. this means that the line segment
+			// and similarly that hi > 0.0_flthis means that the line segment
 			// corresponding to set C is at least finite in extent, and we are on it.
 			// NOTE: we must call lcp.solve1() before lcp.transfer_i_to_C()
 			lcp.solve1(&scratchMem.delta_x[0], i, 0, 1);
@@ -1979,15 +1979,15 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 				int dir;
 				btScalar dirf;
 				// find direction to push on x(i)
-				if (w[i] <= 0)
+				if (w[i] <= 0.0_fl)
 				{
 					dir = 1;
-					dirf = btScalar(1.0);
+					dirf = btScalar(1.0_fl);
 				}
 				else
 				{
 					dir = -1;
-					dirf = btScalar(-1.0);
+					dirf = btScalar(-1.0_fl);
 				}
 
 				// compute: delta_x(C) = -dir*A(C,C)\A(C,i)
@@ -2010,7 +2010,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 				btScalar s = -w[i] / scratchMem.delta_w[i];
 				if (dir > 0)
 				{
-					if (hi[i] < BT_INFINITY)
+					if (hi[i].ToDouble() < BT_INFINITY)
 					{
 						btScalar s2 = (hi[i] - x[i]) * dirf;  // was (hi[i]-x[i])/dirf	// step to x(i)=hi(i)
 						if (s2 < s)
@@ -2022,7 +2022,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 				}
 				else
 				{
-					if (lo[i] > -BT_INFINITY)
+					if (lo[i].ToDouble() > -BT_INFINITY)
 					{
 						btScalar s2 = (lo[i] - x[i]) * dirf;  // was (lo[i]-x[i])/dirf	// step to x(i)=lo(i)
 						if (s2 < s)
@@ -2038,10 +2038,10 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 					for (int k = 0; k < numN; ++k)
 					{
 						const int indexN_k = lcp.indexN(k);
-						if (!scratchMem.state[indexN_k] ? scratchMem.delta_w[indexN_k] < 0 : scratchMem.delta_w[indexN_k] > 0)
+						if (!scratchMem.state[indexN_k] ? scratchMem.delta_w[indexN_k] < 0.0_fl : scratchMem.delta_w[indexN_k] > 0.0_fl)
 						{
 							// don't bother checking if lo=hi=0
-							if (lo[indexN_k] == 0 && hi[indexN_k] == 0) continue;
+							if (lo[indexN_k] == 0.0_fl && hi[indexN_k] == 0.0_fl) continue;
 							btScalar s2 = -w[indexN_k] / scratchMem.delta_w[indexN_k];
 							if (s2 < s)
 							{
@@ -2058,7 +2058,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 					for (int k = adj_nub; k < numC; ++k)
 					{
 						const int indexC_k = lcp.indexC(k);
-						if (scratchMem.delta_x[indexC_k] < 0 && lo[indexC_k] > -BT_INFINITY)
+						if (scratchMem.delta_x[indexC_k] < 0.0_fl && lo[indexC_k].ToDouble() > -BT_INFINITY)
 						{
 							btScalar s2 = (lo[indexC_k] - x[indexC_k]) / scratchMem.delta_x[indexC_k];
 							if (s2 < s)
@@ -2068,7 +2068,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 								si = indexC_k;
 							}
 						}
-						if (scratchMem.delta_x[indexC_k] > 0 && hi[indexC_k] < BT_INFINITY)
+						if (scratchMem.delta_x[indexC_k] > 0.0_fl && hi[indexC_k].ToDouble() < BT_INFINITY)
 						{
 							btScalar s2 = (hi[indexC_k] - x[indexC_k]) / scratchMem.delta_x[indexC_k];
 							if (s2 < s)
@@ -2088,7 +2088,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 				// if s <= 0 then we've got a problem. if we just keep going then
 				// we're going to get stuck in an infinite loop. instead, just cross
 				// our fingers and exit with the current solution.
-				if (s <= btScalar(0.0))
+				if (s <= btScalar(0.0_fl))
 				{
 					//          printf("LCP internal error, s <= 0 (s=%.4e)",(double)s);
 					if (i < n)
@@ -2113,7 +2113,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 				switch (cmd)
 				{
 					case 1:  // done
-						w[i] = 0;
+						w[i] = 0.0_fl;
 						lcp.transfer_i_to_C(i);
 						break;
 					case 2:  // done
@@ -2127,7 +2127,7 @@ bool btSolveDantzigLCP(int n, btScalar *A, btScalar *x, btScalar *b,
 						lcp.transfer_i_to_N(i);
 						break;
 					case 4:  // keep going
-						w[si] = 0;
+						w[si] = 0.0_fl;
 						lcp.transfer_i_from_N_to_C(si);
 						break;
 					case 5:  // keep going

@@ -111,17 +111,17 @@ void btMultiBodyPoint2Point::createConstraintRows(btMultiBodyConstraintArray& co
 		//memset(&constraintRow,0xffffffff,sizeof(btMultiBodySolverConstraint));
 		constraintRow.m_orgConstraint = this;
 		constraintRow.m_orgDofIndex = i;
-		constraintRow.m_relpos1CrossNormal.setValue(0, 0, 0);
-		constraintRow.m_contactNormal1.setValue(0, 0, 0);
-		constraintRow.m_relpos2CrossNormal.setValue(0, 0, 0);
-		constraintRow.m_contactNormal2.setValue(0, 0, 0);
-		constraintRow.m_angularComponentA.setValue(0, 0, 0);
-		constraintRow.m_angularComponentB.setValue(0, 0, 0);
+		constraintRow.m_relpos1CrossNormal.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_contactNormal1.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_relpos2CrossNormal.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_contactNormal2.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_angularComponentA.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_angularComponentB.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 		constraintRow.m_solverBodyIdA = data.m_fixedBodyId;
 		constraintRow.m_solverBodyIdB = data.m_fixedBodyId;
 
-		btVector3 contactNormalOnB(0, 0, 0);
+		btVector3 contactNormalOnB(0_fl, 0_fl, 0_fl);
 #ifndef BTMBP2PCONSTRAINT_BLOCK_ANGULAR_MOTION_TEST
 		contactNormalOnB[i] = -1;
 #else
@@ -156,7 +156,7 @@ void btMultiBodyPoint2Point::createConstraintRows(btMultiBodyConstraintArray& co
 
 #ifndef BTMBP2PCONSTRAINT_BLOCK_ANGULAR_MOTION_TEST
 
-		fillMultiBodyConstraint(constraintRow, data, 0, 0, btVector3(0, 0, 0),
+		fillMultiBodyConstraint(constraintRow, data, 0, 0, btVector3(0.0_fl, 0.0_fl, 0.0_fl),
 								contactNormalOnB, pivotAworld, pivotBworld,  //sucks but let it be this way "for the time being"
 								posError,
 								infoGlobal,
@@ -164,7 +164,7 @@ void btMultiBodyPoint2Point::createConstraintRows(btMultiBodyConstraintArray& co
 		//@todo: support the case of btMultiBody versus btRigidBody,
 		//see btPoint2PointConstraint::getInfo2NonVirtual
 #else
-		const btVector3 dummy(0, 0, 0);
+		const btVector3 dummy(0_fl, 0_fl, 0_fl);
 
 		btAssert(m_bodyA->isMultiDof());
 
@@ -192,25 +192,25 @@ void btMultiBodyPoint2Point::debugDraw(class btIDebugDraw* drawer)
 	{
 		btVector3 pivot = m_rigidBodyA->getCenterOfMassTransform() * m_pivotInA;
 		tr.setOrigin(pivot);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 	if (m_bodyA)
 	{
 		btVector3 pivotAworld = m_bodyA->localPosToWorld(m_linkA, m_pivotInA);
 		tr.setOrigin(pivotAworld);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 	if (m_rigidBodyB)
 	{
 		// that ideally should draw the same frame
 		btVector3 pivot = m_rigidBodyB->getCenterOfMassTransform() * m_pivotInB;
 		tr.setOrigin(pivot);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 	if (m_bodyB)
 	{
 		btVector3 pivotBworld = m_bodyB->localPosToWorld(m_linkB, m_pivotInB);
 		tr.setOrigin(pivotBworld);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 }

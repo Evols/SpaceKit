@@ -26,9 +26,9 @@ inline void b3TransformAabb2(b3Float4ConstArg localAabbMin, b3Float4ConstArg loc
 							 b3QuatConstArg orn,
 							 b3Float4* aabbMinOut, b3Float4* aabbMaxOut)
 {
-	b3Float4 localHalfExtents = 0.5f * (localAabbMax - localAabbMin);
-	localHalfExtents += b3MakeFloat4(margin, margin, margin, 0.f);
-	b3Float4 localCenter = 0.5f * (localAabbMax + localAabbMin);
+	b3Float4 localHalfExtents = 0.5_fl * (localAabbMax - localAabbMin);
+	localHalfExtents += b3MakeFloat4(margin, margin, margin, 0.0_fl);
+	b3Float4 localCenter = 0.5_fl * (localAabbMax + localAabbMin);
 	b3Mat3x3 m;
 	m = b3QuatGetRotationMatrix(orn);
 	b3Mat3x3 abs_b = b3AbsoluteMat3x3(m);
@@ -37,7 +37,7 @@ inline void b3TransformAabb2(b3Float4ConstArg localAabbMin, b3Float4ConstArg loc
 	b3Float4 extent = b3MakeFloat4(b3Dot3F4(localHalfExtents, b3GetRow(abs_b, 0)),
 								   b3Dot3F4(localHalfExtents, b3GetRow(abs_b, 1)),
 								   b3Dot3F4(localHalfExtents, b3GetRow(abs_b, 2)),
-								   0.f);
+								   0.0_fl);
 	*aabbMinOut = center - extent;
 	*aabbMaxOut = center + extent;
 }

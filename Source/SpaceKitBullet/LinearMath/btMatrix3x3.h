@@ -20,21 +20,21 @@ subject to the following restrictions:
 #include <stdio.h>
 
 #ifdef BT_USE_SSE
-//const __m128 ATTRIBUTE_ALIGNED16(v2220) = {2.0f, 2.0f, 2.0f, 0.0f};
-//const __m128 ATTRIBUTE_ALIGNED16(vMPPP) = {-0.0f, +0.0f, +0.0f, +0.0f};
-#define vMPPP (_mm_set_ps(+0.0f, +0.0f, +0.0f, -0.0f))
+//const __m128 ATTRIBUTE_ALIGNED16(v2220) = {2.0_fl, 2.0_fl, 2.0_fl, 0.0_fl};
+//const __m128 ATTRIBUTE_ALIGNED16(vMPPP) = {-0.0_fl, +0.0_fl, +0.0_fl, +0.0_fl};
+#define vMPPP (_mm_set_ps(+0.0_fl, +0.0_fl, +0.0_fl, -0.0_fl))
 #endif
 
 #if defined(BT_USE_SSE)
-#define v0000 (_mm_set_ps(0.0f, 0.0f, 0.0f, 0.0f))
-#define v1000 (_mm_set_ps(0.0f, 0.0f, 0.0f, 1.0f))
-#define v0100 (_mm_set_ps(0.0f, 0.0f, 1.0f, 0.0f))
-#define v0010 (_mm_set_ps(0.0f, 1.0f, 0.0f, 0.0f))
+#define v0000 (_mm_set_ps(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl))
+#define v1000 (_mm_set_ps(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl))
+#define v0100 (_mm_set_ps(0.0_fl, 0.0_fl, 1.0_fl, 0.0_fl))
+#define v0010 (_mm_set_ps(0.0_fl, 1.0_fl, 0.0_fl, 0.0_fl))
 #elif defined(BT_USE_NEON)
-const btSimdFloat4 ATTRIBUTE_ALIGNED16(v0000) = {0.0f, 0.0f, 0.0f, 0.0f};
-const btSimdFloat4 ATTRIBUTE_ALIGNED16(v1000) = {1.0f, 0.0f, 0.0f, 0.0f};
-const btSimdFloat4 ATTRIBUTE_ALIGNED16(v0100) = {0.0f, 1.0f, 0.0f, 0.0f};
-const btSimdFloat4 ATTRIBUTE_ALIGNED16(v0010) = {0.0f, 0.0f, 1.0f, 0.0f};
+const btSimdFloat4 ATTRIBUTE_ALIGNED16(v0000) = {0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl};
+const btSimdFloat4 ATTRIBUTE_ALIGNED16(v1000) = {1.0_fl, 0.0_fl, 0.0_fl, 0.0_fl};
+const btSimdFloat4 ATTRIBUTE_ALIGNED16(v0100) = {0.0_fl, 1.0_fl, 0.0_fl, 0.0_fl};
+const btSimdFloat4 ATTRIBUTE_ALIGNED16(v0010) = {0.0_fl, 0.0_fl, 1.0_fl, 0.0_fl};
 #endif
 
 #ifdef BT_USE_DOUBLE_PRECISION
@@ -215,7 +215,7 @@ public:
 	void setRotation(const btQuaternion& q)
 	{
 		btScalar d = q.length2();
-		btFullAssert(d != btScalar(0.0));
+		btFullAssert(d != btScalar(0.0_fl));
 		btScalar s = btScalar(2.0) / d;
 
 #if defined BT_USE_SIMD_VECTOR3 && defined(BT_USE_SSE_IN_API) && defined(BT_USE_SSE)
@@ -275,9 +275,9 @@ public:
 		btScalar xx = q.x() * xs, xy = q.x() * ys, xz = q.x() * zs;
 		btScalar yy = q.y() * ys, yz = q.y() * zs, zz = q.z() * zs;
 		setValue(
-			btScalar(1.0) - (yy + zz), xy - wz, xz + wy,
-			xy + wz, btScalar(1.0) - (xx + zz), yz - wx,
-			xz - wy, yz + wx, btScalar(1.0) - (xx + yy));
+			btScalar(1.0_fl) - (yy + zz), xy - wz, xz + wy,
+			xy + wz, btScalar(1.0_fl) - (xx + zz), yz - wx,
+			xz - wy, yz + wx, btScalar(1.0_fl) - (xx + yy));
 #endif
 	}
 
@@ -327,9 +327,9 @@ public:
 		m_el[1] = v0100;
 		m_el[2] = v0010;
 #else
-		setValue(btScalar(1.0), btScalar(0.0), btScalar(0.0),
-				 btScalar(0.0), btScalar(1.0), btScalar(0.0),
-				 btScalar(0.0), btScalar(0.0), btScalar(1.0));
+		setValue(btScalar(1.0_fl), btScalar(0.0_fl), btScalar(0.0_fl),
+				 btScalar(0.0_fl), btScalar(1.0_fl), btScalar(0.0_fl),
+				 btScalar(0.0_fl), btScalar(0.0_fl), btScalar(1.0_fl));
 #endif
 	}
     
@@ -341,9 +341,9 @@ public:
         m_el[1] = v0000;
         m_el[2] = v0000;
 #else
-        setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0),
-                 btScalar(0.0), btScalar(0.0), btScalar(0.0),
-                 btScalar(0.0), btScalar(0.0), btScalar(0.0));
+        setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl),
+                 btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl),
+                 btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 #endif
     }
 
@@ -355,9 +355,9 @@ public:
 #else
 		static const btMatrix3x3
 			identityMatrix(
-				btScalar(1.0), btScalar(0.0), btScalar(0.0),
-				btScalar(0.0), btScalar(1.0), btScalar(0.0),
-				btScalar(0.0), btScalar(0.0), btScalar(1.0));
+				btScalar(1.0_fl), btScalar(0.0_fl), btScalar(0.0_fl),
+				btScalar(0.0_fl), btScalar(1.0_fl), btScalar(0.0_fl),
+				btScalar(0.0_fl), btScalar(0.0_fl), btScalar(1.0_fl));
 #endif
 		return identityMatrix;
 	}
@@ -390,7 +390,7 @@ public:
 		static const uint32x2_t zMask = (const uint32x2_t){static_cast<uint32_t>(-1), 0};
 		float32x4_t* vm = (float32x4_t*)m;
 		float32x4x2_t top = vtrnq_f32(m_el[0].mVec128, m_el[1].mVec128);               // {x0 x1 z0 z1}, {y0 y1 w0 w1}
-		float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0f));  // {x2  0 }, {y2 0}
+		float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0_fl));  // {x2  0 }, {y2 0}
 		float32x4_t v0 = vcombine_f32(vget_low_f32(top.val[0]), bl.val[0]);
 		float32x4_t v1 = vcombine_f32(vget_low_f32(top.val[1]), bl.val[1]);
 		float32x2_t q = (float32x2_t)vand_u32((uint32x2_t)vget_high_f32(m_el[2].mVec128), zMask);
@@ -403,15 +403,15 @@ public:
 		m[0] = btScalar(m_el[0].x());
 		m[1] = btScalar(m_el[1].x());
 		m[2] = btScalar(m_el[2].x());
-		m[3] = btScalar(0.0);
+		m[3] = btScalar(0.0_fl);
 		m[4] = btScalar(m_el[0].y());
 		m[5] = btScalar(m_el[1].y());
 		m[6] = btScalar(m_el[2].y());
-		m[7] = btScalar(0.0);
+		m[7] = btScalar(0.0_fl);
 		m[8] = btScalar(m_el[0].z());
 		m[9] = btScalar(m_el[1].z());
 		m[10] = btScalar(m_el[2].z());
-		m[11] = btScalar(0.0);
+		m[11] = btScalar(0.0_fl);
 #endif
 	}
 
@@ -428,9 +428,9 @@ public:
 			btScalar f[4];
 		} temp;
 
-		if (trace > btScalar(0.0))
+		if (trace > btScalar(0.0_fl))
 		{
-			x = trace + btScalar(1.0);
+			x = trace + btScalar(1.0_fl);
 
 			temp.f[0] = m_el[2].y() - m_el[1].z();
 			temp.f[1] = m_el[0].z() - m_el[2].x();
@@ -472,7 +472,7 @@ public:
 				}
 			}
 
-			x = m_el[i][i] - m_el[j][j] - m_el[k][k] + btScalar(1.0);
+			x = m_el[i][i] - m_el[j][j] - m_el[k][k] + btScalar(1.0_fl);
 
 			temp.f[3] = (m_el[k][j] - m_el[j][k]);
 			temp.f[j] = (m_el[j][i] + m_el[i][j]);
@@ -491,9 +491,9 @@ public:
 
 		btScalar temp[4];
 
-		if (trace > btScalar(0.0))
+		if (trace > btScalar(0.0_fl))
 		{
-			btScalar s = btSqrt(trace + btScalar(1.0));
+			btScalar s = btSqrt(trace + btScalar(1.0_fl));
 			temp[3] = (s * btScalar(0.5));
 			s = btScalar(0.5) / s;
 
@@ -507,7 +507,7 @@ public:
 			int j = (i + 1) % 3;
 			int k = (i + 2) % 3;
 
-			btScalar s = btSqrt(m_el[i][i] - m_el[j][j] - m_el[k][k] + btScalar(1.0));
+			btScalar s = btSqrt(m_el[i][i] - m_el[j][j] - m_el[k][k] + btScalar(1.0_fl));
 			temp[i] = s * btScalar(0.5);
 			s = btScalar(0.5) / s;
 
@@ -533,12 +533,12 @@ public:
 		// on pitch = +/-HalfPI
 		if (btFabs(pitch) == SIMD_HALF_PI)
 		{
-			if (yaw > 0)
+			if (yaw > 0.0_fl)
 				yaw -= SIMD_PI;
 			else
 				yaw += SIMD_PI;
 
-			if (roll > 0)
+			if (roll > 0.0_fl)
 				roll -= SIMD_PI;
 			else
 				roll += SIMD_PI;
@@ -564,14 +564,14 @@ public:
 		//get the pointer to the raw data
 
 		// Check that pitch is not at a singularity
-		if (btFabs(m_el[2].x()) >= 1)
+		if (btFabs(m_el[2].x()) >= 1.0_fl)
 		{
-			euler_out.yaw = 0;
-			euler_out2.yaw = 0;
+			euler_out.yaw = 0.0_fl;
+			euler_out2.yaw = 0.0_fl;
 
 			// From difference of angles formula
 			btScalar delta = btAtan2(m_el[0].x(), m_el[0].z());
-			if (m_el[2].x() > 0)  //gimbal locked up
+			if (m_el[2].x() > 0.0_fl)  //gimbal locked up
 			{
 				euler_out.pitch = SIMD_PI / btScalar(2.0);
 				euler_out2.pitch = SIMD_PI / btScalar(2.0);
@@ -654,7 +654,7 @@ public:
 		btScalar det = btDot(col1, btCross(col2, col3));
 		if (btFabs(det) > SIMD_EPSILON)
 		{
-			det = 1.0f / det;
+			det = 1.0_fl / det;
 		}
 		btVector3 x;
 		x[0] = det * btDot(b, btCross(col2, col3));
@@ -685,7 +685,7 @@ public:
 	///symmetric matrix S:
 	///A = R*S.
 	///note that R can include both rotation and scaling.
-	SIMD_FORCE_INLINE void extractRotation(btQuaternion & q, btScalar tolerance = 1.0e-9, int maxIter = 100)
+	SIMD_FORCE_INLINE void extractRotation(btQuaternion & q, btScalar tolerance = 1.0e-9_fl, int maxIter = 100)
 	{
 		int iter = 0;
 		btScalar w;
@@ -693,12 +693,12 @@ public:
 		for (iter = 0; iter < maxIter; iter++)
 		{
 			btMatrix3x3 R(q);
-			btVector3 omega = (R.getColumn(0).cross(A.getColumn(0)) + R.getColumn(1).cross(A.getColumn(1)) + R.getColumn(2).cross(A.getColumn(2))) * (btScalar(1.0) / btFabs(R.getColumn(0).dot(A.getColumn(0)) + R.getColumn(1).dot(A.getColumn(1)) + R.getColumn(2).dot(A.getColumn(2))) +
+			btVector3 omega = (R.getColumn(0).cross(A.getColumn(0)) + R.getColumn(1).cross(A.getColumn(1)) + R.getColumn(2).cross(A.getColumn(2))) * (btScalar(1.0_fl) / btFabs(R.getColumn(0).dot(A.getColumn(0)) + R.getColumn(1).dot(A.getColumn(1)) + R.getColumn(2).dot(A.getColumn(2))) +
 																																					  tolerance);
 			w = omega.norm();
 			if (w < tolerance)
 				break;
-			q = btQuaternion(btVector3((btScalar(1.0) / w) * omega), w) *
+			q = btQuaternion(btVector3((btScalar(1.0_fl) / w) * omega), w) *
 				q;
 			q.normalize();
 		}
@@ -751,27 +751,27 @@ public:
 
 			// compute Jacobi rotation J which leads to a zero for element [p][q]
 			btScalar mpq = m_el[p][q];
-			btScalar theta = (m_el[q][q] - m_el[p][p]) / (2 * mpq);
+			btScalar theta = (m_el[q][q] - m_el[p][p]) / (2.0_fl * mpq);
 			btScalar theta2 = theta * theta;
 			btScalar cos;
 			btScalar sin;
-			if (theta2 * theta2 < btScalar(10 / SIMD_EPSILON))
+			if (theta2 * theta2 < btScalar(10.0_fl / SIMD_EPSILON))
 			{
-				t = (theta >= 0) ? 1 / (theta + btSqrt(1 + theta2))
-								 : 1 / (theta - btSqrt(1 + theta2));
-				cos = 1 / btSqrt(1 + t * t);
+				t = (theta >= 0.0_fl) ? 1.0_fl / (theta + btSqrt(1.0_fl + theta2))
+								 : 1.0_fl / (theta - btSqrt(1.0_fl + theta2));
+				cos = 1.0_fl / btSqrt(1.0_fl + t * t);
 				sin = cos * t;
 			}
 			else
 			{
 				// approximation for large theta-value, i.e., a nearly diagonal matrix
-				t = 1 / (theta * (2 + btScalar(0.5) / theta2));
-				cos = 1 - btScalar(0.5) * t * t;
+				t = 1.0_fl / (theta * (2.0_fl + btScalar(0.5) / theta2));
+				cos = 1.0_fl - btScalar(0.5_fl) * t * t;
 				sin = cos * t;
 			}
 
 			// apply rotation to matrix (this = J^T * this * J)
-			m_el[p][q] = m_el[q][p] = 0;
+			m_el[p][q] = m_el[q][p] = 0.0_fl;
 			m_el[p][p] -= t * mpq;
 			m_el[q][q] += t * mpq;
 			btScalar mrp = m_el[r][p];
@@ -1068,7 +1068,7 @@ btMatrix3x3::transpose() const
 	// note: zeros the w channel. We can preserve it at the cost of two more vtrn instructions.
 	static const uint32x2_t zMask = (const uint32x2_t){static_cast<uint32_t>(-1), 0};
 	float32x4x2_t top = vtrnq_f32(m_el[0].mVec128, m_el[1].mVec128);               // {x0 x1 z0 z1}, {y0 y1 w0 w1}
-	float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0f));  // {x2  0 }, {y2 0}
+	float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0_fl));  // {x2  0 }, {y2 0}
 	float32x4_t v0 = vcombine_f32(vget_low_f32(top.val[0]), bl.val[0]);
 	float32x4_t v1 = vcombine_f32(vget_low_f32(top.val[1]), bl.val[1]);
 	float32x2_t q = (float32x2_t)vand_u32((uint32x2_t)vget_high_f32(m_el[2].mVec128), zMask);
@@ -1094,9 +1094,9 @@ btMatrix3x3::inverse() const
 {
 	btVector3 co(cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1));
 	btScalar det = (*this)[0].dot(co);
-	//btFullAssert(det != btScalar(0.0));
-	btAssert(det != btScalar(0.0));
-	btScalar s = btScalar(1.0) / det;
+	//btFullAssert(det != btScalar(0.0_fl));
+	btAssert(det != btScalar(0.0_fl));
+	btScalar s = btScalar(1.0_fl) / det;
 	return btMatrix3x3(co.x() * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s,
 					   co.y() * s, cofac(0, 0, 2, 2) * s, cofac(0, 2, 1, 0) * s,
 					   co.z() * s, cofac(0, 1, 2, 0) * s, cofac(0, 0, 1, 1) * s);

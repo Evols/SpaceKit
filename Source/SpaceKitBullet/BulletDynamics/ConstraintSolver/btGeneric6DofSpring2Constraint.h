@@ -96,28 +96,28 @@ public:
 
 	btRotationalLimitMotor2()
 	{
-		m_loLimit = 1.0f;
-		m_hiLimit = -1.0f;
-		m_bounce = 0.0f;
-		m_stopERP = 0.2f;
-		m_stopCFM = 0.f;
-		m_motorERP = 0.9f;
-		m_motorCFM = 0.f;
+		m_loLimit = 1.0_fl;
+		m_hiLimit = -1.0_fl;
+		m_bounce = 0.0_fl;
+		m_stopERP = 0.2_fl;
+		m_stopCFM = 0.0_fl;
+		m_motorERP = 0.9_fl;
+		m_motorCFM = 0.0_fl;
 		m_enableMotor = false;
-		m_targetVelocity = 0;
-		m_maxMotorForce = 6.0f;
+		m_targetVelocity = 0_fl;
+		m_maxMotorForce = 6.0_fl;
 		m_servoMotor = false;
-		m_servoTarget = 0;
+		m_servoTarget = 0.0_fl;
 		m_enableSpring = false;
-		m_springStiffness = 0;
+		m_springStiffness = 0.0_fl;
 		m_springStiffnessLimited = false;
-		m_springDamping = 0;
+		m_springDamping = 0.0_fl;
 		m_springDampingLimited = false;
-		m_equilibriumPoint = 0;
+		m_equilibriumPoint = 0.0_fl;
 
-		m_currentLimitError = 0;
-		m_currentLimitErrorHi = 0;
-		m_currentPosition = 0;
+		m_currentLimitError = 0.0_fl;
+		m_currentLimitErrorHi = 0.0_fl;
+		m_currentPosition = 0.0_fl;
 		m_currentLimit = 0;
 	}
 
@@ -189,31 +189,31 @@ public:
 
 	btTranslationalLimitMotor2()
 	{
-		m_lowerLimit.setValue(0.f, 0.f, 0.f);
-		m_upperLimit.setValue(0.f, 0.f, 0.f);
-		m_bounce.setValue(0.f, 0.f, 0.f);
-		m_stopERP.setValue(0.2f, 0.2f, 0.2f);
-		m_stopCFM.setValue(0.f, 0.f, 0.f);
-		m_motorERP.setValue(0.9f, 0.9f, 0.9f);
-		m_motorCFM.setValue(0.f, 0.f, 0.f);
+		m_lowerLimit.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_upperLimit.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_bounce.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_stopERP.setValue(0.2_fl, 0.2_fl, 0.2_fl);
+		m_stopCFM.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_motorERP.setValue(0.9_fl, 0.9_fl, 0.9_fl);
+		m_motorCFM.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
-		m_currentLimitError.setValue(0.f, 0.f, 0.f);
-		m_currentLimitErrorHi.setValue(0.f, 0.f, 0.f);
-		m_currentLinearDiff.setValue(0.f, 0.f, 0.f);
+		m_currentLimitError.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_currentLimitErrorHi.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_currentLinearDiff.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 		for (int i = 0; i < 3; i++)
 		{
 			m_enableMotor[i] = false;
 			m_servoMotor[i] = false;
 			m_enableSpring[i] = false;
-			m_servoTarget[i] = btScalar(0.f);
-			m_springStiffness[i] = btScalar(0.f);
+			m_servoTarget[i] = btScalar(0.0_fl);
+			m_springStiffness[i] = btScalar(0.0_fl);
 			m_springStiffnessLimited[i] = false;
-			m_springDamping[i] = btScalar(0.f);
+			m_springDamping[i] = btScalar(0.0_fl);
 			m_springDampingLimited[i] = false;
-			m_equilibriumPoint[i] = btScalar(0.f);
-			m_targetVelocity[i] = btScalar(0.f);
-			m_maxMotorForce[i] = btScalar(0.f);
+			m_equilibriumPoint[i] = btScalar(0.0_fl);
+			m_targetVelocity[i] = btScalar(0.0_fl);
+			m_maxMotorForce[i] = btScalar(0.0_fl);
 
 			m_currentLimit[i] = 0;
 		}
@@ -610,19 +610,19 @@ SIMD_FORCE_INLINE const char* btGeneric6DofSpring2Constraint::serialize(void* da
 		dof->m_angularSpringDamping.m_floats[i] = m_angularLimits[i].m_springDamping;
 		dof->m_angularEquilibriumPoint.m_floats[i] = m_angularLimits[i].m_equilibriumPoint;
 	}
-	dof->m_angularLowerLimit.m_floats[3] = 0;
-	dof->m_angularUpperLimit.m_floats[3] = 0;
-	dof->m_angularBounce.m_floats[3] = 0;
-	dof->m_angularStopERP.m_floats[3] = 0;
-	dof->m_angularStopCFM.m_floats[3] = 0;
-	dof->m_angularMotorERP.m_floats[3] = 0;
-	dof->m_angularMotorCFM.m_floats[3] = 0;
-	dof->m_angularTargetVelocity.m_floats[3] = 0;
-	dof->m_angularMaxMotorForce.m_floats[3] = 0;
-	dof->m_angularServoTarget.m_floats[3] = 0;
-	dof->m_angularSpringStiffness.m_floats[3] = 0;
-	dof->m_angularSpringDamping.m_floats[3] = 0;
-	dof->m_angularEquilibriumPoint.m_floats[3] = 0;
+	dof->m_angularLowerLimit.m_floats[3] = 0_fl;
+	dof->m_angularUpperLimit.m_floats[3] = 0_fl;
+	dof->m_angularBounce.m_floats[3] = 0_fl;
+	dof->m_angularStopERP.m_floats[3] = 0_fl;
+	dof->m_angularStopCFM.m_floats[3] = 0_fl;
+	dof->m_angularMotorERP.m_floats[3] = 0_fl;
+	dof->m_angularMotorCFM.m_floats[3] = 0_fl;
+	dof->m_angularTargetVelocity.m_floats[3] = 0_fl;
+	dof->m_angularMaxMotorForce.m_floats[3] = 0_fl;
+	dof->m_angularServoTarget.m_floats[3] = 0_fl;
+	dof->m_angularSpringStiffness.m_floats[3] = 0_fl;
+	dof->m_angularSpringDamping.m_floats[3] = 0_fl;
+	dof->m_angularEquilibriumPoint.m_floats[3] = 0_fl;
 	for (i = 0; i < 4; i++)
 	{
 		dof->m_angularEnableMotor[i] = i < 3 ? (m_angularLimits[i].m_enableMotor ? 1 : 0) : 0;

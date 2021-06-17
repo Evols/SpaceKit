@@ -85,7 +85,7 @@ namespace projections
                         dt = two_div_pi * lp_lon;
                         dt = dt + 1. / dt;
                         dt = sqrt(dt * dt - 4.);
-                        if ((fabs(lp_lon) - half_pi) < 0.) dt = -dt;
+                        if ((fabs(lp_lon) - half_pi) < 0.0_fl) dt = -dt;
                         dt2 = dt * dt;
                         x1 = bt + ct; x1 *= x1;
                         t = bt + 3.*ct;
@@ -96,8 +96,8 @@ namespace projections
                             (4.* x1 + dt2);
                         xy_x = half_pi * x1;
                         xy_y = half_pi * sqrt(1. + dt * fabs(x1) - x1 * x1);
-                        if (lp_lon < 0.) xy_x = -xy_x;
-                        if (lp_lat < 0.) xy_y = -xy_y;
+                        if (lp_lon < 0.0_fl) xy_x = -xy_x;
+                        if (lp_lat < 0.0_fl) xy_y = -xy_y;
                     }
                 }
 

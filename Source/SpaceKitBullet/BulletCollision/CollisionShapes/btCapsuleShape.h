@@ -96,8 +96,8 @@ public:
 
 	virtual btVector3 getAnisotropicRollingFrictionDirection() const
 	{
-		btVector3 aniDir(0, 0, 0);
-		aniDir[getUpAxis()] = 1;
+		btVector3 aniDir(0_fl, 0_fl, 0_fl);
+		aniDir[getUpAxis()] = 1_fl;
 		return aniDir;
 	}
 
@@ -173,7 +173,7 @@ SIMD_FORCE_INLINE const char* btCapsuleShape::serialize(void* dataBuffer, btSeri
 SIMD_FORCE_INLINE void btCapsuleShape::deSerializeFloat(btCapsuleShapeData* dataBuffer)
 {
 	m_implicitShapeDimensions.deSerializeFloat(dataBuffer->m_convexInternalShapeData.m_implicitShapeDimensions);
-	m_collisionMargin = dataBuffer->m_convexInternalShapeData.m_collisionMargin;
+	m_collisionMargin = btScalar(dataBuffer->m_convexInternalShapeData.m_collisionMargin);
 	m_localScaling.deSerializeFloat(dataBuffer->m_convexInternalShapeData.m_localScaling);
 	//it is best to already pre-allocate the matching btCapsuleShape*(X/Z) version to match m_upAxis
 	m_upAxis = dataBuffer->m_upAxis;

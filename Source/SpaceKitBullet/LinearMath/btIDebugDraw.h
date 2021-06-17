@@ -38,13 +38,13 @@ public:
 		btVector3 m_contactPoint;
 
 		DefaultColors()
-			: m_activeObject(1, 1, 1),
-			  m_deactivatedObject(0, 1, 0),
-			  m_wantsDeactivationObject(0, 1, 1),
-			  m_disabledDeactivationObject(1, 0, 0),
-			  m_disabledSimulationObject(1, 1, 0),
-			  m_aabb(1, 0, 0),
-			  m_contactPoint(1, 1, 0)
+			: m_activeObject(1.0_fl, 1.0_fl, 1.0_fl),
+			  m_deactivatedObject(0.0_fl, 1.0_fl, 0.0_fl),
+			  m_wantsDeactivationObject(0.0_fl, 1.0_fl, 1.0_fl),
+			  m_disabledDeactivationObject(1.0_fl, 0.0_fl, 0.0_fl),
+			  m_disabledSimulationObject(1.0_fl, 1.0_fl, 0.0_fl),
+			  m_aabb(1.0_fl, 0.0_fl, 0.0_fl),
+			  m_contactPoint(1.0_fl, 1.0_fl, 0.0_fl)
 		{
 		}
 	};
@@ -98,7 +98,7 @@ public:
 		btScalar maxTh = SIMD_HALF_PI;
 		btScalar minPs = -SIMD_HALF_PI;
 		btScalar maxPs = SIMD_HALF_PI;
-		btScalar stepDegrees = 30.f;
+		btScalar stepDegrees = 30.0_fl;
 		drawSpherePatch(center, up, axis, radius, minTh, maxTh, minPs, maxPs, color, stepDegrees, false);
 		drawSpherePatch(center, up, -axis, radius, minTh, maxTh, minPs, maxPs, color, stepDegrees, false);
 	}
@@ -134,11 +134,11 @@ public:
 
 	virtual void drawAabb(const btVector3& from, const btVector3& to, const btVector3& color)
 	{
-		btVector3 halfExtents = (to - from) * 0.5f;
-		btVector3 center = (to + from) * 0.5f;
+		btVector3 halfExtents = (to - from) * 0.5_fl;
+		btVector3 center = (to + from) * 0.5_fl;
 		int i, j;
 
-		btVector3 edgecoord(1.f, 1.f, 1.f), pa, pb;
+		btVector3 edgecoord(1.0_fl, 1.0_fl, 1.0_fl), pa, pb;
 		for (i = 0; i < 4; i++)
 		{
 			for (j = 0; j < 3; j++)
@@ -148,28 +148,28 @@ public:
 				pa += center;
 
 				int othercoord = j % 3;
-				edgecoord[othercoord] *= -1.f;
+				edgecoord[othercoord] *= -1.0_fl;
 				pb = btVector3(edgecoord[0] * halfExtents[0], edgecoord[1] * halfExtents[1],
 							   edgecoord[2] * halfExtents[2]);
 				pb += center;
 
 				drawLine(pa, pb, color);
 			}
-			edgecoord = btVector3(-1.f, -1.f, -1.f);
+			edgecoord = btVector3(-1.0_fl, -1.0_fl, -1.0_fl);
 			if (i < 3)
-				edgecoord[i] *= -1.f;
+				edgecoord[i] *= -1.0_fl;
 		}
 	}
 	virtual void drawTransform(const btTransform& transform, btScalar orthoLen)
 	{
 		btVector3 start = transform.getOrigin();
-		drawLine(start, start + transform.getBasis() * btVector3(orthoLen, 0, 0), btVector3(btScalar(1.), btScalar(0.3), btScalar(0.3)));
-		drawLine(start, start + transform.getBasis() * btVector3(0, orthoLen, 0), btVector3(btScalar(0.3), btScalar(1.), btScalar(0.3)));
-		drawLine(start, start + transform.getBasis() * btVector3(0, 0, orthoLen), btVector3(btScalar(0.3), btScalar(0.3), btScalar(1.)));
+		drawLine(start, start + transform.getBasis() * btVector3(orthoLen, 0.0_fl, 0.0_fl), btVector3(btScalar(1.), btScalar(0.3), btScalar(0.3)));
+		drawLine(start, start + transform.getBasis() * btVector3(0.0_fl, orthoLen, 0.0_fl), btVector3(btScalar(0.3), btScalar(1.), btScalar(0.3)));
+		drawLine(start, start + transform.getBasis() * btVector3(0.0_fl, 0.0_fl, orthoLen), btVector3(btScalar(0.3), btScalar(0.3), btScalar(1.)));
 	}
 
 	virtual void drawArc(const btVector3& center, const btVector3& normal, const btVector3& axis, btScalar radiusA, btScalar radiusB, btScalar minAngle, btScalar maxAngle,
-						 const btVector3& color, bool drawSect, btScalar stepDegrees = btScalar(10.f))
+						 const btVector3& color, bool drawSect, btScalar stepDegrees = btScalar(10_fl))
 	{
 		const btVector3& vx = axis;
 		btVector3 vy = normal.cross(axis);
@@ -194,7 +194,7 @@ public:
 		}
 	}
 	virtual void drawSpherePatch(const btVector3& center, const btVector3& up, const btVector3& axis, btScalar radius,
-								 btScalar minTh, btScalar maxTh, btScalar minPs, btScalar maxPs, const btVector3& color, btScalar stepDegrees = btScalar(10.f), bool drawCenter = true)
+								 btScalar minTh, btScalar maxTh, btScalar minPs, btScalar maxPs, const btVector3& color, btScalar stepDegrees = btScalar(10_fl), bool drawCenter = true)
 	{
 		btVector3 vA[74];
 		btVector3 vB[74];
@@ -336,10 +336,10 @@ public:
 	{
 		int stepDegrees = 30;
 
-		btVector3 capStart(0.f, 0.f, 0.f);
+		btVector3 capStart(0.0_fl, 0.0_fl, 0.0_fl);
 		capStart[upAxis] = -halfHeight;
 
-		btVector3 capEnd(0.f, 0.f, 0.f);
+		btVector3 capEnd(0.0_fl, 0.0_fl, 0.0_fl);
 		capEnd[upAxis] = halfHeight;
 
 		// Draw the ends
@@ -388,12 +388,12 @@ public:
 	virtual void drawCylinder(btScalar radius, btScalar halfHeight, int upAxis, const btTransform& transform, const btVector3& color)
 	{
 		btVector3 start = transform.getOrigin();
-		btVector3 offsetHeight(0, 0, 0);
+		btVector3 offsetHeight(0.0_fl, 0.0_fl, 0.0_fl);
 		offsetHeight[upAxis] = halfHeight;
 		int stepDegrees = 30;
-		btVector3 capStart(0.f, 0.f, 0.f);
+		btVector3 capStart(0.0_fl, 0.0_fl, 0.0_fl);
 		capStart[upAxis] = -halfHeight;
-		btVector3 capEnd(0.f, 0.f, 0.f);
+		btVector3 capEnd(0.0_fl, 0.0_fl, 0.0_fl);
 		capEnd[upAxis] = halfHeight;
 
 		for (int i = 0; i < 360; i += stepDegrees)
@@ -403,12 +403,12 @@ public:
 			drawLine(start + transform.getBasis() * capStart, start + transform.getBasis() * capEnd, color);
 		}
 		// Drawing top and bottom caps of the cylinder
-		btVector3 yaxis(0, 0, 0);
-		yaxis[upAxis] = btScalar(1.0);
-		btVector3 xaxis(0, 0, 0);
-		xaxis[(upAxis + 1) % 3] = btScalar(1.0);
-		drawArc(start - transform.getBasis() * (offsetHeight), transform.getBasis() * yaxis, transform.getBasis() * xaxis, radius, radius, 0, SIMD_2_PI, color, false, btScalar(10.0));
-		drawArc(start + transform.getBasis() * (offsetHeight), transform.getBasis() * yaxis, transform.getBasis() * xaxis, radius, radius, 0, SIMD_2_PI, color, false, btScalar(10.0));
+		btVector3 yaxis(0.0_fl, 0.0_fl, 0.0_fl);
+		yaxis[upAxis] = btScalar(1.0_fl);
+		btVector3 xaxis(0.0_fl, 0.0_fl, 0.0_fl);
+		xaxis[(upAxis + 1) % 3] = btScalar(1.0_fl);
+		drawArc(start - transform.getBasis() * (offsetHeight), transform.getBasis() * yaxis, transform.getBasis() * xaxis, radius, radius, 0.0_fl, SIMD_2_PI, color, false, btScalar(10.0));
+		drawArc(start + transform.getBasis() * (offsetHeight), transform.getBasis() * yaxis, transform.getBasis() * xaxis, radius, radius, 0.0_fl, SIMD_2_PI, color, false, btScalar(10.0));
 	}
 
 	virtual void drawCone(btScalar radius, btScalar height, int upAxis, const btTransform& transform, const btVector3& color)
@@ -416,15 +416,15 @@ public:
 		int stepDegrees = 30;
 		btVector3 start = transform.getOrigin();
 
-		btVector3 offsetHeight(0, 0, 0);
+		btVector3 offsetHeight(0.0_fl, 0.0_fl, 0.0_fl);
 		btScalar halfHeight = height * btScalar(0.5);
 		offsetHeight[upAxis] = halfHeight;
-		btVector3 offsetRadius(0, 0, 0);
+		btVector3 offsetRadius(0.0_fl, 0.0_fl, 0.0_fl);
 		offsetRadius[(upAxis + 1) % 3] = radius;
-		btVector3 offset2Radius(0, 0, 0);
+		btVector3 offset2Radius(0.0_fl, 0.0_fl, 0.0_fl);
 		offset2Radius[(upAxis + 2) % 3] = radius;
 
-		btVector3 capEnd(0.f, 0.f, 0.f);
+		btVector3 capEnd(0.0_fl, 0.0_fl, 0.0_fl);
 		capEnd[upAxis] = -halfHeight;
 
 		for (int i = 0; i < 360; i += stepDegrees)
@@ -440,11 +440,11 @@ public:
 		drawLine(start + transform.getBasis() * (offsetHeight), start + transform.getBasis() * (-offsetHeight - offset2Radius), color);
 
 		// Drawing the base of the cone
-		btVector3 yaxis(0, 0, 0);
-		yaxis[upAxis] = btScalar(1.0);
-		btVector3 xaxis(0, 0, 0);
-		xaxis[(upAxis + 1) % 3] = btScalar(1.0);
-		drawArc(start - transform.getBasis() * (offsetHeight), transform.getBasis() * yaxis, transform.getBasis() * xaxis, radius, radius, 0, SIMD_2_PI, color, false, 10.0);
+		btVector3 yaxis(0.0_fl, 0.0_fl, 0.0_fl);
+		yaxis[upAxis] = btScalar(1.0_fl);
+		btVector3 xaxis(0.0_fl, 0.0_fl, 0.0_fl);
+		xaxis[(upAxis + 1) % 3] = btScalar(1.0_fl);
+		drawArc(start - transform.getBasis() * (offsetHeight), transform.getBasis() * yaxis, transform.getBasis() * xaxis, radius, radius, 0.0_fl, SIMD_2_PI, color, false, 10.0_fl);
 	}
 
 	virtual void drawPlane(const btVector3& planeNormal, btScalar planeConst, const btTransform& transform, const btVector3& color)
@@ -452,7 +452,7 @@ public:
 		btVector3 planeOrigin = planeNormal * planeConst;
 		btVector3 vec0, vec1;
 		btPlaneSpace1(planeNormal, vec0, vec1);
-		btScalar vecLen = 100.f;
+		btScalar vecLen = 100.0_fl;
 		btVector3 pt0 = planeOrigin + vec0 * vecLen;
 		btVector3 pt1 = planeOrigin - vec0 * vecLen;
 		btVector3 pt2 = planeOrigin + vec1 * vecLen;

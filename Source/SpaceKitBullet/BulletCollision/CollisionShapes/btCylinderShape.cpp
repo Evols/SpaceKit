@@ -132,19 +132,19 @@ SIMD_FORCE_INLINE btVector3 CylinderLocalSupportX(const btVector3& halfExtents, 
 	btScalar d;
 
 	btScalar s = btSqrt(v[XX] * v[XX] + v[ZZ] * v[ZZ]);
-	if (s != btScalar(0.0))
+	if (s != btScalar(0.0_fl))
 	{
 		d = radius / s;
 		tmp[XX] = v[XX] * d;
-		tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
+		tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
 		tmp[ZZ] = v[ZZ] * d;
 		return tmp;
 	}
 	else
 	{
 		tmp[XX] = radius;
-		tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
-		tmp[ZZ] = btScalar(0.0);
+		tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
+		tmp[ZZ] = btScalar(0.0_fl);
 		return tmp;
 	}
 }
@@ -163,19 +163,19 @@ inline btVector3 CylinderLocalSupportY(const btVector3& halfExtents, const btVec
 	btScalar d;
 
 	btScalar s = btSqrt(v[XX] * v[XX] + v[ZZ] * v[ZZ]);
-	if (s != btScalar(0.0))
+	if (s != btScalar(0.0_fl))
 	{
 		d = radius / s;
 		tmp[XX] = v[XX] * d;
-		tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
+		tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
 		tmp[ZZ] = v[ZZ] * d;
 		return tmp;
 	}
 	else
 	{
 		tmp[XX] = radius;
-		tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
-		tmp[ZZ] = btScalar(0.0);
+		tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
+		tmp[ZZ] = btScalar(0.0_fl);
 		return tmp;
 	}
 }
@@ -197,19 +197,19 @@ inline btVector3 CylinderLocalSupportZ(const btVector3& halfExtents, const btVec
 	btScalar d;
 
 	btScalar s = btSqrt(v[XX] * v[XX] + v[ZZ] * v[ZZ]);
-	if (s != btScalar(0.0))
+	if (s != btScalar(0.0_fl))
 	{
 		d = radius / s;
 		tmp[XX] = v[XX] * d;
-		tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
+		tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
 		tmp[ZZ] = v[ZZ] * d;
 		return tmp;
 	}
 	else
 	{
 		tmp[XX] = radius;
-		tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
-		tmp[ZZ] = btScalar(0.0);
+		tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
+		tmp[ZZ] = btScalar(0.0_fl);
 		return tmp;
 	}
 }

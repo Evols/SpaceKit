@@ -20,7 +20,7 @@ subject to the following restrictions:
 
 #define VORONOI_SIMPLEX_MAX_VERTS 5
 
-///disable next define, or use defaultCollisionConfiguration->getSimplexSolver()->setEqualVertexThreshold(0.f) to disable/configure
+///disable next define, or use defaultCollisionConfiguration->getSimplexSolver()->setEqualVertexThreshold(0.0_fl) to disable/configure
 #define BT_USE_EQUAL_VERTEX_THRESHOLD
 
 #ifdef BT_USE_DOUBLE_PRECISION
@@ -71,14 +71,14 @@ struct btSubSimplexClosestResult
 	}
 	bool isValid()
 	{
-		bool valid = (m_barycentricCoords[0] >= btScalar(0.)) &&
-					 (m_barycentricCoords[1] >= btScalar(0.)) &&
-					 (m_barycentricCoords[2] >= btScalar(0.)) &&
-					 (m_barycentricCoords[3] >= btScalar(0.));
+		bool valid = (m_barycentricCoords[0] >= btScalar(0.0_fl)) &&
+					 (m_barycentricCoords[1] >= btScalar(0.0_fl)) &&
+					 (m_barycentricCoords[2] >= btScalar(0.0_fl)) &&
+					 (m_barycentricCoords[3] >= btScalar(0.0_fl));
 
 		return valid;
 	}
-	void setBarycentricCoordinates(btScalar a = btScalar(0.), btScalar b = btScalar(0.), btScalar c = btScalar(0.), btScalar d = btScalar(0.))
+	void setBarycentricCoordinates(btScalar a = btScalar(0.0_fl), btScalar b = btScalar(0.0_fl), btScalar c = btScalar(0.0_fl), btScalar d = btScalar(0.0_fl))
 	{
 		m_barycentricCoords[0] = a;
 		m_barycentricCoords[1] = b;

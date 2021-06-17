@@ -63,27 +63,27 @@ struct b3ContactSolverInfo : public b3ContactSolverInfoData
 	inline b3ContactSolverInfo()
 	{
 		m_tau = b3Scalar(0.6);
-		m_damping = b3Scalar(1.0);
+		m_damping = b3Scalar(1.0_fl);
 		m_friction = b3Scalar(0.3);
-		m_timeStep = b3Scalar(1.f / 60.f);
-		m_restitution = b3Scalar(0.);
-		m_maxErrorReduction = b3Scalar(20.);
+		m_timeStep = b3Scalar(1.0_fl / 60_fl);
+		m_restitution = b3Scalar(0.0_fl);
+		m_maxErrorReduction = b3Scalar(20.0_fl);
 		m_numIterations = 10;
-		m_erp = b3Scalar(0.2);
+		m_erp = b3Scalar(0.2_fl);
 		m_erp2 = b3Scalar(0.8);
-		m_globalCfm = b3Scalar(0.);
+		m_globalCfm = b3Scalar(0.0_fl);
 		m_sor = b3Scalar(1.);
 		m_splitImpulse = true;
-		m_splitImpulsePenetrationThreshold = -.04f;
+		m_splitImpulsePenetrationThreshold = -.04_fl;
 		m_splitImpulseTurnErp = 0.1f;
-		m_linearSlop = b3Scalar(0.0);
+		m_linearSlop = b3Scalar(0.0_fl);
 		m_warmstartingFactor = b3Scalar(0.85);
 		//m_solverMode =  B3_SOLVER_USE_WARMSTARTING |  B3_SOLVER_SIMD | B3_SOLVER_DISABLE_VELOCITY_DEPENDENT_FRICTION_DIRECTION|B3_SOLVER_USE_2_FRICTION_DIRECTIONS|B3_SOLVER_ENABLE_FRICTION_DIRECTION_CACHING;// | B3_SOLVER_RANDMIZE_ORDER;
 		m_solverMode = B3_SOLVER_USE_WARMSTARTING | B3_SOLVER_SIMD;  // | B3_SOLVER_RANDMIZE_ORDER;
 		m_restingContactRestitutionThreshold = 2;                    //unused as of 2.81
 		m_minimumSolverBatchSize = 128;                              //try to combine islands until the amount of constraints reaches this limit
-		m_maxGyroscopicForce = 100.f;                                ///only used to clamp forces for bodies that have their B3_ENABLE_GYROPSCOPIC_FORCE flag set (using b3RigidBody::setFlag)
-		m_singleAxisRollingFrictionThreshold = 1e30f;                ///if the velocity is above this threshold, it will use a single constraint row (axis), otherwise 3 rows.
+		m_maxGyroscopicForce = 100_fl;                                ///only used to clamp forces for bodies that have their B3_ENABLE_GYROPSCOPIC_FORCE flag set (using b3RigidBody::setFlag)
+		m_singleAxisRollingFrictionThreshold = 1e30_fl;                ///if the velocity is above this threshold, it will use a single constraint row (axis), otherwise 3 rows.
 	}
 };
 

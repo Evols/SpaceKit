@@ -87,7 +87,7 @@ namespace projections
                             f = 0.5 * (half_pi_sqr / ax + ax);
                             xy_x = ax - f + sqrt(f * f - xy_y * xy_y);
                         }
-                        if (lp_lon < 0.) xy_x = - xy_x;
+                        if (lp_lon < 0.0_fl) xy_x = - xy_x;
                     } else
                         xy_x = 0.;
                 }

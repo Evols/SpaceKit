@@ -35,8 +35,8 @@ GUINT GIM_BOX_TREE::_calc_splitting_axis(
 {
 	GUINT i;
 
-	btVector3 means(btScalar(0.), btScalar(0.), btScalar(0.));
-	btVector3 variance(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 means(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	btVector3 variance(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	GUINT numIndices = endIndex - startIndex;
 
 	for (i = startIndex; i < endIndex; i++)
@@ -69,10 +69,10 @@ GUINT GIM_BOX_TREE::_sort_and_calc_splitting_index(
 	GUINT numIndices = endIndex - startIndex;
 
 	// average of centers
-	btScalar splitValue = 0.0f;
+	btScalar splitValue = 0.0_fl;
 	for (i = startIndex; i < endIndex; i++)
 	{
-		splitValue += 0.5f * (primitive_boxes[i].m_bound.m_max[splitAxis] +
+		splitValue += 0.5_fl * (primitive_boxes[i].m_bound.m_max[splitAxis] +
 							  primitive_boxes[i].m_bound.m_min[splitAxis]);
 	}
 	splitValue /= (btScalar)numIndices;
@@ -80,7 +80,7 @@ GUINT GIM_BOX_TREE::_sort_and_calc_splitting_index(
 	//sort leafNodes so all values larger then splitValue comes first, and smaller values start from 'splitIndex'.
 	for (i = startIndex; i < endIndex; i++)
 	{
-		btScalar center = 0.5f * (primitive_boxes[i].m_bound.m_max[splitAxis] +
+		btScalar center = 0.5_fl * (primitive_boxes[i].m_bound.m_max[splitAxis] +
 								  primitive_boxes[i].m_bound.m_min[splitAxis]);
 		if (center > splitValue)
 		{

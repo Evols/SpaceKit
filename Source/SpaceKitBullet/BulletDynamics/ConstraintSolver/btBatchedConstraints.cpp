@@ -522,7 +522,7 @@ static void writeGrainSizes(btBatchedConstraints* bc)
 	{
 		const Range& phase = bc->m_phases[iPhase];
 		int numBatches = phase.end - phase.begin;
-		float grainSize = std::floor((0.25f * numBatches / float(numThreads)) + 0.0f);
+		float grainSize = std::floor((0.25_fl * numBatches / float(numThreads)) + 0.0_fl);
 		bc->m_phaseGrainSize[iPhase] = btMax(1, int(grainSize));
 	}
 }
@@ -658,7 +658,7 @@ static btVector3 findMaxDynamicConstraintExtent(
 	int numBodies)
 {
 	BT_PROFILE("findMaxDynamicConstraintExtent");
-	btVector3 consExtent = btVector3(1, 1, 1) * 0.001;
+	btVector3 consExtent = btVector3(1.0_fl, 1.0_fl, 1.0_fl) * 0.001;
 	for (int iCon = 0; iCon < numConstraints; ++iCon)
 	{
 		const btBatchedConstraintInfo& con = conInfos[iCon];
@@ -894,9 +894,9 @@ static void setupSpatialGridBatchesMt(
 
 	btVector3 gridCellSize = consExtent;
 	int gridDim[3];
-	gridDim[0] = int(1.0 + gridExtent.x() / gridCellSize.x());
-	gridDim[1] = int(1.0 + gridExtent.y() / gridCellSize.y());
-	gridDim[2] = int(1.0 + gridExtent.z() / gridCellSize.z());
+	gridDim[0] = int(1.0_fl + gridExtent.x() / gridCellSize.x());
+	gridDim[1] = int(1.0_fl + gridExtent.y() / gridCellSize.y());
+	gridDim[2] = int(1.0_fl + gridExtent.z() / gridCellSize.z());
 
 	// if we can collapse an axis, it will cut our number of phases in half which could be more efficient
 	int phaseMask = 7;
@@ -916,7 +916,7 @@ static void setupSpatialGridBatchesMt(
 			}
 		}
 		// collapse it
-		gridCellSize[iAxisToCollapse] = gridExtent[iAxisToCollapse] * 2.0f;
+		gridCellSize[iAxisToCollapse] = gridExtent[iAxisToCollapse] * 2.0_fl;
 		phaseMask &= ~(1 << iAxisToCollapse);
 	}
 
@@ -924,9 +924,9 @@ static void setupSpatialGridBatchesMt(
 	btIntVec3 gridChunkDim;  // each chunk is 2x2x2 group of cells
 	while (true)
 	{
-		gridDim[0] = int(1.0 + gridExtent.x() / gridCellSize.x());
-		gridDim[1] = int(1.0 + gridExtent.y() / gridCellSize.y());
-		gridDim[2] = int(1.0 + gridExtent.z() / gridCellSize.z());
+		gridDim[0] = int(1.0_fl + gridExtent.x() / gridCellSize.x());
+		gridDim[1] = int(1.0_fl + gridExtent.y() / gridCellSize.y());
+		gridDim[2] = int(1.0_fl + gridExtent.z() / gridCellSize.z());
 		gridChunkDim[0] = btMax(1, (gridDim[0] + 0) / 2);
 		gridChunkDim[1] = btMax(1, (gridDim[1] + 0) / 2);
 		gridChunkDim[2] = btMax(1, (gridDim[2] + 0) / 2);
@@ -942,7 +942,7 @@ static void setupSpatialGridBatchesMt(
 	int maxNumBatchesPerPhase = numGridChunks;
 
 	// for each dynamic body, compute grid coords
-	btVector3 invGridCellSize = btVector3(1, 1, 1) / gridCellSize;
+	btVector3 invGridCellSize = btVector3(1.0_fl, 1.0_fl, 1.0_fl) / gridCellSize;
 	// (can be done in parallel)
 	for (int iBody = 0; iBody < bodies.size(); ++iBody)
 	{

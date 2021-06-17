@@ -137,7 +137,7 @@ namespace impl
           , mu_(sign::value * numeric::fdiv(args[sample | Sample()], (std::size_t)1))
           , sigma2_(numeric::fdiv(args[sample | Sample()], (std::size_t)1))
           , threshold_(sign::value * args[pot_threshold_value])
-          , fit_parameters_(boost::make_tuple(0., 0., 0.))
+          , fit_parameters_(boost::make_tuple(0.0_fl, 0.0_fl, 0.0_fl))
           , is_dirty_(true)
         {
         }
@@ -231,7 +231,7 @@ namespace impl
           : mu_(sign::value * numeric::fdiv(args[sample | Sample()], (std::size_t)1))
           , sigma2_(numeric::fdiv(args[sample | Sample()], (std::size_t)1))
           , threshold_probability_(args[pot_threshold_probability])
-          , fit_parameters_(boost::make_tuple(0., 0., 0.))
+          , fit_parameters_(boost::make_tuple(0.0_fl, 0.0_fl, 0.0_fl))
           , is_dirty_(true)
         {
         }

@@ -18,7 +18,7 @@ subject to the following restrictions:
 btTriangleMesh::btTriangleMesh(bool use32bitIndices, bool use4componentVertices)
 	: m_use32bitIndices(use32bitIndices),
 	  m_use4componentVertices(use4componentVertices),
-	  m_weldingThreshold(0.0)
+	  m_weldingThreshold(0.0_fl)
 {
 	btIndexedMesh meshIndex;
 	meshIndex.m_numTriangles = 0;

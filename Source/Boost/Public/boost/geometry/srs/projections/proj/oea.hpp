@@ -118,8 +118,8 @@ namespace projections
             template <typename Params, typename Parameters, typename T>
             inline void setup_oea(Params const& params, Parameters& par, par_oea<T>& proj_parm)
             {
-                if (((proj_parm.n = pj_get_param_f<T, srs::spar::n>(params, "n", srs::dpar::n)) <= 0.) ||
-                    ((proj_parm.m = pj_get_param_f<T, srs::spar::m>(params, "m", srs::dpar::m)) <= 0.)) {
+                if (((proj_parm.n = pj_get_param_f<T, srs::spar::n>(params, "n", srs::dpar::n)) <= 0.0_fl) ||
+                    ((proj_parm.m = pj_get_param_f<T, srs::spar::m>(params, "m", srs::dpar::m)) <= 0.0_fl)) {
                     BOOST_THROW_EXCEPTION( projection_exception(error_invalid_m_or_n) );
                 } else {
                     proj_parm.theta = pj_get_param_r<T, srs::spar::theta>(params, "theta", srs::dpar::theta);

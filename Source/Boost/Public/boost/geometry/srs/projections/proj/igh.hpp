@@ -126,7 +126,7 @@ namespace projections
 
             /* 40d 44' 11.8" [degrees] */
             template <typename T>
-            inline T d4044118() { return (T(40) + T(44)/T(60.) + T(11.8)/T(3600.)) * geometry::math::d2r<T>(); }
+            inline T d4044118() { return (T(40) + T(44)/T(60.0_fl) + T(11.8)/T(3600.0_fl)) * geometry::math::d2r<T>(); }
 
             template <typename T>
             inline T d10() { return T(10) * geometry::math::d2r<T>(); }

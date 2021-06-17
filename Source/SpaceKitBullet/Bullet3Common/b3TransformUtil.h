@@ -20,9 +20,9 @@ subject to the following restrictions:
 
 B3_FORCE_INLINE b3Vector3 b3AabbSupport(const b3Vector3& halfExtents, const b3Vector3& supportDir)
 {
-	return b3MakeVector3(supportDir.getX() < b3Scalar(0.0) ? -halfExtents.getX() : halfExtents.getX(),
-						 supportDir.getY() < b3Scalar(0.0) ? -halfExtents.getY() : halfExtents.getY(),
-						 supportDir.getZ() < b3Scalar(0.0) ? -halfExtents.getZ() : halfExtents.getZ());
+	return b3MakeVector3(supportDir.getX() < b3Scalar(0.0_fl) ? -halfExtents.getX() : halfExtents.getX(),
+						 supportDir.getY() < b3Scalar(0.0_fl) ? -halfExtents.getY() : halfExtents.getY(),
+						 supportDir.getZ() < b3Scalar(0.0_fl) ? -halfExtents.getZ() : halfExtents.getZ());
 }
 
 /// Utils related to temporal transforms
@@ -80,7 +80,7 @@ public:
 		}
 		else
 		{
-			angVel.setValue(0, 0, 0);
+			angVel.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 		}
 	}
 
@@ -90,11 +90,11 @@ public:
 		b3Quaternion dorn = orn1 * orn0.inverse();
 		angle = dorn.getAngle();
 		axis = b3MakeVector3(dorn.getX(), dorn.getY(), dorn.getZ());
-		axis[3] = b3Scalar(0.);
+		axis[3] = b3Scalar(0.0_fl);
 		//check for axis length
 		b3Scalar len = axis.length2();
 		if (len < B3_EPSILON * B3_EPSILON)
-			axis = b3MakeVector3(b3Scalar(1.), b3Scalar(0.), b3Scalar(0.));
+			axis = b3MakeVector3(b3Scalar(1.), b3Scalar(0.0_fl), b3Scalar(0.0_fl));
 		else
 			axis /= b3Sqrt(len);
 	}
@@ -119,11 +119,11 @@ public:
 
 		angle = dorn.getAngle();
 		axis = b3MakeVector3(dorn.getX(), dorn.getY(), dorn.getZ());
-		axis[3] = b3Scalar(0.);
+		axis[3] = b3Scalar(0.0_fl);
 		//check for axis length
 		b3Scalar len = axis.length2();
 		if (len < B3_EPSILON * B3_EPSILON)
-			axis = b3MakeVector3(b3Scalar(1.), b3Scalar(0.), b3Scalar(0.));
+			axis = b3MakeVector3(b3Scalar(1.), b3Scalar(0.0_fl), b3Scalar(0.0_fl));
 		else
 			axis /= b3Sqrt(len);
 	}
@@ -148,7 +148,7 @@ public:
 	b3ConvexSeparatingDistanceUtil(b3Scalar boundingRadiusA, b3Scalar boundingRadiusB)
 		: m_boundingRadiusA(boundingRadiusA),
 		  m_boundingRadiusB(boundingRadiusB),
-		  m_separatingDistance(0.f)
+		  m_separatingDistance(0.0_fl)
 	{
 	}
 
@@ -164,7 +164,7 @@ public:
 		b3Quaternion toOrnA = transA.getRotation();
 		b3Quaternion toOrnB = transB.getRotation();
 
-		if (m_separatingDistance > 0.f)
+		if (m_separatingDistance > 0.0_fl)
 		{
 			b3Vector3 linVelA, angVelA, linVelB, angVelB;
 			b3TransformUtil::calculateVelocityQuaternion(m_posA, toPosA, m_ornA, toOrnA, b3Scalar(1.), linVelA, angVelA);
@@ -172,9 +172,9 @@ public:
 			b3Scalar maxAngularProjectedVelocity = angVelA.length() * m_boundingRadiusA + angVelB.length() * m_boundingRadiusB;
 			b3Vector3 relLinVel = (linVelB - linVelA);
 			b3Scalar relLinVelocLength = relLinVel.dot(m_separatingNormal);
-			if (relLinVelocLength < 0.f)
+			if (relLinVelocLength < 0.0_fl)
 			{
-				relLinVelocLength = 0.f;
+				relLinVelocLength = 0.0_fl;
 			}
 
 			b3Scalar projectedMotion = maxAngularProjectedVelocity + relLinVelocLength;
@@ -191,7 +191,7 @@ public:
 	{
 		m_separatingDistance = separatingDistance;
 
-		if (m_separatingDistance > 0.f)
+		if (m_separatingDistance > 0.0_fl)
 		{
 			m_separatingNormal = separatingVector;
 

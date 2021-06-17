@@ -1311,7 +1311,7 @@ void b3DynamicBvh::benchmark()
 		}
 		const int time = (int)wallclock.getTimeMilliseconds();
 		const int ir = cfgBenchmark16_Passes * cfgBenchmark16_BatchCount;
-		printf("%u ms (%i%%),(%u bir/s)\r\n", time, (time - cfgBenchmark16_Reference) * 100 / time, int(ir * 1000.0 / time));
+		printf("%u ms (%i%%),(%u bir/s)\r\n", time, (time - cfgBenchmark16_Reference) * 100 / time, int(ir * 1000.0_fl / time));
 	}
 	if (cfgBenchmark17_Enable)
 	{  // Benchmark 17

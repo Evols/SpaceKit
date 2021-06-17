@@ -28,7 +28,7 @@ inline int b3ReduceContacts(const b3Float4* p, int nPoints, const b3Float4& near
 	v = b3FastNormalized3(v);
 
 	//keep point with deepest penetration
-	float minW = FLT_MAX;
+	float minW = BIGFLOAT_MAX;
 
 	int minIndex = -1;
 

@@ -36,9 +36,9 @@ void btGeneric6DofSpringConstraint::init()
 	for (int i = 0; i < 6; i++)
 	{
 		m_springEnabled[i] = false;
-		m_equilibriumPoint[i] = btScalar(0.f);
-		m_springStiffness[i] = btScalar(0.f);
-		m_springDamping[i] = btScalar(1.f);
+		m_equilibriumPoint[i] = btScalar(0.0_fl);
+		m_springStiffness[i] = btScalar(0.0_fl);
+		m_springDamping[i] = btScalar(1.0_fl);
 	}
 }
 

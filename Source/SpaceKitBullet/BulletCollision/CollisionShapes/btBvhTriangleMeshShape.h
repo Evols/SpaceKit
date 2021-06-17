@@ -80,7 +80,7 @@ public:
 		return m_bvh;
 	}
 
-	void setOptimizedBvh(btOptimizedBvh * bvh, const btVector3& localScaling = btVector3(1, 1, 1));
+	void setOptimizedBvh(btOptimizedBvh * bvh, const btVector3& localScaling = btVector3(1.0_fl, 1.0_fl, 1.0_fl));
 
 	void buildOptimizedBvh();
 

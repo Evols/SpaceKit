@@ -72,7 +72,7 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 		}
 	}
 
-	btScalar deltaflengthsqr = 0;
+	btScalar deltaflengthsqr = 0.0_fl;
 	{
 		for (int j = 0; j < m_tmpSolverNonContactConstraintPool.size(); j++)
 		{
@@ -95,10 +95,10 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 		else
 		{
 			// deltaflengthsqrprev can be 0 only if the solver solved the problem exactly in the previous iteration. In this case we should have quit, but mainly for debug reason with this 'hack' it is now allowed to continue the calculation
-			btScalar beta = m_deltafLengthSqrPrev > 0 ? deltaflengthsqr / m_deltafLengthSqrPrev : 2;
-			if (beta > 1)
+			btScalar beta = m_deltafLengthSqrPrev > 0.0_fl ? deltaflengthsqr / m_deltafLengthSqrPrev : 2_fl;
+			if (beta > 1.0_fl)
 			{
-				for (int j = 0; j < m_tmpSolverNonContactConstraintPool.size(); j++) m_pNC[j] = 0;
+				for (int j = 0; j < m_tmpSolverNonContactConstraintPool.size(); j++) m_pNC[j] = 0.0_fl;
 			}
 			else
 			{
@@ -145,7 +145,7 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 
 				for (int c = 0; c < numPoolConstraints; c++)
 				{
-					btScalar totalImpulse = 0;
+					btScalar totalImpulse = 0.0_fl;
 
 					{
 						const btSolverConstraint& solveManifold = m_tmpSolverContactConstraintPool[m_orderTmpConstraintPool[c]];
@@ -170,7 +170,7 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 							}
 							else
 							{
-								m_deltafCF[c * multiplier] = 0;
+								m_deltafCF[c * multiplier] = 0.0_fl;
 							}
 						}
 
@@ -188,7 +188,7 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 							}
 							else
 							{
-								m_deltafCF[c * multiplier + 1] = 0;
+								m_deltafCF[c * multiplier + 1] = 0.0_fl;
 							}
 						}
 					}
@@ -227,7 +227,7 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 					}
 					else
 					{
-						m_deltafCF[j] = 0;
+						m_deltafCF[j] = 0.0_fl;
 					}
 				}
 			}
@@ -253,7 +253,7 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 					}
 					else
 					{
-						m_deltafCRF[j] = 0;
+						m_deltafCRF[j] = 0.0_fl;
 					}
 				}
 			}
@@ -272,13 +272,13 @@ btScalar btNNCGConstraintSolver::solveSingleIteration(int iteration, btCollision
 		else
 		{
 			// deltaflengthsqrprev can be 0 only if the solver solved the problem exactly in the previous iteration. In this case we should have quit, but mainly for debug reason with this 'hack' it is now allowed to continue the calculation
-			btScalar beta = m_deltafLengthSqrPrev > 0 ? deltaflengthsqr / m_deltafLengthSqrPrev : 2;
-			if (beta > 1)
+			btScalar beta = m_deltafLengthSqrPrev > 0.0_fl ? deltaflengthsqr / m_deltafLengthSqrPrev : 2_fl;
+			if (beta > 1.0_fl)
 			{
-				for (int j = 0; j < m_tmpSolverNonContactConstraintPool.size(); j++) m_pNC[j] = 0;
-				for (int j = 0; j < m_tmpSolverContactConstraintPool.size(); j++) m_pC[j] = 0;
-				for (int j = 0; j < m_tmpSolverContactFrictionConstraintPool.size(); j++) m_pCF[j] = 0;
-				for (int j = 0; j < m_tmpSolverContactRollingFrictionConstraintPool.size(); j++) m_pCRF[j] = 0;
+				for (int j = 0; j < m_tmpSolverNonContactConstraintPool.size(); j++) m_pNC[j] = 0.0_fl;
+				for (int j = 0; j < m_tmpSolverContactConstraintPool.size(); j++) m_pC[j] = 0.0_fl;
+				for (int j = 0; j < m_tmpSolverContactFrictionConstraintPool.size(); j++) m_pCF[j] = 0.0_fl;
+				for (int j = 0; j < m_tmpSolverContactRollingFrictionConstraintPool.size(); j++) m_pCRF[j] = 0.0_fl;
 			}
 			else
 			{

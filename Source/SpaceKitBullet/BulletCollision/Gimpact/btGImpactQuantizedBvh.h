@@ -42,7 +42,7 @@ protected:
 	btVector3 m_bvhQuantization;
 
 protected:
-	void calc_quantization(GIM_BVH_DATA_ARRAY& primitive_boxes, btScalar boundMargin = btScalar(1.0));
+	void calc_quantization(GIM_BVH_DATA_ARRAY& primitive_boxes, btScalar boundMargin = btScalar(1.0_fl));
 
 	int _sort_and_calc_splitting_index(
 		GIM_BVH_DATA_ARRAY& primitive_boxes,

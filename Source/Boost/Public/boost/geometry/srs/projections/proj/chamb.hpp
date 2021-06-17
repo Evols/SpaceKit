@@ -143,7 +143,7 @@ namespace projections
                         for (i = 0; i < 3; ++i) {
                             j = i == 2 ? 0 : i + 1;
                             a = lc(this->m_proj_parm.c[i].v.r, v[i].r, v[j].r);
-                            if (v[i].Az < 0.)
+                            if (v[i].Az < 0.0_fl)
                                 a = -a;
                             if (! i) { /* coord comp unique to each arc */
                                 xy_x += v[i].r * cos(a);

@@ -42,7 +42,7 @@ bool btSubsimplexConvexCast::calcTimeOfImpact(
 	linVelA = toA.getOrigin() - fromA.getOrigin();
 	linVelB = toB.getOrigin() - fromB.getOrigin();
 
-	btScalar lambda = btScalar(0.);
+	btScalar lambda = btScalar(0.0_fl);
 
 	btTransform interpolatedTransA = fromA;
 	btTransform interpolatedTransB = fromB;
@@ -57,7 +57,7 @@ bool btSubsimplexConvexCast::calcTimeOfImpact(
 	int maxIter = result.m_subSimplexCastMaxIterations;
 
 	btVector3 n;
-	n.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+	n.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 
 	btVector3 c;
 
@@ -76,12 +76,12 @@ bool btSubsimplexConvexCast::calcTimeOfImpact(
 
 		btScalar VdotW = v.dot(w);
 
-		if (lambda > btScalar(1.0))
+		if (lambda > btScalar(1.0_fl))
 		{
 			return false;
 		}
 
-		if (VdotW > btScalar(0.))
+		if (VdotW > btScalar(0.0_fl))
 		{
 			VdotR = v.dot(r);
 
@@ -117,7 +117,7 @@ bool btSubsimplexConvexCast::calcTimeOfImpact(
 		}
 		else
 		{
-			dist2 = btScalar(0.);
+			dist2 = btScalar(0.0_fl);
 		}
 	}
 
@@ -130,7 +130,7 @@ bool btSubsimplexConvexCast::calcTimeOfImpact(
 	if (n.length2() >= (SIMD_EPSILON * SIMD_EPSILON))
 		result.m_normal = n.normalized();
 	else
-		result.m_normal = btVector3(btScalar(0.0), btScalar(0.0), btScalar(0.0));
+		result.m_normal = btVector3(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 
 	//don't report time of impact for motion away from the contact normal (or causes minor penetration)
 	if (result.m_normal.dot(r) >= -result.m_allowedPenetration)

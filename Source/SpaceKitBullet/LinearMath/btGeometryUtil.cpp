@@ -33,7 +33,7 @@ bool btGeometryUtil::isPointInsidePlanes(const btAlignedObjectArray<btVector3>& 
 	{
 		const btVector3& N1 = planeEquations[i];
 		btScalar dist = btScalar(N1.dot(point)) + btScalar(N1[3]) - margin;
-		if (dist > btScalar(0.))
+		if (dist > btScalar(0.0_fl))
 		{
 			return false;
 		}
@@ -48,7 +48,7 @@ bool btGeometryUtil::areVerticesBehindPlane(const btVector3& planeNormal, const 
 	{
 		const btVector3& N1 = vertices[i];
 		btScalar dist = btScalar(planeNormal.dot(N1)) + btScalar(planeNormal[3]) - margin;
-		if (dist > btScalar(0.))
+		if (dist > btScalar(0.0_fl))
 		{
 			return false;
 		}

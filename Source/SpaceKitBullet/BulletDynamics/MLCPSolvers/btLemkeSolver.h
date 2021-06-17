@@ -94,9 +94,9 @@ public:
 					for (j = n; j < 2 * n; j++)
 					{
 						if (i == (j - n))
-							matrix.setElem(i, j, 1.0);
+							matrix.setElem(i, j, 1.0_fl);
 						else
-							matrix.setElem(i, j, 0.0);
+							matrix.setElem(i, j, 0.0_fl);
 					}
 				}
 				for (i = 0; i < n; i++)
@@ -125,7 +125,7 @@ public:
 					{
 						a = 0.000001f;
 					}
-					btScalar invA = 1.f / a;
+					btScalar invA = 1.0_fl / a;
 					for (j = 0; j < 2 * n; j++)
 					{
 						matrix.mulElem(i, j, invA);
@@ -240,14 +240,14 @@ public:
 			{
 				int m_errorCountTimes = 0;
 				if (errorIndexMin < 0)
-					errorValueMin = 0.f;
+					errorValueMin = 0.0_fl;
 				if (errorIndexMax < 0)
-					errorValueMax = 0.f;
+					errorValueMax = 0.0_fl;
 				m_errorCountTimes++;
 				//	printf("Error (x[%d] = %f, x[%d] = %f), resetting %d times\n", errorIndexMin,errorValueMin, errorIndexMax, errorValueMax, errorCountTimes++);
 				for (int i = 0; i < n; i++)
 				{
-					x[i] = 0.f;
+					x[i] = 0.0_fl;
 				}
 			}
 			return !fail;
@@ -319,13 +319,13 @@ public:
 			{
 				static int errorCountTimes = 0;
 				if (errorIndexMin < 0)
-					errorValueMin = 0.f;
+					errorValueMin = 0.0_fl;
 				if (errorIndexMax < 0)
-					errorValueMax = 0.f;
+					errorValueMax = 0.0_fl;
 				printf("Error (x[%d] = %f, x[%d] = %f), resetting %d times\n", errorIndexMin, errorValueMin, errorIndexMax, errorValueMax, errorCountTimes++);
 				for (int i = 0; i < dimension; i++)
 				{
-					x[i] = 0.f;
+					x[i] = 0.0_fl;
 				}
 			}
 

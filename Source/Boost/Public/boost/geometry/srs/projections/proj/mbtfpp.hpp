@@ -90,7 +90,7 @@ namespace projections
                         if (fabs(lp_lat) > one_plus_eps) {
                             BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                         } else {
-                            lp_lat = (lp_lat < 0.) ? -half_pi : half_pi;
+                            lp_lat = (lp_lat < 0.0_fl) ? -half_pi : half_pi;
                         }
                     } else
                         lp_lat = asin(lp_lat);
@@ -100,7 +100,7 @@ namespace projections
                         if (fabs(lp_lat) > one_plus_eps) {
                             BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                         } else {
-                            lp_lat = (lp_lat < 0.) ? -half_pi : half_pi;
+                            lp_lat = (lp_lat < 0.0_fl) ? -half_pi : half_pi;
                         }
                     } else
                         lp_lat = asin(lp_lat);

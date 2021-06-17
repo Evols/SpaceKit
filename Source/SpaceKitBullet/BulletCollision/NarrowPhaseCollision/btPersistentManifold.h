@@ -172,11 +172,11 @@ public:
 			m_pointCache[index] = m_pointCache[lastUsedIndex];
 			//get rid of duplicated userPersistentData pointer
 			m_pointCache[lastUsedIndex].m_userPersistentData = 0;
-			m_pointCache[lastUsedIndex].m_appliedImpulse = 0.f;
-			m_pointCache[lastUsedIndex].m_prevRHS = 0.f;
+			m_pointCache[lastUsedIndex].m_appliedImpulse = 0.0_fl;
+			m_pointCache[lastUsedIndex].m_prevRHS = 0.0_fl;
 			m_pointCache[lastUsedIndex].m_contactPointFlags = 0;
-			m_pointCache[lastUsedIndex].m_appliedImpulseLateral1 = 0.f;
-			m_pointCache[lastUsedIndex].m_appliedImpulseLateral2 = 0.f;
+			m_pointCache[lastUsedIndex].m_appliedImpulseLateral1 = 0.0_fl;
+			m_pointCache[lastUsedIndex].m_appliedImpulseLateral2 = 0.0_fl;
 			m_pointCache[lastUsedIndex].m_lifeTime = 0;
 		}
 
@@ -210,7 +210,7 @@ public:
 			//   printf("appliedLateralImpulse2=%f\n", appliedLateralImpulse2);
 			//   printf("mu = %f\n", m_pointCache[insertIndex].m_combinedFriction);
 			btScalar mu = m_pointCache[insertIndex].m_combinedFriction;
-			btScalar eps = 0;  //we could allow to enlarge or shrink the tolerance to check against the friction cone a bit, say 1e-7
+			btScalar eps = 0.0_fl;  //we could allow to enlarge or shrink the tolerance to check against the friction cone a bit, say 1e-7
 			btScalar a = appliedLateralImpulse1 * appliedLateralImpulse1 + appliedLateralImpulse2 * appliedLateralImpulse2;
 			btScalar b = eps + mu * appliedImpulse;
 			b = b * b;

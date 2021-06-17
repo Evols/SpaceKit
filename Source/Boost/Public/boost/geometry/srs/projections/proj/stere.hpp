@@ -186,7 +186,7 @@ namespace projections
                         if (fabs(phi_l - lp_lat) < conv_tolerance) {
                             if (this->m_proj_parm.mode == s_pole)
                                 lp_lat = -lp_lat;
-                            lp_lon = (xy_x == 0. && xy_y == 0.) ? 0. : atan2(xy_x, xy_y);
+                            lp_lon = (xy_x == 0. && xy_y == 0.0_fl) ? 0. : atan2(xy_x, xy_y);
                             return;
                         }
                     }
@@ -262,7 +262,7 @@ namespace projections
                             lp_lat = 0.;
                         else
                             lp_lat = asin(xy_y * sinc / rh);
-                        if (cosc != 0. || xy_x != 0.)
+                        if (cosc != 0. || xy_x != 0.0_fl)
                             lp_lon = atan2(xy_x * sinc, cosc * rh);
                         break;
                     case obliq:
@@ -270,7 +270,7 @@ namespace projections
                             lp_lat = par.phi0;
                         else
                             lp_lat = asin(cosc * this->m_proj_parm.sinX1 + xy_y * sinc * this->m_proj_parm.cosX1 / rh);
-                        if ((c = cosc - this->m_proj_parm.sinX1 * sin(lp_lat)) != 0. || xy_x != 0.)
+                        if ((c = cosc - this->m_proj_parm.sinX1 * sin(lp_lat)) != 0. || xy_x != 0.0_fl)
                             lp_lon = atan2(xy_x * sinc * this->m_proj_parm.cosX1, c * rh);
                         break;
                     case n_pole:
@@ -281,7 +281,7 @@ namespace projections
                             lp_lat = par.phi0;
                         else
                             lp_lat = asin(this->m_proj_parm.mode == s_pole ? - cosc : cosc);
-                        lp_lon = (xy_x == 0. && xy_y == 0.) ? 0. : atan2(xy_x, xy_y);
+                        lp_lon = (xy_x == 0. && xy_y == 0.0_fl) ? 0. : atan2(xy_x, xy_y);
                         break;
                     }
                 }

@@ -76,7 +76,7 @@ static btVector3 convexHullSupport(const btVector3& localDirOrg, const btVector3
 
 	btVector3 localDir = vec;
 
-	vec_float4 v_distMax = {-FLT_MAX, 0, 0, 0};
+	vec_float4 v_distMax = {-BIGFLOAT_MAX, 0, 0, 0};
 	vec_int4 v_idxMax = {-999, 0, 0, 0};
 	int v = 0;
 	int numverts = numPoints;
@@ -135,7 +135,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 	{
 		case SPHERE_SHAPE_PROXYTYPE:
 		{
-			return btVector3(0, 0, 0);
+			return btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 		}
 		case BOX_SHAPE_PROXYTYPE:
 		{
@@ -144,7 +144,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 
 #if defined(__APPLE__) && (defined(BT_USE_SSE) || defined(BT_USE_NEON))
 #if defined(BT_USE_SSE)
-			return btVector3(_mm_xor_ps(_mm_and_ps(localDir.mVec128, (__m128){-0.0f, -0.0f, -0.0f, -0.0f}), halfExtents.mVec128));
+			return btVector3(_mm_xor_ps(_mm_and_ps(localDir.mVec128, (__m128){-0.0_fl, -0.0_fl, -0.0_fl, -0.0_fl}), halfExtents.mVec128));
 #elif defined(BT_USE_NEON)
 			return btVector3((float32x4_t)(((uint32x4_t)localDir.mVec128 & (uint32x4_t){0x80000000, 0x80000000, 0x80000000, 0x80000000}) ^ (uint32x4_t)halfExtents.mVec128));
 #else
@@ -210,19 +210,19 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 			btScalar d;
 
 			btScalar s = btSqrt(v[XX] * v[XX] + v[ZZ] * v[ZZ]);
-			if (s != btScalar(0.0))
+			if (s != btScalar(0.0_fl))
 			{
 				d = radius / s;
 				tmp[XX] = v[XX] * d;
-				tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
+				tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
 				tmp[ZZ] = v[ZZ] * d;
 				return btVector3(tmp.getX(), tmp.getY(), tmp.getZ());
 			}
 			else
 			{
 				tmp[XX] = radius;
-				tmp[YY] = v[YY] < 0.0 ? -halfHeight : halfHeight;
-				tmp[ZZ] = btScalar(0.0);
+				tmp[YY] = v[YY] < 0.0_fl ? -halfHeight : halfHeight;
+				tmp[ZZ] = btScalar(0.0_fl);
 				return btVector3(tmp.getX(), tmp.getY(), tmp.getZ());
 			}
 		}
@@ -234,7 +234,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 			btScalar halfHeight = capsuleShape->getHalfHeight();
 			int capsuleUpAxis = capsuleShape->getUpAxis();
 
-			btVector3 supVec(0, 0, 0);
+			btVector3 supVec(0_fl, 0_fl, 0_fl);
 
 			btScalar maxDot(btScalar(-BT_LARGE_FLOAT));
 
@@ -242,7 +242,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 			btScalar lenSqr = vec.length2();
 			if (lenSqr < SIMD_EPSILON * SIMD_EPSILON)
 			{
-				vec.setValue(1, 0, 0);
+				vec.setValue(1.0_fl, 0.0_fl, 0.0_fl);
 			}
 			else
 			{
@@ -252,7 +252,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 			btVector3 vtx;
 			btScalar newDot;
 			{
-				btVector3 pos(0, 0, 0);
+				btVector3 pos(0_fl, 0_fl, 0_fl);
 				pos[capsuleUpAxis] = halfHeight;
 
 				vtx = pos;
@@ -265,7 +265,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 				}
 			}
 			{
-				btVector3 pos(0, 0, 0);
+				btVector3 pos(0_fl, 0_fl, 0_fl);
 				pos[capsuleUpAxis] = -halfHeight;
 
 				vtx = pos;
@@ -302,7 +302,7 @@ btVector3 btConvexShape::localGetSupportVertexWithoutMarginNonVirtual(const btVe
 
 	// should never reach here
 	btAssert(0);
-	return btVector3(btScalar(0.0f), btScalar(0.0f), btScalar(0.0f));
+	return btVector3(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 }
 
 btVector3 btConvexShape::localGetSupportVertexNonVirtual(const btVector3& localDir) const
@@ -369,7 +369,7 @@ btScalar btConvexShape::getMarginNonVirtual() const
 
 	// should never reach here
 	btAssert(0);
-	return btScalar(0.0f);
+	return btScalar(0.0_fl);
 }
 #ifndef __SPU__
 void btConvexShape::getAabbNonVirtual(const btTransform& t, btVector3& aabbMin, btVector3& aabbMax) const
@@ -409,7 +409,7 @@ void btConvexShape::getAabbNonVirtual(const btTransform& t, btVector3& aabbMin, 
 			btScalar margin = triangleShape->getMarginNonVirtual();
 			for (int i = 0; i < 3; i++)
 			{
-				btVector3 vec(btScalar(0.), btScalar(0.), btScalar(0.));
+				btVector3 vec(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 				vec[i] = btScalar(1.);
 
 				btVector3 sv = localGetSupportVertexWithoutMarginNonVirtual(vec * t.getBasis());

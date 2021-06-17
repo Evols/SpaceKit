@@ -24,15 +24,15 @@ subject to the following restrictions:
 
 btMultiBodySphericalJointMotor::btMultiBodySphericalJointMotor(btMultiBody* body, int link, btScalar maxMotorImpulse)
 	: btMultiBodyConstraint(body, body, link, body->getLink(link).m_parent, 3, true, MULTIBODY_CONSTRAINT_SPHERICAL_MOTOR),
-	m_desiredVelocity(0, 0, 0),
+	m_desiredVelocity(0_fl, 0_fl, 0_fl),
 	m_desiredPosition(0,0,0,1),
 	m_use_multi_dof_params(false),
 	m_kd(1., 1., 1.),
-	m_kp(0.2, 0.2, 0.2),
+	m_kp(0.2_fl, 0.2_fl, 0.2_fl),
 	m_erp(1),
 	m_rhsClamp(SIMD_INFINITY),
 	m_maxAppliedImpulseMultiDof(maxMotorImpulse, maxMotorImpulse, maxMotorImpulse),
-	m_damping(1.0, 1.0, 1.0)
+	m_damping(1.0_fl, 1.0_fl, 1.0_fl)
 {
 
 	m_maxAppliedImpulse = maxMotorImpulse;
@@ -112,14 +112,14 @@ void btMultiBodySphericalJointMotor::createConstraintRows(btMultiBodyConstraintA
 		return;
 	
 
-	if (m_maxAppliedImpulse == 0.f)
+	if (m_maxAppliedImpulse == 0.0_fl)
 		return;
 
 	const btScalar posError = 0;
-	const btVector3 dummy(0, 0, 0);
+	const btVector3 dummy(0_fl, 0_fl, 0_fl);
 
 	
-	btVector3 axis[3] = { btVector3(1, 0, 0), btVector3(0, 1, 0), btVector3(0, 0, 1) };
+	btVector3 axis[3] = { btVector3(1.0_fl, 0.0_fl, 0.0_fl), btVector3(0, 1, 0), btVector3(0, 0, 1) };
 	
 	btQuaternion desiredQuat = m_desiredPosition;
 	btQuaternion currentQuat(m_bodyA->getJointPosMultiDof(m_linkA)[0],
@@ -164,7 +164,7 @@ btQuaternion relRot = currentQuat.inverse() * desiredQuat;
 						posError,
 						infoGlobal,
 						-max_applied_impulse, max_applied_impulse, true,
-						1.0, false, 0, 0,
+						1.0_fl, false, 0, 0,
 						m_damping[row % 3]);
 					constraintRow.m_orgConstraint = this;
 					constraintRow.m_orgDofIndex = row;

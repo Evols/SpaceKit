@@ -35,7 +35,7 @@ struct btDispatcherInfo
 		DISPATCH_CONTINUOUS
 	};
 	btDispatcherInfo()
-		: m_timeStep(btScalar(0.)),
+		: m_timeStep(btScalar(0.0_fl)),
 		  m_stepCount(0),
 		  m_dispatchFunc(DISPATCH_DISCRETE),
 		  m_timeOfImpact(btScalar(1.)),
@@ -46,7 +46,7 @@ struct btDispatcherInfo
 		  m_useEpa(true),
 		  m_allowedCcdPenetration(btScalar(0.04)),
 		  m_useConvexConservativeDistanceUtil(false),
-		  m_convexConservativeDistanceThreshold(0.0f),
+		  m_convexConservativeDistanceThreshold(0.0_fl),
 		  m_deterministicOverlappingPairs(false)
 	{
 	}

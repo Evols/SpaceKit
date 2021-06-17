@@ -26,6 +26,8 @@ subject to the following restrictions:
 #include <stdlib.h>  //size_t for MSVC 6.0
 #include <float.h>
 
+#include "SpaceKitPrecision/Public/RealFloat.h"
+
 /* SVN $Revision$ on $Date$ from http://bullet.googlecode.com*/
 #define BT_BULLET_VERSION 317
 
@@ -312,15 +314,14 @@ inline int btIsDoublePrecision()
 	#endif	//__CELLOS_LV2__
 #endif//_WIN32
 
-
 ///The btScalar type abstracts floating point numbers, to easily switch between double and single floating point precision.
 #if defined(BT_USE_DOUBLE_PRECISION)
-	typedef double btScalar;
+	typedef FRealFloat btScalar;
 	//this number could be bigger in double precision
-	#define BT_LARGE_FLOAT 1e30
+	#define BT_LARGE_FLOAT 1e200_fl
 #else
 	typedef float btScalar;
-	//keep BT_LARGE_FLOAT*BT_LARGE_FLOAT < FLT_MAX
+	//keep BT_LARGE_FLOAT*BT_LARGE_FLOAT < BIGFLOAT_MAX
 	#define BT_LARGE_FLOAT 1e18f
 #endif
 
@@ -444,30 +445,30 @@ inline int btIsDoublePrecision()
 
 	SIMD_FORCE_INLINE btScalar btSqrt(btScalar x)
 	{
-		return sqrt(x);
+		return URealFloatMath::Sqrt(x);
 	}
-	SIMD_FORCE_INLINE btScalar btFabs(btScalar x) { return fabs(x); }
-	SIMD_FORCE_INLINE btScalar btCos(btScalar x) { return cos(x); }
-	SIMD_FORCE_INLINE btScalar btSin(btScalar x) { return sin(x); }
-	SIMD_FORCE_INLINE btScalar btTan(btScalar x) { return tan(x); }
+	SIMD_FORCE_INLINE btScalar btFabs(btScalar x) { return URealFloatMath::Abs(x); }
+	SIMD_FORCE_INLINE btScalar btCos(btScalar x) { return URealFloatMath::CosRad(x); }
+	SIMD_FORCE_INLINE btScalar btSin(btScalar x) { return URealFloatMath::SinRad(x); }
+	SIMD_FORCE_INLINE btScalar btTan(btScalar x) { return URealFloatMath::TanRad(x); }
 	SIMD_FORCE_INLINE btScalar btAcos(btScalar x)
 	{
 		if (x < btScalar(-1)) x = btScalar(-1);
 		if (x > btScalar(1)) x = btScalar(1);
-		return acos(x);
+		return URealFloatMath::AcosRad(x);
 	}
 	SIMD_FORCE_INLINE btScalar btAsin(btScalar x)
 	{
 		if (x < btScalar(-1)) x = btScalar(-1);
 		if (x > btScalar(1)) x = btScalar(1);
-		return asin(x);
+		return URealFloatMath::AsinRad(x);
 	}
-	SIMD_FORCE_INLINE btScalar btAtan(btScalar x) { return atan(x); }
-	SIMD_FORCE_INLINE btScalar btAtan2(btScalar x, btScalar y) { return atan2(x, y); }
-	SIMD_FORCE_INLINE btScalar btExp(btScalar x) { return exp(x); }
-	SIMD_FORCE_INLINE btScalar btLog(btScalar x) { return log(x); }
-	SIMD_FORCE_INLINE btScalar btPow(btScalar x, btScalar y) { return pow(x, y); }
-	SIMD_FORCE_INLINE btScalar btFmod(btScalar x, btScalar y) { return fmod(x, y); }
+	SIMD_FORCE_INLINE btScalar btAtan(btScalar x) { return URealFloatMath::AtanRad(x); }
+	SIMD_FORCE_INLINE btScalar btAtan2(btScalar x, btScalar y) { return URealFloatMath::Atan2Rad(x, y); }
+	SIMD_FORCE_INLINE btScalar btExp(btScalar x) { return URealFloatMath::Exp(x); }
+	SIMD_FORCE_INLINE btScalar btLog(btScalar x) { return URealFloatMath::LogE(x); }
+	SIMD_FORCE_INLINE btScalar btPow(btScalar x, btScalar y) { return URealFloatMath::Pow(x, y); }
+	SIMD_FORCE_INLINE btScalar btFmod(btScalar x, btScalar y) { return x % y; }
 
 #else//BT_USE_DOUBLE_PRECISION
 
@@ -475,13 +476,13 @@ inline int btIsDoublePrecision()
 	{
 	#ifdef USE_APPROXIMATION
 	#ifdef __LP64__
-		float xhalf = 0.5f * y;
+		float xhalf = 0.5_fl * y;
 		int i = *(int *)&y;
-		i = 0x5f375a86 - (i >> 1);
+		i = 0x5_fl375a86 - (i >> 1);
 		y = *(float *)&i;
-		y = y * (1.5f - xhalf * y * y);
-		y = y * (1.5f - xhalf * y * y);
-		y = y * (1.5f - xhalf * y * y);
+		y = y * (1.5_fl - xhalf * y * y);
+		y = y * (1.5_fl - xhalf * y * y);
+		y = y * (1.5_fl - xhalf * y * y);
 		y = 1 / y;
 		return y;
 	#else
@@ -531,40 +532,43 @@ inline int btIsDoublePrecision()
 
 #endif//BT_USE_DOUBLE_PRECISION
 
-#define SIMD_PI btScalar(3.1415926535897932384626433832795029)
-#define SIMD_2_PI (btScalar(2.0) * SIMD_PI)
-#define SIMD_HALF_PI (SIMD_PI * btScalar(0.5))
-#define SIMD_RADS_PER_DEG (SIMD_2_PI / btScalar(360.0))
-#define SIMD_DEGS_PER_RAD (btScalar(360.0) / SIMD_2_PI)
-#define SIMDSQRT12 btScalar(0.7071067811865475244008443621048490)
-#define btRecipSqrt(x) ((btScalar)(btScalar(1.0) / btSqrt(btScalar(x)))) /* reciprocal square root */
-#define btRecip(x) (btScalar(1.0) / btScalar(x))
+#define SIMD_PI 3.1415926535897932384626433832795029_fl
+#define SIMD_2_PI (2.0_fl * SIMD_PI)
+#define SIMD_HALF_PI (SIMD_PI * 0.5_fl)
+#define SIMD_RADS_PER_DEG (SIMD_2_PI / 360.0_fl)
+#define SIMD_DEGS_PER_RAD (360.0_fl / SIMD_2_PI)
+#define SIMDSQRT12 0.7071067811865475244008443621048490_fl
+#define btRecipSqrt(x) ((btScalar)(1.0_fl / btSqrt(btScalar(x)))) /* reciprocal square root */
+#define btRecip(x) (1.0_fl / btScalar(x))
+
+#define BIGFLOAT_EPSILON 1e-9_fl
+#define BIGFLOAT_MAX 1.7976931348623158e+308_fl
 
 #ifdef BT_USE_DOUBLE_PRECISION
-	#define SIMD_EPSILON DBL_EPSILON
-	#define SIMD_INFINITY DBL_MAX
-	#define BT_ONE 1.0
-	#define BT_ZERO 0.0
-	#define BT_TWO 2.0
-	#define BT_HALF 0.5
+	#define SIMD_EPSILON BIGFLOAT_EPSILON
+	#define SIMD_INFINITY BIGFLOAT_MAX
+	#define BT_ONE 1.0_fl
+	#define BT_ZERO 0.0_fl
+	#define BT_TWO 2.0_fl
+	#define BT_HALF 0.5_fl
 #else
-	#define SIMD_EPSILON FLT_EPSILON
-	#define SIMD_INFINITY FLT_MAX
-	#define BT_ONE 1.0f
-	#define BT_ZERO 0.0f
+	#define SIMD_EPSILON BIGFLOAT_EPSILON
+	#define SIMD_INFINITY BIGFLOAT_MAX
+	#define BT_ONE 1.0_fl
+	#define BT_ZERO 0.0_fl
 	#define BT_TWO 2.0f
-	#define BT_HALF 0.5f
+	#define BT_HALF 0.5_fl
 #endif
 
 // clang-format on
 
 SIMD_FORCE_INLINE btScalar btAtan2Fast(btScalar y, btScalar x)
 {
-	btScalar coeff_1 = SIMD_PI / 4.0f;
-	btScalar coeff_2 = 3.0f * coeff_1;
+	btScalar coeff_1 = SIMD_PI / 4.0_fl;
+	btScalar coeff_2 = 3.0_fl * coeff_1;
 	btScalar abs_y = btFabs(y);
 	btScalar angle;
-	if (x >= 0.0f)
+	if (x >= 0.0_fl)
 	{
 		btScalar r = (x - abs_y) / (x + abs_y);
 		angle = coeff_1 - coeff_1 * r;
@@ -574,7 +578,7 @@ SIMD_FORCE_INLINE btScalar btAtan2Fast(btScalar y, btScalar x)
 		btScalar r = (x + abs_y) / (abs_y - x);
 		angle = coeff_2 - coeff_1 * r;
 	}
-	return (y < 0.0f) ? -angle : angle;
+	return (y < 0.0_fl) ? -angle : angle;
 }
 
 SIMD_FORCE_INLINE bool btFuzzyZero(btScalar x) { return btFabs(x) < SIMD_EPSILON; }
@@ -590,7 +594,7 @@ SIMD_FORCE_INLINE bool btGreaterEqual(btScalar a, btScalar eps)
 
 SIMD_FORCE_INLINE int btIsNegative(btScalar x)
 {
-	return x < btScalar(0.0) ? 1 : 0;
+	return x < btScalar(0.0_fl) ? 1 : 0;
 }
 
 SIMD_FORCE_INLINE btScalar btRadians(btScalar x) { return x * SIMD_RADS_PER_DEG; }
@@ -605,7 +609,7 @@ SIMD_FORCE_INLINE btScalar btDegrees(btScalar x) { return x * SIMD_DEGS_PER_RAD;
 #ifndef btFsel
 SIMD_FORCE_INLINE btScalar btFsel(btScalar a, btScalar b, btScalar c)
 {
-	return a >= 0 ? b : c;
+	return a >= 0.0_fl ? b : c;
 }
 #endif
 #define btFsels(a, b, c) (btScalar) btFsel(a, b, c)
@@ -641,7 +645,7 @@ SIMD_FORCE_INLINE int btSelect(unsigned condition, int valueIfConditionNonZero, 
 SIMD_FORCE_INLINE float btSelect(unsigned condition, float valueIfConditionNonZero, float valueIfConditionZero)
 {
 #ifdef BT_HAVE_NATIVE_FSEL
-	return (float)btFsel((btScalar)condition - btScalar(1.0f), valueIfConditionNonZero, valueIfConditionZero);
+	return (float)btFsel((btScalar)condition - btScalar(1.0_fl), valueIfConditionNonZero, valueIfConditionZero);
 #else
 	return (condition != 0) ? valueIfConditionNonZero : valueIfConditionZero;
 #endif
@@ -698,7 +702,7 @@ SIMD_FORCE_INLINE unsigned int btSwapEndianFloat(float d)
 // unswap using char pointers
 SIMD_FORCE_INLINE float btUnswapEndianFloat(unsigned int a)
 {
-	float d = 0.0f;
+	float d = 0;
 	unsigned char *src = (unsigned char *)&a;
 	unsigned char *dst = (unsigned char *)&d;
 
@@ -758,7 +762,7 @@ SIMD_FORCE_INLINE void btSetZero(T *a, int n)
 SIMD_FORCE_INLINE btScalar btLargeDot(const btScalar *a, const btScalar *b, int n)
 {
 	btScalar p0, q0, m0, p1, q1, m1, sum;
-	sum = 0;
+	sum = 0.0_fl;
 	n -= 2;
 	while (n >= 0)
 	{

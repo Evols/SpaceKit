@@ -37,7 +37,7 @@ btScalar btMachEps()
 			machEps /= btScalar(2.0);
 			// If next epsilon yields 1, then break, because current
 			// epsilon is the machine epsilon.
-		} while ((btScalar)(1.0 + (machEps / btScalar(2.0))) != btScalar(1.0));
+		} while ((btScalar)(1.0_fl + (machEps / btScalar(2.0))) != btScalar(1.0_fl));
 		//		printf( "\nCalculated Machine epsilon: %G\n", machEps );
 		calculated = true;
 	}
@@ -72,7 +72,7 @@ btVectorXu btLemkeAlgorithm::solve(unsigned int maxloops /* = 0*/)
 	btVectorXu solutionVector(2 * dim);
 	solutionVector.setZero();
 
-	//, INIT, 0.);
+	//, INIT, 0.0_fl);
 
 	btMatrixXu ident(dim, dim);
 	ident.setIdentity();
@@ -86,7 +86,7 @@ btVectorXu btLemkeAlgorithm::solve(unsigned int maxloops /* = 0*/)
 	//
 	A.setSubMatrix(0, 0, dim - 1, dim - 1, ident);
 	A.setSubMatrix(0, dim, dim - 1, 2 * dim - 1, mNeg);
-	A.setSubMatrix(0, 2 * dim, dim - 1, 2 * dim, -1.f);
+	A.setSubMatrix(0, 2 * dim, dim - 1, 2 * dim, -1.0_fl);
 	A.setSubMatrix(0, 2 * dim + 1, dim - 1, 2 * dim + 1, m_q);
 
 #ifdef BT_DEBUG_OSTREAM
@@ -102,7 +102,7 @@ btVectorXu btLemkeAlgorithm::solve(unsigned int maxloops /* = 0*/)
 		basis.push_back(i);
 
 	int pivotRowIndex = -1;
-	btScalar minValue = 1e30f;
+	btScalar minValue = 1e30_fl;
 	bool greaterZero = true;
 	for (int i = 0; i < dim; i++)
 	{
@@ -225,7 +225,7 @@ int btLemkeAlgorithm::findLexicographicMinimum(const btMatrixXu& A, const int& p
 	for (int row = 0; row < dim; row++)
 	{
 		btVectorXu vec(dim + 1);
-		vec.setZero();  //, INIT, 0.)
+		vec.setZero();  //, INIT, 0.0_fl)
 		Rows.push_back(vec);
 		btScalar a = A(row, pivotColIndex);
 		if (a > 0)
@@ -245,14 +245,14 @@ int btLemkeAlgorithm::findLexicographicMinimum(const btMatrixXu& A, const int& p
 
 	for (int i = 0; i < Rows.size(); i++)
 	{
-		if (Rows[i].nrm2() > 0.)
+		if (Rows[i].nrm2() > 0.0_fl)
 		{
 			int j = 0;
 			for (; j < Rows.size(); j++)
 			{
 				if (i != j)
 				{
-					if (Rows[j].nrm2() > 0.)
+					if (Rows[j].nrm2() > 0.0_fl)
 					{
 						btVectorXu test(dim + 1);
 						for (int ii = 0; ii < dim + 1; ii++)

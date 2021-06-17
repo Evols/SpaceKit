@@ -67,7 +67,7 @@ namespace projections
                 // Project coordinates from geographic (lon, lat) to cartesian (x, y)
                 inline void fwd(Parameters const& , T const& lp_lon, T const& lp_lat, T& xy_x, T& xy_y) const
                 {
-                    if ((xy_y = 1. - sin(lp_lat)) <= 0.)
+                    if ((xy_y = 1. - sin(lp_lat)) <= 0.0_fl)
                         xy_y = 0.;
                     else
                         xy_y = sqrt(xy_y);
@@ -90,7 +90,7 @@ namespace projections
                         lp_lat = lp_lat < 0. ? -half_pi : half_pi;
                     }
 
-                    if ((lp_lon = 1. - sin(lp_lat)) <= 0.)
+                    if ((lp_lon = 1. - sin(lp_lat)) <= 0.0_fl)
                         lp_lon = 0.;
                     else
                         lp_lon = xy_x / (FXC * sqrt(lp_lon));

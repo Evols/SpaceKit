@@ -101,7 +101,7 @@ protected:
 
 	bool recoverFromPenetration(btCollisionWorld * collisionWorld);
 	void stepUp(btCollisionWorld * collisionWorld);
-	void updateTargetPositionBasedOnCollision(const btVector3& hit_normal, btScalar tangentMag = btScalar(0.0), btScalar normalMag = btScalar(1.0));
+	void updateTargetPositionBasedOnCollision(const btVector3& hit_normal, btScalar tangentMag = btScalar(0.0_fl), btScalar normalMag = btScalar(1.0_fl));
 	void stepForwardAndStrafe(btCollisionWorld * collisionWorld, const btVector3& walkMove);
 	void stepDown(btCollisionWorld * collisionWorld, btScalar dt);
 
@@ -114,7 +114,7 @@ protected:
 public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
 
-	btKinematicCharacterController(btPairCachingGhostObject * ghostObject, btConvexShape * convexShape, btScalar stepHeight, const btVector3& up = btVector3(1.0, 0.0, 0.0));
+	btKinematicCharacterController(btPairCachingGhostObject * ghostObject, btConvexShape * convexShape, btScalar stepHeight, const btVector3& up = btVector3(1.0_fl, 0.0_fl, 0.0_fl));
 	~btKinematicCharacterController();
 
 	///btActionInterface interface
@@ -152,9 +152,9 @@ public:
 	virtual void setLinearVelocity(const btVector3& velocity);
 	virtual btVector3 getLinearVelocity() const;
 
-	void setLinearDamping(btScalar d) { m_linearDamping = btClamped(d, (btScalar)btScalar(0.0), (btScalar)btScalar(1.0)); }
+	void setLinearDamping(btScalar d) { m_linearDamping = btClamped(d, (btScalar)btScalar(0.0_fl), (btScalar)btScalar(1.0_fl)); }
 	btScalar getLinearDamping() const { return m_linearDamping; }
-	void setAngularDamping(btScalar d) { m_angularDamping = btClamped(d, (btScalar)btScalar(0.0), (btScalar)btScalar(1.0)); }
+	void setAngularDamping(btScalar d) { m_angularDamping = btClamped(d, (btScalar)btScalar(0.0_fl), (btScalar)btScalar(1.0_fl)); }
 	btScalar getAngularDamping() const { return m_angularDamping; }
 
 	void reset(btCollisionWorld * collisionWorld);
@@ -172,7 +172,7 @@ public:
 	void setMaxJumpHeight(btScalar maxJumpHeight);
 	bool canJump() const;
 
-	void jump(const btVector3& v = btVector3(0, 0, 0));
+	void jump(const btVector3& v = btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 
 	void applyImpulse(const btVector3& v) { jump(v); }
 

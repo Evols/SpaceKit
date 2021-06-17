@@ -34,7 +34,7 @@ struct b3ConstraintSetting
 {
 	b3ConstraintSetting() : m_tau(b3Scalar(0.3)),
 							m_damping(b3Scalar(1.)),
-							m_impulseClamp(b3Scalar(0.))
+							m_impulseClamp(b3Scalar(0.0_fl))
 	{
 	}
 	b3Scalar m_tau;

@@ -172,7 +172,7 @@ public:
 	void setMotorTarget(const btQuaternion& qAinB, btScalar dt);  // qAinB is rotation of body A wrt body B.
 	void setMotorTarget(btScalar targetAngle, btScalar dt);
 
-	void setLimit(btScalar low, btScalar high, btScalar _softness = 0.9f, btScalar _biasFactor = 0.3f, btScalar _relaxationFactor = 1.0f)
+	void setLimit(btScalar low, btScalar high, btScalar _softness = 0.9_fl, btScalar _biasFactor = 0.3_fl, btScalar _relaxationFactor = 1.0_fl)
 	{
 #ifdef _BT_USE_CENTER_LIMIT_
 		m_limit.set(low, high, _softness, _biasFactor, _relaxationFactor);
@@ -239,7 +239,7 @@ public:
 	bool hasLimit() const
 	{
 #ifdef _BT_USE_CENTER_LIMIT_
-		return m_limit.getHalfRange() > 0;
+		return m_limit.getHalfRange() > 0_fl;
 #else
 		return m_lowerLimit <= m_upperLimit;
 #endif
@@ -449,15 +449,15 @@ SIMD_FORCE_INLINE const char* btHingeConstraint::serialize(void* dataBuffer, btS
 
 	hingeData->m_angularOnly = m_angularOnly;
 	hingeData->m_enableAngularMotor = m_enableAngularMotor;
-	hingeData->m_maxMotorImpulse = float(m_maxMotorImpulse);
-	hingeData->m_motorTargetVelocity = float(m_motorTargetVelocity);
+	hingeData->m_maxMotorImpulse = m_maxMotorImpulse.ToFloat();
+	hingeData->m_motorTargetVelocity = m_motorTargetVelocity.ToFloat();
 	hingeData->m_useReferenceFrameA = m_useReferenceFrameA;
 #ifdef _BT_USE_CENTER_LIMIT_
-	hingeData->m_lowerLimit = float(m_limit.getLow());
-	hingeData->m_upperLimit = float(m_limit.getHigh());
-	hingeData->m_limitSoftness = float(m_limit.getSoftness());
-	hingeData->m_biasFactor = float(m_limit.getBiasFactor());
-	hingeData->m_relaxationFactor = float(m_limit.getRelaxationFactor());
+	hingeData->m_lowerLimit = m_limit.getLow().ToFloat();
+	hingeData->m_upperLimit = m_limit.getHigh().ToFloat();
+	hingeData->m_limitSoftness = m_limit.getSoftness().ToFloat();
+	hingeData->m_biasFactor = m_limit.getBiasFactor().ToFloat();
+	hingeData->m_relaxationFactor = m_limit.getRelaxationFactor().ToFloat();
 #else
 	hingeData->m_lowerLimit = float(m_lowerLimit);
 	hingeData->m_upperLimit = float(m_upperLimit);

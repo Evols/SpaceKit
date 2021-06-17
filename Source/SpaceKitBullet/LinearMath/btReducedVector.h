@@ -197,7 +197,7 @@ public:
     
     btScalar dot(const btReducedVector& other) const
     {
-        btScalar ret = 0;
+        btScalar ret = 0_fl;
         int j = 0;
         for (int i = 0; i < m_indices.size(); ++i)
         {
@@ -216,7 +216,7 @@ public:
     
     btScalar dot(const btAlignedObjectArray<btVector3>& other) const
     {
-        btScalar ret = 0;
+        btScalar ret = 0_fl;
         for (int i = 0; i < m_indices.size(); ++i)
         {
             ret += m_vecs[i].dot(other[m_indices[i]]);
@@ -248,7 +248,7 @@ public:
     {
         for (int i = 0; i < m_indices.size(); ++i)
         {
-            printf("%d: (%f, %f, %f)/", m_indices[i], m_vecs[i][0],m_vecs[i][1],m_vecs[i][2]);
+            printf("%d: (%f, %f, %f)/", m_indices[i], m_vecs[i][0].ToFloat(),m_vecs[i][1].ToFloat(),m_vecs[i][2].ToFloat());
         }
         printf("\n");
     }
@@ -296,7 +296,7 @@ SIMD_FORCE_INLINE btReducedVector operator*(btScalar s, const btReducedVector& v
 
 SIMD_FORCE_INLINE btReducedVector operator/(const btReducedVector& v, btScalar s)
 {
-	return v * (1.0/s);
+	return v * (1.0_fl/s);
 }
 
 SIMD_FORCE_INLINE btReducedVector& operator/=(btReducedVector& v, btScalar s)

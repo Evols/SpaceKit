@@ -60,7 +60,7 @@ btMultiBodySolverConstraint
 	btScalar m_rhsPenetration;
 	union {
 		void* m_originalContactPoint;
-		btScalar m_unusedPadding4;
+		// btScalar m_unusedPadding4;
 	};
 
 	int m_overrideNumSolverIterations;

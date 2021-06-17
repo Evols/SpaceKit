@@ -49,7 +49,7 @@ public:
 		m_1MinvJt = inertiaInvB * m_bJ;
 		m_Adiag = massInvA + m_0MinvJt.dot(m_aJ) + massInvB + m_1MinvJt.dot(m_bJ);
 
-		b3Assert(m_Adiag > b3Scalar(0.0));
+		b3Assert(m_Adiag > b3Scalar(0.0_fl));
 	}
 
 	//angular constraint between two different rigidbodies
@@ -58,7 +58,7 @@ public:
 					const b3Matrix3x3& world2B,
 					const b3Vector3& inertiaInvA,
 					const b3Vector3& inertiaInvB)
-		: m_linearJointAxis(b3MakeVector3(b3Scalar(0.), b3Scalar(0.), b3Scalar(0.)))
+		: m_linearJointAxis(b3MakeVector3(b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl)))
 	{
 		m_aJ = world2A * jointAxis;
 		m_bJ = world2B * -jointAxis;
@@ -66,7 +66,7 @@ public:
 		m_1MinvJt = inertiaInvB * m_bJ;
 		m_Adiag = m_0MinvJt.dot(m_aJ) + m_1MinvJt.dot(m_bJ);
 
-		b3Assert(m_Adiag > b3Scalar(0.0));
+		b3Assert(m_Adiag > b3Scalar(0.0_fl));
 	}
 
 	//angular constraint between two different rigidbodies
@@ -74,13 +74,13 @@ public:
 					const b3Vector3& axisInB,
 					const b3Vector3& inertiaInvA,
 					const b3Vector3& inertiaInvB)
-		: m_linearJointAxis(b3MakeVector3(b3Scalar(0.), b3Scalar(0.), b3Scalar(0.))), m_aJ(axisInA), m_bJ(-axisInB)
+		: m_linearJointAxis(b3MakeVector3(b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl))), m_aJ(axisInA), m_bJ(-axisInB)
 	{
 		m_0MinvJt = inertiaInvA * m_aJ;
 		m_1MinvJt = inertiaInvB * m_bJ;
 		m_Adiag = m_0MinvJt.dot(m_aJ) + m_1MinvJt.dot(m_bJ);
 
-		b3Assert(m_Adiag > b3Scalar(0.0));
+		b3Assert(m_Adiag > b3Scalar(0.0_fl));
 	}
 
 	//constraint on one rigidbody
@@ -95,10 +95,10 @@ public:
 		m_aJ = world2A * (rel_pos1.cross(jointAxis));
 		m_bJ = world2A * (rel_pos2.cross(-jointAxis));
 		m_0MinvJt = inertiaInvA * m_aJ;
-		m_1MinvJt = b3MakeVector3(b3Scalar(0.), b3Scalar(0.), b3Scalar(0.));
+		m_1MinvJt = b3MakeVector3(b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl));
 		m_Adiag = massInvA + m_0MinvJt.dot(m_aJ);
 
-		b3Assert(m_Adiag > b3Scalar(0.0));
+		b3Assert(m_Adiag > b3Scalar(0.0_fl));
 	}
 
 	b3Scalar getDiagonal() const { return m_Adiag; }

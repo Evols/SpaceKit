@@ -119,7 +119,7 @@ template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const inverse_gaussian_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x, zero to max.
    using boost::math::tools::max_value;
-   return std::pair<RealType, RealType>(static_cast<RealType>(0.), max_value<RealType>()); // - to + max value.
+   return std::pair<RealType, RealType>(static_cast<RealType>(0.0_fl), max_value<RealType>()); // - to + max value.
 }
 
 template <class RealType, class Policy>
@@ -127,7 +127,7 @@ inline const std::pair<RealType, RealType> support(const inverse_gaussian_distri
 { // Range of supported values for random variable x, zero to max.
   // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
    using boost::math::tools::max_value;
-   return std::pair<RealType, RealType>(static_cast<RealType>(0.),  max_value<RealType>()); // - to + max value.
+   return std::pair<RealType, RealType>(static_cast<RealType>(0.0_fl),  max_value<RealType>()); // - to + max value.
 }
 
 template <class RealType, class Policy>

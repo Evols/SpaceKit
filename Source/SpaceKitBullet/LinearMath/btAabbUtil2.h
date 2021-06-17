@@ -128,12 +128,12 @@ SIMD_FORCE_INLINE bool btRayAabb(const btVector3& rayFrom,
 	int targetOutcode = btOutcode(target, aabbHalfExtent);
 	if ((sourceOutcode & targetOutcode) == 0x0)
 	{
-		btScalar lambda_enter = btScalar(0.0);
+		btScalar lambda_enter = 0.0_fl;
 		btScalar lambda_exit = param;
 		btVector3 r = target - source;
 		int i;
-		btScalar normSign = 1;
-		btVector3 hitNormal(0, 0, 0);
+		btScalar normSign = 1.0_fl;
+		btVector3 hitNormal(0.0_fl, 0.0_fl, 0.0_fl);
 		int bit = 1;
 
 		for (int j = 0; j < 2; j++)
@@ -146,7 +146,7 @@ SIMD_FORCE_INLINE bool btRayAabb(const btVector3& rayFrom,
 					if (lambda_enter <= lambda)
 					{
 						lambda_enter = lambda;
-						hitNormal.setValue(0, 0, 0);
+						hitNormal.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 						hitNormal[i] = normSign;
 					}
 				}

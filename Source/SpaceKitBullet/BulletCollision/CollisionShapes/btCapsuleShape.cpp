@@ -22,12 +22,12 @@ btCapsuleShape::btCapsuleShape(btScalar radius, btScalar height) : btConvexInter
 	m_collisionMargin = radius;
 	m_shapeType = CAPSULE_SHAPE_PROXYTYPE;
 	m_upAxis = 1;
-	m_implicitShapeDimensions.setValue(radius, 0.5f * height, radius);
+	m_implicitShapeDimensions.setValue(radius, 0.5_fl * height, radius);
 }
 
 btVector3 btCapsuleShape::localGetSupportingVertexWithoutMargin(const btVector3& vec0) const
 {
-	btVector3 supVec(0, 0, 0);
+	btVector3 supVec(0_fl, 0_fl, 0_fl);
 
 	btScalar maxDot(btScalar(-BT_LARGE_FLOAT));
 
@@ -35,7 +35,7 @@ btVector3 btCapsuleShape::localGetSupportingVertexWithoutMargin(const btVector3&
 	btScalar lenSqr = vec.length2();
 	if (lenSqr < btScalar(0.0001))
 	{
-		vec.setValue(1, 0, 0);
+		vec.setValue(1.0_fl, 0.0_fl, 0.0_fl);
 	}
 	else
 	{
@@ -47,7 +47,7 @@ btVector3 btCapsuleShape::localGetSupportingVertexWithoutMargin(const btVector3&
 	btScalar newDot;
 
 	{
-		btVector3 pos(0, 0, 0);
+		btVector3 pos(0_fl, 0_fl, 0_fl);
 		pos[getUpAxis()] = getHalfHeight();
 
 		vtx = pos;
@@ -59,7 +59,7 @@ btVector3 btCapsuleShape::localGetSupportingVertexWithoutMargin(const btVector3&
 		}
 	}
 	{
-		btVector3 pos(0, 0, 0);
+		btVector3 pos(0_fl, 0_fl, 0_fl);
 		pos[getUpAxis()] = -getHalfHeight();
 
 		vtx = pos;
@@ -84,7 +84,7 @@ void btCapsuleShape::batchedUnitVectorGetSupportingVertexWithoutMargin(const btV
 		btVector3 vtx;
 		btScalar newDot;
 		{
-			btVector3 pos(0, 0, 0);
+			btVector3 pos(0_fl, 0_fl, 0_fl);
 			pos[getUpAxis()] = getHalfHeight();
 			vtx = pos;
 			newDot = vec.dot(vtx);
@@ -95,7 +95,7 @@ void btCapsuleShape::batchedUnitVectorGetSupportingVertexWithoutMargin(const btV
 			}
 		}
 		{
-			btVector3 pos(0, 0, 0);
+			btVector3 pos(0_fl, 0_fl, 0_fl);
 			pos[getUpAxis()] = -getHalfHeight();
 			vtx = pos;
 			newDot = vec.dot(vtx);
@@ -137,12 +137,12 @@ btCapsuleShapeX::btCapsuleShapeX(btScalar radius, btScalar height)
 {
 	m_collisionMargin = radius;
 	m_upAxis = 0;
-	m_implicitShapeDimensions.setValue(0.5f * height, radius, radius);
+	m_implicitShapeDimensions.setValue(0.5_fl * height, radius, radius);
 }
 
 btCapsuleShapeZ::btCapsuleShapeZ(btScalar radius, btScalar height)
 {
 	m_collisionMargin = radius;
 	m_upAxis = 2;
-	m_implicitShapeDimensions.setValue(radius, radius, 0.5f * height);
+	m_implicitShapeDimensions.setValue(radius, radius, 0.5_fl * height);
 }

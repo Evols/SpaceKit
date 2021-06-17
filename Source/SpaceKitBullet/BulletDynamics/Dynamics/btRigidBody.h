@@ -141,18 +141,18 @@ public:
 		btScalar m_additionalAngularDampingThresholdSqr;
 		btScalar m_additionalAngularDampingFactor;
 
-		btRigidBodyConstructionInfo(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape, const btVector3& localInertia = btVector3(0, 0, 0)) : m_mass(mass),
+		btRigidBodyConstructionInfo(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape, const btVector3& localInertia = btVector3(0.0_fl, 0.0_fl, 0.0_fl)) : m_mass(mass),
 																																									   m_motionState(motionState),
 																																									   m_collisionShape(collisionShape),
 																																									   m_localInertia(localInertia),
-																																									   m_linearDamping(btScalar(0.)),
-																																									   m_angularDamping(btScalar(0.)),
+																																									   m_linearDamping(btScalar(0.0_fl)),
+																																									   m_angularDamping(btScalar(0.0_fl)),
 																																									   m_friction(btScalar(0.5)),
 																																									   m_rollingFriction(btScalar(0)),
 																																									   m_spinningFriction(btScalar(0)),
-																																									   m_restitution(btScalar(0.)),
+																																									   m_restitution(btScalar(0.0_fl)),
 																																									   m_linearSleepingThreshold(btScalar(0.8)),
-																																									   m_angularSleepingThreshold(btScalar(1.f)),
+																																									   m_angularSleepingThreshold(btScalar(1.0_fl)),
 																																									   m_additionalDamping(false),
 																																									   m_additionalDampingFactor(btScalar(0.005)),
 																																									   m_additionalLinearDampingThresholdSqr(btScalar(0.01)),
@@ -168,7 +168,7 @@ public:
 
 	///btRigidBody constructor for backwards compatibility.
 	///To specify friction (etc) during rigid body construction, please use the other constructor (using btRigidBodyConstructionInfo)
-	btRigidBody(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape, const btVector3& localInertia = btVector3(0, 0, 0));
+	btRigidBody(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape, const btVector3& localInertia = btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 
 	virtual ~btRigidBody()
 	{
@@ -261,7 +261,7 @@ public:
 		m_invMass = m_linearFactor * m_inverseMass;
 	}
 	btScalar getInvMass() const { return m_inverseMass; }
-	btScalar getMass() const { return m_inverseMass == btScalar(0.) ? btScalar(0.) : btScalar(1.0) / m_inverseMass; }
+	btScalar getMass() const { return m_inverseMass == btScalar(0.0_fl) ? btScalar(0.0_fl) : btScalar(1.0_fl) / m_inverseMass; }
 	const btMatrix3x3& getInvInertiaTensorWorld() const
 	{
 		return m_invInertiaTensorWorld;
@@ -334,7 +334,7 @@ public:
 
 	void applyImpulse(const btVector3& impulse, const btVector3& rel_pos)
 	{
-		if (m_inverseMass != btScalar(0.))
+		if (m_inverseMass != btScalar(0.0_fl))
 		{
 			applyCentralImpulse(impulse);
 			if (m_angularFactor)
@@ -346,7 +346,7 @@ public:
     
     void applyPushImpulse(const btVector3& impulse, const btVector3& rel_pos)
     {
-        if (m_inverseMass != btScalar(0.))
+        if (m_inverseMass != btScalar(0.0_fl))
         {
             applyCentralPushImpulse(impulse);
             if (m_angularFactor)
@@ -414,8 +414,8 @@ public:
 
 	void clearForces()
 	{
-		m_totalForce.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
-		m_totalTorque.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
+		m_totalForce.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+		m_totalTorque.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	}
 
 	void updateInertiaTensor();
@@ -508,7 +508,7 @@ public:
 		}
 		else
 		{
-			m_deactivationTime = btScalar(0.);
+			m_deactivationTime = btScalar(0.0_fl);
 			setActivationState(0);
 		}
 	}
@@ -519,7 +519,7 @@ public:
 			return false;
 
 		//disable deactivation
-		if (gDisableDeactivation || (gDeactivationTime == btScalar(0.)))
+		if (gDisableDeactivation || (gDeactivationTime == btScalar(0.0_fl)))
 			return false;
 
 		if ((getActivationState() == ISLAND_SLEEPING) || (getActivationState() == WANTS_DEACTIVATION))

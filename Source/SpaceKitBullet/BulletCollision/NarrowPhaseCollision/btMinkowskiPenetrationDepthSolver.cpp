@@ -63,7 +63,7 @@ bool btMinkowskiPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& s
 
 	//just take fixed number of orientation, and sample the penetration depth in that direction
 	btScalar minProj = btScalar(BT_LARGE_FLOAT);
-	btVector3 minNorm(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 minNorm(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	btVector3 minA, minB;
 	btVector3 separatingAxisInA, separatingAxisInB;
 	btVector3 pInA, qInB, pWorld, qWorld, w;
@@ -130,9 +130,9 @@ bool btMinkowskiPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& s
 		btVector3 norm = getPenetrationDirections()[i];
 		if (check2d)
 		{
-			norm[2] = 0.f;
+			norm[2] = 0.0_fl;
 		}
-		if (norm.length2() > 0.01)
+		if (norm.length2() > 0.01_fl)
 		{
 			separatingAxisInA = separatingAxisInABatch[i];
 			separatingAxisInB = separatingAxisInBBatch[i];
@@ -144,8 +144,8 @@ bool btMinkowskiPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& s
 			qWorld = transB(qInB);
 			if (check2d)
 			{
-				pWorld[2] = 0.f;
-				qWorld[2] = 0.f;
+				pWorld[2] = 0.0_fl;
+				qWorld[2] = 0.0_fl;
 			}
 
 			w = qWorld - pWorld;
@@ -223,10 +223,10 @@ bool btMinkowskiPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& s
 	minA += minNorm * convexA->getMarginNonVirtual();
 	minB -= minNorm * convexB->getMarginNonVirtual();
 	//no penetration
-	if (minProj < btScalar(0.))
+	if (minProj < btScalar(0.0_fl))
 		return false;
 
-	btScalar extraSeparation = 0.5f;  ///scale dependent
+	btScalar extraSeparation = 0.5_fl;  ///scale dependent
 	minProj += extraSeparation + (convexA->getMarginNonVirtual() + convexB->getMarginNonVirtual());
 
 //#define DEBUG_DRAW 1
@@ -235,7 +235,7 @@ bool btMinkowskiPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& s
 	{
 		btVector3 color(0, 1, 0);
 		debugDraw->drawLine(minA, minB, color);
-		color = btVector3(1, 1, 1);
+		color = btVector3(1.0_fl, 1.0_fl, 1.0_fl);
 		btVector3 vec = minB - minA;
 		btScalar prj2 = minNorm.dot(vec);
 		debugDraw->drawLine(minA, minA + (minNorm * minProj), color);

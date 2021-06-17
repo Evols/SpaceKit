@@ -135,7 +135,7 @@ void btConvexPlaneCollisionAlgorithm::processCollision(const btCollisionObjectWr
 		btPlaneSpace1(planeNormal, v0, v1);
 		//now perform 'm_numPerturbationIterations' collision queries with the perturbated collision objects
 
-		const btScalar angleLimit = 0.125f * SIMD_PI;
+		const btScalar angleLimit = 0.125_fl * SIMD_PI;
 		btScalar perturbeAngle;
 		btScalar radius = convexShape->getAngularMotionDisc();
 		perturbeAngle = gContactBreakingThreshold / radius;
@@ -145,7 +145,7 @@ void btConvexPlaneCollisionAlgorithm::processCollision(const btCollisionObjectWr
 		btQuaternion perturbeRot(v0, perturbeAngle);
 		for (int i = 0; i < m_numPerturbationIterations; i++)
 		{
-			btScalar iterationAngle = i * (SIMD_2_PI / btScalar(m_numPerturbationIterations));
+			btScalar iterationAngle = btScalar(i) * (SIMD_2_PI / btScalar(m_numPerturbationIterations));
 			btQuaternion rotq(planeNormal, iterationAngle);
 			collideSingleContact(rotq.inverse() * perturbeRot * rotq, body0Wrap, body1Wrap, dispatchInfo, resultOut);
 		}

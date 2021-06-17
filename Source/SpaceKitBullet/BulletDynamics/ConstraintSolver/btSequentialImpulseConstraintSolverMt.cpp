@@ -115,8 +115,8 @@ void btSequentialImpulseConstraintSolverMt::internalSetupContactConstraints(int 
 										 colObj0,
 										 colObj1,
 										 relaxation,
-										 0.0f,
-										 0.0f);
+										 0.0_fl,
+										 0.0_fl);
 		btVector3 axis[2];
 		btPlaneSpace1(cp.m_normalWorldOnB, axis[0], axis[1]);
 		axis[0].normalize();
@@ -151,8 +151,8 @@ void btSequentialImpulseConstraintSolverMt::internalSetupContactConstraints(int 
 												 colObj0,
 												 colObj1,
 												 relaxation,
-												 0.0f,
-												 0.0f);
+												 0.0_fl,
+												 0.0_fl);
 			}
 			else
 			{
@@ -195,7 +195,7 @@ void btSequentialImpulseConstraintSolverMt::internalSetupContactConstraints(int 
 			btScalar lat_rel_vel = cp.m_lateralFrictionDir1.length2();
 			if (!(infoGlobal.m_solverMode & SOLVER_DISABLE_VELOCITY_DEPENDENT_FRICTION_DIRECTION) && lat_rel_vel > SIMD_EPSILON)
 			{
-				cp.m_lateralFrictionDir1 *= 1.f / btSqrt(lat_rel_vel);
+				cp.m_lateralFrictionDir1 *= 1.0_fl / btSqrt(lat_rel_vel);
 				applyAnisotropicFriction(colObj0, cp.m_lateralFrictionDir1, btCollisionObject::CF_ANISOTROPIC_FRICTION);
 				applyAnisotropicFriction(colObj1, cp.m_lateralFrictionDir1, btCollisionObject::CF_ANISOTROPIC_FRICTION);
 				setupFrictionConstraint(*frictionConstraint1, cp.m_lateralFrictionDir1, solverBodyIdA, solverBodyIdB, cp, rel_pos1, rel_pos2, colObj0, colObj1, relaxation, infoGlobal);
@@ -419,7 +419,7 @@ void btSequentialImpulseConstraintSolverMt::internalCollectContactManifoldCached
 			if (cp.getDistance() <= manifold->getContactProcessingThreshold())
 			{
 				cachedInfo->contactPoints[iContact] = &cp;
-				cachedInfo->contactHasRollingFriction[iContact] = (cp.m_combinedRollingFriction > 0.f);
+				cachedInfo->contactHasRollingFriction[iContact] = (cp.m_combinedRollingFriction > 0.0_fl);
 				iContact++;
 			}
 		}
@@ -605,7 +605,7 @@ void btSequentialImpulseConstraintSolverMt::internalInitMultipleJoints(btTypedCo
 		if (constraint->isEnabled())
 		{
 			constraint->buildJacobian();
-			constraint->internalSetAppliedImpulse(0.0f);
+			constraint->internalSetAppliedImpulse(0.0_fl);
 			btJointFeedback* fb = constraint->getJointFeedback();
 			if (fb)
 			{
@@ -757,7 +757,7 @@ void btSequentialImpulseConstraintSolverMt::internalConvertBodies(btCollisionObj
 		btRigidBody* body = btRigidBody::upcast(obj);
 		if (body && body->getInvMass())
 		{
-			btVector3 gyroForce(0, 0, 0);
+			btVector3 gyroForce(0_fl, 0_fl, 0_fl);
 			if (body->getFlags() & BT_ENABLE_GYROSCOPIC_FORCE_EXPLICIT)
 			{
 				gyroForce = body->computeGyroscopicForceExplicit(infoGlobal.m_maxGyroscopicForce);
@@ -852,12 +852,12 @@ btScalar btSequentialImpulseConstraintSolverMt::solveGroupCacheFriendlySetup(
 																	  numConstraints,
 																	  infoGlobal,
 																	  debugDrawer);
-	return 0.0f;
+	return 0.0_fl;
 }
 
 btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactSplitPenetrationImpulseConstraints(const btAlignedObjectArray<int>& consIndices, int batchBegin, int batchEnd)
 {
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiCons = batchBegin; iiCons < batchEnd; ++iiCons)
 	{
 		int iCons = consIndices[iiCons];
@@ -900,12 +900,12 @@ void btSequentialImpulseConstraintSolverMt::solveGroupCacheFriendlySplitImpulseI
 	{
 		for (int iteration = 0; iteration < infoGlobal.m_numIterations; iteration++)
 		{
-			btScalar leastSquaresResidual = 0.f;
+			btScalar leastSquaresResidual = 0.0_fl;
 			if (m_useBatching)
 			{
 				const btBatchedConstraints& batchedCons = m_batchedContactConstraints;
 				ContactSplitPenetrationImpulseSolverLoop loop(this, &batchedCons);
-				btScalar leastSquaresResidual = 0.f;
+				btScalar leastSquaresResidual = 0.0_fl;
 				for (int iiPhase = 0; iiPhase < batchedCons.m_phases.size(); ++iiPhase)
 				{
 					int iPhase = batchedCons.m_phaseOrder[iiPhase];
@@ -937,7 +937,7 @@ btScalar btSequentialImpulseConstraintSolverMt::solveSingleIteration(int iterati
 		return btSequentialImpulseConstraintSolver::solveSingleIteration(iteration, bodies, numBodies, manifoldPtr, numManifolds, constraints, numConstraints, infoGlobal, debugDrawer);
 	}
 	BT_PROFILE("solveSingleIterationMt");
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 
 	if (infoGlobal.m_solverMode & SOLVER_RANDMIZE_ORDER)
 	{
@@ -994,7 +994,7 @@ btScalar btSequentialImpulseConstraintSolverMt::solveSingleIteration(int iterati
 
 btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleJointConstraints(const btAlignedObjectArray<int>& consIndices, int batchBegin, int batchEnd, int iteration)
 {
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiCons = batchBegin; iiCons < batchEnd; ++iiCons)
 	{
 		int iCons = consIndices[iiCons];
@@ -1012,7 +1012,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleJointConstraints(
 
 btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactConstraints(const btAlignedObjectArray<int>& consIndices, int batchBegin, int batchEnd)
 {
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiCons = batchBegin; iiCons < batchEnd; ++iiCons)
 	{
 		int iCons = consIndices[iiCons];
@@ -1027,14 +1027,14 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactConstraint
 
 btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactFrictionConstraints(const btAlignedObjectArray<int>& consIndices, int batchBegin, int batchEnd)
 {
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiCons = batchBegin; iiCons < batchEnd; ++iiCons)
 	{
 		int iContact = consIndices[iiCons];
 		btScalar totalImpulse = m_tmpSolverContactConstraintPool[iContact].m_appliedImpulse;
 
 		// apply sliding friction
-		if (totalImpulse > 0.0f)
+		if (totalImpulse > 0.0_fl)
 		{
 			int iBegin = iContact * m_numFrictionDirections;
 			int iEnd = iBegin + m_numFrictionDirections;
@@ -1058,7 +1058,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactFrictionCo
 
 btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactRollingFrictionConstraints(const btAlignedObjectArray<int>& consIndices, int batchBegin, int batchEnd)
 {
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiCons = batchBegin; iiCons < batchEnd; ++iiCons)
 	{
 		int iContact = consIndices[iiCons];
@@ -1067,7 +1067,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactRollingFri
 		{
 			btScalar totalImpulse = m_tmpSolverContactConstraintPool[iContact].m_appliedImpulse;
 			// apply rolling friction
-			if (totalImpulse > 0.0f)
+			if (totalImpulse > 0.0_fl)
 			{
 				int iBegin = iFirstRollingFriction;
 				int iEnd = iBegin + 3;
@@ -1100,7 +1100,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactConstraint
 																							 int batchBegin,
 																							 int batchEnd)
 {
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	int numPoolConstraints = m_tmpSolverContactConstraintPool.size();
 
 	for (int iiCons = batchBegin; iiCons < batchEnd; iiCons++)
@@ -1116,7 +1116,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactConstraint
 		}
 
 		// apply sliding friction
-		if (totalImpulse > 0.0f)
+		if (totalImpulse > 0.0_fl)
 		{
 			int iBegin = iContact * m_numFrictionDirections;
 			int iEnd = iBegin + m_numFrictionDirections;
@@ -1137,7 +1137,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveMultipleContactConstraint
 
 		// apply rolling friction
 		int iFirstRollingFriction = m_rollingFrictionIndexTable[iContact];
-		if (totalImpulse > 0.0f && iFirstRollingFriction >= 0)
+		if (totalImpulse > 0.0_fl && iFirstRollingFriction >= 0)
 		{
 			int iBegin = iFirstRollingFriction;
 			int iEnd = iBegin + 3;
@@ -1231,7 +1231,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveAllJointConstraints(int i
 	BT_PROFILE("resolveAllJointConstraints");
 	const btBatchedConstraints& batchedCons = m_batchedJointConstraints;
 	JointSolverLoop loop(this, &batchedCons, iteration);
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiPhase = 0; iiPhase < batchedCons.m_phases.size(); ++iiPhase)
 	{
 		int iPhase = batchedCons.m_phaseOrder[iiPhase];
@@ -1270,7 +1270,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveAllContactConstraints()
 	BT_PROFILE("resolveAllContactConstraints");
 	const btBatchedConstraints& batchedCons = m_batchedContactConstraints;
 	ContactSolverLoop loop(this, &batchedCons);
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiPhase = 0; iiPhase < batchedCons.m_phases.size(); ++iiPhase)
 	{
 		int iPhase = batchedCons.m_phaseOrder[iiPhase];
@@ -1309,7 +1309,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveAllContactFrictionConstra
 	BT_PROFILE("resolveAllContactFrictionConstraints");
 	const btBatchedConstraints& batchedCons = m_batchedContactConstraints;
 	ContactFrictionSolverLoop loop(this, &batchedCons);
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiPhase = 0; iiPhase < batchedCons.m_phases.size(); ++iiPhase)
 	{
 		int iPhase = batchedCons.m_phaseOrder[iiPhase];
@@ -1348,7 +1348,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveAllContactConstraintsInte
 	BT_PROFILE("resolveAllContactConstraintsInterleaved");
 	const btBatchedConstraints& batchedCons = m_batchedContactConstraints;
 	InterleavedContactSolverLoop loop(this, &batchedCons);
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	for (int iiPhase = 0; iiPhase < batchedCons.m_phases.size(); ++iiPhase)
 	{
 		int iPhase = batchedCons.m_phaseOrder[iiPhase];
@@ -1385,7 +1385,7 @@ struct ContactRollingFrictionSolverLoop : public btIParallelSumBody
 btScalar btSequentialImpulseConstraintSolverMt::resolveAllRollingFrictionConstraints()
 {
 	BT_PROFILE("resolveAllRollingFrictionConstraints");
-	btScalar leastSquaresResidual = 0.f;
+	btScalar leastSquaresResidual = 0.0_fl;
 	//
 	// We do not generate batches for rolling friction constraints. We assume that
 	// one of two cases is true:
@@ -1408,7 +1408,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveAllRollingFrictionConstra
 		// use batching if there are many rolling friction constraints
 		const btBatchedConstraints& batchedCons = m_batchedContactConstraints;
 		ContactRollingFrictionSolverLoop loop(this, &batchedCons);
-		btScalar leastSquaresResidual = 0.f;
+		btScalar leastSquaresResidual = 0.0_fl;
 		for (int iiPhase = 0; iiPhase < batchedCons.m_phases.size(); ++iiPhase)
 		{
 			int iPhase = batchedCons.m_phaseOrder[iiPhase];
@@ -1426,7 +1426,7 @@ btScalar btSequentialImpulseConstraintSolverMt::resolveAllRollingFrictionConstra
 			if (rollingFrictionConstraint.m_frictionIndex >= 0)
 			{
 				btScalar totalImpulse = m_tmpSolverContactConstraintPool[rollingFrictionConstraint.m_frictionIndex].m_appliedImpulse;
-				if (totalImpulse > 0.0f)
+				if (totalImpulse > 0.0_fl)
 				{
 					btScalar rollingFrictionMagnitude = rollingFrictionConstraint.m_friction * totalImpulse;
 					if (rollingFrictionMagnitude > rollingFrictionConstraint.m_friction)
@@ -1550,5 +1550,5 @@ btScalar btSequentialImpulseConstraintSolverMt::solveGroupCacheFriendlyFinish(bt
 	m_tmpSolverContactRollingFrictionConstraintPool.resizeNoInitialize(0);
 
 	m_tmpSolverBodyPool.resizeNoInitialize(0);
-	return 0.f;
+	return 0.0_fl;
 }

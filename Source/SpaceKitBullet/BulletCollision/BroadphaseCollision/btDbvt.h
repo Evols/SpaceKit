@@ -135,9 +135,9 @@ subject to the following restrictions:
 struct btDbvtAabbMm
 {
     DBVT_INLINE btDbvtAabbMm(){}
-	DBVT_INLINE btVector3 Center() const { return ((mi + mx) / 2); }
+	DBVT_INLINE btVector3 Center() const { return ((mi + mx) / 2_fl); }
 	DBVT_INLINE btVector3 Lengths() const { return (mx - mi); }
-	DBVT_INLINE btVector3 Extents() const { return ((mx - mi) / 2); }
+	DBVT_INLINE btVector3 Extents() const { return ((mx - mi) / 2_fl); }
 	DBVT_INLINE const btVector3& Mins() const { return (mi); }
 	DBVT_INLINE const btVector3& Maxs() const { return (mx); }
 	static inline btDbvtAabbMm FromCE(const btVector3& c, const btVector3& e);
@@ -207,7 +207,7 @@ struct btDbvntNode
 
     btDbvntNode(const btDbvtNode* n)
     : volume(n->volume)
-    , normal(0,0,0)
+    , normal(0_fl,0_fl,0_fl)
     , angle(0)
     , data(n->data)
     {
@@ -524,15 +524,15 @@ DBVT_INLINE void btDbvtAabbMm::Expand(const btVector3& e)
 //
 DBVT_INLINE void btDbvtAabbMm::SignedExpand(const btVector3& e)
 {
-	if (e.x() > 0)
+	if (e.x() > 0_fl)
 		mx.setX(mx.x() + e[0]);
 	else
 		mi.setX(mi.x() + e[0]);
-	if (e.y() > 0)
+	if (e.y() > 0_fl)
 		mx.setY(mx.y() + e[1]);
 	else
 		mi.setY(mi.y() + e[1]);
-	if (e.z() > 0)
+	if (e.z() > 0_fl)
 		mx.setZ(mx.z() + e[2]);
 	else
 		mi.setZ(mi.z() + e[2]);
@@ -588,8 +588,8 @@ DBVT_INLINE int btDbvtAabbMm::Classify(const btVector3& n, btScalar o, int s) co
 			pi = btVector3(mi.x(), mi.y(), mi.z());
 			break;
 	}
-	if ((btDot(n, px) + o) < 0) return (-1);
-	if ((btDot(n, pi) + o) >= 0) return (+1);
+	if ((btDot(n, px) + o) < 0_fl) return (-1);
+	if ((btDot(n, pi) + o) >= 0_fl) return (+1);
 	return (0);
 }
 
@@ -608,7 +608,7 @@ DBVT_INLINE void btDbvtAabbMm::AddSpan(const btVector3& d, btScalar& smi, btScal
 {
 	for (int i = 0; i < 3; ++i)
 	{
-		if (d[i] < 0)
+		if (d[i] < 0_fl)
 		{
 			smi += mx[i] * d[i];
 			smx += mi[i] * d[i];
@@ -1251,7 +1251,7 @@ inline void btDbvt::rayTestInternal(const btDbvtNode* root,
 			const btDbvtNode* node = stack[--depth];
 			bounds[0] = node->volume.Mins() - aabbMax;
 			bounds[1] = node->volume.Maxs() - aabbMin;
-			btScalar tmin = 1.f, lambda_min = 0.f;
+			btScalar tmin = 1.0_fl, lambda_min = 0.0_fl;
 			unsigned int result1 = false;
 			result1 = btRayAabb2(rayFrom, rayDirectionInverse, signs, bounds, tmin, lambda_min, lambda_max);
 			if (result1)
@@ -1290,10 +1290,10 @@ inline void btDbvt::rayTest(const btDbvtNode* root,
 
 		///what about division by zero? --> just set rayDirection[i] to INF/BT_LARGE_FLOAT
 		btVector3 rayDirectionInverse;
-		rayDirectionInverse[0] = rayDir[0] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[0];
-		rayDirectionInverse[1] = rayDir[1] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[1];
-		rayDirectionInverse[2] = rayDir[2] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[2];
-		unsigned int signs[3] = {rayDirectionInverse[0] < 0.0, rayDirectionInverse[1] < 0.0, rayDirectionInverse[2] < 0.0};
+		rayDirectionInverse[0] = rayDir[0] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[0];
+		rayDirectionInverse[1] = rayDir[1] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[1];
+		rayDirectionInverse[2] = rayDir[2] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[2];
+		unsigned int signs[3] = {rayDirectionInverse[0] < 0.0_fl, rayDirectionInverse[1] < 0.0_fl, rayDirectionInverse[2] < 0.0_fl};
 
 		btScalar lambda_max = rayDir.dot(rayTo - rayFrom);
 
@@ -1319,11 +1319,11 @@ inline void btDbvt::rayTest(const btDbvtNode* root,
 			bounds[0] = node->volume.Mins();
 			bounds[1] = node->volume.Maxs();
 
-			btScalar tmin = 1.f, lambda_min = 0.f;
+			btScalar tmin = 1.0_fl, lambda_min = 0.0_fl;
 			unsigned int result1 = btRayAabb2(rayFrom, rayDirectionInverse, signs, bounds, tmin, lambda_min, lambda_max);
 
 #ifdef COMPARE_BTRAY_AABB2
-			btScalar param = 1.f;
+			btScalar param = 1.0_fl;
 			bool result2 = btRayAabb(rayFrom, rayTo, node->volume.Mins(), node->volume.Maxs(), param, resultNormal);
 			btAssert(result1 == result2);
 #endif  //TEST_BTRAY_AABB2

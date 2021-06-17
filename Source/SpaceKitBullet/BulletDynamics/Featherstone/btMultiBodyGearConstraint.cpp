@@ -94,7 +94,7 @@ void btMultiBodyGearConstraint::createConstraintRows(btMultiBodyConstraintArray&
 	if (m_numDofsFinalized != m_jacSizeBoth)
 		return;
 
-	if (m_maxAppliedImpulse == 0.f)
+	if (m_maxAppliedImpulse == 0.0_fl)
 		return;
 
 	// note: we rely on the fact that data.m_jacobians are
@@ -104,14 +104,14 @@ void btMultiBodyGearConstraint::createConstraintRows(btMultiBodyConstraintArray&
 	unsigned int offsetB = 6 + (m_bodyB->getLink(m_linkB).m_dofOffset + linkDoF);
 
 	// row 0: the lower bound
-	jacobianA(0)[offsetA] = 1;
+	jacobianA(0)[offsetA] = 1_fl;
 	jacobianB(0)[offsetB] = m_gearRatio;
 
-	btScalar posError = 0;
-	const btVector3 dummy(0, 0, 0);
+	btScalar posError = 0_fl;
+	const btVector3 dummy(0_fl, 0_fl, 0_fl);
 
-	btScalar kp = 1;
-	btScalar kd = 1;
+	btScalar kp = 1_fl;
+	btScalar kd = 1_fl;
 	int numRows = getNumRows();
 
 	for (int row = 0; row < numRows; row++)
@@ -121,14 +121,14 @@ void btMultiBodyGearConstraint::createConstraintRows(btMultiBodyConstraintArray&
 		int dof = 0;
 		btScalar currentPosition = m_bodyA->getJointPosMultiDof(m_linkA)[dof];
 		btScalar currentVelocity = m_bodyA->getJointVelMultiDof(m_linkA)[dof];
-		btScalar auxVel = 0;
+		btScalar auxVel = 0_fl;
 
 		if (m_gearAuxLink >= 0)
 		{
 			auxVel = m_bodyA->getJointVelMultiDof(m_gearAuxLink)[dof];
 		}
 		currentVelocity += auxVel;
-		if (m_erp != 0)
+		if (m_erp != 0_fl)
 		{
 			btScalar currentPositionA = m_bodyA->getJointPosMultiDof(m_linkA)[dof];
 			if (m_gearAuxLink >= 0)
@@ -143,7 +143,7 @@ void btMultiBodyGearConstraint::createConstraintRows(btMultiBodyConstraintArray&
 
 		btScalar desiredRelativeVelocity = auxVel;
 
-		fillMultiBodyConstraint(constraintRow, data, jacobianA(row), jacobianB(row), dummy, dummy, dummy, dummy, posError, infoGlobal, -m_maxAppliedImpulse, m_maxAppliedImpulse, false, 1, false, desiredRelativeVelocity);
+		fillMultiBodyConstraint(constraintRow, data, jacobianA(row), jacobianB(row), dummy, dummy, dummy, dummy, posError, infoGlobal, -m_maxAppliedImpulse, m_maxAppliedImpulse, false, 1_fl, false, desiredRelativeVelocity);
 
 		constraintRow.m_orgConstraint = this;
 		constraintRow.m_orgDofIndex = row;

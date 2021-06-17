@@ -133,7 +133,7 @@ btDbvtBroadphase::btDbvtBroadphase(btOverlappingPairCache* paircache)
 	m_deferedcollide = false;
 	m_needcleanup = true;
 	m_releasepaircache = (paircache != 0) ? false : true;
-	m_prediction = 0;
+	m_prediction = 0_fl;
 	m_stageCurrent = 0;
 	m_fixedleft = 0;
 	m_fupdates = 1;
@@ -142,7 +142,7 @@ btDbvtBroadphase::btDbvtBroadphase(btOverlappingPairCache* paircache)
 	m_newpairs = 1;
 	m_updates_call = 0;
 	m_updates_done = 0;
-	m_updates_ratio = 0;
+	m_updates_ratio = 0_fl;
 	m_paircache = paircache ? paircache : new (btAlignedAlloc(sizeof(btHashedOverlappingPairCache), 16)) btHashedOverlappingPairCache();
 	m_gid = 0;
 	m_pid = 0;
@@ -334,10 +334,10 @@ void btDbvtBroadphase::setAabb(btBroadphaseProxy* absproxy,
 			{ /* Moving				*/
 
 				const btVector3 delta = aabbMin - proxy->m_aabbMin;
-				btVector3 velocity(((proxy->m_aabbMax - proxy->m_aabbMin) / 2) * m_prediction);
-				if (delta[0] < 0) velocity[0] = -velocity[0];
-				if (delta[1] < 0) velocity[1] = -velocity[1];
-				if (delta[2] < 0) velocity[2] = -velocity[2];
+				btVector3 velocity(((proxy->m_aabbMax - proxy->m_aabbMin) / 2_fl) * m_prediction);
+				if (delta[0] < 0_fl) velocity[0] = -velocity[0];
+				if (delta[1] < 0_fl) velocity[1] = -velocity[1];
+				if (delta[2] < 0_fl) velocity[2] = -velocity[2];
 				if (
 					m_sets[0].update(proxy->leaf, aabb, velocity, gDbvtMargin)
 
@@ -613,11 +613,11 @@ void btDbvtBroadphase::collide(btDispatcher* dispatcher)
 	m_needcleanup = false;
 	if (m_updates_call > 0)
 	{
-		m_updates_ratio = m_updates_done / (btScalar)m_updates_call;
+		m_updates_ratio = btScalar(m_updates_done) / btScalar(m_updates_call);
 	}
 	else
 	{
-		m_updates_ratio = 0;
+		m_updates_ratio = 0_fl;
 	}
 	m_updates_done /= 2;
 	m_updates_call /= 2;
@@ -657,7 +657,7 @@ void btDbvtBroadphase::getBroadphaseAabb(btVector3& aabbMin, btVector3& aabbMax)
 	else if (!m_sets[1].empty())
 		bounds = m_sets[1].m_root->volume;
 	else
-		bounds = btDbvtVolume::FromCR(btVector3(0, 0, 0), 0);
+		bounds = btDbvtVolume::FromCR(btVector3(0.0_fl, 0.0_fl, 0.0_fl), 0_fl);
 	aabbMin = bounds.Mins();
 	aabbMax = bounds.Maxs();
 }
@@ -681,7 +681,7 @@ void btDbvtBroadphase::resetPool(btDispatcher* dispatcher)
 		m_newpairs = 1;
 		m_updates_call = 0;
 		m_updates_done = 0;
-		m_updates_ratio = 0;
+		m_updates_ratio = 0_fl;
 
 		m_gid = 0;
 		m_pid = 0;

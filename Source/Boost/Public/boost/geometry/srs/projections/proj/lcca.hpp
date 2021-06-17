@@ -181,7 +181,7 @@ namespace projections
 
                 proj_parm.en = pj_enfn<T>(par.es);
                 
-                if (par.phi0 == 0.) {
+                if (par.phi0 == 0.0_fl) {
                     BOOST_THROW_EXCEPTION( projection_exception(error_lat_0_is_zero) );
                 }
                 proj_parm.l = sin(par.phi0);

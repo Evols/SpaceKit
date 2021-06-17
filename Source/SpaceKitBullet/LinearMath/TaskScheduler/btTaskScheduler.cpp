@@ -147,7 +147,7 @@ public:
 #if BT_PARALLEL_SUM_DETERMINISTISM
 		// by truncating bits of the result, we can make the parallelSum deterministic (at the expense of precision)
 		const float TRUNC_SCALE = float(1 << 19);
-		val = floor(val * TRUNC_SCALE + 0.5f) / TRUNC_SCALE;  // truncate some bits
+		val = floor(val * TRUNC_SCALE + 0.5_fl) / TRUNC_SCALE;  // truncate some bits
 #endif
 		m_threadLocalStoreArray[threadId].m_sumResult += val;
 	}

@@ -28,7 +28,7 @@ b3TypedConstraint::b3TypedConstraint(b3TypedConstraintType type, int rbA, int rb
 	  m_overrideNumSolverIterations(-1),
 	  m_rbA(rbA),
 	  m_rbB(rbB),
-	  m_appliedImpulse(b3Scalar(0.)),
+	  m_appliedImpulse(b3Scalar(0.0_fl)),
 	  m_dbgDrawSize(B3_DEFAULT_DEBUGDRAW_SIZE),
 	  m_jointFeedback(0)
 {
@@ -38,15 +38,15 @@ b3Scalar b3TypedConstraint::getMotorFactor(b3Scalar pos, b3Scalar lowLim, b3Scal
 {
 	if (lowLim > uppLim)
 	{
-		return b3Scalar(1.0f);
+		return b3Scalar(1.0_fl);
 	}
 	else if (lowLim == uppLim)
 	{
-		return b3Scalar(0.0f);
+		return b3Scalar(0.0_fl);
 	}
-	b3Scalar lim_fact = b3Scalar(1.0f);
+	b3Scalar lim_fact = b3Scalar(1.0_fl);
 	b3Scalar delta_max = vel / timeFact;
-	if (delta_max < b3Scalar(0.0f))
+	if (delta_max < b3Scalar(0.0_fl))
 	{
 		if ((pos >= lowLim) && (pos < (lowLim - delta_max)))
 		{
@@ -54,14 +54,14 @@ b3Scalar b3TypedConstraint::getMotorFactor(b3Scalar pos, b3Scalar lowLim, b3Scal
 		}
 		else if (pos < lowLim)
 		{
-			lim_fact = b3Scalar(0.0f);
+			lim_fact = b3Scalar(0.0_fl);
 		}
 		else
 		{
-			lim_fact = b3Scalar(1.0f);
+			lim_fact = b3Scalar(1.0_fl);
 		}
 	}
-	else if (delta_max > b3Scalar(0.0f))
+	else if (delta_max > b3Scalar(0.0_fl))
 	{
 		if ((pos <= uppLim) && (pos > (uppLim - delta_max)))
 		{
@@ -69,23 +69,23 @@ b3Scalar b3TypedConstraint::getMotorFactor(b3Scalar pos, b3Scalar lowLim, b3Scal
 		}
 		else if (pos > uppLim)
 		{
-			lim_fact = b3Scalar(0.0f);
+			lim_fact = b3Scalar(0.0_fl);
 		}
 		else
 		{
-			lim_fact = b3Scalar(1.0f);
+			lim_fact = b3Scalar(1.0_fl);
 		}
 	}
 	else
 	{
-		lim_fact = b3Scalar(0.0f);
+		lim_fact = b3Scalar(0.0_fl);
 	}
 	return lim_fact;
 }
 
 void b3AngularLimit::set(b3Scalar low, b3Scalar high, b3Scalar _softness, b3Scalar _biasFactor, b3Scalar _relaxationFactor)
 {
-	m_halfRange = (high - low) / 2.0f;
+	m_halfRange = (high - low) / 2.0_fl;
 	m_center = b3NormalizeAngle(low + m_halfRange);
 	m_softness = _softness;
 	m_biasFactor = _biasFactor;
@@ -94,24 +94,24 @@ void b3AngularLimit::set(b3Scalar low, b3Scalar high, b3Scalar _softness, b3Scal
 
 void b3AngularLimit::test(const b3Scalar angle)
 {
-	m_correction = 0.0f;
-	m_sign = 0.0f;
+	m_correction = 0.0_fl;
+	m_sign = 0.0_fl;
 	m_solveLimit = false;
 
-	if (m_halfRange >= 0.0f)
+	if (m_halfRange >= 0.0_fl)
 	{
 		b3Scalar deviation = b3NormalizeAngle(angle - m_center);
 		if (deviation < -m_halfRange)
 		{
 			m_solveLimit = true;
 			m_correction = -(deviation + m_halfRange);
-			m_sign = +1.0f;
+			m_sign = +1.0_fl;
 		}
 		else if (deviation > m_halfRange)
 		{
 			m_solveLimit = true;
 			m_correction = m_halfRange - deviation;
-			m_sign = -1.0f;
+			m_sign = -1.0_fl;
 		}
 	}
 }
@@ -123,12 +123,12 @@ b3Scalar b3AngularLimit::getError() const
 
 void b3AngularLimit::fit(b3Scalar& angle) const
 {
-	if (m_halfRange > 0.0f)
+	if (m_halfRange > 0.0_fl)
 	{
 		b3Scalar relativeAngle = b3NormalizeAngle(angle - m_center);
 		if (!b3Equal(relativeAngle, m_halfRange))
 		{
-			if (relativeAngle > 0.0f)
+			if (relativeAngle > 0.0_fl)
 			{
 				angle = getHigh();
 			}

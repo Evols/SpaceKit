@@ -87,7 +87,7 @@ static btScalar computeConstraintMatrixDiagElementMultiBody(
 		const int solverBodyIdA = constraint.m_solverBodyIdA;
 		btAssert(solverBodyIdA != -1);
 		const btSolverBody* solverBodyA = &solverBodyPool[solverBodyIdA];
-		const btScalar invMassA = solverBodyA->m_originalBody ? solverBodyA->m_originalBody->getInvMass() : 0.0;
+		const btScalar invMassA = solverBodyA->m_originalBody ? solverBodyA->m_originalBody->getInvMass() : 0.0_fl;
 		ret += computeDeltaVelocityInConstraintSpace(
 			constraint.m_relpos1CrossNormal,
 			invMassA,
@@ -106,7 +106,7 @@ static btScalar computeConstraintMatrixDiagElementMultiBody(
 		const int solverBodyIdB = constraint.m_solverBodyIdB;
 		btAssert(solverBodyIdB != -1);
 		const btSolverBody* solverBodyB = &solverBodyPool[solverBodyIdB];
-		const btScalar invMassB = solverBodyB->m_originalBody ? solverBodyB->m_originalBody->getInvMass() : 0.0;
+		const btScalar invMassB = solverBodyB->m_originalBody ? solverBodyB->m_originalBody->getInvMass() : 0.0_fl;
 		ret += computeDeltaVelocityInConstraintSpace(
 			constraint.m_relpos2CrossNormal,
 			invMassB,
@@ -162,7 +162,7 @@ static btScalar computeConstraintMatrixOffDiagElementMultiBody(
 		{
 			btAssert(solverBodyIdA != -1);
 			const btSolverBody* solverBodyA = &solverBodyPool[solverBodyIdA];
-			const btScalar invMassA = solverBodyA->m_originalBody ? solverBodyA->m_originalBody->getInvMass() : 0.0;
+			const btScalar invMassA = solverBodyA->m_originalBody ? solverBodyA->m_originalBody->getInvMass() : 0.0_fl;
 			offDiagA += computeDeltaVelocityInConstraintSpace(
 				offDiagConstraint.m_relpos1CrossNormal,
 				offDiagConstraint.m_contactNormal1,
@@ -173,7 +173,7 @@ static btScalar computeConstraintMatrixOffDiagElementMultiBody(
 		{
 			btAssert(solverBodyIdB != -1);
 			const btSolverBody* solverBodyB = &solverBodyPool[solverBodyIdB];
-			const btScalar invMassB = solverBodyB->m_originalBody ? solverBodyB->m_originalBody->getInvMass() : 0.0;
+			const btScalar invMassB = solverBodyB->m_originalBody ? solverBodyB->m_originalBody->getInvMass() : 0.0_fl;
 			offDiagA += computeDeltaVelocityInConstraintSpace(
 				offDiagConstraint.m_relpos1CrossNormal,
 				offDiagConstraint.m_contactNormal1,
@@ -212,7 +212,7 @@ static btScalar computeConstraintMatrixOffDiagElementMultiBody(
 		{
 			btAssert(solverBodyIdA != -1);
 			const btSolverBody* solverBodyA = &solverBodyPool[solverBodyIdA];
-			const btScalar invMassA = solverBodyA->m_originalBody ? solverBodyA->m_originalBody->getInvMass() : 0.0;
+			const btScalar invMassA = solverBodyA->m_originalBody ? solverBodyA->m_originalBody->getInvMass() : 0.0_fl;
 			offDiagA += computeDeltaVelocityInConstraintSpace(
 				offDiagConstraint.m_relpos2CrossNormal,
 				offDiagConstraint.m_contactNormal2,
@@ -223,7 +223,7 @@ static btScalar computeConstraintMatrixOffDiagElementMultiBody(
 		{
 			btAssert(solverBodyIdB != -1);
 			const btSolverBody* solverBodyB = &solverBodyPool[solverBodyIdB];
-			const btScalar invMassB = solverBodyB->m_originalBody ? solverBodyB->m_originalBody->getInvMass() : 0.0;
+			const btScalar invMassB = solverBodyB->m_originalBody ? solverBodyB->m_originalBody->getInvMass() : 0.0_fl;
 			offDiagA += computeDeltaVelocityInConstraintSpace(
 				offDiagConstraint.m_relpos2CrossNormal,
 				offDiagConstraint.m_contactNormal2,

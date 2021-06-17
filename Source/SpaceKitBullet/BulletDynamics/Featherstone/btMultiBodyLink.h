@@ -60,7 +60,7 @@ struct btMultibodyLink
 
 	// m_eVector is constant, but depends on the joint type:
 	// revolute, fixed, prismatic, spherical: vector from parent's COM to the pivot point, in PARENT's frame.
-	// planar: vector from COM of parent to COM of this link, WHEN Q = 0. (local frame.)
+	// planar: vector from COM of parent to COM of this link, WHEN Q = 0.0_fl(local frame.)
 	// todo: fix the planar so it is consistent with the other joints
 
 	btVector3 m_eVector;
@@ -155,9 +155,9 @@ struct btMultibodyLink
 	btMultibodyLink()
 		: m_mass(1),
 		  m_parent(-1),
-		  m_zeroRotParentToThis(0, 0, 0, 1),
-		  m_cachedRotParentToThis(0, 0, 0, 1),
-          m_cachedRotParentToThis_interpolate(0, 0, 0, 1),
+		  m_zeroRotParentToThis(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl),
+		  m_cachedRotParentToThis(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl),
+          m_cachedRotParentToThis_interpolate(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl),
 		  m_collider(0),
 		  m_flags(0),
 		  m_dofCount(0),
@@ -174,21 +174,21 @@ struct btMultibodyLink
 		  m_jointMaxForce(0),
 		  m_jointMaxVelocity(0)
 	{
-		m_inertiaLocal.setValue(1, 1, 1);
-		setAxisTop(0, 0., 0., 0.);
-		setAxisBottom(0, 1., 0., 0.);
-		m_dVector.setValue(0, 0, 0);
-		m_eVector.setValue(0, 0, 0);
-		m_cachedRVector.setValue(0, 0, 0);
-        m_cachedRVector_interpolate.setValue(0, 0, 0);
-		m_appliedForce.setValue(0, 0, 0);
-		m_appliedTorque.setValue(0, 0, 0);
-		m_appliedConstraintForce.setValue(0, 0, 0);
-		m_appliedConstraintTorque.setValue(0, 0, 0);
+		m_inertiaLocal.setValue(1.0_fl, 1.0_fl, 1.0_fl);
+		setAxisTop(0, 0.0_fl, 0.0_fl, 0.0_fl);
+		setAxisBottom(0, 1.0_fl, 0.0_fl, 0.0_fl);
+		m_dVector.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_eVector.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_cachedRVector.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+        m_cachedRVector_interpolate.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_appliedForce.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_appliedTorque.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_appliedConstraintForce.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_appliedConstraintTorque.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 		//
-		m_jointPos[0] = m_jointPos[1] = m_jointPos[2] = m_jointPos[4] = m_jointPos[5] = m_jointPos[6] = 0.f;
-		m_jointPos[3] = 1.f;  //"quat.w"
-		m_jointTorque[0] = m_jointTorque[1] = m_jointTorque[2] = m_jointTorque[3] = m_jointTorque[4] = m_jointTorque[5] = 0.f;
+		m_jointPos[0] = m_jointPos[1] = m_jointPos[2] = m_jointPos[4] = m_jointPos[5] = m_jointPos[6] = 0.0_fl;
+		m_jointPos[3] = 1.0_fl;  //"quat.w"
+		m_jointTorque[0] = m_jointTorque[1] = m_jointTorque[2] = m_jointTorque[3] = m_jointTorque[4] = m_jointTorque[5] = 0.0_fl;
 		m_cachedWorldTransform.setIdentity();
 	}
 

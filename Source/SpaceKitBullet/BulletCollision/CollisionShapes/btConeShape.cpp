@@ -72,9 +72,9 @@ btVector3 btConeShape::coneLocalSupport(const btVector3& v) const
 	{
 		btVector3 tmp;
 
-		tmp[m_coneIndices[0]] = btScalar(0.);
+		tmp[m_coneIndices[0]] = btScalar(0.0_fl);
 		tmp[m_coneIndices[1]] = halfHeight;
-		tmp[m_coneIndices[2]] = btScalar(0.);
+		tmp[m_coneIndices[2]] = btScalar(0.0_fl);
 		return tmp;
 	}
 	else
@@ -92,9 +92,9 @@ btVector3 btConeShape::coneLocalSupport(const btVector3& v) const
 		else
 		{
 			btVector3 tmp;
-			tmp[m_coneIndices[0]] = btScalar(0.);
+			tmp[m_coneIndices[0]] = btScalar(0.0_fl);
 			tmp[m_coneIndices[1]] = -halfHeight;
-			tmp[m_coneIndices[2]] = btScalar(0.);
+			tmp[m_coneIndices[2]] = btScalar(0.0_fl);
 			return tmp;
 		}
 	}
@@ -117,7 +117,7 @@ void btConeShape::batchedUnitVectorGetSupportingVertexWithoutMargin(const btVect
 btVector3 btConeShape::localGetSupportingVertex(const btVector3& vec) const
 {
 	btVector3 supVertex = coneLocalSupport(vec);
-	if (getMargin() != btScalar(0.))
+	if (getMargin() != btScalar(0.0_fl))
 	{
 		btVector3 vecnorm = vec;
 		if (vecnorm.length2() < (SIMD_EPSILON * SIMD_EPSILON))
@@ -136,7 +136,7 @@ void btConeShape::setLocalScaling(const btVector3& scaling)
 	int r1 = m_coneIndices[0];
 	int r2 = m_coneIndices[2];
 	m_height *= scaling[axis] / m_localScaling[axis];
-	m_radius *= (scaling[r1] / m_localScaling[r1] + scaling[r2] / m_localScaling[r2]) / 2;
+	m_radius *= (scaling[r1] / m_localScaling[r1] + scaling[r2] / m_localScaling[r2]) / 2_fl;
 	m_sinAngle = (m_radius / btSqrt(m_radius * m_radius + m_height * m_height));
 	btConvexInternalShape::setLocalScaling(scaling);
 }

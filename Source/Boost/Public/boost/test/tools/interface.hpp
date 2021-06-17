@@ -317,9 +317,9 @@ do { try {                                                                  \
 #define BOOST_CHECK_CLOSE_FRACTION(L, R, T) BOOST_TEST_CHECK( L == R, ::boost::test_tools::tolerance( T ) )
 #define BOOST_REQUIRE_CLOSE_FRACTION(L,R,T) BOOST_TEST_REQUIRE( L == R, ::boost::test_tools::tolerance( T ) )
 
-#define BOOST_WARN_SMALL( FPV, T )          BOOST_TEST_WARN( FPV == 0., ::boost::test_tools::tolerance( T ) )
-#define BOOST_CHECK_SMALL( FPV, T )         BOOST_TEST_CHECK( FPV == 0., ::boost::test_tools::tolerance( T ) )
-#define BOOST_REQUIRE_SMALL( FPV, T )       BOOST_TEST_REQUIRE( FPV == 0., ::boost::test_tools::tolerance( T ) )
+#define BOOST_WARN_SMALL( FPV, T )          BOOST_TEST_WARN( FPV == 0.0_fl, ::boost::test_tools::tolerance( T ) )
+#define BOOST_CHECK_SMALL( FPV, T )         BOOST_TEST_CHECK( FPV == 0.0_fl, ::boost::test_tools::tolerance( T ) )
+#define BOOST_REQUIRE_SMALL( FPV, T )       BOOST_TEST_REQUIRE( FPV == 0.0_fl, ::boost::test_tools::tolerance( T ) )
 
 //____________________________________________________________________________//
 

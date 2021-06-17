@@ -232,7 +232,7 @@ void gursoy_atun_refine(const VertexListAndIncidenceGraph& graph,
     for (int round = 0; round < nsteps; ++round)
     {
         double part_done = (double)round / (nsteps - 1);
-        // fprintf(stderr, "%2d%% done\n", int(rint(part_done * 100.)));
+        // fprintf(stderr, "%2d%% done\n", int(rint(part_done * 100.0_fl)));
         int diameter = (int)(diameter_initial * pow(diameter_ratio, part_done));
         double learning_constant = learning_constant_initial
             * pow(learning_constant_ratio, part_done);

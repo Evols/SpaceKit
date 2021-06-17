@@ -63,18 +63,18 @@ public:
 
 	b3RotationalLimitMotor()
 	{
-		m_accumulatedImpulse = 0.f;
-		m_targetVelocity = 0;
-		m_maxMotorForce = 6.0f;
-		m_maxLimitForce = 300.0f;
-		m_loLimit = 1.0f;
-		m_hiLimit = -1.0f;
-		m_normalCFM = 0.f;
-		m_stopERP = 0.2f;
-		m_stopCFM = 0.f;
-		m_bounce = 0.0f;
-		m_damping = 1.0f;
-		m_limitSoftness = 0.5f;
+		m_accumulatedImpulse = 0.0_fl;
+		m_targetVelocity = 0.0_fl;
+		m_maxMotorForce = 6.0_fl;
+		m_maxLimitForce = 300.0_fl;
+		m_loLimit = 1.0_fl;
+		m_hiLimit = -1.0_fl;
+		m_normalCFM = 0.0_fl;
+		m_stopERP = 0.2_fl;
+		m_stopCFM = 0.0_fl;
+		m_bounce = 0.0_fl;
+		m_damping = 1.0_fl;
+		m_limitSoftness = 0.5_fl;
 		m_currentLimit = 0;
 		m_currentLimitError = 0;
 		m_enableMotor = false;
@@ -144,21 +144,21 @@ public:
 
 	b3TranslationalLimitMotor()
 	{
-		m_lowerLimit.setValue(0.f, 0.f, 0.f);
-		m_upperLimit.setValue(0.f, 0.f, 0.f);
-		m_accumulatedImpulse.setValue(0.f, 0.f, 0.f);
-		m_normalCFM.setValue(0.f, 0.f, 0.f);
-		m_stopERP.setValue(0.2f, 0.2f, 0.2f);
-		m_stopCFM.setValue(0.f, 0.f, 0.f);
+		m_lowerLimit.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_upperLimit.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_accumulatedImpulse.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_normalCFM.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		m_stopERP.setValue(0.2_fl, 0.2_fl, 0.2_fl);
+		m_stopCFM.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
-		m_limitSoftness = 0.7f;
-		m_damping = b3Scalar(1.0f);
-		m_restitution = b3Scalar(0.5f);
+		m_limitSoftness = 0.7_fl;
+		m_damping = b3Scalar(1.0_fl);
+		m_restitution = b3Scalar(0.5_fl);
 		for (int i = 0; i < 3; i++)
 		{
 			m_enableMotor[i] = false;
-			m_targetVelocity[i] = b3Scalar(0.f);
-			m_maxMotorForce[i] = b3Scalar(0.f);
+			m_targetVelocity[i] = b3Scalar(0.0_fl);
+			m_maxMotorForce[i] = b3Scalar(0.0_fl);
 		}
 	}
 

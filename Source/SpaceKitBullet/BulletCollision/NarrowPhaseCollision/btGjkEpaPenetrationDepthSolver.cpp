@@ -33,13 +33,13 @@ bool btGjkEpaPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& simp
 	btVector3 guessVectors[] = {
 		btVector3(transformB.getOrigin() - transformA.getOrigin()).safeNormalize(),
 		btVector3(transformA.getOrigin() - transformB.getOrigin()).safeNormalize(),
-		btVector3(0, 0, 1),
-		btVector3(0, 1, 0),
-		btVector3(1, 0, 0),
-		btVector3(1, 1, 0),
-		btVector3(1, 1, 1),
-		btVector3(0, 1, 1),
-		btVector3(1, 0, 1),
+		btVector3(0_fl, 0_fl, 1_fl),
+		btVector3(0_fl, 1_fl, 0_fl),
+		btVector3(1.0_fl, 0.0_fl, 0.0_fl),
+		btVector3(1_fl, 1_fl, 0_fl),
+		btVector3(1.0_fl, 1.0_fl, 1.0_fl),
+		btVector3(0_fl, 1_fl, 1_fl),
+		btVector3(1_fl, 0_fl, 1_fl),
 	};
 
 	int numVectors = sizeof(guessVectors) / sizeof(btVector3);
@@ -74,8 +74,8 @@ bool btGjkEpaPenetrationDepthSolver::calcPenDepth(btSimplexSolverInterface& simp
 	}
 
 	//failed to find a distance/penetration
-	wWitnessOnA.setValue(0, 0, 0);
-	wWitnessOnB.setValue(0, 0, 0);
-	v.setValue(0, 0, 0);
+	wWitnessOnA.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+	wWitnessOnB.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+	v.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	return false;
 }

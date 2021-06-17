@@ -77,7 +77,7 @@ public:
 		{
 			for (int j = 0; j < A.cols(); j++)
 			{
-				if (A(i, j) != 0.f)
+				if (A(i, j) != 0.0_fl)
 				{
 					//add 1, because Path starts at 1, instead of 0
 					rowIndices.push_back(i + 1);

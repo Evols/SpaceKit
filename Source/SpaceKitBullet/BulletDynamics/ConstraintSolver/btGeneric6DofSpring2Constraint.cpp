@@ -73,9 +73,9 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerXYZ(const btMatrix3x3& mat, bt
 	//       -cx*cz*sy+sx*sz  cz*sx+cx*sy*sz  cx*cy
 
 	btScalar fi = btGetMatrixElem(mat, 2);
-	if (fi < btScalar(1.0f))
+	if (fi < btScalar(1.0_fl))
 	{
-		if (fi > btScalar(-1.0f))
+		if (fi > btScalar(-1.0_fl))
 		{
 			xyz[0] = btAtan2(-btGetMatrixElem(mat, 5), btGetMatrixElem(mat, 8));
 			xyz[1] = btAsin(btGetMatrixElem(mat, 2));
@@ -87,7 +87,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerXYZ(const btMatrix3x3& mat, bt
 			// WARNING.  Not unique.  XA - ZA = -atan2(r10,r11)
 			xyz[0] = -btAtan2(btGetMatrixElem(mat, 3), btGetMatrixElem(mat, 4));
 			xyz[1] = -SIMD_HALF_PI;
-			xyz[2] = btScalar(0.0);
+			xyz[2] = btScalar(0.0_fl);
 			return false;
 		}
 	}
@@ -96,7 +96,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerXYZ(const btMatrix3x3& mat, bt
 		// WARNING.  Not unique.  XAngle + ZAngle = atan2(r10,r11)
 		xyz[0] = btAtan2(btGetMatrixElem(mat, 3), btGetMatrixElem(mat, 4));
 		xyz[1] = SIMD_HALF_PI;
-		xyz[2] = 0.0;
+		xyz[2] = 0.0_fl;
 	}
 	return false;
 }
@@ -108,9 +108,9 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerXZY(const btMatrix3x3& mat, bt
 	//        cy*sx*sz-cx*sy  sx*cz        sy*sx*sz+cx*cy
 
 	btScalar fi = btGetMatrixElem(mat, 1);
-	if (fi < btScalar(1.0f))
+	if (fi < btScalar(1.0_fl))
 	{
-		if (fi > btScalar(-1.0f))
+		if (fi > btScalar(-1.0_fl))
 		{
 			xyz[0] = btAtan2(btGetMatrixElem(mat, 7), btGetMatrixElem(mat, 4));
 			xyz[1] = btAtan2(btGetMatrixElem(mat, 2), btGetMatrixElem(mat, 0));
@@ -120,7 +120,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerXZY(const btMatrix3x3& mat, bt
 		else
 		{
 			xyz[0] = -btAtan2(-btGetMatrixElem(mat, 6), btGetMatrixElem(mat, 8));
-			xyz[1] = btScalar(0.0);
+			xyz[1] = btScalar(0.0_fl);
 			xyz[2] = SIMD_HALF_PI;
 			return false;
 		}
@@ -128,7 +128,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerXZY(const btMatrix3x3& mat, bt
 	else
 	{
 		xyz[0] = btAtan2(-btGetMatrixElem(mat, 6), btGetMatrixElem(mat, 8));
-		xyz[1] = 0.0;
+		xyz[1] = 0.0_fl;
 		xyz[2] = -SIMD_HALF_PI;
 	}
 	return false;
@@ -141,9 +141,9 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerYXZ(const btMatrix3x3& mat, bt
 	//        cy*sx*sz-cz*sy  sy*sz+cy*cz*sx  cy*cx
 
 	btScalar fi = btGetMatrixElem(mat, 5);
-	if (fi < btScalar(1.0f))
+	if (fi < btScalar(1.0_fl))
 	{
-		if (fi > btScalar(-1.0f))
+		if (fi > btScalar(-1.0_fl))
 		{
 			xyz[0] = btAsin(-btGetMatrixElem(mat, 5));
 			xyz[1] = btAtan2(btGetMatrixElem(mat, 2), btGetMatrixElem(mat, 8));
@@ -154,7 +154,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerYXZ(const btMatrix3x3& mat, bt
 		{
 			xyz[0] = SIMD_HALF_PI;
 			xyz[1] = -btAtan2(-btGetMatrixElem(mat, 1), btGetMatrixElem(mat, 0));
-			xyz[2] = btScalar(0.0);
+			xyz[2] = btScalar(0.0_fl);
 			return false;
 		}
 	}
@@ -162,7 +162,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerYXZ(const btMatrix3x3& mat, bt
 	{
 		xyz[0] = -SIMD_HALF_PI;
 		xyz[1] = btAtan2(-btGetMatrixElem(mat, 1), btGetMatrixElem(mat, 0));
-		xyz[2] = 0.0;
+		xyz[2] = 0.0_fl;
 	}
 	return false;
 }
@@ -174,9 +174,9 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerYZX(const btMatrix3x3& mat, bt
 	//        -cz*sy  cy*sx+cx*sy*sz   cy*cx-sy*sz*sx
 
 	btScalar fi = btGetMatrixElem(mat, 3);
-	if (fi < btScalar(1.0f))
+	if (fi < btScalar(1.0_fl))
 	{
-		if (fi > btScalar(-1.0f))
+		if (fi > btScalar(-1.0_fl))
 		{
 			xyz[0] = btAtan2(-btGetMatrixElem(mat, 5), btGetMatrixElem(mat, 4));
 			xyz[1] = btAtan2(-btGetMatrixElem(mat, 6), btGetMatrixElem(mat, 0));
@@ -185,7 +185,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerYZX(const btMatrix3x3& mat, bt
 		}
 		else
 		{
-			xyz[0] = btScalar(0.0);
+			xyz[0] = btScalar(0.0_fl);
 			xyz[1] = -btAtan2(btGetMatrixElem(mat, 7), btGetMatrixElem(mat, 8));
 			xyz[2] = -SIMD_HALF_PI;
 			return false;
@@ -193,7 +193,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerYZX(const btMatrix3x3& mat, bt
 	}
 	else
 	{
-		xyz[0] = btScalar(0.0);
+		xyz[0] = btScalar(0.0_fl);
 		xyz[1] = btAtan2(btGetMatrixElem(mat, 7), btGetMatrixElem(mat, 8));
 		xyz[2] = SIMD_HALF_PI;
 	}
@@ -207,9 +207,9 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerZXY(const btMatrix3x3& mat, bt
 	//        -cx*sy              sx     cx*cy
 
 	btScalar fi = btGetMatrixElem(mat, 7);
-	if (fi < btScalar(1.0f))
+	if (fi < btScalar(1.0_fl))
 	{
-		if (fi > btScalar(-1.0f))
+		if (fi > btScalar(-1.0_fl))
 		{
 			xyz[0] = btAsin(btGetMatrixElem(mat, 7));
 			xyz[1] = btAtan2(-btGetMatrixElem(mat, 6), btGetMatrixElem(mat, 8));
@@ -219,7 +219,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerZXY(const btMatrix3x3& mat, bt
 		else
 		{
 			xyz[0] = -SIMD_HALF_PI;
-			xyz[1] = btScalar(0.0);
+			xyz[1] = btScalar(0.0_fl);
 			xyz[2] = -btAtan2(btGetMatrixElem(mat, 2), btGetMatrixElem(mat, 0));
 			return false;
 		}
@@ -227,7 +227,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerZXY(const btMatrix3x3& mat, bt
 	else
 	{
 		xyz[0] = SIMD_HALF_PI;
-		xyz[1] = btScalar(0.0);
+		xyz[1] = btScalar(0.0_fl);
 		xyz[2] = btAtan2(btGetMatrixElem(mat, 2), btGetMatrixElem(mat, 0));
 	}
 	return false;
@@ -240,9 +240,9 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerZYX(const btMatrix3x3& mat, bt
 	//        -sy          cy*sx         cy*cx
 
 	btScalar fi = btGetMatrixElem(mat, 6);
-	if (fi < btScalar(1.0f))
+	if (fi < btScalar(1.0_fl))
 	{
-		if (fi > btScalar(-1.0f))
+		if (fi > btScalar(-1.0_fl))
 		{
 			xyz[0] = btAtan2(btGetMatrixElem(mat, 7), btGetMatrixElem(mat, 8));
 			xyz[1] = btAsin(-btGetMatrixElem(mat, 6));
@@ -251,7 +251,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerZYX(const btMatrix3x3& mat, bt
 		}
 		else
 		{
-			xyz[0] = btScalar(0.0);
+			xyz[0] = btScalar(0.0_fl);
 			xyz[1] = SIMD_HALF_PI;
 			xyz[2] = -btAtan2(btGetMatrixElem(mat, 1), btGetMatrixElem(mat, 2));
 			return false;
@@ -259,7 +259,7 @@ bool btGeneric6DofSpring2Constraint::matrixToEulerZYX(const btMatrix3x3& mat, bt
 	}
 	else
 	{
-		xyz[0] = btScalar(0.0);
+		xyz[0] = btScalar(0.0_fl);
 		xyz[1] = -SIMD_HALF_PI;
 		xyz[2] = btAtan2(-btGetMatrixElem(mat, 1), -btGetMatrixElem(mat, 2));
 	}
@@ -424,15 +424,15 @@ void btGeneric6DofSpring2Constraint::calculateTransforms(const btTransform& tran
 	btScalar miB = getRigidBodyB().getInvMass();
 	m_hasStaticBody = (miA < SIMD_EPSILON) || (miB < SIMD_EPSILON);
 	btScalar miS = miA + miB;
-	if (miS > btScalar(0.f))
+	if (miS > btScalar(0.0_fl))
 	{
 		m_factA = miB / miS;
 	}
 	else
 	{
-		m_factA = btScalar(0.5f);
+		m_factA = btScalar(0.5_fl);
 	}
-	m_factB = btScalar(1.0f) - m_factA;
+	m_factB = btScalar(1.0_fl) - m_factA;
 }
 
 void btGeneric6DofSpring2Constraint::testAngularLimitMotor(int axis_index)
@@ -524,7 +524,7 @@ int btGeneric6DofSpring2Constraint::setLinearLimits(btConstraintInfo2* info, int
 			int indx1 = (i + 1) % 3;
 			int indx2 = (i + 2) % 3;
 			int rotAllowed = 1;  // rotations around orthos to current axis (it is used only when one of the body is static)
-#define D6_LIMIT_ERROR_THRESHOLD_FOR_ROTATION 1.0e-3
+#define D6_LIMIT_ERROR_THRESHOLD_FOR_ROTATION 1.0e-3_fl
 			bool indx1Violated = m_angularLimits[indx1].m_currentLimit == 1 ||
 								 m_angularLimits[indx1].m_currentLimit == 2 ||
 								 (m_angularLimits[indx1].m_currentLimit == 3 && (m_angularLimits[indx1].m_currentLimitError < -D6_LIMIT_ERROR_THRESHOLD_FOR_ROTATION || m_angularLimits[indx1].m_currentLimitError > D6_LIMIT_ERROR_THRESHOLD_FOR_ROTATION)) ||
@@ -680,10 +680,10 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		btScalar vel = rotational ? angVelA.dot(ax1) - angVelB.dot(ax1) : linVelA.dot(ax1) - linVelB.dot(ax1);
 
 		calculateJacobi(limot, transA, transB, info, srow, ax1, rotational, rotAllowed);
-		info->m_constraintError[srow] = info->fps * limot->m_stopERP * limot->m_currentLimitError * (rotational ? -1 : 1);
+		info->m_constraintError[srow] = info->fps * limot->m_stopERP * limot->m_currentLimitError * (rotational ? -1_fl : 1_fl);
 		if (rotational)
 		{
-			if (info->m_constraintError[srow] - vel * limot->m_stopERP > 0)
+			if (info->m_constraintError[srow] - vel * limot->m_stopERP > 0_fl)
 			{
 				btScalar bounceerror = -limot->m_bounce * vel;
 				if (bounceerror > info->m_constraintError[srow]) info->m_constraintError[srow] = bounceerror;
@@ -691,7 +691,7 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		}
 		else
 		{
-			if (info->m_constraintError[srow] - vel * limot->m_stopERP < 0)
+			if (info->m_constraintError[srow] - vel * limot->m_stopERP < 0_fl)
 			{
 				btScalar bounceerror = -limot->m_bounce * vel;
 				if (bounceerror < info->m_constraintError[srow]) info->m_constraintError[srow] = bounceerror;
@@ -704,10 +704,10 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		++count;
 
 		calculateJacobi(limot, transA, transB, info, srow, ax1, rotational, rotAllowed);
-		info->m_constraintError[srow] = info->fps * limot->m_stopERP * limot->m_currentLimitErrorHi * (rotational ? -1 : 1);
+		info->m_constraintError[srow] = info->fps * limot->m_stopERP * limot->m_currentLimitErrorHi * (rotational ? -1_fl : 1_fl);
 		if (rotational)
 		{
-			if (info->m_constraintError[srow] - vel * limot->m_stopERP < 0)
+			if (info->m_constraintError[srow] - vel * limot->m_stopERP < 0_fl)
 			{
 				btScalar bounceerror = -limot->m_bounce * vel;
 				if (bounceerror < info->m_constraintError[srow]) info->m_constraintError[srow] = bounceerror;
@@ -715,14 +715,14 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		}
 		else
 		{
-			if (info->m_constraintError[srow] - vel * limot->m_stopERP > 0)
+			if (info->m_constraintError[srow] - vel * limot->m_stopERP > 0_fl)
 			{
 				btScalar bounceerror = -limot->m_bounce * vel;
 				if (bounceerror > info->m_constraintError[srow]) info->m_constraintError[srow] = bounceerror;
 			}
 		}
-		info->m_lowerLimit[srow] = rotational ? -SIMD_INFINITY : 0;
-		info->m_upperLimit[srow] = rotational ? 0 : SIMD_INFINITY;
+		info->m_lowerLimit[srow] = rotational ? -SIMD_INFINITY : 0_fl;
+		info->m_upperLimit[srow] = rotational ? 0_fl : SIMD_INFINITY;
 		info->cfm[srow] = limot->m_stopCFM;
 		srow += info->rowskip;
 		++count;
@@ -730,7 +730,7 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 	else if (limot->m_currentLimit == 3)
 	{
 		calculateJacobi(limot, transA, transB, info, srow, ax1, rotational, rotAllowed);
-		info->m_constraintError[srow] = info->fps * limot->m_stopERP * limot->m_currentLimitError * (rotational ? -1 : 1);
+		info->m_constraintError[srow] = info->fps * limot->m_stopERP * limot->m_currentLimitError * (rotational ? -1_fl : 1_fl);
 		info->m_lowerLimit[srow] = -SIMD_INFINITY;
 		info->m_upperLimit[srow] = SIMD_INFINITY;
 		info->cfm[srow] = limot->m_stopCFM;
@@ -774,30 +774,30 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		}
 
 		calculateJacobi(limot, transA, transB, info, srow, ax1, rotational, rotAllowed);
-		btScalar targetvelocity = error < 0 ? -limot->m_targetVelocity : limot->m_targetVelocity;
+		btScalar targetvelocity = error < 0_fl ? -limot->m_targetVelocity : limot->m_targetVelocity;
 		btScalar tag_vel = -targetvelocity;
 		btScalar mot_fact;
-		if (error != 0)
+		if (error != 0_fl)
 		{
 			btScalar lowLimit;
 			btScalar hiLimit;
 			if (limot->m_loLimit > limot->m_hiLimit)
 			{
-				lowLimit = error > 0 ? curServoTarget : -SIMD_INFINITY;
-				hiLimit = error < 0 ? curServoTarget : SIMD_INFINITY;
+				lowLimit = error > 0_fl ? curServoTarget : -SIMD_INFINITY;
+				hiLimit = error < 0_fl ? curServoTarget : SIMD_INFINITY;
 			}
 			else
 			{
-				lowLimit = error > 0 && curServoTarget > limot->m_loLimit ? curServoTarget : limot->m_loLimit;
-				hiLimit = error < 0 && curServoTarget < limot->m_hiLimit ? curServoTarget : limot->m_hiLimit;
+				lowLimit = error > 0_fl && curServoTarget > limot->m_loLimit ? curServoTarget : limot->m_loLimit;
+				hiLimit = error < 0_fl && curServoTarget < limot->m_hiLimit ? curServoTarget : limot->m_hiLimit;
 			}
 			mot_fact = getMotorFactor(limot->m_currentPosition, lowLimit, hiLimit, tag_vel, info->fps * limot->m_motorERP);
 		}
 		else
 		{
-			mot_fact = 0;
+			mot_fact = 0_fl;
 		}
-		info->m_constraintError[srow] = mot_fact * targetvelocity * (rotational ? -1 : 1);
+		info->m_constraintError[srow] = mot_fact * targetvelocity * (rotational ? -1_fl : 1_fl);
 		info->m_lowerLimit[srow] = -limot->m_maxMotorForce / info->fps;
 		info->m_upperLimit[srow] = limot->m_maxMotorForce / info->fps;
 		info->cfm[srow] = limot->m_motorCFM;
@@ -810,11 +810,11 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		btScalar error = limot->m_currentPosition - limot->m_equilibriumPoint;
 		calculateJacobi(limot, transA, transB, info, srow, ax1, rotational, rotAllowed);
 
-		//btScalar cfm = 1.0 / ((1.0/info->fps)*limot->m_springStiffness+ limot->m_springDamping);
+		//btScalar cfm = 1.0_fl / ((1.0_fl/info->fps)*limot->m_springStiffness+ limot->m_springDamping);
 		//if(cfm > 0.99999)
 		//	cfm = 0.99999;
-		//btScalar erp = (1.0/info->fps)*limot->m_springStiffness / ((1.0/info->fps)*limot->m_springStiffness + limot->m_springDamping);
-		//info->m_constraintError[srow] = info->fps * erp * error * (rotational ? -1.0 : 1.0);
+		//btScalar erp = (1.0_fl/info->fps)*limot->m_springStiffness / ((1.0_fl/info->fps)*limot->m_springStiffness + limot->m_springDamping);
+		//info->m_constraintError[srow] = info->fps * erp * error * (rotational ? -1.0_fl : 1.0_fl);
 		//info->m_lowerLimit[srow] = -SIMD_INFINITY;
 		//info->m_upperLimit[srow] = SIMD_INFINITY;
 
@@ -839,17 +839,17 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		{
 			btScalar rrA = (m_calculatedTransformA.getOrigin() - transA.getOrigin()).length2();
 			btScalar rrB = (m_calculatedTransformB.getOrigin() - transB.getOrigin()).length2();
-			if (m_rbA.getInvMass()) mA = mA * rrA + 1 / (m_rbA.getInvInertiaTensorWorld() * ax1).length();
-			if (m_rbB.getInvMass()) mB = mB * rrB + 1 / (m_rbB.getInvInertiaTensorWorld() * ax1).length();
+			if (m_rbA.getInvMass() != 0_fl) mA = mA * rrA + 1_fl / (m_rbA.getInvInertiaTensorWorld() * ax1).length();
+			if (m_rbB.getInvMass() != 0_fl) mB = mB * rrB + 1_fl / (m_rbB.getInvInertiaTensorWorld() * ax1).length();
 		}
 		btScalar m;
-		if (m_rbA.getInvMass() == 0) m = mB; else
-		if (m_rbB.getInvMass() == 0) m = mA; else
+		if (m_rbA.getInvMass() == 0_fl) m = mB; else
+		if (m_rbB.getInvMass() == 0_fl) m = mA; else
 			m = mA*mB / (mA + mB);
 		btScalar angularfreq = btSqrt(ks / m);
 
 		//limit stiffness (the spring should not be sampled faster that the quarter of its angular frequency)
-		if (limot->m_springStiffnessLimited && 0.25 < angularfreq * dt)
+		if (limot->m_springStiffnessLimited && 0.25_fl < angularfreq * dt)
 		{
 			ks = BT_ONE / dt / dt / btScalar(16.0) * m;
 		}
@@ -859,7 +859,7 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 			kd = m / dt;
 		}
 		btScalar fs = ks * error * dt;
-		btScalar fd = -kd * (vel) * (rotational ? -1 : 1) * dt;
+		btScalar fd = -kd * (vel) * (rotational ? -1_fl : 1_fl) * dt;
 		btScalar f = (fs + fd);
 
 		// after the spring force affecting the body(es) the new velocity will be
@@ -877,21 +877,21 @@ int btGeneric6DofSpring2Constraint::get_limit_motor_info2(
 		// and the answer is not, because in practice during the solving the current velocity is subtracted from the m_constraintError
 		// so the sign of the force that is really matters
 		if (m_flags & BT_6DOF_FLAGS_USE_INFINITE_ERROR)
-			info->m_constraintError[srow] = (rotational ? -1 : 1) * (f < 0 ? -SIMD_INFINITY : SIMD_INFINITY);
+			info->m_constraintError[srow] = (rotational ? -1_fl : 1_fl) * (f < 0_fl ? -SIMD_INFINITY : SIMD_INFINITY);
 		else
-			info->m_constraintError[srow] = vel + f / m * (rotational ? -1 : 1);
+			info->m_constraintError[srow] = vel + f / m * (rotational ? -1_fl : 1_fl);
 
 		btScalar minf = f < fd ? f : fd;
 		btScalar maxf = f < fd ? fd : f;
 		if (!rotational)
 		{
-			info->m_lowerLimit[srow] = minf > 0 ? 0 : minf;
-			info->m_upperLimit[srow] = maxf < 0 ? 0 : maxf;
+			info->m_lowerLimit[srow] = minf > 0_fl ? 0_fl : minf;
+			info->m_upperLimit[srow] = maxf < 0_fl ? 0_fl : maxf;
 		}
 		else
 		{
-			info->m_lowerLimit[srow] = -maxf > 0 ? 0 : -maxf;
-			info->m_upperLimit[srow] = -minf < 0 ? 0 : -minf;
+			info->m_lowerLimit[srow] = -maxf > 0_fl ? 0_fl : -maxf;
+			info->m_upperLimit[srow] = -minf < 0_fl ? 0_fl : -minf;
 		}
 
 		info->cfm[srow] = cfm;
@@ -963,7 +963,7 @@ void btGeneric6DofSpring2Constraint::setParam(int num, btScalar value, int axis)
 //return the local value of parameter
 btScalar btGeneric6DofSpring2Constraint::getParam(int num, int axis) const
 {
-	btScalar retVal = 0;
+	btScalar retVal = 0_fl;
 	if ((axis >= 0) && (axis < 3))
 	{
 		switch (num)
@@ -1094,14 +1094,14 @@ void btGeneric6DofSpring2Constraint::setServoTarget(int index, btScalar targetOr
 			{
 				if (m >= SIMD_2_PI)
 				{
-					target = 0;
+					target = 0_fl;
 				}
 				else
 				{
-					if (m < 0)
+					if (m < 0_fl)
 					{
 						if (SIMD_2_PI + m == SIMD_2_PI)
-							target = 0;
+							target = 0_fl;
 						else
 							target = SIMD_2_PI + m;
 					}
@@ -1203,7 +1203,7 @@ void btRotationalLimitMotor2::testLimitValue(btScalar test_value)
 	if (m_loLimit > m_hiLimit)
 	{
 		m_currentLimit = 0;
-		m_currentLimitError = btScalar(0.f);
+		m_currentLimitError = btScalar(0.0_fl);
 	}
 	else if (m_loLimit == m_hiLimit)
 	{
@@ -1226,7 +1226,7 @@ void btTranslationalLimitMotor2::testLimitValue(int limitIndex, btScalar test_va
 	btScalar hiLimit = m_upperLimit[limitIndex];
 	if (loLimit > hiLimit)
 	{
-		m_currentLimitError[limitIndex] = 0;
+		m_currentLimitError[limitIndex] = 0_fl;
 		m_currentLimit[limitIndex] = 0;
 	}
 	else if (loLimit == hiLimit)

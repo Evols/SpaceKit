@@ -40,7 +40,7 @@
     !defined(BOOST_BOOST_UNITS_BASE_UNITS_IMPERIAL_PINT_TO_FLUID_OUNCE_CONVERSION_DEFINED)
     #define BOOST_BOOST_UNITS_BASE_UNITS_IMPERIAL_PINT_TO_FLUID_OUNCE_CONVERSION_DEFINED
     #include <boost/units/conversion.hpp>
-    BOOST_UNITS_DEFINE_CONVERSION_FACTOR(boost::units::imperial::pint_base_unit,boost::units::imperial::fluid_ounce_base_unit, double, 20.);
+    BOOST_UNITS_DEFINE_CONVERSION_FACTOR(boost::units::imperial::pint_base_unit,boost::units::imperial::fluid_ounce_base_unit, double, 20.0_fl);
 #endif
 
 #endif

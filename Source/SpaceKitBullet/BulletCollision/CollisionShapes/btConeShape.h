@@ -92,7 +92,7 @@ public:
 
 	virtual btVector3 getAnisotropicRollingFrictionDirection() const
 	{
-		return btVector3(0, 1, 0);
+		return btVector3(0_fl, 1_fl, 0_fl);
 	}
 
 	virtual void setLocalScaling(const btVector3& scaling);
@@ -111,7 +111,7 @@ public:
 
 	virtual btVector3 getAnisotropicRollingFrictionDirection() const
 	{
-		return btVector3(1, 0, 0);
+		return btVector3(1.0_fl, 0.0_fl, 0.0_fl);
 	}
 
 	//debugging
@@ -129,7 +129,7 @@ public:
 
 	virtual btVector3 getAnisotropicRollingFrictionDirection() const
 	{
-		return btVector3(0, 0, 1);
+		return btVector3(0_fl, 0_fl, 1_fl);
 	}
 
 	//debugging

@@ -45,8 +45,8 @@ void btSolve2LinearConstraint::resolveUnilateralPairConstraint(
 	(void)angvelB;
 	(void)angvelA;
 
-	imp0 = btScalar(0.);
-	imp1 = btScalar(0.);
+	imp0 = btScalar(0.0_fl);
+	imp1 = btScalar(0.0_fl);
 
 	btScalar len = btFabs(normalA.length()) - btScalar(1.);
 	if (btFabs(len) >= SIMD_EPSILON)
@@ -84,7 +84,7 @@ void btSolve2LinearConstraint::resolveUnilateralPairConstraint(
 	//
 
 	btScalar nonDiag = jacA.getNonDiagonal(jacB, invMassA, invMassB);
-	btScalar invDet = btScalar(1.0) / (jacA.getDiagonal() * jacB.getDiagonal() - nonDiag * nonDiag);
+	btScalar invDet = btScalar(1.0_fl) / (jacA.getDiagonal() * jacB.getDiagonal() - nonDiag * nonDiag);
 
 	//imp0 = dv0 * jacA.getDiagonal() * invDet + dv1 * -nonDiag * invDet;
 	//imp1 = dv1 * jacB.getDiagonal() * invDet + dv0 * - nonDiag * invDet;
@@ -124,8 +124,8 @@ void btSolve2LinearConstraint::resolveBilateralPairConstraint(
 	(void)angvelA;
 	(void)angvelB;
 
-	imp0 = btScalar(0.);
-	imp1 = btScalar(0.);
+	imp0 = btScalar(0.0_fl);
+	imp1 = btScalar(0.0_fl);
 
 	btScalar len = btFabs(normalA.length()) - btScalar(1.);
 	if (btFabs(len) >= SIMD_EPSILON)
@@ -160,7 +160,7 @@ void btSolve2LinearConstraint::resolveBilateralPairConstraint(
 	//
 
 	btScalar nonDiag = jacA.getNonDiagonal(jacB, invMassA, invMassB);
-	btScalar invDet = btScalar(1.0) / (jacA.getDiagonal() * jacB.getDiagonal() - nonDiag * nonDiag);
+	btScalar invDet = btScalar(1.0_fl) / (jacA.getDiagonal() * jacB.getDiagonal() - nonDiag * nonDiag);
 
 	//imp0 = dv0 * jacA.getDiagonal() * invDet + dv1 * -nonDiag * invDet;
 	//imp1 = dv1 * jacB.getDiagonal() * invDet + dv0 * - nonDiag * invDet;
@@ -174,43 +174,43 @@ void btSolve2LinearConstraint::resolveBilateralPairConstraint(
 	//[jA nD] * [imp0] = [dv0]
 	//[nD jB]   [imp1]   [dv1]
 
-	if (imp0 > btScalar(0.0))
+	if (imp0 > btScalar(0.0_fl))
 	{
-		if (imp1 > btScalar(0.0))
+		if (imp1 > btScalar(0.0_fl))
 		{
 			//both positive
 		}
 		else
 		{
-			imp1 = btScalar(0.);
+			imp1 = btScalar(0.0_fl);
 
 			// now imp0>0 imp1<0
 			imp0 = dv0 / jacA.getDiagonal();
-			if (imp0 > btScalar(0.0))
+			if (imp0 > btScalar(0.0_fl))
 			{
 			}
 			else
 			{
-				imp0 = btScalar(0.);
+				imp0 = btScalar(0.0_fl);
 			}
 		}
 	}
 	else
 	{
-		imp0 = btScalar(0.);
+		imp0 = btScalar(0.0_fl);
 
 		imp1 = dv1 / jacB.getDiagonal();
-		if (imp1 <= btScalar(0.0))
+		if (imp1 <= btScalar(0.0_fl))
 		{
-			imp1 = btScalar(0.);
+			imp1 = btScalar(0.0_fl);
 			// now imp0>0 imp1<0
 			imp0 = dv0 / jacA.getDiagonal();
-			if (imp0 > btScalar(0.0))
+			if (imp0 > btScalar(0.0_fl))
 			{
 			}
 			else
 			{
-				imp0 = btScalar(0.);
+				imp0 = btScalar(0.0_fl);
 			}
 		}
 		else

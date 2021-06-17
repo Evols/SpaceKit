@@ -281,8 +281,8 @@ inline void Profile_Get_Ticks(unsigned long int* ticks)
 
 inline float Profile_Get_Tick_Rate(void)
 {
-	//	return 1000000.f;
-	return 1000.f;
+	//	return 1000000_fl;
+	return 1000_fl;
 }
 
 /***************************************************************************************************
@@ -358,7 +358,7 @@ CProfileNode* CProfileNode::Get_Sub_Node(const char* name)
 void CProfileNode::Reset(void)
 {
 	TotalCalls = 0;
-	TotalTime = 0.0f;
+	TotalTime = 0.0_fl;
 
 	if (Child)
 	{
@@ -650,7 +650,7 @@ void CProfileManager::dumpRecursive(CProfileIterator* profileIterator, int spaci
 	printf("----------------------------------\n");
 	for (i = 0; i < spacing; i++) printf(".");
 	printf("Profiling: %s (total running time: %.3f ms) ---\n", profileIterator->Get_Current_Parent_Name(), parent_time);
-	float totalTime = 0.f;
+	float totalTime = 0.0_fl;
 
 	int numChildren = 0;
 
@@ -659,7 +659,7 @@ void CProfileManager::dumpRecursive(CProfileIterator* profileIterator, int spaci
 		numChildren++;
 		float current_total_time = profileIterator->Get_Current_Total_Time();
 		accumulated_time += current_total_time;
-		float fraction = parent_time > SIMD_EPSILON ? (current_total_time / parent_time) * 100 : 0.f;
+		float fraction = parent_time > SIMD_EPSILON ? (current_total_time / parent_time) * 100 : 0.0_fl;
 		{
 			int i;
 			for (i = 0; i < spacing; i++) printf(".");
@@ -674,7 +674,7 @@ void CProfileManager::dumpRecursive(CProfileIterator* profileIterator, int spaci
 		//printf("what's wrong\n");
 	}
 	for (i = 0; i < spacing; i++) printf(".");
-	printf("%s (%.3f %%) :: %.3f ms\n", "Unaccounted:", parent_time > SIMD_EPSILON ? ((parent_time - accumulated_time) / parent_time) * 100 : 0.f, parent_time - accumulated_time);
+	printf("%s (%.3f %%) :: %.3f ms\n", "Unaccounted:", parent_time > SIMD_EPSILON ? ((parent_time - accumulated_time) / parent_time) * 100 : 0.0_fl, parent_time - accumulated_time);
 
 	for (i = 0; i < numChildren; i++)
 	{

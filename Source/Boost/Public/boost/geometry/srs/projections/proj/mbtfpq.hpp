@@ -99,7 +99,7 @@ namespace projections
                     if (fabs(lp_lat) > 1.) {
                         if (fabs(lp_lat) > one_plus_tol) {
                             BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
-                        } else if (lp_lat < 0.) {
+                        } else if (lp_lat < 0.0_fl) {
                             t = -1.; lp_lat = -pi;
                         } else {
                             t = 1.; lp_lat = pi;

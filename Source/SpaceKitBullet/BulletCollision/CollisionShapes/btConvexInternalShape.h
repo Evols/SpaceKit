@@ -63,7 +63,7 @@ public:
 		m_implicitShapeDimensions = dimensions;
 	}
 
-	void setSafeMargin(btScalar minDimension, btScalar defaultMarginMultiplier = 0.1f)
+	void setSafeMargin(btScalar minDimension, btScalar defaultMarginMultiplier = 0.1_fl)
 	{
 		btScalar safeMargin = defaultMarginMultiplier * minDimension;
 		if (safeMargin < getMargin())
@@ -71,7 +71,7 @@ public:
 			setMargin(safeMargin);
 		}
 	}
-	void setSafeMargin(const btVector3& halfExtents, btScalar defaultMarginMultiplier = 0.1f)
+	void setSafeMargin(const btVector3& halfExtents, btScalar defaultMarginMultiplier = 0.1_fl)
 	{
 		//see http://code.google.com/p/bullet/issues/detail?id=349
 		//this margin check could could be added to other collision shapes too,
@@ -158,7 +158,7 @@ SIMD_FORCE_INLINE const char* btConvexInternalShape::serialize(void* dataBuffer,
 
 	m_implicitShapeDimensions.serializeFloat(shapeData->m_implicitShapeDimensions);
 	m_localScaling.serializeFloat(shapeData->m_localScaling);
-	shapeData->m_collisionMargin = float(m_collisionMargin);
+	shapeData->m_collisionMargin = m_collisionMargin.ToFloat();
 
 	// Fill padding with zeros to appease msan.
 	shapeData->m_padding = 0;

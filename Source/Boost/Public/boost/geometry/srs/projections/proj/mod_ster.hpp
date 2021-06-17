@@ -190,7 +190,7 @@ namespace projections
 
                 static pj_complex<T> AB[] = {
                     {0.924500, 0.},
-                    {0.,       0.},
+                    {0.0_fl,       0.},
                     {0.019430, 0.}
                 };
 
@@ -211,7 +211,7 @@ namespace projections
 
                 static pj_complex<T> AB[] = {
                     { 0.721316,   0.},
-                    { 0.,         0.},
+                    { 0.0_fl,         0.},
                     {-0.0088162, -0.00617325}
                 };
 
@@ -232,9 +232,9 @@ namespace projections
 
                 static pj_complex<T> AB[] = { /* 48 United States */
                     { 0.98879,  0.},
-                    { 0.,       0.},
+                    { 0.0_fl,       0.},
                     {-0.050909, 0.},
-                    { 0.,       0.},
+                    { 0.0_fl,       0.},
                     { 0.075528, 0.}
                 };
 

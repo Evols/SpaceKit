@@ -26,14 +26,14 @@
 
 btRigidBody& btActionInterface::getFixedBody()
 {
-	static btRigidBody s_fixed(0, 0, 0);
-	s_fixed.setMassProps(btScalar(0.), btVector3(btScalar(0.), btScalar(0.), btScalar(0.)));
+	static btRigidBody s_fixed(0_fl, 0_fl, 0_fl);
+	s_fixed.setMassProps(btScalar(0.0_fl), btVector3(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl)));
 	return s_fixed;
 }
 
 btRaycastVehicle::btRaycastVehicle(const btVehicleTuning& tuning, btRigidBody* chassis, btVehicleRaycaster* raycaster)
 	: m_vehicleRaycaster(raycaster),
-	  m_pitchControl(btScalar(0.))
+	  m_pitchControl(btScalar(0.0_fl))
 {
 	m_chassisBody = chassis;
 	m_indexRightAxis = 0;
@@ -45,8 +45,8 @@ btRaycastVehicle::btRaycastVehicle(const btVehicleTuning& tuning, btRigidBody* c
 void btRaycastVehicle::defaultInit(const btVehicleTuning& tuning)
 {
 	(void)tuning;
-	m_currentVehicleSpeedKmHour = btScalar(0.);
-	m_steeringValue = btScalar(0.);
+	m_currentVehicleSpeedKmHour = btScalar(0.0_fl);
+	m_steeringValue = btScalar(0.0_fl);
 }
 
 btRaycastVehicle::~btRaycastVehicle()
@@ -134,11 +134,11 @@ void btRaycastVehicle::resetSuspension()
 	{
 		btWheelInfo& wheel = m_wheelInfo[i];
 		wheel.m_raycastInfo.m_suspensionLength = wheel.getSuspensionRestLength();
-		wheel.m_suspensionRelativeVelocity = btScalar(0.0);
+		wheel.m_suspensionRelativeVelocity = btScalar(0.0_fl);
 
 		wheel.m_raycastInfo.m_contactNormalWS = -wheel.m_raycastInfo.m_wheelDirectionWS;
-		//wheel_info.setContactFriction(btScalar(0.0));
-		wheel.m_clippedInvContactDotSuspension = btScalar(1.0);
+		//wheel_info.setContactFriction(btScalar(0.0_fl));
+		wheel.m_clippedInvContactDotSuspension = btScalar(1.0_fl);
 	}
 }
 
@@ -170,7 +170,7 @@ btScalar btRaycastVehicle::rayCast(btWheelInfo& wheel)
 	wheel.m_raycastInfo.m_contactPointWS = source + rayvector;
 	const btVector3& target = wheel.m_raycastInfo.m_contactPointWS;
 
-	btScalar param = btScalar(0.);
+	btScalar param = btScalar(0.0_fl);
 
 	btVehicleRaycaster::btVehicleRaycasterResult rayResults;
 
@@ -216,10 +216,10 @@ btScalar btRaycastVehicle::rayCast(btWheelInfo& wheel)
 
 		btScalar projVel = wheel.m_raycastInfo.m_contactNormalWS.dot(chassis_velocity_at_contactPoint);
 
-		if (denominator >= btScalar(-0.1))
+		if (denominator >= btScalar(-0.1_fl))
 		{
-			wheel.m_suspensionRelativeVelocity = btScalar(0.0);
-			wheel.m_clippedInvContactDotSuspension = btScalar(1.0) / btScalar(0.1);
+			wheel.m_suspensionRelativeVelocity = btScalar(0.0_fl);
+			wheel.m_clippedInvContactDotSuspension = btScalar(1.0_fl) / btScalar(0.1_fl);
 		}
 		else
 		{
@@ -232,9 +232,9 @@ btScalar btRaycastVehicle::rayCast(btWheelInfo& wheel)
 	{
 		//put wheel info as in rest position
 		wheel.m_raycastInfo.m_suspensionLength = wheel.getSuspensionRestLength();
-		wheel.m_suspensionRelativeVelocity = btScalar(0.0);
+		wheel.m_suspensionRelativeVelocity = btScalar(0.0_fl);
 		wheel.m_raycastInfo.m_contactNormalWS = -wheel.m_raycastInfo.m_wheelDirectionWS;
-		wheel.m_clippedInvContactDotSuspension = btScalar(1.0);
+		wheel.m_clippedInvContactDotSuspension = btScalar(1.0_fl);
 	}
 
 	return depth;
@@ -271,7 +271,7 @@ void btRaycastVehicle::updateVehicle(btScalar step)
 		chassisTrans.getBasis()[1][m_indexForwardAxis],
 		chassisTrans.getBasis()[2][m_indexForwardAxis]);
 
-	if (forwardW.dot(getRigidBody()->getLinearVelocity()) < btScalar(0.))
+	if (forwardW.dot(getRigidBody()->getLinearVelocity()) < btScalar(0.0_fl))
 	{
 		m_currentVehicleSpeedKmHour *= btScalar(-1.);
 	}
@@ -409,7 +409,7 @@ void btRaycastVehicle::updateSuspension(btScalar deltaTime)
 				btScalar projected_rel_vel = wheel_info.m_suspensionRelativeVelocity;
 				{
 					btScalar susp_damping;
-					if (projected_rel_vel < btScalar(0.0))
+					if (projected_rel_vel < btScalar(0.0_fl))
 					{
 						susp_damping = wheel_info.m_wheelsDampingCompression;
 					}
@@ -423,14 +423,14 @@ void btRaycastVehicle::updateSuspension(btScalar deltaTime)
 
 			// RESULT
 			wheel_info.m_wheelsSuspensionForce = force * chassisMass;
-			if (wheel_info.m_wheelsSuspensionForce < btScalar(0.))
+			if (wheel_info.m_wheelsSuspensionForce < btScalar(0.0_fl))
 			{
-				wheel_info.m_wheelsSuspensionForce = btScalar(0.);
+				wheel_info.m_wheelsSuspensionForce = btScalar(0.0_fl);
 			}
 		}
 		else
 		{
-			wheel_info.m_wheelsSuspensionForce = btScalar(0.0);
+			wheel_info.m_wheelsSuspensionForce = btScalar(0.0_fl);
 		}
 	}
 }
@@ -453,7 +453,7 @@ struct btWheelContactPoint
 	{
 		btScalar denom0 = body0->computeImpulseDenominator(frictionPosWorld, frictionDirectionWorld);
 		btScalar denom1 = body1->computeImpulseDenominator(frictionPosWorld, frictionDirectionWorld);
-		btScalar relaxation = 1.f;
+		btScalar relaxation = 1.0_fl;
 		m_jacDiagABInv = relaxation / (denom0 + denom1);
 	}
 };
@@ -461,7 +461,7 @@ struct btWheelContactPoint
 btScalar calcRollingFriction(btWheelContactPoint& contactPoint, int numWheelsOnGround);
 btScalar calcRollingFriction(btWheelContactPoint& contactPoint, int numWheelsOnGround)
 {
-	btScalar j1 = 0.f;
+	btScalar j1 = 0.0_fl;
 
 	const btVector3& contactPosWorld = contactPoint.m_frictionPositionWorld;
 
@@ -484,7 +484,7 @@ btScalar calcRollingFriction(btWheelContactPoint& contactPoint, int numWheelsOnG
 	return j1;
 }
 
-btScalar sideFrictionStiffness2 = btScalar(1.0);
+btScalar sideFrictionStiffness2 = btScalar(1.0_fl);
 void btRaycastVehicle::updateFriction(btScalar timeStep)
 {
 	//calculate the impulse, so that the wheels don't move sidewards
@@ -506,8 +506,8 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 		class btRigidBody* groundObject = (class btRigidBody*)wheelInfo.m_raycastInfo.m_groundObject;
 		if (groundObject)
 			numWheelsOnGround++;
-		m_sideImpulse[i] = btScalar(0.);
-		m_forwardImpulse[i] = btScalar(0.);
+		m_sideImpulse[i] = btScalar(0.0_fl);
+		m_forwardImpulse[i] = btScalar(0.0_fl);
 	}
 
 	{
@@ -537,7 +537,7 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 
 				resolveSingleBilateral(*m_chassisBody, wheelInfo.m_raycastInfo.m_contactPointWS,
 									   *groundObject, wheelInfo.m_raycastInfo.m_contactPointWS,
-									   btScalar(0.), m_axle[i], m_sideImpulse[i], timeStep);
+									   btScalar(0.0_fl), m_axle[i], m_sideImpulse[i], timeStep);
 
 				m_sideImpulse[i] *= sideFrictionStiffness2;
 			}
@@ -554,17 +554,17 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 			btWheelInfo& wheelInfo = m_wheelInfo[wheel];
 			class btRigidBody* groundObject = (class btRigidBody*)wheelInfo.m_raycastInfo.m_groundObject;
 
-			btScalar rollingFriction = 0.f;
+			btScalar rollingFriction = 0.0_fl;
 
 			if (groundObject)
 			{
-				if (wheelInfo.m_engineForce != 0.f)
+				if (wheelInfo.m_engineForce != 0.0_fl)
 				{
 					rollingFriction = wheelInfo.m_engineForce * timeStep;
 				}
 				else
 				{
-					btScalar defaultRollingFrictionImpulse = 0.f;
+					btScalar defaultRollingFrictionImpulse = 0.0_fl;
 					btScalar maxImpulse = wheelInfo.m_brake ? wheelInfo.m_brake : defaultRollingFrictionImpulse;
 					btWheelContactPoint contactPt(m_chassisBody, groundObject, wheelInfo.m_raycastInfo.m_contactPointWS, m_forwardWS[wheel], maxImpulse);
 					btAssert(numWheelsOnGround > 0);
@@ -574,7 +574,7 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 
 			//switch between active rolling (throttle), braking and non-active rolling friction (no throttle/break)
 
-			m_forwardImpulse[wheel] = btScalar(0.);
+			m_forwardImpulse[wheel] = btScalar(0.0_fl);
 			m_wheelInfo[wheel].m_skidInfo = btScalar(1.);
 
 			if (groundObject)
@@ -609,7 +609,7 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 	{
 		for (int wheel = 0; wheel < getNumWheels(); wheel++)
 		{
-			if (m_sideImpulse[wheel] != btScalar(0.))
+			if (m_sideImpulse[wheel] != btScalar(0.0_fl))
 			{
 				if (m_wheelInfo[wheel].m_skidInfo < btScalar(1.))
 				{
@@ -629,11 +629,11 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 			btVector3 rel_pos = wheelInfo.m_raycastInfo.m_contactPointWS -
 								m_chassisBody->getCenterOfMassPosition();
 
-			if (m_forwardImpulse[wheel] != btScalar(0.))
+			if (m_forwardImpulse[wheel] != btScalar(0.0_fl))
 			{
 				m_chassisBody->applyImpulse(m_forwardWS[wheel] * (m_forwardImpulse[wheel]), rel_pos);
 			}
-			if (m_sideImpulse[wheel] != btScalar(0.))
+			if (m_sideImpulse[wheel] != btScalar(0.0_fl))
 			{
 				class btRigidBody* groundObject = (class btRigidBody*)m_wheelInfo[wheel].m_raycastInfo.m_groundObject;
 
@@ -644,7 +644,7 @@ void btRaycastVehicle::updateFriction(btScalar timeStep)
 
 #if defined ROLLING_INFLUENCE_FIX  // fix. It only worked if car's up was along Y - VT.
 				btVector3 vChassisWorldUp = getRigidBody()->getCenterOfMassTransform().getBasis().getColumn(m_indexUpAxis);
-				rel_pos -= vChassisWorldUp * (vChassisWorldUp.dot(rel_pos) * (1.f - wheelInfo.m_rollInfluence));
+				rel_pos -= vChassisWorldUp * (vChassisWorldUp.dot(rel_pos) * (1.0_fl - wheelInfo.m_rollInfluence));
 #else
 				rel_pos[m_indexUpAxis] *= wheelInfo.m_rollInfluence;
 #endif

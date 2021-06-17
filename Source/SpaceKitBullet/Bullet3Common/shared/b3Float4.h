@@ -39,14 +39,14 @@ typedef float4 b3Float4;
 #define b3MakeFloat4 (float4)
 float b3Dot3F4(b3Float4ConstArg v0, b3Float4ConstArg v1)
 {
-	float4 a1 = b3MakeFloat4(v0.xyz, 0.f);
-	float4 b1 = b3MakeFloat4(v1.xyz, 0.f);
+	float4 a1 = b3MakeFloat4(v0.xyz, 0.0_fl);
+	float4 b1 = b3MakeFloat4(v1.xyz, 0.0_fl);
 	return dot(a1, b1);
 }
 b3Float4 b3Cross3(b3Float4ConstArg v0, b3Float4ConstArg v1)
 {
-	float4 a1 = b3MakeFloat4(v0.xyz, 0.f);
-	float4 b1 = b3MakeFloat4(v1.xyz, 0.f);
+	float4 a1 = b3MakeFloat4(v0.xyz, 0.0_fl);
+	float4 b1 = b3MakeFloat4(v1.xyz, 0.0_fl);
 	return cross(a1, b1);
 }
 #define b3MinFloat4 min
@@ -58,19 +58,19 @@ b3Float4 b3Cross3(b3Float4ConstArg v0, b3Float4ConstArg v1)
 
 inline bool b3IsAlmostZero(b3Float4ConstArg v)
 {
-	if (b3Fabs(v.x) > 1e-6 || b3Fabs(v.y) > 1e-6 || b3Fabs(v.z) > 1e-6)
+	if (b3Fabs(v.x) > 1e-6_fl || b3Fabs(v.y) > 1e-6_fl || b3Fabs(v.z) > 1e-6_fl)
 		return false;
 	return true;
 }
 
-inline int b3MaxDot(b3Float4ConstArg vec, __global const b3Float4* vecArray, int vecLen, float* dotOut)
+inline int b3MaxDot(b3Float4ConstArg vec, __global const b3Float4* vecArray, int vecLen, FRealFloat* dotOut)
 {
-	float maxDot = -B3_INFINITY;
+	FRealFloat maxDot = -B3_INFINITY;
 	int i = 0;
 	int ptIndex = -1;
 	for (i = 0; i < vecLen; i++)
 	{
-		float dot = b3Dot3F4(vecArray[i], vec);
+		FRealFloat dot = b3Dot3F4(vecArray[i], vec);
 
 		if (dot > maxDot)
 		{

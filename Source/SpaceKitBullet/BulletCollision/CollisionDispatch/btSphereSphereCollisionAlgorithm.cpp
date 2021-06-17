@@ -73,7 +73,7 @@ void btSphereSphereCollisionAlgorithm::processCollision(const btCollisionObjectW
 	///distance (negative means penetration)
 	btScalar dist = len - (radius0 + radius1);
 
-	btVector3 normalOnSurfaceB(1, 0, 0);
+	btVector3 normalOnSurfaceB(1_fl, 0_fl, 0_fl);
 	if (len > SIMD_EPSILON)
 	{
 		normalOnSurfaceB = diff / len;

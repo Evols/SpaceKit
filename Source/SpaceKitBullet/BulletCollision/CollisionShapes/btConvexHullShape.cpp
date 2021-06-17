@@ -60,7 +60,7 @@ void btConvexHullShape::addPoint(const btVector3& point, bool recalculateLocalAa
 
 btVector3 btConvexHullShape::localGetSupportingVertexWithoutMargin(const btVector3& vec) const
 {
-	btVector3 supVec(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 supVec(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	btScalar maxDot = btScalar(-BT_LARGE_FLOAT);
 
 	// Here we take advantage of dot(a, b*c) = dot(a*b, c).  Note: This is true mathematically, but not numerically.
@@ -103,7 +103,7 @@ btVector3 btConvexHullShape::localGetSupportingVertex(const btVector3& vec) cons
 {
 	btVector3 supVertex = localGetSupportingVertexWithoutMargin(vec);
 
-	if (getMargin() != btScalar(0.))
+	if (getMargin() != btScalar(0.0_fl))
 	{
 		btVector3 vecnorm = vec;
 		if (vecnorm.length2() < (SIMD_EPSILON * SIMD_EPSILON))
@@ -119,7 +119,7 @@ btVector3 btConvexHullShape::localGetSupportingVertex(const btVector3& vec) cons
 void btConvexHullShape::optimizeConvexHull()
 {
 	btConvexHullComputer conv;
-	conv.compute(&m_unscaledPoints[0].getX(), sizeof(btVector3), m_unscaledPoints.size(), 0.f, 0.f);
+	conv.compute(&m_unscaledPoints[0].getX(), sizeof(btVector3), m_unscaledPoints.size(), 0.0_fl, 0.0_fl);
 	int numVerts = conv.vertices.size();
 	m_unscaledPoints.resize(0);
 	for (int i = 0; i < numVerts; i++)
@@ -210,8 +210,8 @@ const char* btConvexHullShape::serialize(void* dataBuffer, btSerializer* seriali
 void btConvexHullShape::project(const btTransform& trans, const btVector3& dir, btScalar& minProj, btScalar& maxProj, btVector3& witnesPtMin, btVector3& witnesPtMax) const
 {
 #if 1
-	minProj = FLT_MAX;
-	maxProj = -FLT_MAX;
+	minProj = BIGFLOAT_MAX;
+	maxProj = -BIGFLOAT_MAX;
 
 	int numVerts = m_unscaledPoints.size();
 	for (int i = 0; i < numVerts; i++)

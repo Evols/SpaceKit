@@ -28,7 +28,7 @@ bool btGjkEpaCalcPenDepth(const btConvexTemplate& a, const btConvexTemplate& b,
 {
 	(void)v;
 
-	//	const btScalar				radialmargin(btScalar(0.));
+	//	const btScalar				radialmargin(btScalar(0.0_fl));
 
 	btVector3 guessVector(b.getWorldTransform().getOrigin() - a.getWorldTransform().getOrigin());  //?? why not use the GJK input?
 
@@ -61,10 +61,10 @@ template <typename btConvexTemplate, typename btGjkDistanceTemplate>
 int btComputeGjkEpaPenetration(const btConvexTemplate& a, const btConvexTemplate& b, const btGjkCollisionDescription& colDesc, btVoronoiSimplexSolver& simplexSolver, btGjkDistanceTemplate* distInfo)
 {
 	bool m_catchDegeneracies = true;
-	btScalar m_cachedSeparatingDistance = 0.f;
+	btScalar m_cachedSeparatingDistance = 0.0_fl;
 
-	btScalar distance = btScalar(0.);
-	btVector3 normalInB(btScalar(0.), btScalar(0.), btScalar(0.));
+	btScalar distance = btScalar(0.0_fl);
+	btVector3 normalInB(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 
 	btVector3 pointOnA, pointOnB;
 	btTransform localTransA = a.getWorldTransform();
@@ -86,7 +86,7 @@ int btComputeGjkEpaPenetration(const btConvexTemplate& a, const btConvexTemplate
 
 	{
 		btScalar squaredDistance = BT_LARGE_FLOAT;
-		btScalar delta = btScalar(0.);
+		btScalar delta = btScalar(0.0_fl);
 
 		btScalar margin = marginA + marginB;
 
@@ -108,7 +108,7 @@ int btComputeGjkEpaPenetration(const btConvexTemplate& a, const btConvexTemplate
 			delta = m_cachedSeparatingAxis.dot(w);
 
 			// potential exit, they don't overlap
-			if ((delta > btScalar(0.0)) && (delta * delta > squaredDistance * colDesc.m_maximumDistanceSquared))
+			if ((delta > btScalar(0.0_fl)) && (delta * delta > squaredDistance * colDesc.m_maximumDistanceSquared))
 			{
 				m_degenerateSimplex = 10;
 				checkSimplex = true;
@@ -129,7 +129,7 @@ int btComputeGjkEpaPenetration(const btConvexTemplate& a, const btConvexTemplate
 
 			if (f0 <= f1)
 			{
-				if (f0 <= btScalar(0.))
+				if (f0 <= btScalar(0.0_fl))
 				{
 					m_degenerateSimplex = 2;
 				}
@@ -235,7 +235,7 @@ int btComputeGjkEpaPenetration(const btConvexTemplate& a, const btConvexTemplate
 
 				btScalar s = btSqrt(squaredDistance);
 
-				btAssert(s > btScalar(0.0));
+				btAssert(s > btScalar(0.0_fl));
 				pointOnA -= m_cachedSeparatingAxis * (marginA / s);
 				pointOnB += m_cachedSeparatingAxis * (marginB / s);
 				distance = ((btScalar(1.) / rlen) - margin);
@@ -312,7 +312,7 @@ int btComputeGjkEpaPenetration(const btConvexTemplate& a, const btConvexTemplate
 				///thanks to Jacob.Langford for the reproduction case
 				///http://code.google.com/p/bullet/issues/detail?id=250
 
-				if (m_cachedSeparatingAxis.length2() > btScalar(0.))
+				if (m_cachedSeparatingAxis.length2() > btScalar(0.0_fl))
 				{
 					btScalar distance2 = (tmpPointOnA - tmpPointOnB).length() - margin;
 					//only replace valid distances when the distance is less

@@ -14,8 +14,8 @@
 // can be used.
 // That this is the minimum set is confirmed by use as a type
 // in tests of all functions & distributions, for example:
-//   test_spots(0.F); & test_spots(0.);  for float and double, but also
-//   test_spots(boost::math::concepts::real_concept(0.));
+//   test_spots(0.F); & test_spots(0.0_fl);  for float and double, but also
+//   test_spots(boost::math::concepts::real_concept(0.0_fl));
 // NTL quad_float type is an example of a type meeting the requirements,
 // but note minor additions are needed - see ntl.diff and documentation
 // "Using With NTL - a High-Precision Floating-Point Library".

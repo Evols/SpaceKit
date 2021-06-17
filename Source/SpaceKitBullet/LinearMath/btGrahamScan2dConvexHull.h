@@ -80,15 +80,15 @@ inline void GrahamScanConvexHull2D(btAlignedObjectArray<GrahamVector3>& original
 	}
 
 	//also precompute angles
-	originalPoints[0].m_angle = -1e30f;
+	originalPoints[0].m_angle = -1e30_fl;
 	for (int i = 1; i < originalPoints.size(); i++)
 	{
 		btVector3 ar = originalPoints[i] - originalPoints[0];
 		btScalar ar1 = axis1.dot(ar);
 		btScalar ar0 = axis0.dot(ar);
-		if (ar1 * ar1 + ar0 * ar0 < FLT_EPSILON)
+		if (ar1 * ar1 + ar0 * ar0 < BIGFLOAT_EPSILON)
 		{
-			originalPoints[i].m_angle = 0.0f;
+			originalPoints[i].m_angle = 0.0_fl;
 		}
 		else
 		{
@@ -112,7 +112,7 @@ inline void GrahamScanConvexHull2D(btAlignedObjectArray<GrahamVector3>& original
 		{
 			btVector3& a = hull[hull.size() - 2];
 			btVector3& b = hull[hull.size() - 1];
-			isConvex = btCross(a - b, a - originalPoints[i]).dot(normalAxis) > 0;
+			isConvex = btCross(a - b, a - originalPoints[i]).dot(normalAxis) > 0_fl;
 			if (!isConvex)
 				hull.pop_back();
 			else

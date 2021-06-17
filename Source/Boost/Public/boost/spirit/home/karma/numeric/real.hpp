@@ -218,7 +218,7 @@ namespace boost { namespace spirit { namespace karma
 
     ///////////////////////////////////////////////////////////////////////////
     //  This specialization is used for real generators having a direct
-    //  initializer: float_(10.), double_(20.) etc.
+    //  initializer: float_(10.0_fl), double_(20.0_fl) etc.
     ///////////////////////////////////////////////////////////////////////////
     template <
         typename T, typename Policies, typename CharEncoding, typename Tag

@@ -128,12 +128,12 @@ B3_FORCE_INLINE bool b3RayAabb(const b3Vector3& rayFrom,
 	int targetOutcode = b3Outcode(target, aabbHalfExtent);
 	if ((sourceOutcode & targetOutcode) == 0x0)
 	{
-		b3Scalar lambda_enter = b3Scalar(0.0);
+		b3Scalar lambda_enter = b3Scalar(0.0_fl);
 		b3Scalar lambda_exit = param;
 		b3Vector3 r = target - source;
 		int i;
 		b3Scalar normSign = 1;
-		b3Vector3 hitNormal = b3MakeVector3(0, 0, 0);
+		b3Vector3 hitNormal = b3MakeVector3(0_fl, 0_fl, 0_fl);
 		int bit = 1;
 
 		for (int j = 0; j < 2; j++)
@@ -146,7 +146,7 @@ B3_FORCE_INLINE bool b3RayAabb(const b3Vector3& rayFrom,
 					if (lambda_enter <= lambda)
 					{
 						lambda_enter = lambda;
-						hitNormal.setValue(0, 0, 0);
+						hitNormal.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 						hitNormal[i] = normSign;
 					}
 				}

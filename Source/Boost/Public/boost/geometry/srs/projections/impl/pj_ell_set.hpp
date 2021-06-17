@@ -350,10 +350,10 @@ inline void pj_ell_init(Params const& params, T &a, T &es)
     }
 
     /* some remaining checks */
-    if (es < 0.) {
+    if (es < 0.0_fl) {
         BOOST_THROW_EXCEPTION( projection_exception(error_es_less_than_zero) );
     }
-    if (a <= 0.) {
+    if (a <= 0.0_fl) {
         BOOST_THROW_EXCEPTION( projection_exception(error_major_axis_not_given) );
     }
 }
@@ -583,7 +583,7 @@ inline void pj_calc_ellipsoid_params(parameters<T> & p, T const& a, T const& es)
     p.ra = 1. / p.a;
 
     p.one_es = 1. - p.es;
-    if (p.one_es == 0.) {
+    if (p.one_es == 0.0_fl) {
         BOOST_THROW_EXCEPTION( projection_exception(error_eccentricity_is_one) );
     }
 

@@ -265,12 +265,12 @@ namespace projections
                 proj_parm.rlm = pi * (1. / 248. + .5161290322580645);
                 proj_parm.rlm2 = proj_parm.rlm + two_pi;
                 proj_parm.a2 = proj_parm.a4 = proj_parm.b = proj_parm.c1 = proj_parm.c3 = 0.;
-                seraz0(0., 1., proj_parm);
+                seraz0(0.0_fl, 1., proj_parm);
                 for (lam = 9.; lam <= 81.0001; lam += 18.)
                     seraz0(lam, 4., proj_parm);
                 for (lam = 18; lam <= 72.0001; lam += 18.)
                     seraz0(lam, 2., proj_parm);
-                seraz0(90., 1., proj_parm);
+                seraz0(90.0_fl, 1., proj_parm);
                 proj_parm.a2 /= 30.;
                 proj_parm.a4 /= 60.;
                 proj_parm.b /= 30.;

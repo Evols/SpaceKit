@@ -161,7 +161,7 @@ namespace projections
                 }
 
                 if (fabs(fabs(par.phi0) - half_pi) < epsilon)
-                    if (par.phi0 < 0.) {
+                    if (par.phi0 < 0.0_fl) {
                         proj_parm.p_halfpi = -half_pi;
                         proj_parm.mode = s_pole;
                     } else {

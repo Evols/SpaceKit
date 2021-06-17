@@ -156,12 +156,12 @@ void btMultiBodySliderConstraint::createConstraintRows(btMultiBodyConstraintArra
 		btMultiBodySolverConstraint& constraintRow = constraintRows.expandNonInitializing();
 		constraintRow.m_orgConstraint = this;
 		constraintRow.m_orgDofIndex = i;
-		constraintRow.m_relpos1CrossNormal.setValue(0, 0, 0);
-		constraintRow.m_contactNormal1.setValue(0, 0, 0);
-		constraintRow.m_relpos2CrossNormal.setValue(0, 0, 0);
-		constraintRow.m_contactNormal2.setValue(0, 0, 0);
-		constraintRow.m_angularComponentA.setValue(0, 0, 0);
-		constraintRow.m_angularComponentB.setValue(0, 0, 0);
+		constraintRow.m_relpos1CrossNormal.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_contactNormal1.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_relpos2CrossNormal.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_contactNormal2.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_angularComponentA.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		constraintRow.m_angularComponentB.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 		constraintRow.m_solverBodyIdA = data.m_fixedBodyId;
 		constraintRow.m_solverBodyIdB = data.m_fixedBodyId;
@@ -175,9 +175,9 @@ void btMultiBodySliderConstraint::createConstraintRows(btMultiBodyConstraintArra
 			constraintRow.m_solverBodyIdB = m_rigidBodyB->getCompanionId();
 		}
 
-		btVector3 constraintNormalLin(0, 0, 0);
-		btVector3 constraintNormalAng(0, 0, 0);
-		btScalar posError = 0.0;
+		btVector3 constraintNormalLin(0_fl, 0_fl, 0_fl);
+		btVector3 constraintNormalAng(0_fl, 0_fl, 0_fl);
+		btScalar posError = 0.0_fl;
 		if (i < 2)
 		{
 			constraintNormalLin = constraintAxis[i];
@@ -210,25 +210,25 @@ void btMultiBodySliderConstraint::debugDraw(class btIDebugDraw* drawer)
 	{
 		btVector3 pivot = m_rigidBodyA->getCenterOfMassTransform() * m_pivotInA;
 		tr.setOrigin(pivot);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 	if (m_bodyA)
 	{
 		btVector3 pivotAworld = m_bodyA->localPosToWorld(m_linkA, m_pivotInA);
 		tr.setOrigin(pivotAworld);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 	if (m_rigidBodyB)
 	{
 		// that ideally should draw the same frame
 		btVector3 pivot = m_rigidBodyB->getCenterOfMassTransform() * m_pivotInB;
 		tr.setOrigin(pivot);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 	if (m_bodyB)
 	{
 		btVector3 pivotBworld = m_bodyB->localPosToWorld(m_linkB, m_pivotInB);
 		tr.setOrigin(pivotBworld);
-		drawer->drawTransform(tr, 0.1);
+		drawer->drawTransform(tr, 0.1_fl);
 	}
 }

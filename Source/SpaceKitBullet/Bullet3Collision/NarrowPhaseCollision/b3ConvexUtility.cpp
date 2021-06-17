@@ -26,7 +26,7 @@ b3ConvexUtility::~b3ConvexUtility()
 bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3* orgVertices, int numPoints, bool mergeCoplanarTriangles)
 {
 	b3ConvexHullComputer conv;
-	conv.compute(&orgVertices[0].getX(), sizeof(b3Vector3), numPoints, 0.f, 0.f);
+	conv.compute(&orgVertices[0].getX(), sizeof(b3Vector3), numPoints, 0.0_fl, 0.0_fl);
 
 	b3AlignedObjectArray<b3Vector3> faceNormals;
 	int numFaces = conv.faces.size();
@@ -70,7 +70,7 @@ bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3* orgVertices,
 			edge = edge->getNextEdgeOfFace();
 		} while (edge != firstEdge);
 
-		b3Scalar planeEq = 1e30f;
+		b3Scalar planeEq = 1e30_fl;
 
 		if (numEdges == 2)
 		{
@@ -100,7 +100,7 @@ bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3* orgVertices,
 
 	//merge coplanar faces and copy them to m_polyhedron
 
-	b3Scalar faceWeldThreshold = 0.999f;
+	b3Scalar faceWeldThreshold = 0.999_fl;
 	b3AlignedObjectArray<int> todoFaces;
 	for (int i = 0; i < tmpFaces.size(); i++)
 		todoFaces.push_back(i);
@@ -133,7 +133,7 @@ bool b3ConvexUtility::initializePolyhedralFeatures(const b3Vector3* orgVertices,
 			//do the merge: use Graham Scan 2d convex hull
 
 			b3AlignedObjectArray<b3GrahamVector3> orgpoints;
-			b3Vector3 averageFaceNormal = b3MakeVector3(0, 0, 0);
+			b3Vector3 averageFaceNormal = b3MakeVector3(0_fl, 0_fl, 0_fl);
 
 			for (int i = 0; i < coplanarFaceGroup.size(); i++)
 			{
@@ -315,7 +315,7 @@ bool b3ConvexUtility::testContainment() const
 		{
 			const b3Vector3 Normal(m_faces[i].m_plane[0], m_faces[i].m_plane[1], m_faces[i].m_plane[2]);
 			const b3Scalar d = LocalPt.dot(Normal) + m_faces[i].m_plane[3];
-			if (d > 0.0f)
+			if (d > 0.0_fl)
 				return false;
 		}
 	}
@@ -327,9 +327,9 @@ void b3ConvexUtility::initialize()
 {
 	b3HashMap<b3InternalVertexPair, b3InternalEdge> edges;
 
-	b3Scalar TotalArea = 0.0f;
+	b3Scalar TotalArea = 0.0_fl;
 
-	m_localCenter.setValue(0, 0, 0);
+	m_localCenter.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	for (int i = 0; i < m_faces.size(); i++)
 	{
 		int numVertices = m_faces[i].m_indices.size();
@@ -350,8 +350,8 @@ void b3ConvexUtility::initialize()
 				diff = m_uniqueEdges[p] - edge;
 				diff2 = m_uniqueEdges[p] + edge;
 
-				//	if ((diff.length2()==0.f) ||
-				//	(diff2.length2()==0.f))
+				//	if ((diff.length2()==0.0_fl) ||
+				//	(diff2.length2()==0.0_fl))
 
 				if (IsAlmostZero(diff) ||
 					IsAlmostZero(diff2))
@@ -414,8 +414,8 @@ void b3ConvexUtility::initialize()
 			int k = (j + 1) % numVertices;
 			const b3Vector3& p1 = m_vertices[m_faces[i].m_indices[j]];
 			const b3Vector3& p2 = m_vertices[m_faces[i].m_indices[k]];
-			b3Scalar Area = ((p0 - p1).cross(p0 - p2)).length() * 0.5f;
-			b3Vector3 Center = (p0 + p1 + p2) / 3.0f;
+			b3Scalar Area = ((p0 - p1).cross(p0 - p2)).length() * 0.5_fl;
+			b3Vector3 Center = (p0 + p1 + p2) / 3.0_fl;
 			m_localCenter += Area * Center;
 			TotalArea += Area;
 		}
@@ -425,7 +425,7 @@ void b3ConvexUtility::initialize()
 #ifdef TEST_INTERNAL_OBJECTS
 	if (1)
 	{
-		m_radius = FLT_MAX;
+		m_radius = BIGFLOAT_MAX;
 		for (int i = 0; i < m_faces.size(); i++)
 		{
 			const b3Vector3 Normal(m_faces[i].m_plane[0], m_faces[i].m_plane[1], m_faces[i].m_plane[2]);
@@ -434,12 +434,12 @@ void b3ConvexUtility::initialize()
 				m_radius = dist;
 		}
 
-		b3Scalar MinX = FLT_MAX;
-		b3Scalar MinY = FLT_MAX;
-		b3Scalar MinZ = FLT_MAX;
-		b3Scalar MaxX = -FLT_MAX;
-		b3Scalar MaxY = -FLT_MAX;
-		b3Scalar MaxZ = -FLT_MAX;
+		b3Scalar MinX = BIGFLOAT_MAX;
+		b3Scalar MinY = BIGFLOAT_MAX;
+		b3Scalar MinZ = BIGFLOAT_MAX;
+		b3Scalar MaxX = -BIGFLOAT_MAX;
+		b3Scalar MaxY = -BIGFLOAT_MAX;
+		b3Scalar MaxZ = -BIGFLOAT_MAX;
 		for (int i = 0; i < m_vertices.size(); i++)
 		{
 			const b3Vector3& pt = m_vertices[i];
@@ -453,12 +453,12 @@ void b3ConvexUtility::initialize()
 		mC.setValue(MaxX + MinX, MaxY + MinY, MaxZ + MinZ);
 		mE.setValue(MaxX - MinX, MaxY - MinY, MaxZ - MinZ);
 
-		//		const b3Scalar r = m_radius / sqrtf(2.0f);
-		const b3Scalar r = m_radius / sqrtf(3.0f);
+		//		const b3Scalar r = m_radius / sqrtf(2.0_fl);
+		const b3Scalar r = m_radius / sqrtf(3.0_fl);
 		const int LargestExtent = mE.maxAxis();
-		const b3Scalar Step = (mE[LargestExtent] * 0.5f - r) / 1024.0f;
+		const b3Scalar Step = (mE[LargestExtent] * 0.5_fl - r) / 1024.0_fl;
 		m_extents[0] = m_extents[1] = m_extents[2] = r;
-		m_extents[LargestExtent] = mE[LargestExtent] * 0.5f;
+		m_extents[LargestExtent] = mE[LargestExtent] * 0.5_fl;
 		bool FoundBox = false;
 		for (int j = 0; j < 1024; j++)
 		{
@@ -477,7 +477,7 @@ void b3ConvexUtility::initialize()
 		else
 		{
 			// Refine the box
-			const b3Scalar Step = (m_radius - r) / 1024.0f;
+			const b3Scalar Step = (m_radius - r) / 1024.0_fl;
 			const int e0 = (1 << LargestExtent) & 3;
 			const int e1 = (1 << e0) & 3;
 

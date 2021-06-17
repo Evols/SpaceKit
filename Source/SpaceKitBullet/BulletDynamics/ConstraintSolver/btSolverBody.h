@@ -133,7 +133,7 @@ btSolverBody
 		if (m_originalBody)
 			velocity = m_linearVelocity + m_externalForceImpulse + (m_angularVelocity + m_externalTorqueImpulse).cross(rel_pos);
 		else
-			velocity.setValue(0, 0, 0);
+			velocity.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	}
 
 	SIMD_FORCE_INLINE void getVelocityInLocalPointObsolete(const btVector3& rel_pos, btVector3& velocity) const
@@ -141,7 +141,7 @@ btSolverBody
 		if (m_originalBody)
 			velocity = m_linearVelocity + m_deltaLinearVelocity + (m_angularVelocity + m_deltaAngularVelocity).cross(rel_pos);
 		else
-			velocity.setValue(0, 0, 0);
+			velocity.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	}
 
 	SIMD_FORCE_INLINE void getAngularVelocity(btVector3 & angVel) const
@@ -149,7 +149,7 @@ btSolverBody
 		if (m_originalBody)
 			angVel = m_angularVelocity + m_deltaAngularVelocity;
 		else
-			angVel.setValue(0, 0, 0);
+			angVel.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	}
 
 	//Optimization for the iterative solver: avoid calculating constant terms involving inertia, normal, relative position
@@ -270,7 +270,7 @@ btSolverBody
 
 			//correct the position/orientation based on push/turn recovery
 			btTransform newTransform;
-			if (m_pushVelocity[0] != 0.f || m_pushVelocity[1] != 0 || m_pushVelocity[2] != 0 || m_turnVelocity[0] != 0.f || m_turnVelocity[1] != 0 || m_turnVelocity[2] != 0)
+			if (m_pushVelocity[0] != 0.0_fl || m_pushVelocity[1] != 0.0_fl || m_pushVelocity[2] != 0.0_fl || m_turnVelocity[0] != 0.0_fl || m_turnVelocity[1] != 0.0_fl || m_turnVelocity[2] != 0.0_fl)
 			{
 				//	btQuaternion orn = m_worldTransform.getRotation();
 				btTransformUtil::integrateTransform(m_worldTransform, m_pushVelocity, m_turnVelocity * splitImpulseTurnErp, timeStep, newTransform);

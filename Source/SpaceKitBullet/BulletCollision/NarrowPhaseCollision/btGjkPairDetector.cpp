@@ -30,15 +30,15 @@ subject to the following restrictions:
 //must be above the machine epsilon
 #ifdef BT_USE_DOUBLE_PRECISION
 #define REL_ERROR2 btScalar(1.0e-12)
-btScalar gGjkEpaPenetrationTolerance = 1.0e-12;
+btScalar gGjkEpaPenetrationTolerance = 1.0e-12_fl;
 #else
 #define REL_ERROR2 btScalar(1.0e-6)
-btScalar gGjkEpaPenetrationTolerance = 0.001;
+btScalar gGjkEpaPenetrationTolerance = 0.001_fl;
 #endif
 
 
 btGjkPairDetector::btGjkPairDetector(const btConvexShape *objectA, const btConvexShape *objectB, btSimplexSolverInterface *simplexSolver, btConvexPenetrationDepthSolver *penetrationDepthSolver)
-	: m_cachedSeparatingAxis(btScalar(0.), btScalar(1.), btScalar(0.)),
+	: m_cachedSeparatingAxis(btScalar(0.0_fl), btScalar(1.), btScalar(0.0_fl)),
 	  m_penetrationDepthSolver(penetrationDepthSolver),
 	  m_simplexSolver(simplexSolver),
 	  m_minkowskiA(objectA),
@@ -54,7 +54,7 @@ btGjkPairDetector::btGjkPairDetector(const btConvexShape *objectA, const btConve
 {
 }
 btGjkPairDetector::btGjkPairDetector(const btConvexShape *objectA, const btConvexShape *objectB, int shapeTypeA, int shapeTypeB, btScalar marginA, btScalar marginB, btSimplexSolverInterface *simplexSolver, btConvexPenetrationDepthSolver *penetrationDepthSolver)
-	: m_cachedSeparatingAxis(btScalar(0.), btScalar(1.), btScalar(0.)),
+	: m_cachedSeparatingAxis(btScalar(0.0_fl), btScalar(1.), btScalar(0.0_fl)),
 	  m_penetrationDepthSolver(penetrationDepthSolver),
 	  m_simplexSolver(simplexSolver),
 	  m_minkowskiA(objectA),
@@ -93,8 +93,8 @@ static void btComputeSupport(const btConvexShape *convexA, const btTransform &lo
 
 	if (check2d)
 	{
-		supAworld[2] = 0.f;
-		supBworld[2] = 0.f;
+		supAworld[2] = 0.0_fl;
+		supBworld[2] = 0.0_fl;
 	}
 
 	aMinb = supAworld - supBworld;
@@ -113,7 +113,7 @@ struct btSimplex
 	int last;  //!< index of last added point
 };
 
-static btVector3 ccd_vec3_origin(0, 0, 0);
+static btVector3 ccd_vec3_origin(0_fl, 0_fl, 0_fl);
 
 inline void btSimplexInit(btSimplex *s)
 {
@@ -347,8 +347,8 @@ btScalar btVec3PointTriDist2(const btVector3 *P,
 	// computed.
 
 	btVector3 d1, d2, a;
-	double u, v, w, p, q, r;
-	double s, t, dist, dist2;
+	btScalar u, v, w, p, q, r;
+	btScalar s, t, dist, dist2;
 	btVector3 witness2;
 
 	btVec3Sub2(&d1, B, x0);
@@ -688,10 +688,10 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &input, Result &output, class btIDebugDraw *debugDraw)
 #endif
 {
-	m_cachedSeparatingDistance = 0.f;
+	m_cachedSeparatingDistance = 0.0_fl;
 
-	btScalar distance = btScalar(0.);
-	btVector3 normalInB(btScalar(0.), btScalar(0.), btScalar(0.));
+	btScalar distance = btScalar(0.0_fl);
+	btVector3 normalInB(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 
 	btVector3 pointOnA, pointOnB;
 	btTransform localTransA = input.m_transformA;
@@ -709,13 +709,13 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 	//for CCD we don't use margins
 	if (m_ignoreMargin)
 	{
-		marginA = btScalar(0.);
-		marginB = btScalar(0.);
+		marginA = btScalar(0.0_fl);
+		marginB = btScalar(0.0_fl);
 	}
 
 	m_curIter = 0;
 	int gGjkMaxIter = 1000;  //this is to catch invalid input, perhaps check for #NaN?
-	m_cachedSeparatingAxis.setValue(0, 1, 0);
+	m_cachedSeparatingAxis.setValue(0_fl, 1_fl, 0_fl);
 
 	bool isValid = false;
 	bool checkSimplex = false;
@@ -724,7 +724,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 
 	m_lastUsedMethod = -1;
 	int status = -2;
-	btVector3 orgNormalInB(0, 0, 0);
+	btVector3 orgNormalInB(0_fl, 0_fl, 0_fl);
 	btScalar margin = marginA + marginB;
 
 	//we add a separate implementation to check if the convex shapes intersect
@@ -735,13 +735,13 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 	//note, for large differences in shapes, use double precision build!
 	{
 		btScalar squaredDistance = BT_LARGE_FLOAT;
-		btScalar delta = btScalar(0.);
+		btScalar delta = btScalar(0.0_fl);
 
 		btSimplex simplex1;
 		btSimplex *simplex = &simplex1;
 		btSimplexInit(simplex);
 
-		btVector3 dir(1, 0, 0);
+		btVector3 dir(1_fl, 0_fl, 0_fl);
 
 		{
 			btVector3 lastSupV;
@@ -768,7 +768,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 				// isn't somewhere before origin (the test on negative dot product)
 				// - because if it is, objects are not intersecting at all.
 				btScalar delta = lastSupV.dot(dir);
-				if (delta < 0)
+				if (delta < 0_fl)
 				{
 					//no intersection, besides margin
 					status = -1;
@@ -850,15 +850,15 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 
 				if (check2d)
 				{
-					pWorld[2] = 0.f;
-					qWorld[2] = 0.f;
+					pWorld[2] = 0.0_fl;
+					qWorld[2] = 0.0_fl;
 				}
 
 				btVector3 w = pWorld - qWorld;
 				delta = m_cachedSeparatingAxis.dot(w);
 
 				// potential exit, they don't overlap
-				if ((delta > btScalar(0.0)) && (delta * delta > squaredDistance * input.m_maximumDistanceSquared))
+				if ((delta > btScalar(0.0_fl)) && (delta * delta > squaredDistance * input.m_maximumDistanceSquared))
 				{
 					m_degenerateSimplex = 10;
 					checkSimplex = true;
@@ -879,7 +879,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 
 				if (f0 <= f1)
 				{
-					if (f0 <= btScalar(0.))
+					if (f0 <= btScalar(0.0_fl))
 					{
 						m_degenerateSimplex = 2;
 					}
@@ -987,7 +987,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 
 					btScalar s = btSqrt(squaredDistance);
 
-					btAssert(s > btScalar(0.0));
+					btAssert(s > btScalar(0.0_fl));
 					pointOnA -= m_cachedSeparatingAxis * (marginA / s);
 					pointOnB += m_cachedSeparatingAxis * (marginB / s);
 					distance = ((btScalar(1.) / rlen) - margin);
@@ -1026,7 +1026,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 					m_cachedSeparatingAxis, tmpPointOnA, tmpPointOnB,
 					debugDraw);
 
-				if (m_cachedSeparatingAxis.length2())
+				if (m_cachedSeparatingAxis.length2() != 0_fl)
 				{
 					if (isValid2)
 					{
@@ -1071,7 +1071,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 						///thanks to Jacob.Langford for the reproduction case
 						///http://code.google.com/p/bullet/issues/detail?id=250
 
-						if (m_cachedSeparatingAxis.length2() > btScalar(0.))
+						if (m_cachedSeparatingAxis.length2() > btScalar(0.0_fl))
 						{
 							btScalar distance2 = (tmpPointOnA - tmpPointOnB).length() - margin;
 							//only replace valid distances when the distance is less
@@ -1103,7 +1103,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 		}
 	}
 
-	if (isValid && ((distance < 0) || (distance * distance < input.m_maximumDistanceSquared)))
+	if (isValid && ((distance < 0_fl) || (distance * distance < input.m_maximumDistanceSquared)))
 	{
 		m_cachedSeparatingAxis = normalInB;
 		m_cachedSeparatingDistance = distance;
@@ -1114,7 +1114,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 			///connecting the contact points is pointing in the opposite direction
 			///until then, detect the issue and revert the normal
 
-			btScalar d2 = 0.f;
+			btScalar d2 = 0.0_fl;
 			{
 				btVector3 separatingAxisInA = (-orgNormalInB) * localTransA.getBasis();
 				btVector3 separatingAxisInB = orgNormalInB * localTransB.getBasis();
@@ -1128,7 +1128,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 				d2 = orgNormalInB.dot(w) - margin;
 			}
 
-			btScalar d1 = 0;
+			btScalar d1 = 0_fl;
 			{
 				btVector3 separatingAxisInA = (normalInB)*localTransA.getBasis();
 				btVector3 separatingAxisInB = -normalInB * localTransB.getBasis();
@@ -1141,7 +1141,7 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 				btVector3 w = pWorld - qWorld;
 				d1 = (-normalInB).dot(w) - margin;
 			}
-			btScalar d0 = 0.f;
+			btScalar d0 = 0.0_fl;
 			{
 				btVector3 separatingAxisInA = (-normalInB) * input.m_transformA.getBasis();
 				btVector3 separatingAxisInB = normalInB * input.m_transformB.getBasis();
@@ -1158,10 +1158,10 @@ void btGjkPairDetector::getClosestPointsNonVirtual(const ClosestPointInput &inpu
 			if (d1 > d0)
 			{
 				m_lastUsedMethod = 10;
-				normalInB *= -1;
+				normalInB *= -1_fl;
 			}
 
-			if (orgNormalInB.length2())
+			if (orgNormalInB.length2() != 0_fl)
 			{
 				if (d2 > d0 && d2 > d1 && d2 > distance)
 				{

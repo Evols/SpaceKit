@@ -126,7 +126,7 @@ This class implements a better getAabb method than the previous btTriangleShape 
 class btTriangleShapeEx : public btTriangleShape
 {
 public:
-	btTriangleShapeEx() : btTriangleShape(btVector3(0, 0, 0), btVector3(0, 0, 0), btVector3(0, 0, 0))
+	btTriangleShapeEx() : btTriangleShape(btVector3(0.0_fl, 0.0_fl, 0.0_fl), btVector3(0.0_fl, 0.0_fl, 0.0_fl), btVector3(0.0_fl, 0.0_fl, 0.0_fl))
 	{
 	}
 

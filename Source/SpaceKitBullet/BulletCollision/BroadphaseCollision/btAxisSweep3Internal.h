@@ -141,7 +141,7 @@ public:
 	virtual void setAabb(btBroadphaseProxy* proxy, const btVector3& aabbMin, const btVector3& aabbMax, btDispatcher* dispatcher);
 	virtual void getAabb(btBroadphaseProxy* proxy, btVector3& aabbMin, btVector3& aabbMax) const;
 
-	virtual void rayTest(const btVector3& rayFrom, const btVector3& rayTo, btBroadphaseRayCallback& rayCallback, const btVector3& aabbMin = btVector3(0, 0, 0), const btVector3& aabbMax = btVector3(0, 0, 0));
+	virtual void rayTest(const btVector3& rayFrom, const btVector3& rayTo, btBroadphaseRayCallback& rayCallback, const btVector3& aabbMin = btVector3(0.0_fl, 0.0_fl, 0.0_fl), const btVector3& aabbMax = btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 	virtual void aabbTest(const btVector3& aabbMin, const btVector3& aabbMax, btBroadphaseAabbCallback& callback);
 
 	void quantize(BP_FP_INT_TYPE* out, const btVector3& point, int isMax) const;
@@ -447,9 +447,9 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::quantize(BP_FP_INT_TYPE* out, const b
 	out[2] = (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v.getZ() & m_bpHandleMask) | isMax);
 #else
 	btVector3 v = (point - m_worldAabbMin) * m_quantize;
-	out[0] = (v[0] <= 0) ? (BP_FP_INT_TYPE)isMax : (v[0] >= m_handleSentinel) ? (BP_FP_INT_TYPE)((m_handleSentinel & m_bpHandleMask) | isMax) : (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v[0] & m_bpHandleMask) | isMax);
-	out[1] = (v[1] <= 0) ? (BP_FP_INT_TYPE)isMax : (v[1] >= m_handleSentinel) ? (BP_FP_INT_TYPE)((m_handleSentinel & m_bpHandleMask) | isMax) : (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v[1] & m_bpHandleMask) | isMax);
-	out[2] = (v[2] <= 0) ? (BP_FP_INT_TYPE)isMax : (v[2] >= m_handleSentinel) ? (BP_FP_INT_TYPE)((m_handleSentinel & m_bpHandleMask) | isMax) : (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v[2] & m_bpHandleMask) | isMax);
+	out[0] = (v[0] <= 0_fl) ? (BP_FP_INT_TYPE)isMax : (v[0] >= m_handleSentinel) ? (BP_FP_INT_TYPE)((m_handleSentinel & m_bpHandleMask) | isMax) : (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v[0] & m_bpHandleMask) | isMax);
+	out[1] = (v[1] <= 0_fl) ? (BP_FP_INT_TYPE)isMax : (v[1] >= m_handleSentinel) ? (BP_FP_INT_TYPE)((m_handleSentinel & m_bpHandleMask) | isMax) : (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v[1] & m_bpHandleMask) | isMax);
+	out[2] = (v[2] <= 0_fl) ? (BP_FP_INT_TYPE)isMax : (v[2] >= m_handleSentinel) ? (BP_FP_INT_TYPE)((m_handleSentinel & m_bpHandleMask) | isMax) : (BP_FP_INT_TYPE)(((BP_FP_INT_TYPE)v[2] & m_bpHandleMask) | isMax);
 #endif  //OLD_CLAMPING_METHOD
 }
 

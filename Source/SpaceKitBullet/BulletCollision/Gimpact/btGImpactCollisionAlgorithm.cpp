@@ -385,7 +385,7 @@ void btGImpactCollisionAlgorithm::collide_sat_triangles(const btCollisionObjectW
 
 		if (ptri0.overlap_test_conservative(ptri1))
 		{
-			if (ptri0.find_triangle_collision_clip_method(ptri1, contact_data))
+			if (ptri0_flind_triangle_collision_clip_method(ptri1, contact_data))
 			{
 				int j = contact_data.m_point_count;
 				while (j--)
@@ -701,7 +701,7 @@ void btGImpactCollisionAlgorithm::gimpacttrimeshpart_vs_plane_collision(
 
 		btScalar distance = vertex.dot(plane) - plane[3] - margin;
 
-		if (distance < 0.0)  //add contact
+		if (distance < 0.0_fl)  //add contact
 		{
 			if (swapped)
 			{
@@ -842,7 +842,7 @@ void btGImpactCollisionAlgorithm::processCollision(const btCollisionObjectWrappe
 
 btScalar btGImpactCollisionAlgorithm::calculateTimeOfImpact(btCollisionObject* body0, btCollisionObject* body1, const btDispatcherInfo& dispatchInfo, btManifoldResult* resultOut)
 {
-	return 1.f;
+	return 1.0_fl;
 }
 
 ///////////////////////////////////// REGISTERING ALGORITHM //////////////////////////////////////////////

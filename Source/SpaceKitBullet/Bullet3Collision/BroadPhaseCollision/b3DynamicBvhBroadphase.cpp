@@ -133,7 +133,7 @@ b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int proxyCapacity, b3OverlappingP
 	m_deferedcollide = false;
 	m_needcleanup = true;
 	m_releasepaircache = (paircache != 0) ? false : true;
-	m_prediction = 0;
+	m_prediction = 0_fl;
 	m_stageCurrent = 0;
 	m_fixedleft = 0;
 	m_fupdates = 1;
@@ -142,7 +142,7 @@ b3DynamicBvhBroadphase::b3DynamicBvhBroadphase(int proxyCapacity, b3OverlappingP
 	m_newpairs = 1;
 	m_updates_call = 0;
 	m_updates_done = 0;
-	m_updates_ratio = 0;
+	m_updates_ratio = 0_fl;
 	m_paircache = paircache ? paircache : new (b3AlignedAlloc(sizeof(b3HashedOverlappingPairCache), 16)) b3HashedOverlappingPairCache();
 
 	m_pid = 0;
@@ -319,9 +319,9 @@ void b3DynamicBvhBroadphase::setAabb(int objectId,
 
 				const b3Vector3 delta = aabbMin - proxy->m_aabbMin;
 				b3Vector3 velocity(((proxy->m_aabbMax - proxy->m_aabbMin) / 2) * m_prediction);
-				if (delta[0] < 0) velocity[0] = -velocity[0];
-				if (delta[1] < 0) velocity[1] = -velocity[1];
-				if (delta[2] < 0) velocity[2] = -velocity[2];
+				if (delta[0] < 0_fl) velocity[0] = -velocity[0];
+				if (delta[1] < 0_fl) velocity[1] = -velocity[1];
+				if (delta[2] < 0_fl) velocity[2] = -velocity[2];
 				if (
 #ifdef B3_DBVT_BP_MARGIN
 					m_sets[0].update(proxy->leaf, aabb, velocity, B3_DBVT_BP_MARGIN)
@@ -594,11 +594,11 @@ void b3DynamicBvhBroadphase::collide(b3Dispatcher* dispatcher)
 	m_needcleanup = false;
 	if (m_updates_call > 0)
 	{
-		m_updates_ratio = m_updates_done / (b3Scalar)m_updates_call;
+		m_updates_ratio = (b3Scalar)m_updates_done / (b3Scalar)m_updates_call;
 	}
 	else
 	{
-		m_updates_ratio = 0;
+		m_updates_ratio = 0_fl;
 	}
 	m_updates_done /= 2;
 	m_updates_call /= 2;
@@ -638,7 +638,7 @@ void b3DynamicBvhBroadphase::getBroadphaseAabb(b3Vector3& aabbMin, b3Vector3& aa
 	else if (!m_sets[1].empty())
 		bounds = m_sets[1].m_root->volume;
 	else
-		bounds = b3DbvtVolume::FromCR(b3MakeVector3(0, 0, 0), 0);
+		bounds = b3DbvtVolume::FromCR(b3MakeVector3(0_fl, 0_fl, 0_fl), 0_fl);
 	aabbMin = bounds.Mins();
 	aabbMax = bounds.Maxs();
 }
@@ -662,7 +662,7 @@ void b3DynamicBvhBroadphase::resetPool(b3Dispatcher* dispatcher)
 		m_newpairs = 1;
 		m_updates_call = 0;
 		m_updates_done = 0;
-		m_updates_ratio = 0;
+		m_updates_ratio = 0_fl;
 
 		m_pid = 0;
 		m_cid = 0;

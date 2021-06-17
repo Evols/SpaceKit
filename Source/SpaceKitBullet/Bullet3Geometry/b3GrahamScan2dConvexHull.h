@@ -80,7 +80,7 @@ inline void b3GrahamScanConvexHull2D(b3AlignedObjectArray<b3GrahamVector3>& orig
 	}
 
 	//also precompute angles
-	originalPoints[0].m_angle = -1e30f;
+	originalPoints[0].m_angle = -1e30_fl;
 	for (int i = 1; i < originalPoints.size(); i++)
 	{
 		b3Vector3 xvec = axis0;

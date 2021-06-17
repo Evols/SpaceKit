@@ -1022,7 +1022,7 @@ inline void b3DynamicBvh::rayTestInternal(const b3DbvtNode* root,
 			const b3DbvtNode* node = stack[--depth];
 			bounds[0] = node->volume.Mins() - aabbMax;
 			bounds[1] = node->volume.Maxs() - aabbMin;
-			b3Scalar tmin = 1.f, lambda_min = 0.f;
+			b3Scalar tmin = 1.0_fl, lambda_min = 0.0_fl;
 			unsigned int result1 = false;
 			result1 = b3RayAabb2(rayFrom, rayDirectionInverse, signs, bounds, tmin, lambda_min, lambda_max);
 			if (result1)
@@ -1061,10 +1061,10 @@ inline void b3DynamicBvh::rayTest(const b3DbvtNode* root,
 
 		///what about division by zero? --> just set rayDirection[i] to INF/B3_LARGE_FLOAT
 		b3Vector3 rayDirectionInverse;
-		rayDirectionInverse[0] = rayDir[0] == b3Scalar(0.0) ? b3Scalar(B3_LARGE_FLOAT) : b3Scalar(1.0) / rayDir[0];
-		rayDirectionInverse[1] = rayDir[1] == b3Scalar(0.0) ? b3Scalar(B3_LARGE_FLOAT) : b3Scalar(1.0) / rayDir[1];
-		rayDirectionInverse[2] = rayDir[2] == b3Scalar(0.0) ? b3Scalar(B3_LARGE_FLOAT) : b3Scalar(1.0) / rayDir[2];
-		unsigned int signs[3] = {rayDirectionInverse[0] < 0.0, rayDirectionInverse[1] < 0.0, rayDirectionInverse[2] < 0.0};
+		rayDirectionInverse[0] = rayDir[0] == b3Scalar(0.0_fl) ? b3Scalar(B3_LARGE_FLOAT) : b3Scalar(1.0_fl) / rayDir[0];
+		rayDirectionInverse[1] = rayDir[1] == b3Scalar(0.0_fl) ? b3Scalar(B3_LARGE_FLOAT) : b3Scalar(1.0_fl) / rayDir[1];
+		rayDirectionInverse[2] = rayDir[2] == b3Scalar(0.0_fl) ? b3Scalar(B3_LARGE_FLOAT) : b3Scalar(1.0_fl) / rayDir[2];
+		unsigned int signs[3] = {rayDirectionInverse[0] < 0.0_fl, rayDirectionInverse[1] < 0.0_fl, rayDirectionInverse[2] < 0.0_fl};
 
 		b3Scalar lambda_max = rayDir.dot(rayTo - rayFrom);
 #ifdef COMPARE_BTRAY_AABB2
@@ -1086,11 +1086,11 @@ inline void b3DynamicBvh::rayTest(const b3DbvtNode* root,
 			bounds[0] = node->volume.Mins();
 			bounds[1] = node->volume.Maxs();
 
-			b3Scalar tmin = 1.f, lambda_min = 0.f;
+			b3Scalar tmin = 1.0_fl, lambda_min = 0.0_fl;
 			unsigned int result1 = b3RayAabb2(rayFrom, rayDirectionInverse, signs, bounds, tmin, lambda_min, lambda_max);
 
 #ifdef COMPARE_BTRAY_AABB2
-			b3Scalar param = 1.f;
+			b3Scalar param = 1.0_fl;
 			bool result2 = b3RayAabb(rayFrom, rayTo, node->volume.Mins(), node->volume.Maxs(), param, resultNormal);
 			b3Assert(result1 == result2);
 #endif  //TEST_BTRAY_AABB2

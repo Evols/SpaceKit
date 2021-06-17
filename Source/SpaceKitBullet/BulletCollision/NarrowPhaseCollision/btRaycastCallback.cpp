@@ -52,12 +52,12 @@ void btTriangleRaycastCallback::processTriangle(btVector3* triangle, int partId,
 	btScalar dist_b = triangleNormal.dot(m_to);
 	dist_b -= dist;
 
-	if (dist_a * dist_b >= btScalar(0.0))
+	if (dist_a * dist_b >= btScalar(0.0_fl))
 	{
 		return;  // same sign
 	}
 
-	if (((m_flags & kF_FilterBackfaces) != 0) && (dist_a <= btScalar(0.0)))
+	if (((m_flags & kF_FilterBackfaces) != 0) && (dist_a <= btScalar(0.0_fl)))
 	{
 		// Backface, skip check
 		return;
@@ -102,7 +102,7 @@ void btTriangleRaycastCallback::processTriangle(btVector3* triangle, int partId,
 						triangleNormal.normalize();
 
 						//@BP Mod - Allow for unflipped normal when raycasting against backfaces
-						if (((m_flags & kF_KeepUnflippedNormal) == 0) && (dist_a <= btScalar(0.0)))
+						if (((m_flags & kF_KeepUnflippedNormal) == 0) && (dist_a <= btScalar(0.0_fl)))
 						{
 							m_hitFraction = reportHit(-triangleNormal, distance, partId, triangleIndex);
 						}
@@ -123,9 +123,9 @@ btTriangleConvexcastCallback::btTriangleConvexcastCallback(const btConvexShape* 
 	m_convexShapeFrom = convexShapeFrom;
 	m_convexShapeTo = convexShapeTo;
 	m_triangleToWorld = triangleToWorld;
-	m_hitFraction = 1.0f;
+	m_hitFraction = 1.0_fl;
 	m_triangleCollisionMargin = triangleCollisionMargin;
-	m_allowedPenetration = 0.f;
+	m_allowedPenetration = 0.0_fl;
 }
 
 void btTriangleConvexcastCallback::processTriangle(btVector3* triangle, int partId, int triangleIndex)

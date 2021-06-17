@@ -43,20 +43,20 @@ protected:
 
 	b3Scalar getContactProcessingThreshold(b3Contact4* contact)
 	{
-		return 0.02f;
+		return 0.02_fl;
 	}
 	void setupFrictionConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias, b3SolverConstraint& solverConstraint, const b3Vector3& normalAxis, int solverBodyIdA, int solverBodyIdB,
 								 b3ContactPoint& cp, const b3Vector3& rel_pos1, const b3Vector3& rel_pos2,
 								 b3RigidBodyData* colObj0, b3RigidBodyData* colObj1, b3Scalar relaxation,
-								 b3Scalar desiredVelocity = 0., b3Scalar cfmSlip = 0.);
+								 b3Scalar desiredVelocity = 0.0_fl, b3Scalar cfmSlip = 0.0_fl);
 
 	void setupRollingFrictionConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias, b3SolverConstraint& solverConstraint, const b3Vector3& normalAxis, int solverBodyIdA, int solverBodyIdB,
 										b3ContactPoint& cp, const b3Vector3& rel_pos1, const b3Vector3& rel_pos2,
 										b3RigidBodyData* colObj0, b3RigidBodyData* colObj1, b3Scalar relaxation,
-										b3Scalar desiredVelocity = 0., b3Scalar cfmSlip = 0.);
+										b3Scalar desiredVelocity = 0.0_fl, b3Scalar cfmSlip = 0.0_fl);
 
-	b3SolverConstraint& addFrictionConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias, const b3Vector3& normalAxis, int solverBodyIdA, int solverBodyIdB, int frictionIndex, b3ContactPoint& cp, const b3Vector3& rel_pos1, const b3Vector3& rel_pos2, b3RigidBodyData* colObj0, b3RigidBodyData* colObj1, b3Scalar relaxation, b3Scalar desiredVelocity = 0., b3Scalar cfmSlip = 0.);
-	b3SolverConstraint& addRollingFrictionConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias, const b3Vector3& normalAxis, int solverBodyIdA, int solverBodyIdB, int frictionIndex, b3ContactPoint& cp, const b3Vector3& rel_pos1, const b3Vector3& rel_pos2, b3RigidBodyData* colObj0, b3RigidBodyData* colObj1, b3Scalar relaxation, b3Scalar desiredVelocity = 0, b3Scalar cfmSlip = 0.f);
+	b3SolverConstraint& addFrictionConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias, const b3Vector3& normalAxis, int solverBodyIdA, int solverBodyIdB, int frictionIndex, b3ContactPoint& cp, const b3Vector3& rel_pos1, const b3Vector3& rel_pos2, b3RigidBodyData* colObj0, b3RigidBodyData* colObj1, b3Scalar relaxation, b3Scalar desiredVelocity = 0.0_fl, b3Scalar cfmSlip = 0.0_fl);
+	b3SolverConstraint& addRollingFrictionConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias, const b3Vector3& normalAxis, int solverBodyIdA, int solverBodyIdB, int frictionIndex, b3ContactPoint& cp, const b3Vector3& rel_pos1, const b3Vector3& rel_pos2, b3RigidBodyData* colObj0, b3RigidBodyData* colObj1, b3Scalar relaxation, b3Scalar desiredVelocity = 0, b3Scalar cfmSlip = 0.0_fl);
 
 	void setupContactConstraint(b3RigidBodyData* bodies, b3InertiaData* inertias,
 								b3SolverConstraint& solverConstraint, int solverBodyIdA, int solverBodyIdB, b3ContactPoint& cp,

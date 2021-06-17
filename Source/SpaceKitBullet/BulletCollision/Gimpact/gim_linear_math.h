@@ -40,19 +40,19 @@ email: projectileman@yahoo.com
 //! Zero out a 2D vector
 #define VEC_ZERO_2(a)           \
 	{                           \
-		(a)[0] = (a)[1] = 0.0f; \
+		(a)[0] = (a)[1] = 0.0_fl; \
 	}
 
 //! Zero out a 3D vector
 #define VEC_ZERO(a)                      \
 	{                                    \
-		(a)[0] = (a)[1] = (a)[2] = 0.0f; \
+		(a)[0] = (a)[1] = (a)[2] = 0.0_fl; \
 	}
 
 /// Zero out a 4D vector
 #define VEC_ZERO_4(a)                             \
 	{                                             \
-		(a)[0] = (a)[1] = (a)[2] = (a)[3] = 0.0f; \
+		(a)[0] = (a)[1] = (a)[2] = (a)[3] = 0.0_fl; \
 	}
 
 /// Vector copy
@@ -259,7 +259,7 @@ email: projectileman@yahoo.com
 /// Vector length
 #define VEC_CONJUGATE_LENGTH(a, l)                                 \
 	{                                                              \
-		GREAL _pp = 1.0 - a[0] * a[0] - a[1] * a[1] - a[2] * a[2]; \
+		GREAL _pp = 1.0_fl - a[0] * a[0] - a[1] * a[1] - a[2] * a[2]; \
 		GIM_SQRT(_pp, l);                                          \
 	}
 
@@ -388,7 +388,7 @@ Takes two vectors a, b, blends them together with s <=1 */
 /// Vector cross
 #define X_AXIS_CROSS_VEC(dst, src) \
 	{                              \
-		dst[0] = 0.0f;             \
+		dst[0] = 0.0_fl;             \
 		dst[1] = -src[2];          \
 		dst[2] = src[1];           \
 	}
@@ -396,7 +396,7 @@ Takes two vectors a, b, blends them together with s <=1 */
 #define Y_AXIS_CROSS_VEC(dst, src) \
 	{                              \
 		dst[0] = src[2];           \
-		dst[1] = 0.0f;             \
+		dst[1] = 0.0_fl;             \
 		dst[2] = -src[0];          \
 	}
 
@@ -404,71 +404,71 @@ Takes two vectors a, b, blends them together with s <=1 */
 	{                              \
 		dst[0] = -src[1];          \
 		dst[1] = src[0];           \
-		dst[2] = 0.0f;             \
+		dst[2] = 0.0_fl;             \
 	}
 
 /// initialize matrix
 #define IDENTIFY_MATRIX_3X3(m) \
 	{                          \
-		m[0][0] = 1.0;         \
-		m[0][1] = 0.0;         \
-		m[0][2] = 0.0;         \
+		m[0][0] = 1.0_fl;         \
+		m[0][1] = 0.0_fl;         \
+		m[0][2] = 0.0_fl;         \
                                \
-		m[1][0] = 0.0;         \
-		m[1][1] = 1.0;         \
-		m[1][2] = 0.0;         \
+		m[1][0] = 0.0_fl;         \
+		m[1][1] = 1.0_fl;         \
+		m[1][2] = 0.0_fl;         \
                                \
-		m[2][0] = 0.0;         \
-		m[2][1] = 0.0;         \
-		m[2][2] = 1.0;         \
+		m[2][0] = 0.0_fl;         \
+		m[2][1] = 0.0_fl;         \
+		m[2][2] = 1.0_fl;         \
 	}
 
 /*! initialize matrix */
 #define IDENTIFY_MATRIX_4X4(m) \
 	{                          \
-		m[0][0] = 1.0;         \
-		m[0][1] = 0.0;         \
-		m[0][2] = 0.0;         \
-		m[0][3] = 0.0;         \
+		m[0][0] = 1.0_fl;         \
+		m[0][1] = 0.0_fl;         \
+		m[0][2] = 0.0_fl;         \
+		m[0][3] = 0.0_fl;         \
                                \
-		m[1][0] = 0.0;         \
-		m[1][1] = 1.0;         \
-		m[1][2] = 0.0;         \
-		m[1][3] = 0.0;         \
+		m[1][0] = 0.0_fl;         \
+		m[1][1] = 1.0_fl;         \
+		m[1][2] = 0.0_fl;         \
+		m[1][3] = 0.0_fl;         \
                                \
-		m[2][0] = 0.0;         \
-		m[2][1] = 0.0;         \
-		m[2][2] = 1.0;         \
-		m[2][3] = 0.0;         \
+		m[2][0] = 0.0_fl;         \
+		m[2][1] = 0.0_fl;         \
+		m[2][2] = 1.0_fl;         \
+		m[2][3] = 0.0_fl;         \
                                \
-		m[3][0] = 0.0;         \
-		m[3][1] = 0.0;         \
-		m[3][2] = 0.0;         \
-		m[3][3] = 1.0;         \
+		m[3][0] = 0.0_fl;         \
+		m[3][1] = 0.0_fl;         \
+		m[3][2] = 0.0_fl;         \
+		m[3][3] = 1.0_fl;         \
 	}
 
 /*! initialize matrix */
 #define ZERO_MATRIX_4X4(m) \
 	{                      \
-		m[0][0] = 0.0;     \
-		m[0][1] = 0.0;     \
-		m[0][2] = 0.0;     \
-		m[0][3] = 0.0;     \
+		m[0][0] = 0.0_fl;     \
+		m[0][1] = 0.0_fl;     \
+		m[0][2] = 0.0_fl;     \
+		m[0][3] = 0.0_fl;     \
                            \
-		m[1][0] = 0.0;     \
-		m[1][1] = 0.0;     \
-		m[1][2] = 0.0;     \
-		m[1][3] = 0.0;     \
+		m[1][0] = 0.0_fl;     \
+		m[1][1] = 0.0_fl;     \
+		m[1][2] = 0.0_fl;     \
+		m[1][3] = 0.0_fl;     \
                            \
-		m[2][0] = 0.0;     \
-		m[2][1] = 0.0;     \
-		m[2][2] = 0.0;     \
-		m[2][3] = 0.0;     \
+		m[2][0] = 0.0_fl;     \
+		m[2][1] = 0.0_fl;     \
+		m[2][2] = 0.0_fl;     \
+		m[2][3] = 0.0_fl;     \
                            \
-		m[3][0] = 0.0;     \
-		m[3][1] = 0.0;     \
-		m[3][2] = 0.0;     \
-		m[3][3] = 0.0;     \
+		m[3][0] = 0.0_fl;     \
+		m[3][1] = 0.0_fl;     \
+		m[3][2] = 0.0_fl;     \
+		m[3][3] = 0.0_fl;     \
 	}
 
 /*! matrix rotation  X */
@@ -476,25 +476,25 @@ Takes two vectors a, b, blends them together with s <=1 */
 	{                                   \
 		/* rotation about the x-axis */ \
                                         \
-		m[0][0] = 1.0;                  \
-		m[0][1] = 0.0;                  \
-		m[0][2] = 0.0;                  \
-		m[0][3] = 0.0;                  \
+		m[0][0] = 1.0_fl;                  \
+		m[0][1] = 0.0_fl;                  \
+		m[0][2] = 0.0_fl;                  \
+		m[0][3] = 0.0_fl;                  \
                                         \
-		m[1][0] = 0.0;                  \
+		m[1][0] = 0.0_fl;                  \
 		m[1][1] = (cosine);             \
 		m[1][2] = (sine);               \
-		m[1][3] = 0.0;                  \
+		m[1][3] = 0.0_fl;                  \
                                         \
-		m[2][0] = 0.0;                  \
+		m[2][0] = 0.0_fl;                  \
 		m[2][1] = -(sine);              \
 		m[2][2] = (cosine);             \
-		m[2][3] = 0.0;                  \
+		m[2][3] = 0.0_fl;                  \
                                         \
-		m[3][0] = 0.0;                  \
-		m[3][1] = 0.0;                  \
-		m[3][2] = 0.0;                  \
-		m[3][3] = 1.0;                  \
+		m[3][0] = 0.0_fl;                  \
+		m[3][1] = 0.0_fl;                  \
+		m[3][2] = 0.0_fl;                  \
+		m[3][3] = 1.0_fl;                  \
 	}
 
 /*! matrix rotation  Y */
@@ -503,24 +503,24 @@ Takes two vectors a, b, blends them together with s <=1 */
 		/* rotation about the y-axis */ \
                                         \
 		m[0][0] = (cosine);             \
-		m[0][1] = 0.0;                  \
+		m[0][1] = 0.0_fl;                  \
 		m[0][2] = -(sine);              \
-		m[0][3] = 0.0;                  \
+		m[0][3] = 0.0_fl;                  \
                                         \
-		m[1][0] = 0.0;                  \
-		m[1][1] = 1.0;                  \
-		m[1][2] = 0.0;                  \
-		m[1][3] = 0.0;                  \
+		m[1][0] = 0.0_fl;                  \
+		m[1][1] = 1.0_fl;                  \
+		m[1][2] = 0.0_fl;                  \
+		m[1][3] = 0.0_fl;                  \
                                         \
 		m[2][0] = (sine);               \
-		m[2][1] = 0.0;                  \
+		m[2][1] = 0.0_fl;                  \
 		m[2][2] = (cosine);             \
-		m[2][3] = 0.0;                  \
+		m[2][3] = 0.0_fl;                  \
                                         \
-		m[3][0] = 0.0;                  \
-		m[3][1] = 0.0;                  \
-		m[3][2] = 0.0;                  \
-		m[3][3] = 1.0;                  \
+		m[3][0] = 0.0_fl;                  \
+		m[3][1] = 0.0_fl;                  \
+		m[3][2] = 0.0_fl;                  \
+		m[3][3] = 1.0_fl;                  \
 	}
 
 /*! matrix rotation  Z */
@@ -530,23 +530,23 @@ Takes two vectors a, b, blends them together with s <=1 */
                                         \
 		m[0][0] = (cosine);             \
 		m[0][1] = (sine);               \
-		m[0][2] = 0.0;                  \
-		m[0][3] = 0.0;                  \
+		m[0][2] = 0.0_fl;                  \
+		m[0][3] = 0.0_fl;                  \
                                         \
 		m[1][0] = -(sine);              \
 		m[1][1] = (cosine);             \
-		m[1][2] = 0.0;                  \
-		m[1][3] = 0.0;                  \
+		m[1][2] = 0.0_fl;                  \
+		m[1][3] = 0.0_fl;                  \
                                         \
-		m[2][0] = 0.0;                  \
-		m[2][1] = 0.0;                  \
-		m[2][2] = 1.0;                  \
-		m[2][3] = 0.0;                  \
+		m[2][0] = 0.0_fl;                  \
+		m[2][1] = 0.0_fl;                  \
+		m[2][2] = 1.0_fl;                  \
+		m[2][3] = 0.0_fl;                  \
                                         \
-		m[3][0] = 0.0;                  \
-		m[3][1] = 0.0;                  \
-		m[3][2] = 0.0;                  \
-		m[3][3] = 1.0;                  \
+		m[3][0] = 0.0_fl;                  \
+		m[3][1] = 0.0_fl;                  \
+		m[3][2] = 0.0_fl;                  \
+		m[3][3] = 1.0_fl;                  \
 	}
 
 /*! matrix copy */
@@ -947,9 +947,9 @@ Last column is added as the position
 		p[1] = -m[0][1] * v[0] + m[0][0] * v[1];                            \
                                                                             \
 		/* if matrix not singular, and not orthonormal, then renormalize */ \
-		if ((det != 1.0f) && (det != 0.0f))                                 \
+		if ((det != 1.0_fl) && (det != 0.0_fl))                                 \
 		{                                                                   \
-			det = 1.0f / det;                                               \
+			det = 1.0_fl / det;                                               \
 			p[0] *= det;                                                    \
 			p[1] *= det;                                                    \
 		}                                                                   \
@@ -968,7 +968,7 @@ Last column is added as the position
                                                                           \
 		/* do nothing if off-diagonals are zero and diagonals are 	\
     * equal */      \
-		if ((m[0][1] != 0.0) || (m[1][0] != 0.0) || (m[0][0] != m[1][1])) \
+		if ((m[0][1] != 0.0_fl) || (m[1][0] != 0.0_fl) || (m[0][0] != m[1][1])) \
 		{                                                                 \
 			p[0] = m[1][1] * v[0] - m[1][0] * v[1];                       \
 			p[1] = -m[0][1] * v[0] + m[0][0] * v[1];                      \
@@ -1320,7 +1320,7 @@ Last column is added as the position
 	{                                   \
 		GREAL _tmp_;                    \
 		DETERMINANT_2X2(det, a);        \
-		_tmp_ = 1.0 / (det);            \
+		_tmp_ = 1.0_fl / (det);            \
 		SCALE_ADJOINT_2X2(b, _tmp_, a); \
 	}
 
@@ -1333,7 +1333,7 @@ Last column is added as the position
 	{                                   \
 		GREAL _tmp_;                    \
 		DETERMINANT_3X3(det, a);        \
-		_tmp_ = 1.0 / (det);            \
+		_tmp_ = 1.0_fl / (det);            \
 		SCALE_ADJOINT_3X3(b, _tmp_, a); \
 	}
 
@@ -1346,7 +1346,7 @@ Last column is added as the position
 	{                                   \
 		GREAL _tmp_;                    \
 		DETERMINANT_4X4(det, a);        \
-		_tmp_ = 1.0 / (det);            \
+		_tmp_ = 1.0_fl / (det);            \
 		SCALE_ADJOINT_4X4(b, _tmp_, a); \
 	}
 

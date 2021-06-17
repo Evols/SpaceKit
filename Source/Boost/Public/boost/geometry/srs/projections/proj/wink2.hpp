@@ -93,7 +93,7 @@ namespace projections
                             break;
                     }
                     if (!i)
-                        lp_lat = (lp_lat < 0.) ? -half_pi : half_pi;
+                        lp_lat = (lp_lat < 0.0_fl) ? -half_pi : half_pi;
                     else
                         lp_lat *= 0.5;
                     xy_x = 0.5 * lp_lon * (cos(lp_lat) + this->m_proj_parm.cosphi1);

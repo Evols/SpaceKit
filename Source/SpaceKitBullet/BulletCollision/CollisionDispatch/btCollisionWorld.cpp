@@ -288,8 +288,8 @@ void btCollisionWorld::rayTestSingleInternal(const btTransform& rayFromTrans, co
 											 const btCollisionObjectWrapper* collisionObjectWrap,
 											 RayResultCallback& resultCallback)
 {
-	btSphereShape pointShape(btScalar(0.0));
-	pointShape.setMargin(0.f);
+	btSphereShape pointShape(btScalar(0.0_fl));
+	pointShape.setMargin(0.0_fl);
 	const btConvexShape* castShape = &pointShape;
 	const btCollisionShape* collisionShape = collisionObjectWrap->getCollisionShape();
 	const btTransform& colObjWorldTransform = collisionObjectWrap->getWorldTransform();
@@ -953,12 +953,12 @@ struct btSingleRayCallback : public btBroadphaseRayCallback
 
 		rayDir.normalize();
 		///what about division by zero? --> just set rayDirection[i] to INF/BT_LARGE_FLOAT
-		m_rayDirectionInverse[0] = rayDir[0] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[0];
-		m_rayDirectionInverse[1] = rayDir[1] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[1];
-		m_rayDirectionInverse[2] = rayDir[2] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[2];
-		m_signs[0] = m_rayDirectionInverse[0] < 0.0;
-		m_signs[1] = m_rayDirectionInverse[1] < 0.0;
-		m_signs[2] = m_rayDirectionInverse[2] < 0.0;
+		m_rayDirectionInverse[0] = rayDir[0] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[0];
+		m_rayDirectionInverse[1] = rayDir[1] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[1];
+		m_rayDirectionInverse[2] = rayDir[2] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[2];
+		m_signs[0] = m_rayDirectionInverse[0] < 0.0_fl;
+		m_signs[1] = m_rayDirectionInverse[1] < 0.0_fl;
+		m_signs[2] = m_rayDirectionInverse[2] < 0.0_fl;
 
 		m_lambda_max = rayDir.dot(m_rayToWorld - m_rayFromWorld);
 	}
@@ -966,7 +966,7 @@ struct btSingleRayCallback : public btBroadphaseRayCallback
 	virtual bool process(const btBroadphaseProxy* proxy)
 	{
 		///terminate further ray tests, once the closestHitFraction reached zero
-		if (m_resultCallback.m_closestHitFraction == btScalar(0.f))
+		if (m_resultCallback.m_closestHitFraction == btScalar(0.0_fl))
 			return false;
 
 		btCollisionObject* collisionObject = (btCollisionObject*)proxy->m_clientObject;
@@ -1037,14 +1037,14 @@ struct btSingleSweepCallback : public btBroadphaseRayCallback
 		  m_castShape(castShape)
 	{
 		btVector3 unnormalizedRayDir = (m_convexToTrans.getOrigin() - m_convexFromTrans.getOrigin());
-		btVector3 rayDir = unnormalizedRayDir.fuzzyZero() ? btVector3(btScalar(0.0), btScalar(0.0), btScalar(0.0)) : unnormalizedRayDir.normalized();
+		btVector3 rayDir = unnormalizedRayDir.fuzzyZero() ? btVector3(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl)) : unnormalizedRayDir.normalized();
 		///what about division by zero? --> just set rayDirection[i] to INF/BT_LARGE_FLOAT
-		m_rayDirectionInverse[0] = rayDir[0] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[0];
-		m_rayDirectionInverse[1] = rayDir[1] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[1];
-		m_rayDirectionInverse[2] = rayDir[2] == btScalar(0.0) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0) / rayDir[2];
-		m_signs[0] = m_rayDirectionInverse[0] < 0.0;
-		m_signs[1] = m_rayDirectionInverse[1] < 0.0;
-		m_signs[2] = m_rayDirectionInverse[2] < 0.0;
+		m_rayDirectionInverse[0] = rayDir[0] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[0];
+		m_rayDirectionInverse[1] = rayDir[1] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[1];
+		m_rayDirectionInverse[2] = rayDir[2] == btScalar(0.0_fl) ? btScalar(BT_LARGE_FLOAT) : btScalar(1.0_fl) / rayDir[2];
+		m_signs[0] = m_rayDirectionInverse[0] < 0.0_fl;
+		m_signs[1] = m_rayDirectionInverse[1] < 0.0_fl;
+		m_signs[2] = m_rayDirectionInverse[2] < 0.0_fl;
 
 		m_lambda_max = rayDir.dot(unnormalizedRayDir);
 	}
@@ -1052,7 +1052,7 @@ struct btSingleSweepCallback : public btBroadphaseRayCallback
 	virtual bool process(const btBroadphaseProxy* proxy)
 	{
 		///terminate further convex sweep tests, once the closestHitFraction reached zero
-		if (m_resultCallback.m_closestHitFraction == btScalar(0.f))
+		if (m_resultCallback.m_closestHitFraction == btScalar(0.0_fl))
 			return false;
 
 		btCollisionObject* collisionObject = (btCollisionObject*)proxy->m_clientObject;
@@ -1087,13 +1087,13 @@ void btCollisionWorld::convexSweepTest(const btConvexShape* castShape, const btT
 	/* Compute AABB that encompasses angular movement */
 	{
 		btVector3 linVel, angVel;
-		btTransformUtil::calculateVelocity(convexFromTrans, convexToTrans, 1.0f, linVel, angVel);
+		btTransformUtil::calculateVelocity(convexFromTrans, convexToTrans, 1.0_fl, linVel, angVel);
 		btVector3 zeroLinVel;
-		zeroLinVel.setValue(0, 0, 0);
+		zeroLinVel.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 		btTransform R;
 		R.setIdentity();
 		R.setRotation(convexFromTrans.getRotation());
-		castShape->calculateTemporalAabb(R, zeroLinVel, angVel, 1.0f, castShapeAabbMin, castShapeAabbMax);
+		castShape->calculateTemporalAabb(R, zeroLinVel, angVel, 1.0_fl, castShapeAabbMin, castShapeAabbMax);
 	}
 
 #ifndef USE_BRUTEFORCE_RAYBROADPHASE
@@ -1291,10 +1291,10 @@ public:
 		{
 			btVector3 normal = (wv1 - wv0).cross(wv2 - wv0);
 			normal.normalize();
-			btVector3 normalColor(1, 1, 0);
+			btVector3 normalColor(1_fl, 1_fl, 0_fl);
 			m_debugDrawer->drawLine(center, center + normal, normalColor);
 		}
-		m_debugDrawer->drawTriangle(wv0, wv1, wv2, m_color, 1.0);
+		m_debugDrawer->drawTriangle(wv0, wv1, wv2, m_color, 1.0_fl);
 	}
 };
 
@@ -1303,7 +1303,7 @@ void btCollisionWorld::debugDrawObject(const btTransform& worldTransform, const 
 	// Draw a small simplex at the center of the object
 	if (getDebugDrawer() && getDebugDrawer()->getDebugMode() & btIDebugDraw::DBG_DrawFrames)
 	{
-		getDebugDrawer()->drawTransform(worldTransform, .1);
+		getDebugDrawer()->drawTransform(worldTransform, 0.1_fl);
 	}
 
 	if (shape->getShapeType() == COMPOUND_SHAPE_PROXYTYPE)
@@ -1403,7 +1403,7 @@ void btCollisionWorld::debugDrawObject(const btTransform& worldTransform, const 
 						const btConvexPolyhedron* poly = polyshape->getConvexPolyhedron();
 						for (i = 0; i < poly->m_faces.size(); i++)
 						{
-							btVector3 centroid(0, 0, 0);
+							btVector3 centroid(0_fl, 0_fl, 0_fl);
 							int numVerts = poly->m_faces[i].m_indices.size();
 							if (numVerts)
 							{
@@ -1416,10 +1416,10 @@ void btCollisionWorld::debugDrawObject(const btTransform& worldTransform, const 
 									lastV = curVert;
 								}
 							}
-							centroid *= btScalar(1.f) / btScalar(numVerts);
+							centroid *= btScalar(1.0_fl) / btScalar(numVerts);
 							if (getDebugDrawer()->getDebugMode() & btIDebugDraw::DBG_DrawNormals)
 							{
-								btVector3 normalColor(1, 1, 0);
+								btVector3 normalColor(1_fl, 1_fl, 0_fl);
 								btVector3 faceNormal(poly->m_faces[i].m_plane[0], poly->m_faces[i].m_plane[1], poly->m_faces[i].m_plane[2]);
 								getDebugDrawer()->drawLine(worldTransform * centroid, worldTransform * (centroid + faceNormal), normalColor);
 							}

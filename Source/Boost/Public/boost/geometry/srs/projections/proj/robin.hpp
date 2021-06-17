@@ -158,7 +158,7 @@ namespace projections
                     dphi = geometry::math::r2d<T>() * (dphi - RC1 * i);
                     xy_x = v(coefs_x<T>()[i], dphi) * FXC * lp_lon;
                     xy_y = v(coefs_y<T>()[i], dphi) * FYC;
-                    if (lp_lat < 0.) xy_y = -xy_y;
+                    if (lp_lat < 0.0_fl) xy_y = -xy_y;
                 }
 
                 // INVERSE(s_inverse)  spheroid
@@ -207,7 +207,7 @@ namespace projections
                         if( iters == 0 )
                             BOOST_THROW_EXCEPTION( projection_exception(error_non_convergent) );
                         lp_lat = (5 * i + t) * geometry::math::d2r<T>();
-                        if (xy_y < 0.) lp_lat = -lp_lat;
+                        if (xy_y < 0.0_fl) lp_lat = -lp_lat;
                         lp_lon /= v(coefs_x[i], t);
                     }
                 }

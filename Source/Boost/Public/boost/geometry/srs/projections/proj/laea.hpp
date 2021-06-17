@@ -140,7 +140,7 @@ namespace projections
                         break;
                     case n_pole:
                     case s_pole:
-                        if (q >= 0.) {
+                        if (q >= 0.0_fl) {
                             b = sqrt(q);
                             xy_x = b * sinlam;
                             xy_y = coslam * (this->m_proj_parm.mode == s_pole ? b : -b);

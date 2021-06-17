@@ -12,8 +12,8 @@ btSdfCollisionShapeInternalData
 	btMiniSDF m_sdf;
 
 	btSdfCollisionShapeInternalData()
-		: m_localScaling(1, 1, 1),
-		  m_margin(0)
+		: m_localScaling(1_fl, 1_fl, 1_fl),
+		  m_margin(0_fl)
 	{
 	}
 };
@@ -60,7 +60,7 @@ const btVector3& btSdfCollisionShape::getLocalScaling() const
 }
 void btSdfCollisionShape::calculateLocalInertia(btScalar mass, btVector3& inertia) const
 {
-	inertia.setValue(0, 0, 0);
+	inertia.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 }
 const char* btSdfCollisionShape::getName() const
 {
@@ -84,7 +84,7 @@ bool btSdfCollisionShape::queryPoint(const btVector3& ptInSDF, btScalar& distOut
 {
 	int field = 0;
 	btVector3 grad;
-	double dist;
+	btScalar dist;
 	bool hasResult = m_data->m_sdf.interpolate(field, dist, ptInSDF, &grad);
 	if (hasResult)
 	{

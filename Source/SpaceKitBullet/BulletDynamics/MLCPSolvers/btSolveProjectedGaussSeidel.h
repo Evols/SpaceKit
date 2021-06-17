@@ -48,10 +48,10 @@ public:
 
 		for (int k = 0; k < numIterations; k++)
 		{
-			m_leastSquaresResidual = 0.f;
+			m_leastSquaresResidual = 0.0_fl;
 			for (i = 0; i < numRows; i++)
 			{
-				delta = 0.0f;
+				delta = 0.0_fl;
 				if (useSparsity)
 				{
 					for (int h = 0; h < A.m_rowNonZeroElements1[i].size(); h++)
@@ -74,7 +74,7 @@ public:
 				btScalar aDiag = A(i, i);
 				btScalar xOld = x[i];
 				x[i] = (b[i] - delta) / aDiag;
-				btScalar s = 1.f;
+				btScalar s = 1.0_fl;
 
 				if (limitDependency[i] >= 0)
 				{

@@ -137,11 +137,11 @@ namespace projections
                         Av = Azba;
                         xy_y = -rhoc;
                     }
-                    if (z < 0.) {
+                    if (z < 0.0_fl) {
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                     }
                     r = F * (t = math::pow(tan(T(0.5) * z), n));
-                    if ((al = .5 * (R104 - z)) < 0.) {
+                    if ((al = .5 * (R104 - z)) < 0.0_fl) {
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                     }
                     al = (t + math::pow(al, n)) / const_T;
@@ -175,7 +175,7 @@ namespace projections
                         xy_x = -xy_x * cAzc + xy_y * sAzc;
                         xy_y = -xy_y * cAzc - t * sAzc;
                     }
-                    if( (neg = (xy_x < 0.)) ) {
+                    if( (neg = (xy_x < 0.0_fl)) ) {
                         xy_y = rhoc - xy_y;
                         s = S20;
                         c = C20;

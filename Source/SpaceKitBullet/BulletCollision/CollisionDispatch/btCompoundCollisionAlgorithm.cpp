@@ -149,7 +149,7 @@ public:
 			btCollisionAlgorithm* algo = 0;
 			bool allocatedAlgorithm = false;
 
-			if (m_resultOut->m_closestPointDistanceThreshold > 0)
+			if (m_resultOut->m_closestPointDistanceThreshold > 0_fl)
 			{
 				algo = m_dispatcher->findAlgorithm(&compoundWrap, m_otherObjWrap, 0, BT_CLOSEST_POINT_ALGORITHMS);
 				allocatedAlgorithm = true;
@@ -218,7 +218,7 @@ public:
 		{
 			btVector3 worldAabbMin,worldAabbMax;
 			btTransform	orgTrans = m_compoundColObjWrap->getWorldTransform();
-			btTransformAabb(leaf->volume.Mins(),leaf->volume.Maxs(),0.,orgTrans,worldAabbMin,worldAabbMax);
+			btTransformAabb(leaf->volume.Mins(),leaf->volume.Maxs(),0.0_fl,orgTrans,worldAabbMin,worldAabbMax);
 			m_dispatchInfo.m_debugDraw->drawAabb(worldAabbMin,worldAabbMax,btVector3(1,0,0));
 		}
 #endif

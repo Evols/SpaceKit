@@ -20,9 +20,9 @@ subject to the following restrictions:
 
 SIMD_FORCE_INLINE btVector3 btAabbSupport(const btVector3& halfExtents, const btVector3& supportDir)
 {
-	return btVector3(supportDir.x() < btScalar(0.0) ? -halfExtents.x() : halfExtents.x(),
-					 supportDir.y() < btScalar(0.0) ? -halfExtents.y() : halfExtents.y(),
-					 supportDir.z() < btScalar(0.0) ? -halfExtents.z() : halfExtents.z());
+	return btVector3(supportDir.x() < btScalar(0.0_fl) ? -halfExtents.x() : halfExtents.x(),
+					 supportDir.y() < btScalar(0.0_fl) ? -halfExtents.y() : halfExtents.y(),
+					 supportDir.z() < btScalar(0.0_fl) ? -halfExtents.z() : halfExtents.z());
 }
 
 /// Utils related to temporal transforms
@@ -43,7 +43,7 @@ public:
 
 		btVector3 axis;
 		btScalar fAngle2 = angvel.length2();
-		btScalar fAngle = 0;
+		btScalar fAngle = 0.0_fl;
 		if (fAngle2 > SIMD_EPSILON)
 		{
 			fAngle = btSqrt(fAngle2);
@@ -93,7 +93,7 @@ public:
 		}
 		else
 		{
-			angVel.setValue(0, 0, 0);
+			angVel.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 		}
 	}
 
@@ -103,11 +103,11 @@ public:
 		btQuaternion dorn = orn1 * orn0.inverse();
 		angle = dorn.getAngle();
 		axis = btVector3(dorn.x(), dorn.y(), dorn.z());
-		axis[3] = btScalar(0.);
+		axis[3] = btScalar(0.0_fl);
 		//check for axis length
 		btScalar len = axis.length2();
 		if (len < SIMD_EPSILON * SIMD_EPSILON)
-			axis = btVector3(btScalar(1.), btScalar(0.), btScalar(0.));
+			axis = btVector3(btScalar(1.), btScalar(0.0_fl), btScalar(0.0_fl));
 		else
 			axis /= btSqrt(len);
 	}
@@ -132,11 +132,11 @@ public:
 
 		angle = dorn.getAngle();
 		axis = btVector3(dorn.x(), dorn.y(), dorn.z());
-		axis[3] = btScalar(0.);
+		axis[3] = btScalar(0.0_fl);
 		//check for axis length
 		btScalar len = axis.length2();
 		if (len < SIMD_EPSILON * SIMD_EPSILON)
-			axis = btVector3(btScalar(1.), btScalar(0.), btScalar(0.));
+			axis = btVector3(btScalar(1.), btScalar(0.0_fl), btScalar(0.0_fl));
 		else
 			axis /= btSqrt(len);
 	}
@@ -161,7 +161,7 @@ public:
 	btConvexSeparatingDistanceUtil(btScalar boundingRadiusA, btScalar boundingRadiusB)
 		: m_boundingRadiusA(boundingRadiusA),
 		  m_boundingRadiusB(boundingRadiusB),
-		  m_separatingDistance(0.f)
+		  m_separatingDistance(0.0_fl)
 	{
 	}
 
@@ -177,7 +177,7 @@ public:
 		btQuaternion toOrnA = transA.getRotation();
 		btQuaternion toOrnB = transB.getRotation();
 
-		if (m_separatingDistance > 0.f)
+		if (m_separatingDistance > 0.0_fl)
 		{
 			btVector3 linVelA, angVelA, linVelB, angVelB;
 			btTransformUtil::calculateVelocityQuaternion(m_posA, toPosA, m_ornA, toOrnA, btScalar(1.), linVelA, angVelA);
@@ -185,9 +185,9 @@ public:
 			btScalar maxAngularProjectedVelocity = angVelA.length() * m_boundingRadiusA + angVelB.length() * m_boundingRadiusB;
 			btVector3 relLinVel = (linVelB - linVelA);
 			btScalar relLinVelocLength = relLinVel.dot(m_separatingNormal);
-			if (relLinVelocLength < 0.f)
+			if (relLinVelocLength < 0.0_fl)
 			{
-				relLinVelocLength = 0.f;
+				relLinVelocLength = 0.0_fl;
 			}
 
 			btScalar projectedMotion = maxAngularProjectedVelocity + relLinVelocLength;
@@ -204,7 +204,7 @@ public:
 	{
 		m_separatingDistance = separatingDistance;
 
-		if (m_separatingDistance > 0.f)
+		if (m_separatingDistance > 0.0_fl)
 		{
 			m_separatingNormal = separatingVector;
 

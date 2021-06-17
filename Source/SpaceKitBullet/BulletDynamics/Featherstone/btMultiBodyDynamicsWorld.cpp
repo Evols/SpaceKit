@@ -145,7 +145,7 @@ void btMultiBodyDynamicsWorld::updateActivationState(btScalar timeStep)
                         col->setActivationState(WANTS_DEACTIVATION);
                     }
 					
-					col->setDeactivationTime(0.f);
+					col->setDeactivationTime(0.0_fl);
 				}
 				for (int b = 0; b < body->getNumLinks(); b++)
 				{
@@ -153,7 +153,7 @@ void btMultiBodyDynamicsWorld::updateActivationState(btScalar timeStep)
 					if (col && col->getActivationState() == ACTIVE_TAG)
 					{
 						col->setActivationState(WANTS_DEACTIVATION);
-						col->setDeactivationTime(0.f);
+						col->setDeactivationTime(0.0_fl);
 					}
 				}
 			}
@@ -481,7 +481,7 @@ void btMultiBodyDynamicsWorld::solveExternalForces(btContactSolverInfo& solverIn
                         btScalar h = solverInfo.m_timeStep;
 #define output &m_scratch_r[bod->getNumDofs()]
                         //calc qdd0 from: q0 & qd0
-                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0., m_scratch_r, m_scratch_v, m_scratch_m,
+                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0.0_fl, m_scratch_r, m_scratch_v, m_scratch_m,
                                                                                   isConstraintPass,getSolverInfo().m_jointFeedbackInWorldSpace,
                                                                                   getSolverInfo().m_jointFeedbackInJointFrame);
                         pCopy(output, scratch_qdd0, 0, numDofs);
@@ -493,7 +493,7 @@ void btMultiBodyDynamicsWorld::solveExternalForces(btContactSolverInfo& solverIn
                         //
                         //calc qdd1 from: q1 & qd1
                         pCopyToVelocityVector(bod, scratch_qd1);
-                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0., m_scratch_r, m_scratch_v, m_scratch_m,
+                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0.0_fl, m_scratch_r, m_scratch_v, m_scratch_m,
                                                                                   isConstraintPass,getSolverInfo().m_jointFeedbackInWorldSpace,
                                                                                   getSolverInfo().m_jointFeedbackInJointFrame);
                         pCopy(output, scratch_qdd1, 0, numDofs);
@@ -505,7 +505,7 @@ void btMultiBodyDynamicsWorld::solveExternalForces(btContactSolverInfo& solverIn
                         //
                         //calc qdd2 from: q2 & qd2
                         pCopyToVelocityVector(bod, scratch_qd2);
-                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0., m_scratch_r, m_scratch_v, m_scratch_m,
+                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0.0_fl, m_scratch_r, m_scratch_v, m_scratch_m,
                                                                                   isConstraintPass,getSolverInfo().m_jointFeedbackInWorldSpace,
                                                                                   getSolverInfo().m_jointFeedbackInJointFrame);
                         pCopy(output, scratch_qdd2, 0, numDofs);
@@ -517,7 +517,7 @@ void btMultiBodyDynamicsWorld::solveExternalForces(btContactSolverInfo& solverIn
                         //
                         //calc qdd3 from: q3 & qd3
                         pCopyToVelocityVector(bod, scratch_qd3);
-                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0., m_scratch_r, m_scratch_v, m_scratch_m,
+                        bod->computeAccelerationsArticulatedBodyAlgorithmMultiDof(0.0_fl, m_scratch_r, m_scratch_v, m_scratch_m,
                                                                                   isConstraintPass,getSolverInfo().m_jointFeedbackInWorldSpace,
                                                                                   getSolverInfo().m_jointFeedbackInJointFrame);
                         pCopy(output, scratch_qdd3, 0, numDofs);
@@ -708,7 +708,7 @@ void btMultiBodyDynamicsWorld::debugDrawWorld()
 
 				if (mode & btIDebugDraw::DBG_DrawFrames)
 				{
-					getDebugDrawer()->drawTransform(bod->getBaseWorldTransform(), 0.1);
+					getDebugDrawer()->drawTransform(bod->getBaseWorldTransform(), 0.1_fl);
 				}
 
 				for (int m = 0; m < bod->getNumLinks(); m++)
@@ -716,12 +716,12 @@ void btMultiBodyDynamicsWorld::debugDrawWorld()
 					const btTransform& tr = bod->getLink(m).m_cachedWorldTransform;
 					if (mode & btIDebugDraw::DBG_DrawFrames)
 					{
-						getDebugDrawer()->drawTransform(tr, 0.1);
+						getDebugDrawer()->drawTransform(tr, 0.1_fl);
 					}
 					//draw the joint axis
 					if (bod->getLink(m).m_jointType == btMultibodyLink::eRevolute)
 					{
-						btVector3 vec = quatRotate(tr.getRotation(), bod->getLink(m).m_axes[0].m_topVec) * 0.1;
+						btVector3 vec = quatRotate(tr.getRotation(), bod->getLink(m).m_axes[0].m_topVec) * 0.1_fl;
 
 						btVector4 color(0, 0, 0, 1);  //1,1,1);
 						btVector3 from = vec + tr.getOrigin() - quatRotate(tr.getRotation(), bod->getLink(m).m_dVector);
@@ -730,7 +730,7 @@ void btMultiBodyDynamicsWorld::debugDrawWorld()
 					}
 					if (bod->getLink(m).m_jointType == btMultibodyLink::eFixed)
 					{
-						btVector3 vec = quatRotate(tr.getRotation(), bod->getLink(m).m_axes[0].m_bottomVec) * 0.1;
+						btVector3 vec = quatRotate(tr.getRotation(), bod->getLink(m).m_axes[0].m_bottomVec) * 0.1_fl;
 
 						btVector4 color(0, 0, 0, 1);  //1,1,1);
 						btVector3 from = vec + tr.getOrigin() - quatRotate(tr.getRotation(), bod->getLink(m).m_dVector);
@@ -739,7 +739,7 @@ void btMultiBodyDynamicsWorld::debugDrawWorld()
 					}
 					if (bod->getLink(m).m_jointType == btMultibodyLink::ePrismatic)
 					{
-						btVector3 vec = quatRotate(tr.getRotation(), bod->getLink(m).m_axes[0].m_bottomVec) * 0.1;
+						btVector3 vec = quatRotate(tr.getRotation(), bod->getLink(m).m_axes[0].m_bottomVec) * 0.1_fl;
 
 						btVector4 color(0, 0, 0, 1);  //1,1,1);
 						btVector3 from = vec + tr.getOrigin() - quatRotate(tr.getRotation(), bod->getLink(m).m_dVector);

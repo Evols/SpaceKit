@@ -140,7 +140,7 @@ public:
 
 	SIMD_FORCE_INLINE void calc_absolute_matrix()
 	{
-		static const btVector3 vepsi(1e-6f, 1e-6f, 1e-6f);
+		static const btVector3 vepsi(1e-6_fl, 1e-6_fl, 1e-6_fl);
 		m_AR[0] = vepsi + m_R1to0[0].absolute();
 		m_AR[1] = vepsi + m_R1to0[1].absolute();
 		m_AR[2] = vepsi + m_R1to0[2].absolute();
@@ -157,7 +157,7 @@ public:
 		calc_absolute_matrix();
 	}
 
-	//! Calc the transformation relative  1 to 0. Inverts matrics by transposing
+	//! Calc the transformation relative  1 to 0.0_flInverts matrics by transposing
 	SIMD_FORCE_INLINE void calc_from_homogenic(const btTransform &trans0, const btTransform &trans1)
 	{
 		m_R1to0 = trans0.getBasis().transpose();
@@ -188,7 +188,7 @@ public:
 };
 
 #ifndef BOX_PLANE_EPSILON
-#define BOX_PLANE_EPSILON 0.000001f
+#define BOX_PLANE_EPSILON 0.000001_fl
 #endif
 
 //! Axis aligned box
@@ -321,7 +321,7 @@ public:
 	//! Apply a transform to an AABB
 	SIMD_FORCE_INLINE void appy_transform(const btTransform &trans)
 	{
-		btVector3 center = (m_max + m_min) * 0.5f;
+		btVector3 center = (m_max + m_min) * 0.5_fl;
 		btVector3 extends = m_max - center;
 		// Compute new center
 		center = trans(center);
@@ -362,7 +362,7 @@ public:
 	//! Gets the extend and center
 	SIMD_FORCE_INLINE void get_center_extend(btVector3 &center, btVector3 &extend) const
 	{
-		center = (m_max + m_min) * 0.5f;
+		center = (m_max + m_min) * 0.5_fl;
 		extend = m_max - center;
 	}
 
@@ -404,11 +404,11 @@ public:
 		;
 
 		btScalar Dx = vorigin[0] - center[0];
-		if (GIM_GREATER(Dx, extents[0]) && Dx * vdir[0] >= 0.0f) return false;
+		if (GIM_GREATER(Dx, extents[0]) && Dx * vdir[0] >= 0.0_fl) return false;
 		btScalar Dy = vorigin[1] - center[1];
-		if (GIM_GREATER(Dy, extents[1]) && Dy * vdir[1] >= 0.0f) return false;
+		if (GIM_GREATER(Dy, extents[1]) && Dy * vdir[1] >= 0.0_fl) return false;
 		btScalar Dz = vorigin[2] - center[2];
-		if (GIM_GREATER(Dz, extents[2]) && Dz * vdir[2] >= 0.0f) return false;
+		if (GIM_GREATER(Dz, extents[2]) && Dz * vdir[2] >= 0.0_fl) return false;
 
 		btScalar f = vdir[1] * Dz - vdir[2] * Dy;
 		if (btFabs(f) > extents[1] * btFabs(vdir[2]) + extents[2] * btFabs(vdir[1])) return false;
@@ -421,7 +421,7 @@ public:
 
 	SIMD_FORCE_INLINE void projection_interval(const btVector3 &direction, btScalar &vmin, btScalar &vmax) const
 	{
-		btVector3 center = (m_max + m_min) * 0.5f;
+		btVector3 center = (m_max + m_min) * 0.5_fl;
 		btVector3 extend = m_max - center;
 
 		btScalar _fOrigin = direction.dot(center);

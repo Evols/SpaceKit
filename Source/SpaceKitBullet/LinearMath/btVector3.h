@@ -51,21 +51,21 @@ subject to the following restrictions:
 #define btvAbsfMask btCastiTo128f(btvAbsMask)
 
 //there is an issue with XCode 3.2 (LCx errors)
-#define btvMzeroMask (_mm_set_ps(-0.0f, -0.0f, -0.0f, -0.0f))
-#define v1110 (_mm_set_ps(0.0f, 1.0f, 1.0f, 1.0f))
-#define vHalf (_mm_set_ps(0.5f, 0.5f, 0.5f, 0.5f))
-#define v1_5 (_mm_set_ps(1.5f, 1.5f, 1.5f, 1.5f))
+#define btvMzeroMask (_mm_set_ps(-0.0_fl, -0.0_fl, -0.0_fl, -0.0_fl))
+#define v1110 (_mm_set_ps(0.0_fl, 1.0_fl, 1.0_fl, 1.0_fl))
+#define vHalf (_mm_set_ps(0.5_fl, 0.5_fl, 0.5_fl, 0.5_fl))
+#define v1_5 (_mm_set_ps(1.5_fl, 1.5_fl, 1.5_fl, 1.5_fl))
 
-//const __m128 ATTRIBUTE_ALIGNED16(btvMzeroMask) = {-0.0f, -0.0f, -0.0f, -0.0f};
-//const __m128 ATTRIBUTE_ALIGNED16(v1110) = {1.0f, 1.0f, 1.0f, 0.0f};
-//const __m128 ATTRIBUTE_ALIGNED16(vHalf) = {0.5f, 0.5f, 0.5f, 0.5f};
-//const __m128 ATTRIBUTE_ALIGNED16(v1_5)  = {1.5f, 1.5f, 1.5f, 1.5f};
+//const __m128 ATTRIBUTE_ALIGNED16(btvMzeroMask) = {-0.0_fl, -0.0_fl, -0.0_fl, -0.0_fl};
+//const __m128 ATTRIBUTE_ALIGNED16(v1110) = {1.0_fl, 1.0_fl, 1.0_fl, 0.0_fl};
+//const __m128 ATTRIBUTE_ALIGNED16(vHalf) = {0.5_fl, 0.5_fl, 0.5_fl, 0.5_fl};
+//const __m128 ATTRIBUTE_ALIGNED16(v1_5)  = {1.5_fl, 1.5_fl, 1.5_fl, 1.5_fl};
 
 #endif
 
 #ifdef BT_USE_NEON
 
-const float32x4_t ATTRIBUTE_ALIGNED16(btvMzeroMask) = (float32x4_t){-0.0f, -0.0f, -0.0f, -0.0f};
+const float32x4_t ATTRIBUTE_ALIGNED16(btvMzeroMask) = (float32x4_t){-0.0_fl, -0.0_fl, -0.0_fl, -0.0_fl};
 const int32x4_t ATTRIBUTE_ALIGNED16(btvFFF0Mask) = (int32x4_t){static_cast<int32_t>(0xFFFFFFFF),
 															   static_cast<int32_t>(0xFFFFFFFF), static_cast<int32_t>(0xFFFFFFFF), 0x0};
 const int32x4_t ATTRIBUTE_ALIGNED16(btvAbsMask) = (int32x4_t){0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF};
@@ -128,7 +128,7 @@ public:
 		m_floats[0] = _x;
 		m_floats[1] = _y;
 		m_floats[2] = _z;
-		m_floats[3] = btScalar(0.f);
+		m_floats[3] = btScalar(0.0_fl);
 	}
 
 #if (defined(BT_USE_SSE_IN_API) && defined(BT_USE_SSE)) || defined(BT_USE_NEON)
@@ -192,7 +192,7 @@ public:
 	{
 #if defined(BT_USE_SSE_IN_API) && defined(BT_USE_SSE)
 		__m128 vs = _mm_load_ss(&s);  //	(S 0 0 0)
-		vs = bt_pshufd_ps(vs, 0x80);  //	(S S S 0.0)
+		vs = bt_pshufd_ps(vs, 0x80);  //	(S S S 0.0_fl)
 		mVec128 = _mm_mul_ps(mVec128, vs);
 #elif defined(BT_USE_NEON)
 		mVec128 = vmulq_n_f32(mVec128, s);
@@ -208,7 +208,7 @@ public:
    * @param s Scale factor to divide by */
 	SIMD_FORCE_INLINE btVector3& operator/=(const btScalar& s)
 	{
-		btFullAssert(s != btScalar(0.0));
+		btFullAssert(s != btScalar(0.0_fl));
 
 #if 0  //defined(BT_USE_SSE_IN_API)
 // this code is not faster !
@@ -220,7 +220,7 @@ public:
 		
 		return *this;
 #else
-		return *this *= btScalar(1.0) / s;
+		return *this *= btScalar(1.0_fl) / s;
 #endif
 	}
 
@@ -293,7 +293,7 @@ public:
 		}
 		else
 		{
-			setValue(1, 0, 0);
+			setValue(1.0_fl, 0.0_fl, 0.0_fl);
 		}
 		return *this;
 	}
@@ -356,7 +356,7 @@ public:
 	SIMD_FORCE_INLINE btScalar angle(const btVector3& v) const
 	{
 		btScalar s = btSqrt(length2() * v.length2());
-		btFullAssert(s != btScalar(0.0));
+		btFullAssert(s != btScalar(0.0_fl));
 		return btAcos(dot(v) / s);
 	}
 
@@ -493,11 +493,11 @@ public:
 	{
 #if defined(BT_USE_SSE_IN_API) && defined(BT_USE_SSE)
 		__m128 vrt = _mm_load_ss(&rt);  //	(rt 0 0 0)
-		btScalar s = btScalar(1.0) - rt;
+		btScalar s = btScalar(1.0_fl) - rt;
 		__m128 vs = _mm_load_ss(&s);  //	(S 0 0 0)
-		vs = bt_pshufd_ps(vs, 0x80);  //	(S S S 0.0)
+		vs = bt_pshufd_ps(vs, 0x80);  //	(S S S 0.0_fl)
 		__m128 r0 = _mm_mul_ps(v0.mVec128, vs);
-		vrt = bt_pshufd_ps(vrt, 0x80);  //	(rt rt rt 0.0)
+		vrt = bt_pshufd_ps(vrt, 0x80);  //	(rt rt rt 0.0_fl)
 		__m128 r1 = _mm_mul_ps(v1.mVec128, vrt);
 		__m128 tmp3 = _mm_add_ps(r0, r1);
 		mVec128 = tmp3;
@@ -506,7 +506,7 @@ public:
 		vl = vmulq_n_f32(vl, rt);
 		mVec128 = vaddq_f32(vl, v0.mVec128);
 #else
-		btScalar s = btScalar(1.0) - rt;
+		btScalar s = btScalar(1.0_fl) - rt;
 		m_floats[0] = s * v0.m_floats[0] + rt * v1.m_floats[0];
 		m_floats[1] = s * v0.m_floats[1] + rt * v1.m_floats[1];
 		m_floats[2] = s * v0.m_floats[2] + rt * v1.m_floats[2];
@@ -522,7 +522,7 @@ public:
 	{
 #if defined(BT_USE_SSE_IN_API) && defined(BT_USE_SSE)
 		__m128 vt = _mm_load_ss(&t);  //	(t 0 0 0)
-		vt = bt_pshufd_ps(vt, 0x80);  //	(rt rt rt 0.0)
+		vt = bt_pshufd_ps(vt, 0x80);  //	(rt rt rt 0.0_fl)
 		__m128 vl = _mm_sub_ps(v.mVec128, mVec128);
 		vl = _mm_mul_ps(vl, vt);
 		vl = _mm_add_ps(vl, mVec128);
@@ -642,7 +642,7 @@ public:
 		m_floats[0] = _x;
 		m_floats[1] = _y;
 		m_floats[2] = _z;
-		m_floats[3] = btScalar(0.f);
+		m_floats[3] = btScalar(0.0_fl);
 	}
 
 	void getSkewSymmetricMatrix(btVector3 * v0, btVector3 * v1, btVector3 * v2) const
@@ -662,9 +662,9 @@ public:
 		v1->mVec128 = V1;
 		v2->mVec128 = V2;
 #else
-		v0->setValue(0., -z(), y());
-		v1->setValue(z(), 0., -x());
-		v2->setValue(-y(), x(), 0.);
+		v0->setValue(0.0_fl, -z(), y());
+		v1->setValue(z(), 0.0_fl, -x());
+		v2->setValue(-y(), x(), 0.0_fl);
 #endif
 	}
 
@@ -676,7 +676,7 @@ public:
 		int32x4_t vi = vdupq_n_s32(0);
 		mVec128 = vreinterpretq_f32_s32(vi);
 #else
-		setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+		setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 #endif
 	}
 
@@ -741,7 +741,7 @@ public:
 		float32x2x2_t zLo = vtrn_f32(vget_high_f32(a0), vget_high_f32(a1));
 		a2 = (float32x4_t)vandq_u32((uint32x4_t)a2, xyzMask);
 		float32x2_t b0 = vadd_f32(vpadd_f32(vget_low_f32(a0), vget_low_f32(a1)), zLo.val[0]);
-		float32x2_t b1 = vpadd_f32(vpadd_f32(vget_low_f32(a2), vget_high_f32(a2)), vdup_n_f32(0.0f));
+		float32x2_t b1 = vpadd_f32(vpadd_f32(vget_low_f32(a2), vget_high_f32(a2)), vdup_n_f32(0.0_fl));
 		return btVector3(vcombine_f32(b0, b1));
 #else
 		return btVector3(dot(v0), dot(v1), dot(v2));
@@ -821,7 +821,7 @@ operator*(const btVector3& v, const btScalar& s)
 {
 #if defined(BT_USE_SSE_IN_API) && defined(BT_USE_SSE)
 	__m128 vs = _mm_load_ss(&s);  //	(S 0 0 0)
-	vs = bt_pshufd_ps(vs, 0x80);  //	(S S S 0.0)
+	vs = bt_pshufd_ps(vs, 0x80);  //	(S S S 0.0_fl)
 	return btVector3(_mm_mul_ps(v.mVec128, vs));
 #elif defined(BT_USE_NEON)
 	float32x4_t r = vmulq_n_f32(v.mVec128, s);
@@ -842,7 +842,7 @@ operator*(const btScalar& s, const btVector3& v)
 SIMD_FORCE_INLINE btVector3
 operator/(const btVector3& v, const btScalar& s)
 {
-	btFullAssert(s != btScalar(0.0));
+	btFullAssert(s != btScalar(0.0_fl));
 #if 0  //defined(BT_USE_SSE_IN_API)
 // this code is not faster !
 	__m128 vs = _mm_load_ss(&s);
@@ -851,7 +851,7 @@ operator/(const btVector3& v, const btScalar& s)
 
 	return btVector3(_mm_mul_ps(v.mVec128, vs));
 #else
-	return v * (btScalar(1.0) / s);
+	return v * (btScalar(1.0_fl) / s);
 #endif
 }
 
@@ -1255,7 +1255,7 @@ SIMD_FORCE_INLINE void btPlaneSpace1(const T& n, T& p, T& q)
 		// choose p in y-z plane
 		btScalar a = n[1] * n[1] + n[2] * n[2];
 		btScalar k = btRecipSqrt(a);
-		p[0] = 0;
+		p[0] = 0_fl;
 		p[1] = -n[2] * k;
 		p[2] = n[1] * k;
 		// set q = n x p
@@ -1270,7 +1270,7 @@ SIMD_FORCE_INLINE void btPlaneSpace1(const T& n, T& p, T& q)
 		btScalar k = btRecipSqrt(a);
 		p[0] = -n[1] * k;
 		p[1] = n[0] * k;
-		p[2] = 0;
+		p[2] = 0_fl;
 		// set q = n x p
 		q[0] = -n[2] * p[1];
 		q[1] = n[2] * p[0];
@@ -1285,14 +1285,14 @@ struct btVector3FloatData
 
 struct btVector3DoubleData
 {
-	double m_floats[4];
+	FRealFloat m_floats[4];
 };
 
 SIMD_FORCE_INLINE void btVector3::serializeFloat(struct btVector3FloatData& dataOut) const
 {
 	///could also do a memcpy, check if it is worth it
 	for (int i = 0; i < 4; i++)
-		dataOut.m_floats[i] = float(m_floats[i]);
+		dataOut.m_floats[i] = m_floats[i].ToFloat();
 }
 
 SIMD_FORCE_INLINE void btVector3::deSerializeFloat(const struct btVector3FloatData& dataIn)
@@ -1305,7 +1305,7 @@ SIMD_FORCE_INLINE void btVector3::serializeDouble(struct btVector3DoubleData& da
 {
 	///could also do a memcpy, check if it is worth it
 	for (int i = 0; i < 4; i++)
-		dataOut.m_floats[i] = double(m_floats[i]);
+		dataOut.m_floats[i] = m_floats[i];
 }
 
 SIMD_FORCE_INLINE void btVector3::deSerializeDouble(const struct btVector3DoubleData& dataIn)

@@ -18,6 +18,8 @@ subject to the following restrictions:
 #include "btVector3.h"
 #include "btQuadWord.h"
 
+#include "SpaceKitPrecision/Public/RealFloat.h"
+
 #ifdef BT_USE_DOUBLE_PRECISION
 #define btQuaternionData btQuaternionDoubleData
 #define btQuaternionDataName "btQuaternionDoubleData"
@@ -28,20 +30,20 @@ subject to the following restrictions:
 
 #ifdef BT_USE_SSE
 
-//const __m128 ATTRIBUTE_ALIGNED16(vOnes) = {1.0f, 1.0f, 1.0f, 1.0f};
-#define vOnes (_mm_set_ps(1.0f, 1.0f, 1.0f, 1.0f))
+//const __m128 ATTRIBUTE_ALIGNED16(vOnes) = {1.0_fl, 1.0_fl, 1.0_fl, 1.0_fl};
+#define vOnes (_mm_set_ps(1.0_fl, 1.0_fl, 1.0_fl, 1.0_fl))
 
 #endif
 
 #if defined(BT_USE_SSE)
 
-#define vQInv (_mm_set_ps(+0.0f, -0.0f, -0.0f, -0.0f))
-#define vPPPM (_mm_set_ps(-0.0f, +0.0f, +0.0f, +0.0f))
+#define vQInv (_mm_set_ps(+0.0_fl, -0.0_fl, -0.0_fl, -0.0_fl))
+#define vPPPM (_mm_set_ps(-0.0_fl, +0.0_fl, +0.0_fl, +0.0_fl))
 
 #elif defined(BT_USE_NEON)
 
-const btSimdFloat4 ATTRIBUTE_ALIGNED16(vQInv) = {-0.0f, -0.0f, -0.0f, +0.0f};
-const btSimdFloat4 ATTRIBUTE_ALIGNED16(vPPPM) = {+0.0f, +0.0f, +0.0f, -0.0f};
+const btSimdFloat4 ATTRIBUTE_ALIGNED16(vQInv) = {-0.0_fl, -0.0_fl, -0.0_fl, +0.0_fl};
+const btSimdFloat4 ATTRIBUTE_ALIGNED16(vPPPM) = {+0.0_fl, +0.0_fl, +0.0_fl, -0.0_fl};
 
 #endif
 
@@ -108,7 +110,7 @@ public:
 	void setRotation(const btVector3& axis, const btScalar& _angle)
 	{
 		btScalar d = axis.length();
-		btAssert(d != btScalar(0.0));
+		btAssert(d != btScalar(0.0_fl));
 		btScalar s = btSin(_angle * btScalar(0.5)) / d;
 		setValue(axis.x() * s, axis.y() * s, axis.z() * s,
 				 btCos(_angle * btScalar(0.5)));
@@ -178,20 +180,20 @@ public:
 		if (sarg <= -btScalar(0.99999))
 		{
 			pitchY = btScalar(-0.5) * SIMD_PI;
-			rollX = 0;
+			rollX = 0.0_fl;
 			yawZ = btScalar(2) * btAtan2(m_floats[0], -m_floats[1]);
 		}
 		else if (sarg >= btScalar(0.99999))
 		{
 			pitchY = btScalar(0.5) * SIMD_PI;
-			rollX = 0;
+			rollX = 0.0_fl;
 			yawZ = btScalar(2) * btAtan2(-m_floats[0], m_floats[1]);
 		}
 		else
 		{
 			pitchY = btAsin(sarg);
-			rollX = btAtan2(2 * (m_floats[1] * m_floats[2] + m_floats[3] * m_floats[0]), squ - sqx - sqy + sqz);
-			yawZ = btAtan2(2 * (m_floats[0] * m_floats[1] + m_floats[3] * m_floats[2]), squ + sqx - sqy - sqz);
+			rollX = btAtan2(2.0_fl * (m_floats[1] * m_floats[2] + m_floats[3] * m_floats[0]), squ - sqx - sqy + sqz);
+			yawZ = btAtan2(2.0_fl * (m_floats[0] * m_floats[1] + m_floats[3] * m_floats[2]), squ + sqx - sqy - sqz);
 		}
 	}
 
@@ -426,16 +428,16 @@ public:
    * @param s The inverse scale factor */
 	btQuaternion operator/(const btScalar& s) const
 	{
-		btAssert(s != btScalar(0.0));
-		return *this * (btScalar(1.0) / s);
+		btAssert(s != btScalar(0.0_fl));
+		return *this * (btScalar(1.0_fl) / s);
 	}
 
 	/**@brief Inversely scale this quaternion
    * @param s The scale factor */
 	btQuaternion& operator/=(const btScalar& s)
 	{
-		btAssert(s != btScalar(0.0));
-		return *this *= btScalar(1.0) / s;
+		btAssert(s != btScalar(0.0_fl));
+		return *this *= btScalar(1.0_fl) / s;
 	}
 
 	/**@brief Return a normalized version of this quaternion */
@@ -448,7 +450,7 @@ public:
 	btScalar angle(const btQuaternion& q) const
 	{
 		btScalar s = btSqrt(length2() * q.length2());
-		btAssert(s != btScalar(0.0));
+		btAssert(s != btScalar(0.0_fl));
 		return btAcos(dot(q) / s);
 	}
 
@@ -457,8 +459,8 @@ public:
 	btScalar angleShortestPath(const btQuaternion& q) const
 	{
 		btScalar s = btSqrt(length2() * q.length2());
-		btAssert(s != btScalar(0.0));
-		if (dot(q) < 0)  // Take care of long angle case see http://en.wikipedia.org/wiki/Slerp
+		btAssert(s != btScalar(0.0_fl));
+		if (dot(q) < 0.0_fl)  // Take care of long angle case see http://en.wikipedia.org/wiki/Slerp
 			return btAcos(dot(-q) / s) * btScalar(2.0);
 		else
 			return btAcos(dot(q) / s) * btScalar(2.0);
@@ -475,7 +477,7 @@ public:
 	btScalar getAngleShortestPath() const
 	{
 		btScalar s;
-		if (m_floats[3] >= 0)
+		if (m_floats[3] >= 0.0_fl)
 			s = btScalar(2.) * btAcos(m_floats[3]);
 		else
 			s = btScalar(2.) * btAcos(-m_floats[3]);
@@ -485,11 +487,11 @@ public:
 	/**@brief Return the axis of the rotation represented by this quaternion */
 	btVector3 getAxis() const
 	{
-		btScalar s_squared = 1.f - m_floats[3] * m_floats[3];
+		btScalar s_squared = 1.0_fl - m_floats[3] * m_floats[3];
 
-		if (s_squared < btScalar(10.) * SIMD_EPSILON)  //Check for divide by zero
-			return btVector3(1.0, 0.0, 0.0);           // Arbitrary
-		btScalar s = 1.f / btSqrt(s_squared);
+		if (s_squared < btScalar(10.0_fl) * SIMD_EPSILON)  //Check for divide by zero
+			return btVector3(1.0_fl, 0.0_fl, 0.0_fl);           // Arbitrary
+		btScalar s = 1.0_fl / btSqrt(s_squared);
 		return btVector3(m_floats[0] * s, m_floats[1] * s, m_floats[2] * s);
 	}
 
@@ -582,15 +584,15 @@ public:
 		const btScalar product = dot(q) / magnitude;
 		const btScalar absproduct = btFabs(product);
 
-		if (absproduct < btScalar(1.0 - SIMD_EPSILON))
+		if (absproduct < btScalar(1.0_fl - SIMD_EPSILON))
 		{
 			// Take care of long angle case see http://en.wikipedia.org/wiki/Slerp
 			const btScalar theta = btAcos(absproduct);
 			const btScalar d = btSin(theta);
 			btAssert(d > btScalar(0));
 
-			const btScalar sign = (product < 0) ? btScalar(-1) : btScalar(1);
-			const btScalar s0 = btSin((btScalar(1.0) - t) * theta) / d;
+			const btScalar sign = (product < 0.0_fl) ? btScalar(-1) : btScalar(1);
+			const btScalar s0 = btSin((btScalar(1.0_fl) - t) * theta) / d;
 			const btScalar s1 = btSin(sign * t * theta) / d;
 
 			return btQuaternion(
@@ -607,7 +609,7 @@ public:
 
 	static const btQuaternion& getIdentity()
 	{
-		static const btQuaternion identityQuat(btScalar(0.), btScalar(0.), btScalar(0.), btScalar(1.));
+		static const btQuaternion identityQuat(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl), btScalar(1.));
 		return identityQuat;
 	}
 
@@ -876,9 +878,9 @@ operator*(const btVector3& w, const btQuaternion& q)
 
 #else
 	return btQuaternion(
-		+w.x() * q.w() + w.y() * q.z() - w.z() * q.y(),
-		+w.y() * q.w() + w.z() * q.x() - w.x() * q.z(),
-		+w.z() * q.w() + w.x() * q.y() - w.y() * q.x(),
+		w.x() * q.w() + w.y() * q.z() - w.z() * q.y(),
+		w.y() * q.w() + w.z() * q.x() - w.x() * q.z(),
+		w.z() * q.w() + w.x() * q.y() - w.y() * q.x(),
 		-w.x() * q.x() - w.y() * q.y() - w.z() * q.z());
 #endif
 }
@@ -942,17 +944,17 @@ shortestArcQuat(const btVector3& v0, const btVector3& v1)  // Game Programming G
 	btVector3 c = v0.cross(v1);
 	btScalar d = v0.dot(v1);
 
-	if (d < -1.0 + SIMD_EPSILON)
+	if (d < -1.0_fl + SIMD_EPSILON)
 	{
 		btVector3 n, unused;
 		btPlaneSpace1(v0, n, unused);
-		return btQuaternion(n.x(), n.y(), n.z(), 0.0f);  // just pick any vector that is orthogonal to v0
+		return btQuaternion(n.x(), n.y(), n.z(), 0.0_fl);  // just pick any vector that is orthogonal to v0
 	}
 
-	btScalar s = btSqrt((1.0f + d) * 2.0f);
-	btScalar rs = 1.0f / s;
+	btScalar s = btSqrt((1.0_fl + d) * 2.0_fl);
+	btScalar rs = 1.0_fl / s;
 
-	return btQuaternion(c.getX() * rs, c.getY() * rs, c.getZ() * rs, s * 0.5f);
+	return btQuaternion(c.getX() * rs, c.getY() * rs, c.getZ() * rs, s * 0.5_fl);
 }
 
 SIMD_FORCE_INLINE btQuaternion
@@ -970,14 +972,14 @@ struct btQuaternionFloatData
 
 struct btQuaternionDoubleData
 {
-	double m_floats[4];
+	FRealFloat m_floats[4];
 };
 
 SIMD_FORCE_INLINE void btQuaternion::serializeFloat(struct btQuaternionFloatData& dataOut) const
 {
 	///could also do a memcpy, check if it is worth it
 	for (int i = 0; i < 4; i++)
-		dataOut.m_floats[i] = float(m_floats[i]);
+		dataOut.m_floats[i] = m_floats[i].ToFloat();
 }
 
 SIMD_FORCE_INLINE void btQuaternion::deSerializeFloat(const struct btQuaternionFloatData& dataIn)
@@ -990,7 +992,7 @@ SIMD_FORCE_INLINE void btQuaternion::serializeDouble(struct btQuaternionDoubleDa
 {
 	///could also do a memcpy, check if it is worth it
 	for (int i = 0; i < 4; i++)
-		dataOut.m_floats[i] = double(m_floats[i]);
+		dataOut.m_floats[i] = m_floats[i];
 }
 
 SIMD_FORCE_INLINE void btQuaternion::deSerializeDouble(const struct btQuaternionDoubleData& dataIn)

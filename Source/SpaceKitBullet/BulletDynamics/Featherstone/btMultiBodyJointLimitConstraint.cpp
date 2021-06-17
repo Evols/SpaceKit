@@ -38,10 +38,10 @@ void btMultiBodyJointLimitConstraint::finalizeMultiDof()
 	unsigned int offset = 6 + m_bodyA->getLink(m_linkA).m_dofOffset;
 
 	// row 0: the lower bound
-	jacobianA(0)[offset] = 1;
+	jacobianA(0)[offset] = 1_fl;
 	// row 1: the upper bound
 	//jacobianA(1)[offset] = -1;
-	jacobianB(1)[offset] = -1;
+	jacobianB(1)[offset] = -1_fl;
 
 	m_numDofsFinalized = m_jacSizeBoth;
 }
@@ -111,11 +111,11 @@ void btMultiBodyJointLimitConstraint::createConstraintRows(btMultiBodyConstraint
 		btScalar penetration = getPosition(row);
 
 		//todo: consider adding some safety threshold here
-		if (penetration > 0)
+		if (penetration > 0_fl)
 		{
 			continue;
 		}
-		btScalar direction = row ? -1 : 1;
+		btScalar direction = row ? -1_fl : 1_fl;
 
 		btMultiBodySolverConstraint& constraintRow = constraintRows.expandNonInitializing();
 		constraintRow.m_orgConstraint = this;
@@ -123,10 +123,10 @@ void btMultiBodyJointLimitConstraint::createConstraintRows(btMultiBodyConstraint
 
 		constraintRow.m_multiBodyA = m_bodyA;
 		constraintRow.m_multiBodyB = m_bodyB;
-		const btScalar posError = 0;  //why assume it's zero?
-		const btVector3 dummy(0, 0, 0);
+		const btScalar posError = 0_fl;  //why assume it's zero?
+		const btVector3 dummy(0_fl, 0_fl, 0_fl);
 
-		btScalar rel_vel = fillMultiBodyConstraint(constraintRow, data, jacobianA(row), jacobianB(row), dummy, dummy, dummy, dummy, posError, infoGlobal, 0, m_maxAppliedImpulse);
+		btScalar rel_vel = fillMultiBodyConstraint(constraintRow, data, jacobianA(row), jacobianB(row), dummy, dummy, dummy, dummy, posError, infoGlobal, 0_fl, m_maxAppliedImpulse);
 
 		{
 			//expect either prismatic or revolute joint type for now
@@ -161,16 +161,16 @@ void btMultiBodyJointLimitConstraint::createConstraintRows(btMultiBodyConstraint
 		}
 
 		{
-			btScalar positionalError = 0.f;
+			btScalar positionalError = 0.0_fl;
 			btScalar velocityError = -rel_vel;  // * damping;
 			btScalar erp = infoGlobal.m_erp2;
 			if (!infoGlobal.m_splitImpulse || (penetration > infoGlobal.m_splitImpulsePenetrationThreshold))
 			{
 				erp = infoGlobal.m_erp;
 			}
-			if (penetration > 0)
+			if (penetration > 0_fl)
 			{
-				positionalError = 0;
+				positionalError = 0_fl;
 				velocityError = -penetration / infoGlobal.m_timeStep;
 			}
 			else
@@ -184,7 +184,7 @@ void btMultiBodyJointLimitConstraint::createConstraintRows(btMultiBodyConstraint
 			{
 				//combine position and velocity into rhs
 				constraintRow.m_rhs = penetrationImpulse + velocityImpulse;
-				constraintRow.m_rhsPenetration = 0.f;
+				constraintRow.m_rhsPenetration = 0.0_fl;
 			}
 			else
 			{

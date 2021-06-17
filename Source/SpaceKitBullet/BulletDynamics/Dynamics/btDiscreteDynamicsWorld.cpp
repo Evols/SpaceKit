@@ -614,8 +614,8 @@ void btDiscreteDynamicsWorld::updateActivationState(btScalar timeStep)
 						body->setActivationState(WANTS_DEACTIVATION);
 					if (body->getActivationState() == ISLAND_SLEEPING)
 					{
-						body->setAngularVelocity(btVector3(0, 0, 0));
-						body->setLinearVelocity(btVector3(0, 0, 0));
+						body->setAngularVelocity(btVector3(0.0_fl, 0.0_fl, 0.0_fl));
+						body->setLinearVelocity(btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 					}
 				}
 			}
@@ -764,7 +764,7 @@ public:
 public:
 	btClosestNotMeConvexResultCallback(btCollisionObject* me, const btVector3& fromA, const btVector3& toA, btOverlappingPairCache* pairCache, btDispatcher* dispatcher) : btCollisionWorld::ClosestConvexResultCallback(fromA, toA),
 																																										   m_me(me),
-																																										   m_allowedPenetration(0.0f),
+																																										   m_allowedPenetration(0.0_fl),
 																																										   m_pairCache(pairCache),
 																																										   m_dispatcher(dispatcher)
 	{
@@ -773,20 +773,20 @@ public:
 	virtual btScalar addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 	{
 		if (convexResult.m_hitCollisionObject == m_me)
-			return 1.0f;
+			return 1.0_fl;
 
 		//ignore result if there is no contact response
 		if (!convexResult.m_hitCollisionObject->hasContactResponse())
-			return 1.0f;
+			return 1.0_fl;
 
 		btVector3 linVelA, linVelB;
 		linVelA = m_convexToWorld - m_convexFromWorld;
-		linVelB = btVector3(0, 0, 0);  //toB.getOrigin()-fromB.getOrigin();
+		linVelB = btVector3(0.0_fl, 0.0_fl, 0.0_fl);  //toB.getOrigin()-fromB.getOrigin();
 
 		btVector3 relativeVelocity = (linVelA - linVelB);
 		//don't report time of impact for motion away from the contact normal (or causes minor penetration)
 		if (convexResult.m_hitNormalLocal.dot(relativeVelocity) >= -m_allowedPenetration)
-			return 1.f;
+			return 1.0_fl;
 
 		return ClosestConvexResultCallback::addSingleResult(convexResult, normalInWorldSpace);
 	}
@@ -852,7 +852,7 @@ void btDiscreteDynamicsWorld::createPredictiveContactsInternal(btRigidBody** bod
 	for (int i = 0; i < numBodies; i++)
 	{
 		btRigidBody* body = bodies[i];
-		body->setHitFraction(1.f);
+		body->setHitFraction(1.0_fl);
 
 		if (body->isActive() && (!body->isStaticOrKinematicObject()))
 		{
@@ -897,7 +897,7 @@ void btDiscreteDynamicsWorld::createPredictiveContactsInternal(btRigidBody** bod
 					modifiedPredictedTrans.setBasis(body->getWorldTransform().getBasis());
 
 					convexSweepTest(&tmpSphere, body->getWorldTransform(), modifiedPredictedTrans, sweepResults);
-					if (sweepResults.hasHit() && (sweepResults.m_closestHitFraction < 1.f))
+					if (sweepResults.hasHit() && (sweepResults.m_closestHitFraction < 1.0_fl))
 					{
 						btVector3 distVec = (predictedTrans.getOrigin() - body->getWorldTransform().getOrigin()) * sweepResults.m_closestHitFraction;
 						btScalar distance = distVec.dot(-sweepResults.m_hitNormalWorld);
@@ -910,7 +910,7 @@ void btDiscreteDynamicsWorld::createPredictiveContactsInternal(btRigidBody** bod
 						btVector3 worldPointB = body->getWorldTransform().getOrigin() + distVec;
 						btVector3 localPointB = sweepResults.m_hitCollisionObject->getWorldTransform().inverse() * worldPointB;
 
-						btManifoldPoint newPoint(btVector3(0, 0, 0), localPointB, sweepResults.m_hitNormalWorld, distance);
+						btManifoldPoint newPoint(btVector3(0.0_fl, 0.0_fl, 0.0_fl), localPointB, sweepResults.m_hitNormalWorld, distance);
 
 						bool isPredictive = true;
 						int index = manifold->addManifoldPoint(newPoint, isPredictive);
@@ -954,7 +954,7 @@ void btDiscreteDynamicsWorld::integrateTransformsInternal(btRigidBody** bodies, 
 	for (int i = 0; i < numBodies; i++)
 	{
 		btRigidBody* body = bodies[i];
-		body->setHitFraction(1.f);
+		body->setHitFraction(1.0_fl);
 
 		if (body->isActive() && (!body->isStaticOrKinematicObject()))
 		{
@@ -999,12 +999,12 @@ void btDiscreteDynamicsWorld::integrateTransformsInternal(btRigidBody** bodies, 
 					modifiedPredictedTrans.setBasis(body->getWorldTransform().getBasis());
 
 					convexSweepTest(&tmpSphere, body->getWorldTransform(), modifiedPredictedTrans, sweepResults);
-					if (sweepResults.hasHit() && (sweepResults.m_closestHitFraction < 1.f))
+					if (sweepResults.hasHit() && (sweepResults.m_closestHitFraction < 1.0_fl))
 					{
 						//printf("clamped integration to hit fraction = %f\n",fraction);
 						body->setHitFraction(sweepResults.m_closestHitFraction);
 						body->predictIntegratedTransform(timeStep * body->getHitFraction(), predictedTrans);
-						body->setHitFraction(0.f);
+						body->setHitFraction(0.0_fl);
 						body->proceedToTransform(predictedTrans);
 
 #if 0
@@ -1028,8 +1028,8 @@ void btDiscreteDynamicsWorld::integrateTransformsInternal(btRigidBody** bodies, 
 
 						//don't apply the collision response right now, it will happen next frame
 						//if you really need to, you can uncomment next 3 lines. Note that is uses zero restitution.
-						//btScalar appliedImpulse = 0.f;
-						//btScalar depth = 0.f;
+						//btScalar appliedImpulse = 0.0_fl;
+						//btScalar depth = 0.0_fl;
 						//appliedImpulse = resolveSingleCollision(body,(btCollisionObject*)sweepResults.m_hitCollisionObject,sweepResults.m_hitPointWorld,sweepResults.m_hitNormalWorld,getSolverInfo(), depth);
 
 #endif
@@ -1067,8 +1067,8 @@ void btDiscreteDynamicsWorld::integrateTransforms(btScalar timeStep)
 				const btManifoldPoint& pt = manifold->getContactPoint(p);
 				btScalar combinedRestitution = gCalculateCombinedRestitutionCallback(body0, body1);
 
-				if (combinedRestitution > 0 && pt.m_appliedImpulse != 0.f)
-				//if (pt.getDistance()>0 && combinedRestitution>0 && pt.m_appliedImpulse != 0.f)
+				if (combinedRestitution > 0 && pt.m_appliedImpulse != 0.0_fl)
+				//if (pt.getDistance()>0 && combinedRestitution>0 && pt.m_appliedImpulse != 0.0_fl)
 				{
 					btVector3 imp = -pt.m_normalWorldOnB * pt.m_appliedImpulse * combinedRestitution;
 
@@ -1119,7 +1119,7 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 	bool drawFrames = (getDebugDrawer()->getDebugMode() & btIDebugDraw::DBG_DrawConstraints) != 0;
 	bool drawLimits = (getDebugDrawer()->getDebugMode() & btIDebugDraw::DBG_DrawConstraintLimits) != 0;
 	btScalar dbgDrawSize = constraint->getDbgDrawSize();
-	if (dbgDrawSize <= btScalar(0.f))
+	if (dbgDrawSize <= btScalar(0.0_fl))
 	{
 		return;
 	}
@@ -1158,7 +1158,7 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 			bool drawSect = true;
 			if (!pHinge->hasLimit())
 			{
-				minAng = btScalar(0.f);
+				minAng = btScalar(0.0_fl);
 				maxAng = SIMD_2_PI;
 				drawSect = false;
 			}
@@ -1167,7 +1167,7 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 				btVector3& center = tr.getOrigin();
 				btVector3 normal = tr.getBasis().getColumn(2);
 				btVector3 axis = tr.getBasis().getColumn(0);
-				getDebugDrawer()->drawArc(center, normal, axis, dbgDrawSize, dbgDrawSize, minAng, maxAng, btVector3(0, 0, 0), drawSect);
+				getDebugDrawer()->drawArc(center, normal, axis, dbgDrawSize, dbgDrawSize, minAng, maxAng, btVector3(0.0_fl, 0.0_fl, 0.0_fl), drawSect);
 			}
 		}
 		break;
@@ -1191,16 +1191,16 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 					fAngleInRadians = btScalar(2. * 3.1415926) * (btScalar)i / btScalar(nSegments);
 					btVector3 pCur = pCT->GetPointForAngle(fAngleInRadians, length);
 					pCur = tr * pCur;
-					getDebugDrawer()->drawLine(pPrev, pCur, btVector3(0, 0, 0));
+					getDebugDrawer()->drawLine(pPrev, pCur, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 
 					if (i % (nSegments / 8) == 0)
-						getDebugDrawer()->drawLine(tr.getOrigin(), pCur, btVector3(0, 0, 0));
+						getDebugDrawer()->drawLine(tr.getOrigin(), pCur, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 
 					pPrev = pCur;
 				}
 				btScalar tws = pCT->getTwistSpan();
 				btScalar twa = pCT->getTwistAngle();
-				bool useFrameB = (pCT->getRigidBodyB().getInvMass() > btScalar(0.f));
+				bool useFrameB = (pCT->getRigidBodyB().getInvMass() > btScalar(0.0_fl));
 				if (useFrameB)
 				{
 					tr = pCT->getRigidBodyB().getCenterOfMassTransform() * pCT->getBFrame();
@@ -1212,7 +1212,7 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 				btVector3 pivot = tr.getOrigin();
 				btVector3 normal = tr.getBasis().getColumn(0);
 				btVector3 axis1 = tr.getBasis().getColumn(1);
-				getDebugDrawer()->drawArc(pivot, normal, axis1, dbgDrawSize, dbgDrawSize, -twa - tws, -twa + tws, btVector3(0, 0, 0), true);
+				getDebugDrawer()->drawArc(pivot, normal, axis1, dbgDrawSize, dbgDrawSize, -twa - tws, -twa + tws, btVector3(0.0_fl, 0.0_fl, 0.0_fl), true);
 			}
 		}
 		break;
@@ -1234,7 +1234,7 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 				btScalar maxTh = p6DOF->getRotationalLimitMotor(1)->m_hiLimit;
 				btScalar minPs = p6DOF->getRotationalLimitMotor(2)->m_loLimit;
 				btScalar maxPs = p6DOF->getRotationalLimitMotor(2)->m_hiLimit;
-				getDebugDrawer()->drawSpherePatch(center, up, axis, dbgDrawSize * btScalar(.9f), minTh, maxTh, minPs, maxPs, btVector3(0, 0, 0));
+				getDebugDrawer()->drawSpherePatch(center, up, axis, dbgDrawSize * btScalar(.9_fl), minTh, maxTh, minPs, maxPs, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 				axis = tr.getBasis().getColumn(1);
 				btScalar ay = p6DOF->getAngle(1);
 				btScalar az = p6DOF->getAngle(2);
@@ -1252,16 +1252,16 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 				btScalar maxFi = p6DOF->getRotationalLimitMotor(0)->m_hiLimit;
 				if (minFi > maxFi)
 				{
-					getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, -SIMD_PI, SIMD_PI, btVector3(0, 0, 0), false);
+					getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, -SIMD_PI, SIMD_PI, btVector3(0.0_fl, 0.0_fl, 0.0_fl), false);
 				}
 				else if (minFi < maxFi)
 				{
-					getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, minFi, maxFi, btVector3(0, 0, 0), true);
+					getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, minFi, maxFi, btVector3(0.0_fl, 0.0_fl, 0.0_fl), true);
 				}
 				tr = p6DOF->getCalculatedTransformA();
 				btVector3 bbMin = p6DOF->getTranslationalLimitMotor()->m_lowerLimit;
 				btVector3 bbMax = p6DOF->getTranslationalLimitMotor()->m_upperLimit;
-				getDebugDrawer()->drawBox(bbMin, bbMax, tr, btVector3(0, 0, 0));
+				getDebugDrawer()->drawBox(bbMin, bbMax, tr, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 			}
 		}
 		break;
@@ -1286,7 +1286,7 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 					{
 						btScalar minPs = p6DOF->getRotationalLimitMotor(2)->m_loLimit;
 						btScalar maxPs = p6DOF->getRotationalLimitMotor(2)->m_hiLimit;
-						getDebugDrawer()->drawSpherePatch(center, up, axis, dbgDrawSize * btScalar(.9f), minTh, maxTh, minPs, maxPs, btVector3(0, 0, 0));
+						getDebugDrawer()->drawSpherePatch(center, up, axis, dbgDrawSize * btScalar(.9_fl), minTh, maxTh, minPs, maxPs, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 					}
 					axis = tr.getBasis().getColumn(1);
 					btScalar ay = p6DOF->getAngle(1);
@@ -1305,16 +1305,16 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 					btScalar maxFi = p6DOF->getRotationalLimitMotor(0)->m_hiLimit;
 					if (minFi > maxFi)
 					{
-						getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, -SIMD_PI, SIMD_PI, btVector3(0, 0, 0), false);
+						getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, -SIMD_PI, SIMD_PI, btVector3(0.0_fl, 0.0_fl, 0.0_fl), false);
 					}
 					else if (minFi < maxFi)
 					{
-						getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, minFi, maxFi, btVector3(0, 0, 0), true);
+						getDebugDrawer()->drawArc(center, normal, ref, dbgDrawSize, dbgDrawSize, minFi, maxFi, btVector3(0.0_fl, 0.0_fl, 0.0_fl), true);
 					}
 					tr = p6DOF->getCalculatedTransformA();
 					btVector3 bbMin = p6DOF->getTranslationalLimitMotor()->m_lowerLimit;
 					btVector3 bbMax = p6DOF->getTranslationalLimitMotor()->m_upperLimit;
-					getDebugDrawer()->drawBox(bbMin, bbMax, tr, btVector3(0, 0, 0));
+					getDebugDrawer()->drawBox(bbMin, bbMax, tr, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 				}
 			}
 			break;
@@ -1329,15 +1329,15 @@ void btDiscreteDynamicsWorld::debugDrawConstraint(btTypedConstraint* constraint)
 			if (drawLimits)
 			{
 				btTransform tr = pSlider->getUseLinearReferenceFrameA() ? pSlider->getCalculatedTransformA() : pSlider->getCalculatedTransformB();
-				btVector3 li_min = tr * btVector3(pSlider->getLowerLinLimit(), 0.f, 0.f);
-				btVector3 li_max = tr * btVector3(pSlider->getUpperLinLimit(), 0.f, 0.f);
-				getDebugDrawer()->drawLine(li_min, li_max, btVector3(0, 0, 0));
+				btVector3 li_min = tr * btVector3(pSlider->getLowerLinLimit(), 0.0_fl, 0.0_fl);
+				btVector3 li_max = tr * btVector3(pSlider->getUpperLinLimit(), 0.0_fl, 0.0_fl);
+				getDebugDrawer()->drawLine(li_min, li_max, btVector3(0.0_fl, 0.0_fl, 0.0_fl));
 				btVector3 normal = tr.getBasis().getColumn(0);
 				btVector3 axis = tr.getBasis().getColumn(1);
 				btScalar a_min = pSlider->getLowerAngLimit();
 				btScalar a_max = pSlider->getUpperAngLimit();
 				const btVector3& center = pSlider->getCalculatedTransformB().getOrigin();
-				getDebugDrawer()->drawArc(center, normal, axis, dbgDrawSize, dbgDrawSize, a_min, a_max, btVector3(0, 0, 0), true);
+				getDebugDrawer()->drawArc(center, normal, axis, dbgDrawSize, dbgDrawSize, a_min, a_max, btVector3(0.0_fl, 0.0_fl, 0.0_fl), true);
 			}
 		}
 		break;

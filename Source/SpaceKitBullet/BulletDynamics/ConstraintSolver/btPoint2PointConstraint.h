@@ -34,7 +34,7 @@ struct btConstraintSetting
 {
 	btConstraintSetting() : m_tau(btScalar(0.3)),
 							m_damping(btScalar(1.)),
-							m_impulseClamp(btScalar(0.))
+							m_impulseClamp(btScalar(0.0_fl))
 	{
 	}
 	btScalar m_tau;

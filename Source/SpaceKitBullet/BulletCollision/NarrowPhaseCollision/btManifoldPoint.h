@@ -54,15 +54,23 @@ public:
 	btManifoldPoint()
 		: m_userPersistentData(0),
 		  m_contactPointFlags(0),
-		  m_appliedImpulse(0.f),
-		  m_prevRHS(0.f),
-		  m_appliedImpulseLateral1(0.f),
-		  m_appliedImpulseLateral2(0.f),
-		  m_contactMotion1(0.f),
-		  m_contactMotion2(0.f),
-		  m_contactCFM(0.f),
-		  m_contactERP(0.f),
-		  m_frictionCFM(0.f),
+		  m_appliedImpulse(0.0_fl),
+		  m_prevRHS(0.0_fl),
+		  m_appliedImpulseLateral1(0.0_fl),
+		  m_appliedImpulseLateral2(0.0_fl),
+		  m_contactMotion1(0.0_fl),
+		  m_contactMotion2(0.0_fl),
+		  m_contactCFM(0.0_fl),
+		  m_contactERP(0.0_fl),
+		  m_frictionCFM(0.0_fl),
+		  m_localPointA(btVector3()),
+		  m_localPointB(btVector3()),
+		  m_normalWorldOnB(btVector3()),
+		  m_distance1(0.0_fl),
+		  m_combinedFriction(0.0_fl),
+		  m_combinedRollingFriction(btScalar(0.0_fl)),
+		  m_combinedSpinningFriction(btScalar(0.0_fl)),
+		  m_combinedRestitution(btScalar(0.0_fl)),
 		  m_lifeTime(0)
 	{
 	}
@@ -73,21 +81,21 @@ public:
 										 m_localPointB(pointB),
 										 m_normalWorldOnB(normal),
 										 m_distance1(distance),
-										 m_combinedFriction(btScalar(0.)),
-										 m_combinedRollingFriction(btScalar(0.)),
-										 m_combinedSpinningFriction(btScalar(0.)),
-										 m_combinedRestitution(btScalar(0.)),
+										 m_combinedFriction(btScalar(0.0_fl)),
+										 m_combinedRollingFriction(btScalar(0.0_fl)),
+										 m_combinedSpinningFriction(btScalar(0.0_fl)),
+										 m_combinedRestitution(btScalar(0.0_fl)),
 										 m_userPersistentData(0),
 										 m_contactPointFlags(0),
-										 m_appliedImpulse(0.f),
-										 m_prevRHS(0.f),
-										 m_appliedImpulseLateral1(0.f),
-										 m_appliedImpulseLateral2(0.f),
-										 m_contactMotion1(0.f),
-										 m_contactMotion2(0.f),
-										 m_contactCFM(0.f),
-										 m_contactERP(0.f),
-										 m_frictionCFM(0.f),
+										 m_appliedImpulse(0.0_fl),
+										 m_prevRHS(0.0_fl),
+										 m_appliedImpulseLateral1(0.0_fl),
+										 m_appliedImpulseLateral2(0.0_fl),
+										 m_contactMotion1(0.0_fl),
+										 m_contactMotion2(0.0_fl),
+										 m_contactCFM(0.0_fl),
+										 m_contactERP(0.0_fl),
+										 m_frictionCFM(0.0_fl),
 										 m_lifeTime(0)
 	{
 	}
@@ -122,15 +130,9 @@ public:
 	btScalar m_contactMotion1;
 	btScalar m_contactMotion2;
 
-	union {
-		btScalar m_contactCFM;
-		btScalar m_combinedContactStiffness1;
-	};
+	btScalar m_contactCFM;
 
-	union {
-		btScalar m_contactERP;
-		btScalar m_combinedContactDamping1;
-	};
+	btScalar m_contactERP;
 
 	btScalar m_frictionCFM;
 

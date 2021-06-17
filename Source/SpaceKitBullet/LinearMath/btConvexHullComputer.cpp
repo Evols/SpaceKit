@@ -322,7 +322,7 @@ public:
 
 		btScalar toScalar() const
 		{
-			return sign * ((m_denominator == 0) ? SIMD_INFINITY : (btScalar)m_numerator / m_denominator);
+			return (btScalar)sign * ((m_denominator == 0) ? SIMD_INFINITY : (btScalar)m_numerator / (btScalar)m_denominator);
 		}
 	};
 
@@ -386,7 +386,7 @@ public:
 
 		btScalar toScalar() const
 		{
-			return sign * ((denominator.getSign() == 0) ? SIMD_INFINITY : numerator.toScalar() / denominator.toScalar());
+			return (btScalar)sign * ((denominator.getSign() == 0) ? SIMD_INFINITY : numerator.toScalar() / denominator.toScalar());
 		}
 	};
 
@@ -1973,7 +1973,7 @@ void btConvexHullInternal::compute(const void* coords, bool doubleCoords, int st
 		for (int i = 0; i < count; i++)
 		{
 			const float* v = (const float*)ptr;
-			btVector3 p(v[0], v[1], v[2]);
+			btVector3 p((btScalar)v[0], (btScalar)v[1], (btScalar)v[2]);
 			ptr += stride;
 			min.setMin(p);
 			max.setMax(p);
@@ -1992,19 +1992,19 @@ void btConvexHullInternal::compute(const void* coords, bool doubleCoords, int st
 	s /= btScalar(10216);
 	if (((medAxis + 1) % 3) != maxAxis)
 	{
-		s *= -1;
+		s *= -1_fl;
 	}
 	scaling = s;
 
-	if (s[0] != 0)
+	if (s[0] != 0_fl)
 	{
 		s[0] = btScalar(1) / s[0];
 	}
-	if (s[1] != 0)
+	if (s[1] != 0_fl)
 	{
 		s[1] = btScalar(1) / s[1];
 	}
-	if (s[2] != 0)
+	if (s[2] != 0_fl)
 	{
 		s[2] = btScalar(1) / s[2];
 	}
@@ -2033,7 +2033,7 @@ void btConvexHullInternal::compute(const void* coords, bool doubleCoords, int st
 		for (int i = 0; i < count; i++)
 		{
 			const float* v = (const float*)ptr;
-			btVector3 p(v[0], v[1], v[2]);
+			btVector3 p((btScalar)v[0], (btScalar)v[1], (btScalar)v[2]);
 			ptr += stride;
 			p = (p - center) * s;
 			points[i].x = (int32_t)p[medAxis];
@@ -2101,7 +2101,7 @@ btScalar btConvexHullInternal::shrink(btScalar amount, btScalar clampAmount)
 {
 	if (!vertexList)
 	{
-		return 0;
+		return 0_fl;
 	}
 	int stamp = --mergeStamp;
 	btAlignedObjectArray<Vertex*> stack;
@@ -2168,19 +2168,19 @@ btScalar btConvexHullInternal::shrink(btScalar amount, btScalar clampAmount)
 
 	if (volume.getSign() <= 0)
 	{
-		return 0;
+		return 0_fl;
 	}
 
 	btVector3 hullCenter;
 	hullCenter[medAxis] = hullCenterX.toScalar();
 	hullCenter[maxAxis] = hullCenterY.toScalar();
 	hullCenter[minAxis] = hullCenterZ.toScalar();
-	hullCenter /= 4 * volume.toScalar();
+	hullCenter /= 4_fl * volume.toScalar();
 	hullCenter *= scaling;
 
 	int faceCount = faces.size();
 
-	if (clampAmount > 0)
+	if (clampAmount > 0_fl)
 	{
 		btScalar minDist = SIMD_INFINITY;
 		for (int i = 0; i < faceCount; i++)
@@ -2193,9 +2193,9 @@ btScalar btConvexHullInternal::shrink(btScalar amount, btScalar clampAmount)
 			}
 		}
 
-		if (minDist <= 0)
+		if (minDist <= 0_fl)
 		{
-			return 0;
+			return 0_fl;
 		}
 
 		amount = btMin(amount, minDist * clampAmount);
@@ -2221,15 +2221,15 @@ btScalar btConvexHullInternal::shrink(btScalar amount, btScalar clampAmount)
 bool btConvexHullInternal::shiftFace(Face* face, btScalar amount, btAlignedObjectArray<Vertex*> stack)
 {
 	btVector3 origShift = getBtNormal(face) * -amount;
-	if (scaling[0] != 0)
+	if (scaling[0] != 0_fl)
 	{
 		origShift[0] /= scaling[0];
 	}
-	if (scaling[1] != 0)
+	if (scaling[1] != 0_fl)
 	{
 		origShift[1] /= scaling[1];
 	}
-	if (scaling[2] != 0)
+	if (scaling[2] != 0_fl)
 	{
 		origShift[2] /= scaling[2];
 	}
@@ -2657,14 +2657,14 @@ btScalar btConvexHullComputer::compute(const void* coords, bool doubleCoords, in
 		vertices.clear();
 		edges.clear();
 		faces.clear();
-		return 0;
+		return 0_fl;
 	}
 
 	btConvexHullInternal hull;
 	hull.compute(coords, doubleCoords, stride, count);
 
-	btScalar shift = 0;
-	if ((shrink > 0) && ((shift = hull.shrink(shrink, shrinkClamp)) < 0))
+	btScalar shift = 0_fl;
+	if ((shrink > 0_fl) && ((shift = hull.shrink(shrink, shrinkClamp)) < 0_fl))
 	{
 		vertices.clear();
 		edges.clear();

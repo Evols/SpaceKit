@@ -107,7 +107,7 @@ protected:
 	///time of impact calculation
 	btScalar m_hitFraction;
 
-	///Swept sphere radius (0.0 by default), see btConvexConvexAlgorithm::
+	///Swept sphere radius (0.0_fl by default), see btConvexConvexAlgorithm::
 	btScalar m_ccdSweptSphereRadius;
 
 	/// Don't do continuous collision detection if the motion (in one step) is less then m_ccdMotionThreshold
@@ -175,7 +175,7 @@ public:
 	void setAnisotropicFriction(const btVector3& anisotropicFriction, int frictionMode = CF_ANISOTROPIC_FRICTION)
 	{
 		m_anisotropicFriction = anisotropicFriction;
-		bool isUnity = (anisotropicFriction[0] != 1.f) || (anisotropicFriction[1] != 1.f) || (anisotropicFriction[2] != 1.f);
+		bool isUnity = (anisotropicFriction[0] != 1.0_fl) || (anisotropicFriction[1] != 1.0_fl) || (anisotropicFriction[2] != 1.0_fl);
 		m_hasAnisotropicFriction = isUnity ? frictionMode : 0;
 	}
 	bool hasAnisotropicFriction(int frictionMode = CF_ANISOTROPIC_FRICTION) const
@@ -496,13 +496,13 @@ public:
 		m_collisionFlags = flags;
 	}
 
-	///Swept sphere radius (0.0 by default), see btConvexConvexAlgorithm::
+	///Swept sphere radius (0.0_fl by default), see btConvexConvexAlgorithm::
 	btScalar getCcdSweptSphereRadius() const
 	{
 		return m_ccdSweptSphereRadius;
 	}
 
-	///Swept sphere radius (0.0 by default), see btConvexConvexAlgorithm::
+	///Swept sphere radius (0.0_fl by default), see btConvexConvexAlgorithm::
 	void setCcdSweptSphereRadius(btScalar radius)
 	{
 		m_ccdSweptSphereRadius = radius;

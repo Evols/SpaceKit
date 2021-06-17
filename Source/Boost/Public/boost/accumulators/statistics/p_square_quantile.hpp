@@ -80,7 +80,7 @@ namespace impl
             this->desired_positions[4] = float_type(5.);
 
 
-            this->positions_increments[0] = float_type(0.);
+            this->positions_increments[0] = float_type(0.0_fl);
             this->positions_increments[1] = this->p / float_type(2.);
             this->positions_increments[2] = this->p;
             this->positions_increments[3] = (float_type(1.) + this->p) / float_type(2.);

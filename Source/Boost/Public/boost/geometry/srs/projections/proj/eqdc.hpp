@@ -101,7 +101,7 @@ namespace projections
                     T rho = 0.0;
 
                     if ((rho = boost::math::hypot(xy_x, xy_y = this->m_proj_parm.rho0 - xy_y)) != 0.0 ) {
-                        if (this->m_proj_parm.n < 0.) {
+                        if (this->m_proj_parm.n < 0.0_fl) {
                             rho = -rho;
                             xy_x = -xy_x;
                             xy_y = -xy_y;
@@ -141,7 +141,7 @@ namespace projections
                 proj_parm.n = sinphi = sin(proj_parm.phi1);
                 cosphi = cos(proj_parm.phi1);
                 secant = fabs(proj_parm.phi1 - proj_parm.phi2) >= epsilon10;
-                if( (proj_parm.ellips = (par.es > 0.)) ) {
+                if( (proj_parm.ellips = (par.es > 0.0_fl)) ) {
                     double ml1, m1;
 
                     m1 = pj_msfn(sinphi, cosphi, par.es);

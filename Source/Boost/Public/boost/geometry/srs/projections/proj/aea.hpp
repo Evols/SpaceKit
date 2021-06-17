@@ -127,7 +127,7 @@ namespace projections
                     T rho = this->m_proj_parm.c - (this->m_proj_parm.ellips
                                                                     ? this->m_proj_parm.n * pj_qsfn(sin(lp_lat), par.e, par.one_es)
                                                                     : this->m_proj_parm.n2 * sin(lp_lat));
-                    if (rho < 0.)
+                    if (rho < 0.0_fl)
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                     rho = this->m_proj_parm.dd * sqrt(rho);
                     xy_x = rho * sin( lp_lon *= this->m_proj_parm.n );
@@ -142,7 +142,7 @@ namespace projections
 
                     T rho = 0.0;
                     if( (rho = boost::math::hypot(xy_x, xy_y = this->m_proj_parm.rho0 - xy_y)) != 0.0 ) {
-                        if (this->m_proj_parm.n < 0.) {
+                        if (this->m_proj_parm.n < 0.0_fl) {
                             rho = -rho;
                             xy_x = -xy_x;
                             xy_y = -xy_y;
@@ -184,7 +184,7 @@ namespace projections
                 proj_parm.n = sinphi = sin(proj_parm.phi1);
                 cosphi = cos(proj_parm.phi1);
                 secant = fabs(proj_parm.phi1 - proj_parm.phi2) >= epsilon10;
-                if( (proj_parm.ellips = (par.es > 0.))) {
+                if( (proj_parm.ellips = (par.es > 0.0_fl))) {
                     T ml1, m1;
 
                     proj_parm.en = pj_enfn<T>(par.es);

@@ -455,13 +455,13 @@ private:
 public:
 	/// Default constructor initializes limit as inactive, allowing free constraint movement
 	btAngularLimit()
-		: m_center(0.0f),
-		  m_halfRange(-1.0f),
-		  m_softness(0.9f),
-		  m_biasFactor(0.3f),
-		  m_relaxationFactor(1.0f),
-		  m_correction(0.0f),
-		  m_sign(0.0f),
+		: m_center(0.0_fl),
+		  m_halfRange(-1.0_fl),
+		  m_softness(0.9_fl),
+		  m_biasFactor(0.3_fl),
+		  m_relaxationFactor(1.0_fl),
+		  m_correction(0.0_fl),
+		  m_sign(0.0_fl),
 		  m_solveLimit(false)
 	{
 	}
@@ -469,7 +469,7 @@ public:
 	/// Sets all limit's parameters.
 	/// When low > high limit becomes inactive.
 	/// When high - low > 2PI limit is ineffective too becouse no angle can exceed the limit
-	void set(btScalar low, btScalar high, btScalar _softness = 0.9f, btScalar _biasFactor = 0.3f, btScalar _relaxationFactor = 1.0f);
+	void set(btScalar low, btScalar high, btScalar _softness = 0.9_fl, btScalar _biasFactor = 0.3_fl, btScalar _relaxationFactor = 1.0_fl);
 
 	/// Checks conastaint angle against limit. If limit is active and the angle violates the limit
 	/// correction is calculated.

@@ -3,8 +3,8 @@
 
 inline void b3ProjectAxis(const b3ConvexPolyhedronData& hull, const b3Float4& pos, const b3Quaternion& orn, const b3Float4& dir, const b3AlignedObjectArray<b3Vector3>& vertices, b3Scalar& min, b3Scalar& max)
 {
-	min = FLT_MAX;
-	max = -FLT_MAX;
+	min = BIGFLOAT_MAX;
+	max = -BIGFLOAT_MAX;
 	int numVerts = hull.m_numVertices;
 
 	const b3Float4 localDir = b3QuatRotate(orn.inverse(), dir);
@@ -45,9 +45,9 @@ inline bool b3TestSepAxis(const b3ConvexPolyhedronData& hullA, const b3ConvexPol
 		return false;
 
 	b3Scalar d0 = Max0 - Min1;
-	b3Assert(d0 >= 0.0f);
+	b3Assert(d0 >= 0.0_fl);
 	b3Scalar d1 = Max1 - Min0;
-	b3Assert(d1 >= 0.0f);
+	b3Assert(d1 >= 0.0_fl);
 	depth = d0 < d1 ? d0 : d1;
 	return true;
 }
@@ -71,9 +71,9 @@ inline bool b3FindSeparatingAxis(const b3ConvexPolyhedronData& hullA, const b3Co
 	B3_PROFILE("findSeparatingAxis");
 
 	b3Float4 posA = posA1;
-	posA.w = 0.f;
+	posA.w = 0.0_fl;
 	b3Float4 posB = posB1;
-	posB.w = 0.f;
+	posB.w = 0.0_fl;
 	//#ifdef TEST_INTERNAL_OBJECTS
 	b3Float4 c0local = (b3Float4&)hullA.m_localCenter;
 
@@ -83,7 +83,7 @@ inline bool b3FindSeparatingAxis(const b3ConvexPolyhedronData& hullA, const b3Co
 	const b3Float4 deltaC2 = c0 - c1;
 	//#endif
 
-	b3Scalar dmin = FLT_MAX;
+	b3Scalar dmin = BIGFLOAT_MAX;
 	int curPlaneTests = 0;
 
 	int numFacesA = hullA.m_numFaces;
@@ -94,7 +94,7 @@ inline bool b3FindSeparatingAxis(const b3ConvexPolyhedronData& hullA, const b3Co
 		b3Float4 faceANormalWS = b3QuatRotate(ornA, normal);
 
 		if (b3Dot3F4(deltaC2, faceANormalWS) < 0)
-			faceANormalWS *= -1.f;
+			faceANormalWS *= -1.0_fl;
 
 		curPlaneTests++;
 #ifdef TEST_INTERNAL_OBJECTS
@@ -124,7 +124,7 @@ inline bool b3FindSeparatingAxis(const b3ConvexPolyhedronData& hullA, const b3Co
 
 		if (b3Dot3F4(deltaC2, WorldNormal) < 0)
 		{
-			WorldNormal *= -1.f;
+			WorldNormal *= -1.0_fl;
 		}
 		curPlaneTests++;
 #ifdef TEST_INTERNAL_OBJECTS
@@ -166,7 +166,7 @@ inline bool b3FindSeparatingAxis(const b3ConvexPolyhedronData& hullA, const b3Co
 			{
 				crossje = b3FastNormalized3(crossje);
 				if (b3Dot3F4(deltaC2, crossje) < 0)
-					crossje *= -1.f;
+					crossje *= -1.0_fl;
 
 #ifdef TEST_INTERNAL_OBJECTS
 				gExpectedNbTests++;
@@ -188,7 +188,7 @@ inline bool b3FindSeparatingAxis(const b3ConvexPolyhedronData& hullA, const b3Co
 		}
 	}
 
-	if ((b3Dot3F4(-deltaC2, (b3Float4&)sep)) > 0.0f)
+	if ((b3Dot3F4(-deltaC2, (b3Float4&)sep)) > 0.0_fl)
 		sep = -sep;
 
 	return true;

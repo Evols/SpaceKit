@@ -70,26 +70,26 @@ public:
 		GUINT &edge_index0,
 		GUINT &edge_index1)
 	{
-		if (D0D1 > 0.0f)
+		if (D0D1 > 0.0_fl)
 		{
-			/* here we know that D0D2<=0.0 */
+			/* here we know that D0D2<=0.0_fl */
 			/* that is D0, D1 are on the same side, D2 on the other or on the plane */
 			scale_edge0 = -D2 / (D0 - D2);
 			scale_edge1 = -D1 / (D2 - D1);
 			edge_index0 = 2;
 			edge_index1 = 1;
 		}
-		else if (D0D2 > 0.0f)
+		else if (D0D2 > 0.0_fl)
 		{
-			/* here we know that d0d1<=0.0 */
+			/* here we know that d0d1<=0.0_fl */
 			scale_edge0 = -D0 / (D1 - D0);
 			scale_edge1 = -D1 / (D2 - D1);
 			edge_index0 = 0;
 			edge_index1 = 1;
 		}
-		else if (D1 * D2 > 0.0f || D0 != 0.0f)
+		else if (D1 * D2 > 0.0_fl || D0 != 0.0_fl)
 		{
-			/* here we know that d0d1<=0.0 or that D0!=0.0 */
+			/* here we know that d0d1<=0.0_fl or that D0!=0.0_fl */
 			scale_edge0 = -D0 / (D1 - D0);
 			scale_edge1 = -D2 / (D0 - D2);
 			edge_index0 = 0;
@@ -235,8 +235,8 @@ public:
 		sort_isect(isect_u[0], isect_u[1], tu_e0, tu_e1, up_e0, up_e1);
 		sort_isect(isect_v[0], isect_v[1], tv_e0, tv_e1, vp_e0, vp_e1);
 
-		const GREAL midpoint_u = 0.5f * (isect_u[0] + isect_u[1]);  // midpoint
-		const GREAL midpoint_v = 0.5f * (isect_v[0] + isect_v[1]);  // midpoint
+		const GREAL midpoint_u = 0.5_fl * (isect_u[0] + isect_u[1]);  // midpoint
+		const GREAL midpoint_v = 0.5_fl * (isect_v[0] + isect_v[1]);  // midpoint
 
 		if (midpoint_u < midpoint_v)
 		{
@@ -263,12 +263,12 @@ public:
 
 				edge_edge_dir = closest_point_u - closest_point_v;
 				VEC_LENGTH(edge_edge_dir, distances[2]);
-				edge_edge_dir *= 1.0f / distances[2];  // normalize
+				edge_edge_dir *= 1.0_fl / distances[2];  // normalize
 			}
 			else
 			{
 				distances[2] = isect_v[0] - isect_u[1];  //distance negative
-														 //edge_edge_dir *= -1.0f; //normal pointing from V to U
+														 //edge_edge_dir *= -1.0_fl; //normal pointing from V to U
 			}
 		}
 		else
@@ -296,12 +296,12 @@ public:
 
 				edge_edge_dir = closest_point_u - closest_point_v;
 				VEC_LENGTH(edge_edge_dir, distances[2]);
-				edge_edge_dir *= 1.0f / distances[2];  // normalize
+				edge_edge_dir *= 1.0_fl / distances[2];  // normalize
 			}
 			else
 			{
 				distances[2] = isect_u[0] - isect_v[1];  //distance negative
-														 //edge_edge_dir *= -1.0f; //normal pointing from V to U
+														 //edge_edge_dir *= -1.0_fl; //normal pointing from V to U
 			}
 		}
 		return 3;
@@ -341,7 +341,7 @@ public:
 		du0du1 = du[0] * du[1];
 		du0du2 = du[0] * du[2];
 
-		if (du0du1 > 0.0f && du0du2 > 0.0f)  // same sign on all of them + not equal 0 ?
+		if (du0du1 > 0.0_fl && du0du2 > 0.0_fl)  // same sign on all of them + not equal 0 ?
 		{
 			if (du[0] < 0)  //we need test behind the triangle plane
 			{
@@ -351,7 +351,7 @@ public:
 
 				//reorder triangle v
 				VEC_SWAP(tv_vertices[0], tv_vertices[1]);
-				VEC_SCALE_4(tv_plane, -1.0f, tv_plane);
+				VEC_SCALE_4(tv_plane, -1.0_fl, tv_plane);
 			}
 			else
 			{
@@ -362,13 +362,13 @@ public:
 		else
 		{
 			//Look if we need to invert the triangle
-			distances[0] = (du[0] + du[1] + du[2]) / 3.0f;  //centroid
+			distances[0] = (du[0] + du[1] + du[2]) / 3.0_fl;  //centroid
 
-			if (distances[0] < 0.0f)
+			if (distances[0] < 0.0_fl)
 			{
 				//reorder triangle v
 				VEC_SWAP(tv_vertices[0], tv_vertices[1]);
-				VEC_SCALE_4(tv_plane, -1.0f, tv_plane);
+				VEC_SCALE_4(tv_plane, -1.0_fl, tv_plane);
 
 				distances[0] = GIM_MAX3(du[0], du[1], du[2]);
 				distances[0] = -distances[0];
@@ -390,7 +390,7 @@ public:
 		dv0dv1 = dv[0] * dv[1];
 		dv0dv2 = dv[0] * dv[2];
 
-		if (dv0dv1 > 0.0f && dv0dv2 > 0.0f)  // same sign on all of them + not equal 0 ?
+		if (dv0dv1 > 0.0_fl && dv0dv2 > 0.0_fl)  // same sign on all of them + not equal 0 ?
 		{
 			if (dv[0] < 0)  //we need test behind the triangle plane
 			{
@@ -400,7 +400,7 @@ public:
 
 				//reorder triangle u
 				VEC_SWAP(tu_vertices[0], tu_vertices[1]);
-				VEC_SCALE_4(tu_plane, -1.0f, tu_plane);
+				VEC_SCALE_4(tu_plane, -1.0_fl, tu_plane);
 			}
 			else
 			{
@@ -411,13 +411,13 @@ public:
 		else
 		{
 			//Look if we need to invert the triangle
-			distances[1] = (dv[0] + dv[1] + dv[2]) / 3.0f;  //centroid
+			distances[1] = (dv[0] + dv[1] + dv[2]) / 3.0_fl;  //centroid
 
-			if (distances[1] < 0.0f)
+			if (distances[1] < 0.0_fl)
 			{
 				//reorder triangle v
 				VEC_SWAP(tu_vertices[0], tu_vertices[1]);
-				VEC_SCALE_4(tu_plane, -1.0f, tu_plane);
+				VEC_SCALE_4(tu_plane, -1.0_fl, tu_plane);
 
 				distances[1] = GIM_MAX3(dv[0], dv[1], dv[2]);
 				distances[1] = -distances[1];
@@ -468,7 +468,7 @@ public:
 			point_count = clip_triangle(tu_plane, tu_vertices, tv_vertices, contact_points);
 			if (point_count == 0) return false;
 			contacts.merge_points(tu_plane, margin, contact_points, point_count);
-			contacts.m_separating_normal *= -1.f;
+			contacts.m_separating_normal *= -1.0_fl;
 		}
 		if (contacts.m_point_count == 0) return false;
 		return true;
@@ -572,7 +572,7 @@ public:
 		if(contacts1.m_point_count == 0) return false; // too far
 
 		//Normal pointing to triangle1
-		//contacts1.m_separating_normal *= -1.f;
+		//contacts1.m_separating_normal *= -1.0_fl;
 
 		//Clip tri1 by tri2 edges
 
@@ -590,7 +590,7 @@ public:
 		contacts2.merge_points(contacts2.m_separating_normal,margin,clipped_points,clipped_count);
 		if(contacts2.m_point_count == 0) return false; // too far
 
-		contacts2.m_separating_normal *= -1.f;
+		contacts2.m_separating_normal *= -1.0_fl;
 
 		////check most dir for contacts
 		if(contacts2.m_penetration_depth<contacts1.m_penetration_depth)

@@ -35,7 +35,7 @@ email: projectileman@yahoo.com
 #include "SpaceKitBullet/LinearMath/btScalar.h"
 
 #define GREAL btScalar
-#define GREAL2 double
+#define GREAL2 btScalar
 #define GINT int
 #define GUINT unsigned int
 #define GSHORT short
@@ -43,15 +43,15 @@ email: projectileman@yahoo.com
 #define GINT64 long long
 #define GUINT64 unsigned long long
 
-#define G_PI 3.14159265358979f
-#define G_HALF_PI 1.5707963f
+#define G_PI 3.14159265358979_fl
+#define G_HALF_PI 1.5707963_fl
 //267948966
-#define G_TWO_PI 6.28318530f
+#define G_TWO_PI 6.28318530_fl
 //71795864
-#define G_ROOT3 1.73205f
-#define G_ROOT2 1.41421f
+#define G_ROOT3 1.73205_fl
+#define G_ROOT2 1.41421_fl
 #define G_UINT_INFINITY 0xffffffff  //!< A very very high value
-#define G_REAL_INFINITY FLT_MAX
+#define G_REAL_INFINITY 1e200_fl
 #define G_SIGN_BITMASK 0x80000000
 #define G_EPSILON SIMD_EPSILON
 
@@ -67,8 +67,8 @@ enum GIM_SCALAR_TYPES
 	G_STYPE_UINT64
 };
 
-#define G_DEGTORAD(X) ((X)*3.1415926f / 180.0f)
-#define G_RADTODEG(X) ((X)*180.0f / 3.1415926f)
+#define G_DEGTORAD(X) ((X)*3.1415926_fl / 180.0_fl)
+#define G_RADTODEG(X) ((X)*180.0_fl / 3.1415926_fl)
 
 //! Integer representation of a floating-point value.
 #define GIM_IR(x) ((GUINT&)(x))
@@ -117,32 +117,28 @@ enum GIM_SCALAR_TYPES
 		}                                              \
 		else                                           \
 		{                                              \
-			GREAL _x = va * 0.5f;                      \
-			GUINT _y = 0x5f3759df - (GIM_IR(va) >> 1); \
+			GREAL _x = va * 0.5_fl;                      \
+			GUINT _y = 0x5_fl3759df - (GIM_IR(va) >> 1); \
 			isva = GIM_FR(_y);                         \
-			isva = isva * (1.5f - (_x * isva * isva)); \
+			isva = isva * (1.5_fl - (_x * isva * isva)); \
 		}                                              \
 	}
 
 #define GIM_SQRT(va, sva)      \
 	{                          \
 		GIM_INV_SQRT(va, sva); \
-		sva = 1.0f / sva;      \
+		sva = 1.0_fl / sva;      \
 	}
 
-//! Computes 1.0f / sqrtf(x). Comes from Quake3. See http://www.magic-software.com/3DGEDInvSqrt.html
+//! Computes 1.0_fl / sqrtf(x). Comes from Quake3. See http://www.magic-software.com/3DGEDInvSqrt.html
 inline GREAL gim_inv_sqrt(GREAL f)
 {
-	GREAL r;
-	GIM_INV_SQRT(f, r);
-	return r;
+	return 1.0_fl / URealFloatMath::Sqrt(f);
 }
 
 inline GREAL gim_sqrt(GREAL f)
 {
-	GREAL r;
-	GIM_SQRT(f, r);
-	return r;
+	return URealFloatMath::Sqrt(f);
 }
 
 #endif  // GIM_MATH_H_INCLUDED

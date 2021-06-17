@@ -98,7 +98,7 @@ bool btSphereBoxCollisionAlgorithm::getSphereDistance(const btCollisionObjectWra
 	const btBoxShape* boxShape = (const btBoxShape*)boxObjWrap->getCollisionShape();
 	btVector3 const& boxHalfExtent = boxShape->getHalfExtentsWithoutMargin();
 	btScalar boxMargin = boxShape->getMargin();
-	penetrationDepth = 1.0f;
+	penetrationDepth = 1.0_fl;
 
 	// convert the sphere position to the box's local space
 	btTransform const& m44T = boxObjWrap->getWorldTransform();
@@ -158,7 +158,7 @@ btScalar btSphereBoxCollisionAlgorithm::getSpherePenetration(btVector3 const& bo
 	btScalar faceDist = boxHalfExtent.getX() - sphereRelPos.getX();
 	btScalar minDist = faceDist;
 	closestPoint.setX(boxHalfExtent.getX());
-	normal.setValue(btScalar(1.0f), btScalar(0.0f), btScalar(0.0f));
+	normal.setValue(btScalar(1.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 
 	faceDist = boxHalfExtent.getX() + sphereRelPos.getX();
 	if (faceDist < minDist)
@@ -166,7 +166,7 @@ btScalar btSphereBoxCollisionAlgorithm::getSpherePenetration(btVector3 const& bo
 		minDist = faceDist;
 		closestPoint = sphereRelPos;
 		closestPoint.setX(-boxHalfExtent.getX());
-		normal.setValue(btScalar(-1.0f), btScalar(0.0f), btScalar(0.0f));
+		normal.setValue(btScalar(-1.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	}
 
 	faceDist = boxHalfExtent.getY() - sphereRelPos.getY();
@@ -175,7 +175,7 @@ btScalar btSphereBoxCollisionAlgorithm::getSpherePenetration(btVector3 const& bo
 		minDist = faceDist;
 		closestPoint = sphereRelPos;
 		closestPoint.setY(boxHalfExtent.getY());
-		normal.setValue(btScalar(0.0f), btScalar(1.0f), btScalar(0.0f));
+		normal.setValue(btScalar(0.0_fl), btScalar(1.0_fl), btScalar(0.0_fl));
 	}
 
 	faceDist = boxHalfExtent.getY() + sphereRelPos.getY();
@@ -184,7 +184,7 @@ btScalar btSphereBoxCollisionAlgorithm::getSpherePenetration(btVector3 const& bo
 		minDist = faceDist;
 		closestPoint = sphereRelPos;
 		closestPoint.setY(-boxHalfExtent.getY());
-		normal.setValue(btScalar(0.0f), btScalar(-1.0f), btScalar(0.0f));
+		normal.setValue(btScalar(0.0_fl), btScalar(-1.0_fl), btScalar(0.0_fl));
 	}
 
 	faceDist = boxHalfExtent.getZ() - sphereRelPos.getZ();
@@ -193,7 +193,7 @@ btScalar btSphereBoxCollisionAlgorithm::getSpherePenetration(btVector3 const& bo
 		minDist = faceDist;
 		closestPoint = sphereRelPos;
 		closestPoint.setZ(boxHalfExtent.getZ());
-		normal.setValue(btScalar(0.0f), btScalar(0.0f), btScalar(1.0f));
+		normal.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(1.0_fl));
 	}
 
 	faceDist = boxHalfExtent.getZ() + sphereRelPos.getZ();
@@ -202,7 +202,7 @@ btScalar btSphereBoxCollisionAlgorithm::getSpherePenetration(btVector3 const& bo
 		minDist = faceDist;
 		closestPoint = sphereRelPos;
 		closestPoint.setZ(-boxHalfExtent.getZ());
-		normal.setValue(btScalar(0.0f), btScalar(0.0f), btScalar(-1.0f));
+		normal.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(-1.0_fl));
 	}
 
 	return minDist;

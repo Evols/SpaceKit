@@ -86,7 +86,7 @@ namespace projections
                     xy_x = this->m_proj_parm.r2z0 * (t = z1 - z2);
                     t = this->m_proj_parm.z02 - t;
                     xy_y = this->m_proj_parm.r2z0 * asqrt(4. * this->m_proj_parm.z02 * z2 - t * t);
-                    if ((this->m_proj_parm.ccs * sp - cp * (this->m_proj_parm.cs * sin(dl1) - this->m_proj_parm.sc * sin(dl2))) < 0.)
+                    if ((this->m_proj_parm.ccs * sp - cp * (this->m_proj_parm.cs * sin(dl1) - this->m_proj_parm.sc * sin(dl2))) < 0.0_fl)
                         xy_y = -xy_y;
                 }
 

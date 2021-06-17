@@ -23,7 +23,7 @@ btCompoundShape::btCompoundShape(bool enableDynamicAabbTree, const int initialCh
 	  m_localAabbMax(btScalar(-BT_LARGE_FLOAT), btScalar(-BT_LARGE_FLOAT), btScalar(-BT_LARGE_FLOAT)),
 	  m_dynamicAabbTree(0),
 	  m_updateRevision(1),
-	  m_collisionMargin(btScalar(0.)),
+	  m_collisionMargin(btScalar(0.0_fl)),
 	  m_localScaling(btScalar(1.), btScalar(1.), btScalar(1.))
 {
 	m_shapeType = COMPOUND_SHAPE_PROXYTYPE;
@@ -166,8 +166,8 @@ void btCompoundShape::getAabb(const btTransform& trans, btVector3& aabbMin, btVe
 	//avoid an illegal AABB when there are no children
 	if (!m_children.size())
 	{
-		localHalfExtents.setValue(0, 0, 0);
-		localCenter.setValue(0, 0, 0);
+		localHalfExtents.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+		localCenter.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	}
 	localHalfExtents += btVector3(getMargin(), getMargin(), getMargin());
 
@@ -203,8 +203,8 @@ void btCompoundShape::calculatePrincipalAxisTransform(const btScalar* masses, bt
 {
 	int n = m_children.size();
 
-	btScalar totalMass = 0;
-	btVector3 center(0, 0, 0);
+	btScalar totalMass = 0_fl;
+	btVector3 center(0_fl, 0_fl, 0_fl);
 	int k;
 
 	for (k = 0; k < n; k++)
@@ -219,7 +219,7 @@ void btCompoundShape::calculatePrincipalAxisTransform(const btScalar* masses, bt
 	center /= totalMass;
 	principal.setOrigin(center);
 
-	btMatrix3x3 tensor(0, 0, 0, 0, 0, 0, 0, 0, 0);
+	btMatrix3x3 tensor(0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl);
 	for (k = 0; k < n; k++)
 	{
 		btVector3 i;
@@ -242,9 +242,9 @@ void btCompoundShape::calculatePrincipalAxisTransform(const btScalar* masses, bt
 
 		//compute inertia tensor of pointmass at o
 		btScalar o2 = o.length2();
-		j[0].setValue(o2, 0, 0);
-		j[1].setValue(0, o2, 0);
-		j[2].setValue(0, 0, o2);
+		j[0].setValue(o2, 0_fl, 0_fl);
+		j[1].setValue(0_fl, o2, 0_fl);
+		j[2].setValue(0_fl, 0_fl, o2);
 		j[0] += o * -o.x();
 		j[1] += o * -o.y();
 		j[2] += o * -o.z();
@@ -305,7 +305,7 @@ const char* btCompoundShape::serialize(void* dataBuffer, btSerializer* serialize
 	btCompoundShapeData* shapeData = (btCompoundShapeData*)dataBuffer;
 	btCollisionShape::serialize(&shapeData->m_collisionShapeData, serializer);
 
-	shapeData->m_collisionMargin = float(m_collisionMargin);
+	shapeData->m_collisionMargin = m_collisionMargin.ToFloat();
 	shapeData->m_numChildShapes = m_children.size();
 	shapeData->m_childShapePtr = 0;
 	if (shapeData->m_numChildShapes)
@@ -316,7 +316,7 @@ const char* btCompoundShape::serialize(void* dataBuffer, btSerializer* serialize
 
 		for (int i = 0; i < shapeData->m_numChildShapes; i++, memPtr++)
 		{
-			memPtr->m_childMargin = float(m_children[i].m_childMargin);
+			memPtr->m_childMargin = m_children[i].m_childMargin.ToFloat();
 			memPtr->m_childShape = (btCollisionShapeData*)serializer->getUniquePointer(m_children[i].m_childShape);
 			//don't serialize shapes that already have been serialized
 			if (!serializer->findPointer(m_children[i].m_childShape))

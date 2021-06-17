@@ -441,24 +441,24 @@ public:
     }
     void addSplitV()
     {
-        applyDeltaVeeMultiDof(&m_splitV[0], 1);
+        applyDeltaVeeMultiDof(&m_splitV[0], 1.0_fl);
     }
     void substractSplitV()
     {
-        applyDeltaVeeMultiDof(&m_splitV[0], -1);
+        applyDeltaVeeMultiDof(&m_splitV[0], -1.0_fl);
         
         for (int dof = 0; dof < 6 + getNumDofs(); ++dof)
         {
-            m_splitV[dof] = 0.f;
+            m_splitV[dof] = 0.0_fl;
         }
     }
 	void processDeltaVeeMultiDof2()
 	{
-		applyDeltaVeeMultiDof(&m_deltaV[0], 1);
+		applyDeltaVeeMultiDof(&m_deltaV[0], 1.0_fl);
 
 		for (int dof = 0; dof < 6 + getNumDofs(); ++dof)
 		{
-			m_deltaV[dof] = 0.f;
+			m_deltaV[dof] = 0.0_fl;
 		}
 	}
 
@@ -507,7 +507,7 @@ public:
 									 btScalar *jac,
 									 btAlignedObjectArray<btScalar> &scratch_r,
 									 btAlignedObjectArray<btVector3> &scratch_v,
-									 btAlignedObjectArray<btMatrix3x3> &scratch_m) const { fillConstraintJacobianMultiDof(link, contact_point, btVector3(0, 0, 0), normal, jac, scratch_r, scratch_v, scratch_m); }
+									 btAlignedObjectArray<btMatrix3x3> &scratch_m) const { fillConstraintJacobianMultiDof(link, contact_point, btVector3(0.0_fl, 0.0_fl, 0.0_fl), normal, jac, scratch_r, scratch_v, scratch_m); }
 
 	//a more general version of fillContactJacobianMultiDof which does not assume..
 	//.. that the constraint in question is contact or, to be more precise, constrains linear velocity only

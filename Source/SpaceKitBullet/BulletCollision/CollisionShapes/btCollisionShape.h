@@ -113,7 +113,7 @@ public:
 	///See Bullet/Demos/RollingFrictionDemo for an example
 	virtual btVector3 getAnisotropicRollingFrictionDirection() const
 	{
-		return btVector3(1, 1, 1);
+		return btVector3(1.0_fl, 1.0_fl, 1.0_fl);
 	}
 	virtual void setMargin(btScalar margin) = 0;
 	virtual btScalar getMargin() const = 0;

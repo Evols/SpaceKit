@@ -73,26 +73,26 @@ btScalar resolveSingleCollision(
 	btVector3 rel_pos2 = contactPositionWorld - colObj2->getWorldTransform().getOrigin();
 
 	btVector3 vel1 = body1->getVelocityInLocalPoint(rel_pos1);
-	btVector3 vel2 = body2 ? body2->getVelocityInLocalPoint(rel_pos2) : btVector3(0, 0, 0);
+	btVector3 vel2 = body2 ? body2->getVelocityInLocalPoint(rel_pos2) : btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 	btVector3 vel = vel1 - vel2;
 	btScalar rel_vel;
 	rel_vel = normal.dot(vel);
 
-	btScalar combinedRestitution = 0.f;
+	btScalar combinedRestitution = 0.0_fl;
 	btScalar restitution = combinedRestitution * -rel_vel;
 
 	btScalar positionalError = solverInfo.m_erp * -distance / solverInfo.m_timeStep;
-	btScalar velocityError = -(1.0f + restitution) * rel_vel;  // * damping;
+	btScalar velocityError = -(1.0_fl + restitution) * rel_vel;  // * damping;
 	btScalar denom0 = body1->computeImpulseDenominator(contactPositionWorld, normal);
-	btScalar denom1 = body2 ? body2->computeImpulseDenominator(contactPositionWorld, normal) : 0.f;
-	btScalar relaxation = 1.f;
+	btScalar denom1 = body2 ? body2->computeImpulseDenominator(contactPositionWorld, normal) : 0.0_fl;
+	btScalar relaxation = 1.0_fl;
 	btScalar jacDiagABInv = relaxation / (denom0 + denom1);
 
 	btScalar penetrationImpulse = positionalError * jacDiagABInv;
 	btScalar velocityImpulse = velocityError * jacDiagABInv;
 
 	btScalar normalImpulse = penetrationImpulse + velocityImpulse;
-	normalImpulse = 0.f > normalImpulse ? 0.f : normalImpulse;
+	normalImpulse = 0.0_fl > normalImpulse ? 0.0_fl : normalImpulse;
 
 	body1->applyImpulse(normal * (normalImpulse), rel_pos1);
 	if (body2)
@@ -113,7 +113,7 @@ void resolveSingleBilateral(btRigidBody& body1, const btVector3& pos1,
 	btAssert(btFabs(normalLenSqr) < btScalar(1.1));
 	if (normalLenSqr > btScalar(1.1))
 	{
-		impulse = btScalar(0.);
+		impulse = btScalar(0.0_fl);
 		return;
 	}
 	btVector3 rel_pos1 = pos1 - body1.getCenterOfMassPosition();
@@ -141,7 +141,7 @@ void resolveSingleBilateral(btRigidBody& body1, const btVector3& pos1,
 	rel_vel = normal.dot(vel);
 
 	//todo: move this into proper structure
-	btScalar contactDamping = btScalar(0.2);
+	btScalar contactDamping = btScalar(0.2_fl);
 
 #ifdef ONLY_USE_LINEAR_MASS
 	btScalar massTerm = btScalar(1.) / (body1.getInvMass() + body2.getInvMass());

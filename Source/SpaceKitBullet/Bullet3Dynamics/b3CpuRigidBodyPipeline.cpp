@@ -51,7 +51,7 @@ void b3CpuRigidBodyPipeline::updateAabbWorldSpace()
 		{
 			b3Aabb localAabb = m_data->m_np->getLocalSpaceAabb(shapeIndex);
 			b3Aabb& worldAabb = m_data->m_aabbWorldSpace[i];
-			float margin = 0.f;
+			float margin = 0.0_fl;
 			b3TransformAabb2(localAabb.m_minVec, localAabb.m_maxVec, margin, position, orientation, &worldAabb.m_minVec, &worldAabb.m_maxVec);
 			m_data->m_bp->setAabb(i, worldAabb.m_minVec, worldAabb.m_maxVec, 0);
 		}
@@ -120,7 +120,7 @@ static inline void b3SolveContact(b3ContactConstraint4& cs,
 	for (int ic = 0; ic < 4; ic++)
 	{
 		//	dont necessary because this makes change to 0
-		if (cs.m_jacCoeffInv[ic] == 0.f) continue;
+		if (cs.m_jacCoeffInv[ic] == 0.0_fl) continue;
 
 		{
 			b3Vector3 angular0, angular1, linear;
@@ -212,7 +212,7 @@ static inline void b3SolveFriction(b3ContactConstraint4& cs,
 	{  //	angular damping for point constraint
 		b3Vector3 ab = (posB - posA).normalized();
 		b3Vector3 ac = (center - posA).normalized();
-		if (b3Dot(ab, ac) > 0.95f || (invMassA == 0.f || invMassB == 0.f))
+		if (b3Dot(ab, ac) > 0.95_fl || (invMassA == 0.0_fl || invMassB == 0.0_fl))
 		{
 			float angNA = b3Dot(n, angVelA);
 			float angNB = b3Dot(n, angVelB);
@@ -297,8 +297,8 @@ struct b3SolveTask  // : public ThreadPool::Task
 
 				if (!m_solveFriction)
 				{
-					float maxRambdaDt[4] = {FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX};
-					float minRambdaDt[4] = {0.f, 0.f, 0.f, 0.f};
+					float maxRambdaDt[4] = {BIGFLOAT_MAX, BIGFLOAT_MAX, BIGFLOAT_MAX, BIGFLOAT_MAX};
+					float minRambdaDt[4] = {0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl};
 
 					b3SolveContact(m_constraints[i], (b3Vector3&)bodyA.m_pos, (b3Vector3&)bodyA.m_linVel, (b3Vector3&)bodyA.m_angVel, bodyA.m_invMass, (const b3Matrix3x3&)m_shapes[aIdx].m_invInertiaWorld,
 								   (b3Vector3&)bodyB.m_pos, (b3Vector3&)bodyB.m_linVel, (b3Vector3&)bodyB.m_angVel, bodyB.m_invMass, (const b3Matrix3x3&)m_shapes[bIdx].m_invInertiaWorld,
@@ -306,8 +306,8 @@ struct b3SolveTask  // : public ThreadPool::Task
 				}
 				else
 				{
-					float maxRambdaDt[4] = {FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX};
-					float minRambdaDt[4] = {0.f, 0.f, 0.f, 0.f};
+					float maxRambdaDt[4] = {BIGFLOAT_MAX, BIGFLOAT_MAX, BIGFLOAT_MAX, BIGFLOAT_MAX};
+					float minRambdaDt[4] = {0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl};
 
 					float sum = 0;
 					for (int j = 0; j < 4; j++)
@@ -384,7 +384,7 @@ void b3CpuRigidBodyPipeline::solveContactConstraints()
 
 void b3CpuRigidBodyPipeline::integrate(float deltaTime)
 {
-	float angDamping = 0.f;
+	float angDamping = 0.0_fl;
 	b3Vector3 gravityAcceleration = b3MakeVector3(0, -9, 0);
 
 	//integrate transforms (external forces/gravity should be moved into constraint solver)
@@ -398,14 +398,14 @@ int b3CpuRigidBodyPipeline::registerPhysicsInstance(float mass, const float* pos
 {
 	b3RigidBodyData body;
 	int bodyIndex = m_data->m_rigidBodies.size();
-	body.m_invMass = mass ? 1.f / mass : 0.f;
-	body.m_angVel.setValue(0, 0, 0);
+	body.m_invMass = mass ? 1.0_fl / mass : 0.0_fl;
+	body.m_angVel.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	body.m_collidableIdx = collidableIndex;
 	body.m_frictionCoeff = 0.3f;
-	body.m_linVel.setValue(0, 0, 0);
+	body.m_linVel.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 	body.m_pos.setValue(position[0], position[1], position[2]);
 	body.m_quat.setValue(orientation[0], orientation[1], orientation[2], orientation[3]);
-	body.m_restituitionCoeff = 0.f;
+	body.m_restituitionCoeff = 0.0_fl;
 
 	m_data->m_rigidBodies.push_back(body);
 

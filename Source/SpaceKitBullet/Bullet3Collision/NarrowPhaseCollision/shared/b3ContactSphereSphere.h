@@ -36,7 +36,7 @@ void computeContactSphereConvex(int pairIndex,
 	int numFaces = convexShapes[shapeIndex].m_numFaces;
 	float4 closestPnt = b3MakeVector3(0, 0, 0, 0);
 	float4 hitNormalWorld = b3MakeVector3(0, 0, 0, 0);
-	float minDist = -1000000.f;  // TODO: What is the largest/smallest float?
+	float minDist = -1000000_fl;  // TODO: What is the largest/smallest float?
 	bool bCollide = true;
 	int region = -1;
 	float4 localHitNormal;
@@ -44,7 +44,7 @@ void computeContactSphereConvex(int pairIndex,
 	{
 		b3GpuFace face = faces[convexShapes[shapeIndex].m_faceOffset + f];
 		float4 planeEqn;
-		float4 localPlaneNormal = b3MakeVector3(face.m_plane.x, face.m_plane.y, face.m_plane.z, 0.f);
+		float4 localPlaneNormal = b3MakeVector3(face.m_plane.x, face.m_plane.y, face.m_plane.z, 0.0_fl);
 		float4 n1 = localPlaneNormal;  //quatRotate(quat,localPlaneNormal);
 		planeEqn = n1;
 		planeEqn[3] = face.m_plane.w;
@@ -138,7 +138,7 @@ void computeContactSphereConvex(int pairIndex,
 				b3Contact4* c = &globalContactsOut[dstIdx];
 				c->m_worldNormalOnB = normalOnSurfaceB1;
 				c->setFrictionCoeff(0.7);
-				c->setRestituitionCoeff(0.f);
+				c->setRestituitionCoeff(0.0_fl);
 
 				c->m_batchIdx = pairIndex;
 				c->m_bodyAPtrAndSignBit = rigidBodies[bodyIndexA].m_invMass == 0 ? -bodyIndexA : bodyIndexA;

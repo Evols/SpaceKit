@@ -304,14 +304,14 @@ void btOptimizedBvh::updateBvhNodes(btStridingMeshInterface* meshInterface, int 
 				{
 					float* graphicsbase = (float*)(vertexbase + graphicsindex * stride);
 					triangleVerts[j] = btVector3(
-						graphicsbase[0] * meshScaling.getX(),
-						graphicsbase[1] * meshScaling.getY(),
-						graphicsbase[2] * meshScaling.getZ());
+						btScalar(graphicsbase[0]) * meshScaling.getX(),
+						btScalar(graphicsbase[1]) * meshScaling.getY(),
+						btScalar(graphicsbase[2]) * meshScaling.getZ());
 				}
 				else
 				{
 					double* graphicsbase = (double*)(vertexbase + graphicsindex * stride);
-					triangleVerts[j] = btVector3(btScalar(graphicsbase[0] * meshScaling.getX()), btScalar(graphicsbase[1] * meshScaling.getY()), btScalar(graphicsbase[2] * meshScaling.getZ()));
+					triangleVerts[j] = btVector3(btScalar(btScalar(graphicsbase[0]) * meshScaling.getX()), btScalar(graphicsbase[1] * meshScaling.getY()), btScalar(graphicsbase[2] * meshScaling.getZ()));
 				}
 			}
 

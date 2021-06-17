@@ -275,7 +275,7 @@ namespace detail
                     = topology.distance(get(position, u), get(position, v));
                 typename Topology::point_difference_type dispv
                     = get(displacement, v);
-                if (dist == 0.)
+                if (dist == 0.0_fl)
                 {
                     for (std::size_t i = 0; i < Point::dimensions; ++i)
                     {

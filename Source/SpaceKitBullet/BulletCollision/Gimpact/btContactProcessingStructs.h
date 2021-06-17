@@ -33,7 +33,7 @@ Configuration var for applying interpolation of  contact normals
 */
 #define NORMAL_CONTACT_AVERAGE 1
 
-#define CONTACT_DIFF_EPSILON 0.00001f
+#define CONTACT_DIFF_EPSILON 0.00001_fl
 
 ///The GIM_CONTACT is an internal GIMPACT structure, similar to btManifoldPoint.
 ///@todo: remove and replace GIM_CONTACT by btManifoldPoint.
@@ -72,9 +72,9 @@ public:
 	SIMD_FORCE_INLINE unsigned int calc_key_contact() const
 	{
 		int _coords[] = {
-			(int)(m_point[0] * 1000.0f + 1.0f),
-			(int)(m_point[1] * 1333.0f),
-			(int)(m_point[2] * 2133.0f + 3.0f)};
+			(int)(m_point[0] * 1000.0_fl + 1.0_fl),
+			(int)(m_point[1] * 1333.0_fl),
+			(int)(m_point[2] * 2133.0_fl + 3.0_fl)};
 		unsigned int _hash = 0;
 		unsigned int *_uitmp = (unsigned int *)(&_coords[0]);
 		_hash = *_uitmp;

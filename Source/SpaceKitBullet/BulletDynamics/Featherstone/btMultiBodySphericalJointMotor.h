@@ -47,28 +47,28 @@ public:
 									  btMultiBodyJacobianData& data,
 									  const btContactSolverInfo& infoGlobal);
 
-	virtual void setVelocityTarget(const btVector3& velTarget, btScalar kd = 1.0)
+	virtual void setVelocityTarget(const btVector3& velTarget, btScalar kd = 1.0_fl)
 	{
 		m_desiredVelocity = velTarget;
 		m_kd = btVector3(kd, kd, kd);
 		m_use_multi_dof_params = false;
 	}
 
-	virtual void setVelocityTargetMultiDof(const btVector3& velTarget, const btVector3& kd = btVector3(1.0, 1.0, 1.0))
+	virtual void setVelocityTargetMultiDof(const btVector3& velTarget, const btVector3& kd = btVector3(1.0_fl, 1.0_fl, 1.0_fl))
 	{
 		m_desiredVelocity = velTarget;
 		m_kd = kd;
 		m_use_multi_dof_params = true;
 	}
 
-	virtual void setPositionTarget(const btQuaternion& posTarget, btScalar kp =1.f)
+	virtual void setPositionTarget(const btQuaternion& posTarget, btScalar kp =1.0_fl)
 	{
 		m_desiredPosition = posTarget;
 		m_kp = btVector3(kp, kp, kp);
 		m_use_multi_dof_params = false;
 	}
 
-	virtual void setPositionTargetMultiDof(const btQuaternion& posTarget, const btVector3& kp = btVector3(1.f, 1.f, 1.f))
+	virtual void setPositionTargetMultiDof(const btQuaternion& posTarget, const btVector3& kp = btVector3(1.0_fl, 1.0_fl, 1.0_fl))
 	{
 		m_desiredPosition = posTarget;
 		m_kp = kp;

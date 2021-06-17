@@ -30,7 +30,7 @@ class btConvexPenetrationDepthSolver;
 
 ///Enabling USE_SEPDISTANCE_UTIL2 requires 100% reliable distance computation. However, when using large size ratios GJK can be imprecise
 ///so the distance is not conservative. In that case, enabling this USE_SEPDISTANCE_UTIL2 would result in failing/missing collisions.
-///Either improve GJK for large size ratios (testing a 100 units versus a 0.1 unit object) or only enable the util
+///Either improve GJK for large size ratios (testing a 100 units versus a 0.1_fl unit object) or only enable the util
 ///for certain pairs that have a small size ratio
 
 //#define USE_SEPDISTANCE_UTIL2 1

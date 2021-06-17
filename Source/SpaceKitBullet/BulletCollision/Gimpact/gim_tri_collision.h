@@ -75,7 +75,7 @@ struct GIM_TRIANGLE_CONTACT_DATA
 											   GREAL margin, const btVector3 *points, GUINT point_count, DISTANCE_FUNC distance_func)
 	{
 		m_point_count = 0;
-		m_penetration_depth = -1000.0f;
+		m_penetration_depth = -1000.0_fl;
 
 		GUINT point_indices[MAX_TRI_CLIPPING];
 
@@ -85,7 +85,7 @@ struct GIM_TRIANGLE_CONTACT_DATA
 		{
 			GREAL _dist = -distance_func(plane, points[_k]) + margin;
 
-			if (_dist >= 0.0f)
+			if (_dist >= 0.0_fl)
 			{
 				if (_dist > m_penetration_depth)
 				{
@@ -235,7 +235,7 @@ public:
 
 	--> u = (vecproj[i1]*axe2[i2] - vecproj[i2]*axe2[i1]) /(axe1[i1]*axe2[i2]  - axe1[i2]*axe2[i1])
 
-if 0.0<= u+v <=1.0 then they are inside of triangle
+if 0.0_fl<= u+v <=1.0_fl then they are inside of triangle
 
 	\return false if the point is outside of triangle.This function  doesn't take the margin
 	*/
@@ -276,7 +276,7 @@ if 0.0<= u+v <=1.0 then they are inside of triangle
 			{
 				return false;
 			}
-			else if (sumuv - 1.0f > G_EPSILON)
+			else if (sumuv - 1.0_fl > G_EPSILON)
 			{
 				return false;
 			}
@@ -294,15 +294,15 @@ if 0.0<= u+v <=1.0 then they are inside of triangle
 		btVector4 edge_plane;
 		this->get_edge_plane(0, tri_normal, edge_plane);
 		GREAL dist = DISTANCE_PLANE_POINT(edge_plane, point);
-		if (dist - m_margin > 0.0f) return false;  // outside plane
+		if (dist - m_margin > 0.0_fl) return false;  // outside plane
 
 		this->get_edge_plane(1, tri_normal, edge_plane);
 		dist = DISTANCE_PLANE_POINT(edge_plane, point);
-		if (dist - m_margin > 0.0f) return false;  // outside plane
+		if (dist - m_margin > 0.0_fl) return false;  // outside plane
 
 		this->get_edge_plane(2, tri_normal, edge_plane);
 		dist = DISTANCE_PLANE_POINT(edge_plane, point);
-		if (dist - m_margin > 0.0f) return false;  // outside plane
+		if (dist - m_margin > 0.0_fl) return false;  // outside plane
 		return true;
 	}
 

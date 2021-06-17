@@ -45,7 +45,7 @@ btMultiSphereShape::btMultiSphereShape(const btVector3* positions, const btScala
 #endif
 btVector3 btMultiSphereShape::localGetSupportingVertexWithoutMargin(const btVector3& vec0) const
 {
-	btVector3 supVec(0, 0, 0);
+	btVector3 supVec(0_fl, 0_fl, 0_fl);
 
 	btScalar maxDot(btScalar(-BT_LARGE_FLOAT));
 
@@ -53,7 +53,7 @@ btVector3 btMultiSphereShape::localGetSupportingVertexWithoutMargin(const btVect
 	btScalar lenSqr = vec.length2();
 	if (lenSqr < (SIMD_EPSILON * SIMD_EPSILON))
 	{
-		vec.setValue(1, 0, 0);
+		vec.setValue(1.0_fl, 0.0_fl, 0.0_fl);
 	}
 	else
 	{

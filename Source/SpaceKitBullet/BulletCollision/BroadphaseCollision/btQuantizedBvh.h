@@ -313,7 +313,7 @@ public:
 	virtual ~btQuantizedBvh();
 
 	///***************************************** expert/internal use only *************************
-	void setQuantizationValues(const btVector3& bvhAabbMin, const btVector3& bvhAabbMax, btScalar quantizationMargin = btScalar(1.0));
+	void setQuantizationValues(const btVector3& bvhAabbMin, const btVector3& bvhAabbMax, btScalar quantizationMargin = btScalar(1.0_fl));
 	QuantizedNodeArray& getLeafNodeArray() { return m_quantizedLeafNodes; }
 	///buildInternal is expert use only: assumes that setQuantizationValues and LeafNodeArray are initialized
 	void buildInternal();
@@ -341,15 +341,15 @@ public:
 		///@todo: double-check this
 		if (isMax)
 		{
-			out[0] = (unsigned short)(((unsigned short)(v.getX() + btScalar(1.)) | 1));
-			out[1] = (unsigned short)(((unsigned short)(v.getY() + btScalar(1.)) | 1));
-			out[2] = (unsigned short)(((unsigned short)(v.getZ() + btScalar(1.)) | 1));
+			out[0] = (unsigned short)(((unsigned short)((v.getX() + 1.0_fl).ToDouble()) | 1));
+			out[1] = (unsigned short)(((unsigned short)((v.getY() + 1.0_fl).ToDouble()) | 1));
+			out[2] = (unsigned short)(((unsigned short)((v.getZ() + 1.0_fl).ToDouble()) | 1));
 		}
 		else
 		{
-			out[0] = (unsigned short)(((unsigned short)(v.getX()) & 0xfffe));
-			out[1] = (unsigned short)(((unsigned short)(v.getY()) & 0xfffe));
-			out[2] = (unsigned short)(((unsigned short)(v.getZ()) & 0xfffe));
+			out[0] = (unsigned short)(((unsigned short)(v.getX().ToDouble()) & 0xfffe));
+			out[1] = (unsigned short)(((unsigned short)(v.getY().ToDouble()) & 0xfffe));
+			out[2] = (unsigned short)(((unsigned short)(v.getZ().ToDouble()) & 0xfffe));
 		}
 
 #ifdef DEBUG_CHECK_DEQUANTIZATION

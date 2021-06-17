@@ -100,20 +100,20 @@ bool btContinuousConvexCollision::calcTimeOfImpact(
 	btTransformUtil::calculateVelocity(fromB, toB, btScalar(1.), linVelB, angVelB);
 
 	btScalar boundingRadiusA = m_convexA->getAngularMotionDisc();
-	btScalar boundingRadiusB = m_convexB1 ? m_convexB1->getAngularMotionDisc() : 0.f;
+	btScalar boundingRadiusB = m_convexB1 ? m_convexB1->getAngularMotionDisc() : 0.0_fl;
 
 	btScalar maxAngularProjectedVelocity = angVelA.length() * boundingRadiusA + angVelB.length() * boundingRadiusB;
 	btVector3 relLinVel = (linVelB - linVelA);
 
 	btScalar relLinVelocLength = (linVelB - linVelA).length();
 
-	if ((relLinVelocLength + maxAngularProjectedVelocity) == 0.f)
+	if ((relLinVelocLength + maxAngularProjectedVelocity) == 0.0_fl)
 		return false;
 
-	btScalar lambda = btScalar(0.);
+	btScalar lambda = btScalar(0.0_fl);
 
 	btVector3 n;
-	n.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+	n.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	bool hasResult = false;
 	btVector3 c;
 
@@ -123,7 +123,7 @@ bool btContinuousConvexCollision::calcTimeOfImpact(
 	int numIter = 0;
 	//first solution, using GJK
 
-	btScalar radius = 0.001f;
+	btScalar radius = 0.001_fl;
 	//	result.drawCoordSystem(sphereTr);
 
 	btPointCollector pointCollector1;
@@ -149,9 +149,9 @@ bool btContinuousConvexCollision::calcTimeOfImpact(
 		{
 			if (result.m_debugDrawer)
 			{
-				result.m_debugDrawer->drawSphere(c, 0.2f, btVector3(1, 1, 1));
+				result.m_debugDrawer->drawSphere(c, 0.2_fl, btVector3(1.0_fl, 1.0_fl, 1.0_fl));
 			}
-			btScalar dLambda = btScalar(0.);
+			btScalar dLambda = btScalar(0.0_fl);
 
 			projectedLinearVelocity = relLinVel.dot(n);
 
@@ -163,7 +163,7 @@ bool btContinuousConvexCollision::calcTimeOfImpact(
 
 			lambda += dLambda;
 
-			if (lambda > btScalar(1.) || lambda < btScalar(0.))
+			if (lambda > btScalar(1.) || lambda < btScalar(0.0_fl))
 				return false;
 
 			//todo: next check with relative epsilon
@@ -184,7 +184,7 @@ bool btContinuousConvexCollision::calcTimeOfImpact(
 
 			if (result.m_debugDrawer)
 			{
-				result.m_debugDrawer->drawSphere(interpolatedTransA.getOrigin(), 0.2f, btVector3(1, 0, 0));
+				result.m_debugDrawer->drawSphere(interpolatedTransA.getOrigin(), 0.2_fl, btVector3(1.0_fl, 0.0_fl, 0.0_fl));
 			}
 
 			result.DebugDraw(lambda);

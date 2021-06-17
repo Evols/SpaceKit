@@ -154,7 +154,7 @@ public:
             btScalar sqrtd = btSqrt(d);
             if (sqrtd>SIMD_EPSILON)
             {
-              btScalar t = btScalar(1.0)/sqrtd;
+              btScalar t = btScalar(1.0_fl)/sqrtd;
               c = a * t;
               s = -b * t;
             }
@@ -172,7 +172,7 @@ public:
         c = 0;
         s = 1;
         if (d > SIMD_EPSILON) {
-            btScalar t = btScalar(1.0)/btSqrt(d);
+            btScalar t = btScalar(1.0_fl)/btSqrt(d);
             s = a * t;
             c = b * t;
         }

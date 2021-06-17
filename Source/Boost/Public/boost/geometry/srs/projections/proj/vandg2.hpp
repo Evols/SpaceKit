@@ -78,7 +78,7 @@ namespace projections
                     T x1, at, bt, ct;
 
                     bt = fabs(two_div_pi * lp_lat);
-                    if ((ct = 1. - bt * bt) < 0.)
+                    if ((ct = 1. - bt * bt) < 0.0_fl)
                         ct = 0.;
                     else
                         ct = sqrt(ct);
@@ -97,8 +97,8 @@ namespace projections
                             xy_x = pi * x1;
                             xy_y = pi * sqrt(1. - x1 * (x1 + 2. * at) + tolerance);
                         }
-                        if ( lp_lon < 0.) xy_x = -xy_x;
-                        if ( lp_lat < 0.) xy_y = -xy_y;
+                        if ( lp_lon < 0.0_fl) xy_x = -xy_x;
+                        if ( lp_lat < 0.0_fl) xy_y = -xy_y;
                     }
                 }
 

@@ -94,12 +94,12 @@ struct btWheelInfo
 		m_wheelDirectionCS = ci.m_wheelDirectionCS;
 		m_wheelAxleCS = ci.m_wheelAxleCS;
 		m_frictionSlip = ci.m_frictionSlip;
-		m_steering = btScalar(0.);
-		m_engineForce = btScalar(0.);
-		m_rotation = btScalar(0.);
-		m_deltaRotation = btScalar(0.);
-		m_brake = btScalar(0.);
-		m_rollInfluence = btScalar(0.1);
+		m_steering = btScalar(0.0_fl);
+		m_engineForce = btScalar(0.0_fl);
+		m_rotation = btScalar(0.0_fl);
+		m_deltaRotation = btScalar(0.0_fl);
+		m_brake = btScalar(0.0_fl);
+		m_rollInfluence = btScalar(0.1_fl);
 		m_bIsFrontWheel = ci.m_bIsFrontWheel;
 		m_maxSuspensionForce = ci.m_maxSuspensionForce;
 	}

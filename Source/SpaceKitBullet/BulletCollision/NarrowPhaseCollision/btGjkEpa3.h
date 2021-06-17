@@ -61,9 +61,9 @@ struct btGjkEpaSolver3
 #define GJK_ACCURARY ((btScalar)0.0001)
 #define GJK_MIN_DISTANCE ((btScalar)0.0001)
 #define GJK_DUPLICATED_EPS ((btScalar)0.0001)
-#define GJK_SIMPLEX2_EPS ((btScalar)0.0)
-#define GJK_SIMPLEX3_EPS ((btScalar)0.0)
-#define GJK_SIMPLEX4_EPS ((btScalar)0.0)
+#define GJK_SIMPLEX2_EPS ((btScalar)0.0_fl)
+#define GJK_SIMPLEX3_EPS ((btScalar)0.0_fl)
+#define GJK_SIMPLEX4_EPS ((btScalar)0.0_fl)
 
 /* EPA	*/
 #define EPA_MAX_VERTICES 64
@@ -166,7 +166,7 @@ struct GJK
 	}
 	void Initialize()
 	{
-		m_ray = btVector3(0, 0, 0);
+		m_ray = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 		m_nfree = 0;
 		m_status = eGjkFailed;
 		m_current = 0;
@@ -193,7 +193,7 @@ struct GJK
 		m_simplices[0].rank = 0;
 		m_ray = guess;
 		const btScalar sqrl = m_ray.length2();
-		appendvertice(m_simplices[0], sqrl > 0 ? -m_ray : btVector3(1, 0, 0));
+		appendvertice(m_simplices[0], sqrl > 0 ? -m_ray : btVector3(1.0_fl, 0.0_fl, 0.0_fl));
 		m_simplices[0].p[0] = 1;
 		m_ray = m_simplices[0].c[0]->w;
 		sqdist = sqrl;
@@ -270,7 +270,7 @@ struct GJK
 			if (sqdist >= 0)
 			{ /* Valid	*/
 				ns.rank = 0;
-				m_ray = btVector3(0, 0, 0);
+				m_ray = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 				m_current = next;
 				for (U i = 0, ni = cs.rank; i < ni; ++i)
 				{
@@ -317,7 +317,7 @@ struct GJK
 			{
 				for (U i = 0; i < 3; ++i)
 				{
-					btVector3 axis = btVector3(0, 0, 0);
+					btVector3 axis = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 					axis[i] = 1;
 					appendvertice(*m_simplex, axis);
 					if (EncloseOrigin()) return (true);
@@ -333,7 +333,7 @@ struct GJK
 				const btVector3 d = m_simplex->c[1]->w - m_simplex->c[0]->w;
 				for (U i = 0; i < 3; ++i)
 				{
-					btVector3 axis = btVector3(0, 0, 0);
+					btVector3 axis = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 					axis[i] = 1;
 					const btVector3 p = btCross(d, axis);
 					if (p.length2() > 0)
@@ -441,7 +441,7 @@ struct GJK
 		if (l > GJK_SIMPLEX3_EPS)
 		{
 			btScalar mindist = -1;
-			btScalar subw[2] = {0.f, 0.f};
+			btScalar subw[2] = {0.0_fl, 0.0_fl};
 			U subm(0);
 			for (U i = 0; i < 3; ++i)
 			{
@@ -488,7 +488,7 @@ struct GJK
 		if (ng && (btFabs(vl) > GJK_SIMPLEX4_EPS))
 		{
 			btScalar mindist = -1;
-			btScalar subw[3] = {0.f, 0.f, 0.f};
+			btScalar subw[3] = {0.0_fl, 0.0_fl, 0.0_fl};
 			U subm(0);
 			for (U i = 0; i < 3; ++i)
 			{
@@ -611,7 +611,7 @@ struct EPA
 	void Initialize()
 	{
 		m_status = eEpaFailed;
-		m_normal = btVector3(0, 0, 0);
+		m_normal = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 		m_depth = 0;
 		m_nextsv = 0;
 		for (U i = 0; i < EPA_MAX_FACES; ++i)
@@ -733,7 +733,7 @@ struct EPA
 		if (nl > 0)
 			m_normal = m_normal / nl;
 		else
-			m_normal = btVector3(1, 0, 0);
+			m_normal = btVector3(1.0_fl, 0.0_fl, 0.0_fl);
 		m_depth = 0;
 		m_result.rank = 1;
 		m_result.c[0] = simplex.c[0];
@@ -881,7 +881,7 @@ static void Initialize(const btConvexTemplate& a, const btConvexTemplate& b,
 {
 	/* Results		*/
 	results.witnesses[0] =
-		results.witnesses[1] = btVector3(0, 0, 0);
+		results.witnesses[1] = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 	results.status = btGjkEpaSolver3::sResults::Separated;
 	/* Shape		*/
 
@@ -905,8 +905,8 @@ bool btGjkEpaSolver3_Distance(const btConvexTemplate& a, const btConvexTemplate&
 	eGjkStatus gjk_status = gjk.Evaluate(shape, guess);
 	if (gjk_status == eGjkValid)
 	{
-		btVector3 w0 = btVector3(0, 0, 0);
-		btVector3 w1 = btVector3(0, 0, 0);
+		btVector3 w0 = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
+		btVector3 w1 = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 		for (U i = 0; i < gjk.m_simplex->rank; ++i)
 		{
 			const btScalar p = gjk.m_simplex->p[i];
@@ -945,7 +945,7 @@ bool btGjkEpaSolver3_Penetration(const btConvexTemplate& a,
 			eEpaStatus epa_status = epa.Evaluate(gjk, -guess);
 			if (epa_status != eEpaFailed)
 			{
-				btVector3 w0 = btVector3(0, 0, 0);
+				btVector3 w0 = btVector3(0.0_fl, 0.0_fl, 0.0_fl);
 				for (U i = 0; i < epa.m_result.rank; ++i)
 				{
 					w0 += shape.Support(epa.m_result.c[i]->d, 0) * epa.m_result.p[i];

@@ -79,7 +79,7 @@ void btGImpactCompoundShape::calculateLocalInertia(btScalar mass, btVector3& ine
 {
 	lockChildShapes();
 #ifdef CALC_EXACT_INERTIA
-	inertia.setValue(0.f, 0.f, 0.f);
+	inertia.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 	int i = this->getNumChildShapes();
 	btScalar shapemass = mass / btScalar(i);
@@ -121,7 +121,7 @@ void btGImpactMeshShapePart::calculateLocalInertia(btScalar mass, btVector3& ine
 	lockChildShapes();
 
 #ifdef CALC_EXACT_INERTIA
-	inertia.setValue(0.f, 0.f, 0.f);
+	inertia.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 	int i = this->getVertexCount();
 	btScalar pointmass = mass / btScalar(i);
@@ -156,7 +156,7 @@ void btGImpactMeshShapePart::calculateLocalInertia(btScalar mass, btVector3& ine
 void btGImpactMeshShape::calculateLocalInertia(btScalar mass, btVector3& inertia) const
 {
 #ifdef CALC_EXACT_INERTIA
-	inertia.setValue(0.f, 0.f, 0.f);
+	inertia.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 	int i = this->getMeshPartCount();
 	btScalar partmass = mass / btScalar(i);

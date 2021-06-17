@@ -21,7 +21,7 @@ subject to the following restrictions:
 btVector3 btSphereShape::localGetSupportingVertexWithoutMargin(const btVector3& vec) const
 {
 	(void)vec;
-	return btVector3(btScalar(0.), btScalar(0.), btScalar(0.));
+	return btVector3(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 }
 
 void btSphereShape::batchedUnitVectorGetSupportingVertexWithoutMargin(const btVector3* vectors, btVector3* supportVerticesOut, int numVectors) const
@@ -30,7 +30,7 @@ void btSphereShape::batchedUnitVectorGetSupportingVertexWithoutMargin(const btVe
 
 	for (int i = 0; i < numVectors; i++)
 	{
-		supportVerticesOut[i].setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+		supportVerticesOut[i].setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	}
 }
 

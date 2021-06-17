@@ -67,7 +67,7 @@ inline void pj_fwd(Prj const& prj, P const& par, LL const& ll, XY& xy)
     calc_t const t = geometry::math::abs(lp_lat) - geometry::math::half_pi<calc_t>();
 
     /* check for forward and latitude or longitude overange */
-    if (t > EPS || geometry::math::abs(lp_lon) > 10.)
+    if (t > EPS || geometry::math::abs(lp_lon) > 10.0_fl)
     {
         BOOST_THROW_EXCEPTION( projection_exception(error_lat_or_lon_exceed_limit) );
     }

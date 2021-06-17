@@ -80,7 +80,7 @@ void btStaticPlaneShape::calculateLocalInertia(btScalar mass, btVector3& inertia
 
 	//moving concave objects not supported
 
-	inertia.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+	inertia.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 }
 
 void btStaticPlaneShape::setLocalScaling(const btVector3& scaling)

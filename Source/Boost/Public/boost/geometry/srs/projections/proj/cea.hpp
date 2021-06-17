@@ -142,7 +142,7 @@ namespace projections
 
                 if (pj_param_r<srs::spar::lat_ts>(params, "lat_ts", srs::dpar::lat_ts, t)) {
                     par.k0 = cos(t);
-                    if (par.k0 < 0.) {
+                    if (par.k0 < 0.0_fl) {
                         BOOST_THROW_EXCEPTION( projection_exception(error_lat_ts_larger_than_90) );
                     }
                 }

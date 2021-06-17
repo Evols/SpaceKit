@@ -119,7 +119,7 @@ public:
 	{
 		(void)mass;
 		btAssert(0);
-		inertia.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+		inertia.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	}
 
 	virtual bool isInside(const btVector3& pt, btScalar tolerance) const

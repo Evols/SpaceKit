@@ -27,17 +27,17 @@ April 04, 2008
 
 void btSliderConstraint::initParams()
 {
-	m_lowerLinLimit = btScalar(1.0);
-	m_upperLinLimit = btScalar(-1.0);
-	m_lowerAngLimit = btScalar(0.);
-	m_upperAngLimit = btScalar(0.);
+	m_lowerLinLimit = btScalar(1.0_fl);
+	m_upperLinLimit = btScalar(-1.0_fl);
+	m_lowerAngLimit = btScalar(0.0_fl);
+	m_upperAngLimit = btScalar(0.0_fl);
 	m_softnessDirLin = SLIDER_CONSTRAINT_DEF_SOFTNESS;
 	m_restitutionDirLin = SLIDER_CONSTRAINT_DEF_RESTITUTION;
-	m_dampingDirLin = btScalar(0.);
+	m_dampingDirLin = btScalar(0.0_fl);
 	m_cfmDirLin = SLIDER_CONSTRAINT_DEF_CFM;
 	m_softnessDirAng = SLIDER_CONSTRAINT_DEF_SOFTNESS;
 	m_restitutionDirAng = SLIDER_CONSTRAINT_DEF_RESTITUTION;
-	m_dampingDirAng = btScalar(0.);
+	m_dampingDirAng = btScalar(0.0_fl);
 	m_cfmDirAng = SLIDER_CONSTRAINT_DEF_CFM;
 	m_softnessOrthoLin = SLIDER_CONSTRAINT_DEF_SOFTNESS;
 	m_restitutionOrthoLin = SLIDER_CONSTRAINT_DEF_RESTITUTION;
@@ -57,14 +57,14 @@ void btSliderConstraint::initParams()
 	m_cfmLimAng = SLIDER_CONSTRAINT_DEF_CFM;
 
 	m_poweredLinMotor = false;
-	m_targetLinMotorVelocity = btScalar(0.);
-	m_maxLinMotorForce = btScalar(0.);
-	m_accumulatedLinMotorImpulse = btScalar(0.0);
+	m_targetLinMotorVelocity = btScalar(0.0_fl);
+	m_maxLinMotorForce = btScalar(0.0_fl);
+	m_accumulatedLinMotorImpulse = btScalar(0.0_fl);
 
 	m_poweredAngMotor = false;
-	m_targetAngMotorVelocity = btScalar(0.);
-	m_maxAngMotorForce = btScalar(0.);
-	m_accumulatedAngMotorImpulse = btScalar(0.0);
+	m_targetAngMotorVelocity = btScalar(0.0_fl);
+	m_maxAngMotorForce = btScalar(0.0_fl);
+	m_accumulatedAngMotorImpulse = btScalar(0.0_fl);
 
 	m_flags = 0;
 	m_flags = 0;
@@ -188,18 +188,18 @@ void btSliderConstraint::testLinLimits(void)
 		}
 		else
 		{
-			m_depth[0] = btScalar(0.);
+			m_depth[0] = btScalar(0.0_fl);
 		}
 	}
 	else
 	{
-		m_depth[0] = btScalar(0.);
+		m_depth[0] = btScalar(0.0_fl);
 	}
 }
 
 void btSliderConstraint::testAngLimits(void)
 {
-	m_angDepth = btScalar(0.);
+	m_angDepth = btScalar(0.0_fl);
 	m_solveAngLim = false;
 	if (m_lowerAngLimit <= m_upperAngLimit)
 	{
@@ -246,7 +246,7 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 	btAssert(!m_useSolveConstraintObsolete);
 	int i, s = info->rowskip;
 
-	btScalar signFact = m_useLinearReferenceFrameA ? btScalar(1.0f) : btScalar(-1.0f);
+	btScalar signFact = m_useLinearReferenceFrameA ? btScalar(1.0_fl) : btScalar(-1.0_fl);
 
 	// difference between frames in WCS
 	btVector3 ofs = trB.getOrigin() - trA.getOrigin();
@@ -256,15 +256,15 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 	bool hasStaticBody = (miA < SIMD_EPSILON) || (miB < SIMD_EPSILON);
 	btScalar miS = miA + miB;
 	btScalar factA, factB;
-	if (miS > btScalar(0.f))
+	if (miS > btScalar(0.0_fl))
 	{
 		factA = miB / miS;
 	}
 	else
 	{
-		factA = btScalar(0.5f);
+		factA = btScalar(0.5_fl);
 	}
-	factB = btScalar(1.0f) - factA;
+	factB = btScalar(1.0_fl) - factA;
 	btVector3 ax1, p, q;
 	btVector3 ax1A = trA.getBasis().getColumn(0);
 	btVector3 ax1B = trB.getBasis().getColumn(0);
@@ -348,7 +348,7 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 	int s2 = nrow * s;
 	nrow++;
 	int s3 = nrow * s;
-	btVector3 tmpA(0, 0, 0), tmpB(0, 0, 0), relA(0, 0, 0), relB(0, 0, 0), c(0, 0, 0);
+	btVector3 tmpA(0.0_fl, 0.0_fl, 0.0_fl), tmpB(0.0_fl, 0.0_fl, 0.0_fl), relA(0.0_fl, 0.0_fl, 0.0_fl), relB(0.0_fl, 0.0_fl, 0.0_fl), c(0.0_fl, 0.0_fl, 0.0_fl);
 	if (m_useOffsetForConstraintFrame)
 	{
 		// get vector from bodyB to frameB in WCS
@@ -434,12 +434,12 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 	}
 
 	// check linear limits
-	limit_err = btScalar(0.0);
+	limit_err = btScalar(0.0_fl);
 	limit = 0;
 	if (getSolveLinLimit())
 	{
 		limit_err = getLinDepth() * signFact;
-		limit = (limit_err > btScalar(0.0)) ? 2 : 1;
+		limit = (limit_err > btScalar(0.0_fl)) ? 2 : 1;
 	}
 	bool powered = getPoweredLinMotor();
 	// if the slider has joint limits or motor, add in the extra row
@@ -493,9 +493,9 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 		{  // the joint motor is ineffective
 			powered = false;
 		}
-		info->m_constraintError[srow] = 0.;
-		info->m_lowerLimit[srow] = 0.;
-		info->m_upperLimit[srow] = 0.;
+		info->m_constraintError[srow] = 0.0_fl;
+		info->m_lowerLimit[srow] = 0.0_fl;
+		info->m_upperLimit[srow] = 0.0_fl;
 		currERP = (m_flags & BT_SLIDER_FLAGS_ERP_LIMLIN) ? m_softnessLimLin : info->erp;
 		if (powered)
 		{
@@ -525,16 +525,16 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 			else if (limit == 1)
 			{  // low limit
 				info->m_lowerLimit[srow] = -SIMD_INFINITY;
-				info->m_upperLimit[srow] = 0;
+				info->m_upperLimit[srow] = 0.0_fl;
 			}
 			else
 			{  // high limit
-				info->m_lowerLimit[srow] = 0;
+				info->m_lowerLimit[srow] = 0.0_fl;
 				info->m_upperLimit[srow] = SIMD_INFINITY;
 			}
-			// bounce (we'll use slider parameter abs(1.0 - m_dampingLimLin) for that)
-			btScalar bounce = btFabs(btScalar(1.0) - getDampingLimLin());
-			if (bounce > btScalar(0.0))
+			// bounce (we'll use slider parameter abs(1.0_fl - m_dampingLimLin) for that)
+			btScalar bounce = btFabs(btScalar(1.0_fl) - getDampingLimLin());
+			if (bounce > btScalar(0.0_fl))
 			{
 				btScalar vel = linVelA.dot(ax1);
 				vel -= linVelB.dot(ax1);
@@ -543,7 +543,7 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 				// resulting c[] exceeds what we already have.
 				if (limit == 1)
 				{  // low limit
-					if (vel < 0)
+					if (vel < 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc > info->m_constraintError[srow])
@@ -554,7 +554,7 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 				}
 				else
 				{  // high limit - all those computations are reversed
-					if (vel > 0)
+					if (vel > 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc < info->m_constraintError[srow])
@@ -568,12 +568,12 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 		}  // if(limit)
 	}      // if linear limit
 	// check angular limits
-	limit_err = btScalar(0.0);
+	limit_err = btScalar(0.0_fl);
 	limit = 0;
 	if (getSolveAngLimit())
 	{
 		limit_err = getAngDepth();
-		limit = (limit_err > btScalar(0.0)) ? 1 : 2;
+		limit = (limit_err > btScalar(0.0_fl)) ? 1 : 2;
 	}
 	// if the slider has joint limits, add in the extra row
 	powered = getPoweredAngMotor();
@@ -623,17 +623,17 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 			}
 			else if (limit == 1)
 			{  // low limit
-				info->m_lowerLimit[srow] = 0;
+				info->m_lowerLimit[srow] = 0.0_fl;
 				info->m_upperLimit[srow] = SIMD_INFINITY;
 			}
 			else
 			{  // high limit
 				info->m_lowerLimit[srow] = -SIMD_INFINITY;
-				info->m_upperLimit[srow] = 0;
+				info->m_upperLimit[srow] = 0.0_fl;
 			}
-			// bounce (we'll use slider parameter abs(1.0 - m_dampingLimAng) for that)
-			btScalar bounce = btFabs(btScalar(1.0) - getDampingLimAng());
-			if (bounce > btScalar(0.0))
+			// bounce (we'll use slider parameter abs(1.0_fl - m_dampingLimAng) for that)
+			btScalar bounce = btFabs(btScalar(1.0_fl) - getDampingLimAng());
+			if (bounce > btScalar(0.0_fl))
 			{
 				btScalar vel = m_rbA.getAngularVelocity().dot(ax1);
 				vel -= m_rbB.getAngularVelocity().dot(ax1);
@@ -641,7 +641,7 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 				// resulting c[] exceeds what we already have.
 				if (limit == 1)
 				{  // low limit
-					if (vel < 0)
+					if (vel < 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc > info->m_constraintError[srow])
@@ -652,7 +652,7 @@ void btSliderConstraint::getInfo2NonVirtual(btConstraintInfo2* info, const btTra
 				}
 				else
 				{  // high limit - all those computations are reversed
-					if (vel > 0)
+					if (vel > 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc < info->m_constraintError[srow])

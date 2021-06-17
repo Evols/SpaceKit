@@ -89,11 +89,11 @@ bool btPolyhedralConvexShape::initializePolyhedralFeatures(int shiftVerticesByMa
 
 		btGeometryUtil::getVerticesFromPlaneEquations(shiftedPlaneEquations, tmpVertices);
 
-		conv.compute(&tmpVertices[0].getX(), sizeof(btVector3), tmpVertices.size(), 0.f, 0.f);
+		conv.compute(&tmpVertices[0].getX(), sizeof(btVector3), tmpVertices.size(), 0.0_fl, 0.0_fl);
 	}
 	else
 	{
-		conv.compute(&orgVertices[0].getX(), sizeof(btVector3), orgVertices.size(), 0.f, 0.f);
+		conv.compute(&orgVertices[0].getX(), sizeof(btVector3), orgVertices.size(), 0.0_fl, 0.0_fl);
 	}
 
 #ifndef BT_RECONSTRUCT_FACES
@@ -138,7 +138,7 @@ bool btPolyhedralConvexShape::initializePolyhedralFeatures(int shiftVerticesByMa
 		btVector3 faceNormal = edges[0].cross(edges[1]);
 		faceNormal.normalize();
 
-		btScalar planeEq = 1e30f;
+		btScalar planeEq = 1e30_fl;
 
 		for (int v = 0; v < combinedFace.m_indices.size(); v++)
 		{
@@ -200,7 +200,7 @@ bool btPolyhedralConvexShape::initializePolyhedralFeatures(int shiftVerticesByMa
 			edge = edge->getNextEdgeOfFace();
 		} while (edge != firstEdge);
 
-		btScalar planeEq = 1e30f;
+		btScalar planeEq = 1e30_fl;
 
 		if (numEdges == 2)
 		{
@@ -230,7 +230,7 @@ bool btPolyhedralConvexShape::initializePolyhedralFeatures(int shiftVerticesByMa
 
 	//merge coplanar faces and copy them to m_polyhedron
 
-	btScalar faceWeldThreshold = 0.999f;
+	btScalar faceWeldThreshold = 0.999_fl;
 	btAlignedObjectArray<int> todoFaces;
 	for (int i = 0; i < tmpFaces.size(); i++)
 		todoFaces.push_back(i);
@@ -263,7 +263,7 @@ bool btPolyhedralConvexShape::initializePolyhedralFeatures(int shiftVerticesByMa
 			//do the merge: use Graham Scan 2d convex hull
 
 			btAlignedObjectArray<GrahamVector3> orgpoints;
-			btVector3 averageFaceNormal(0, 0, 0);
+			btVector3 averageFaceNormal(0_fl, 0_fl, 0_fl);
 
 			for (int i = 0; i < coplanarFaceGroup.size(); i++)
 			{
@@ -385,7 +385,7 @@ bool btPolyhedralConvexShape::initializePolyhedralFeatures(int shiftVerticesByMa
 
 btVector3 btPolyhedralConvexShape::localGetSupportingVertexWithoutMargin(const btVector3& vec0) const
 {
-	btVector3 supVec(0, 0, 0);
+	btVector3 supVec(0_fl, 0_fl, 0_fl);
 #ifndef __SPU__
 	int i;
 	btScalar maxDot(btScalar(-BT_LARGE_FLOAT));
@@ -394,7 +394,7 @@ btVector3 btPolyhedralConvexShape::localGetSupportingVertexWithoutMargin(const b
 	btScalar lenSqr = vec.length2();
 	if (lenSqr < btScalar(0.0001))
 	{
-		vec.setValue(1, 0, 0);
+		vec.setValue(1.0_fl, 0.0_fl, 0.0_fl);
 	}
 	else
 	{
@@ -491,8 +491,8 @@ void btPolyhedralConvexAabbCachingShape::setLocalScaling(const btVector3& scalin
 
 btPolyhedralConvexAabbCachingShape::btPolyhedralConvexAabbCachingShape()
 	: btPolyhedralConvexShape(),
-	  m_localAabbMin(1, 1, 1),
-	  m_localAabbMax(-1, -1, -1),
+	  m_localAabbMin(1_fl, 1_fl, 1_fl),
+	  m_localAabbMax(-1_fl, -1_fl, -1_fl),
 	  m_isLocalAabbValid(false)
 {
 }
@@ -509,21 +509,21 @@ void btPolyhedralConvexAabbCachingShape::recalcLocalAabb()
 #if 1
 	static const btVector3 _directions[] =
 		{
-			btVector3(1., 0., 0.),
-			btVector3(0., 1., 0.),
-			btVector3(0., 0., 1.),
-			btVector3(-1., 0., 0.),
-			btVector3(0., -1., 0.),
-			btVector3(0., 0., -1.)};
+			btVector3(1.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 1.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 1.0_fl),
+			btVector3(-1.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, -1.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, -1.0_fl)};
 
 	btVector3 _supporting[] =
 		{
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.)};
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl)};
 
 	batchedUnitVectorGetSupportingVertexWithoutMargin(_directions, _supporting, 6);
 
@@ -537,11 +537,11 @@ void btPolyhedralConvexAabbCachingShape::recalcLocalAabb()
 
 	for (int i = 0; i < 3; i++)
 	{
-		btVector3 vec(btScalar(0.), btScalar(0.), btScalar(0.));
-		vec[i] = btScalar(1.);
+		btVector3 vec(0.0_fl, 0.0_fl, 0.0_fl);
+		vec[i] = 1.0_fl;
 		btVector3 tmp = localGetSupportingVertex(vec);
 		m_localAabbMax[i] = tmp[i];
-		vec[i] = btScalar(-1.);
+		vec[i] = -1.0_fl;
 		tmp = localGetSupportingVertex(vec);
 		m_localAabbMin[i] = tmp[i];
 	}

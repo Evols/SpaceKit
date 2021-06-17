@@ -7,11 +7,11 @@
 void b3PlaneSpace1(b3Float4ConstArg n, b3Float4* p, b3Float4* q);
 void b3PlaneSpace1(b3Float4ConstArg n, b3Float4* p, b3Float4* q)
 {
-	if (b3Fabs(n.z) > 0.70710678f)
+	if (b3Fabs(n.z) > 0.70710678_fl)
 	{
 		// choose p in y-z plane
 		float a = n.y * n.y + n.z * n.z;
-		float k = 1.f / sqrt(a);
+		float k = 1.0_fl / sqrt(a);
 		p[0].x = 0;
 		p[0].y = -n.z * k;
 		p[0].z = n.y * k;
@@ -24,7 +24,7 @@ void b3PlaneSpace1(b3Float4ConstArg n, b3Float4* p, b3Float4* q)
 	{
 		// choose p in x-y plane
 		float a = n.x * n.x + n.y * n.y;
-		float k = 1.f / sqrt(a);
+		float k = 1.0_fl / sqrt(a);
 		p[0].x = -n.y * k;
 		p[0].y = n.x * k;
 		p[0].z = 0;
@@ -37,7 +37,7 @@ void b3PlaneSpace1(b3Float4ConstArg n, b3Float4* p, b3Float4* q)
 
 void setLinearAndAngular(b3Float4ConstArg n, b3Float4ConstArg r0, b3Float4ConstArg r1, b3Float4* linear, b3Float4* angular0, b3Float4* angular1)
 {
-	*linear = b3MakeFloat4(n.x, n.y, n.z, 0.f);
+	*linear = b3MakeFloat4(n.x, n.y, n.z, 0.0_fl);
 	*angular0 = b3Cross3(r0, n);
 	*angular1 = -b3Cross3(r1, n);
 }
@@ -56,7 +56,7 @@ float calcJacCoeff(b3Float4ConstArg linear0, b3Float4ConstArg linear1, b3Float4C
 	float jmj1 = b3Dot3F4(mtMul3(angular0, *invInertia0), angular0);
 	float jmj2 = invMass1;  //b3Dot3F4(linear1, linear1)*invMass1;
 	float jmj3 = b3Dot3F4(mtMul3(angular1, *invInertia1), angular1);
-	return -1.f / (jmj0 + jmj1 + jmj2 + jmj3);
+	return -1.0_fl / (jmj0 + jmj1 + jmj2 + jmj3);
 }
 
 void setConstraint4(b3Float4ConstArg posA, b3Float4ConstArg linVelA, b3Float4ConstArg angVelA, float invMassA, b3Mat3x3ConstArg invInertiaA,
@@ -67,15 +67,15 @@ void setConstraint4(b3Float4ConstArg posA, b3Float4ConstArg linVelA, b3Float4Con
 	dstC->m_bodyA = abs(src->m_bodyAPtrAndSignBit);
 	dstC->m_bodyB = abs(src->m_bodyBPtrAndSignBit);
 
-	float dtInv = 1.f / dt;
+	float dtInv = 1.0_fl / dt;
 	for (int ic = 0; ic < 4; ic++)
 	{
-		dstC->m_appliedRambdaDt[ic] = 0.f;
+		dstC->m_appliedRambdaDt[ic] = 0.0_fl;
 	}
-	dstC->m_fJacCoeffInv[0] = dstC->m_fJacCoeffInv[1] = 0.f;
+	dstC->m_fJacCoeffInv[0] = dstC->m_fJacCoeffInv[1] = 0.0_fl;
 
 	dstC->m_linear = src->m_worldNormalOnB;
-	dstC->m_linear.w = 0.7f;  //src->getFrictionCoeff() );
+	dstC->m_linear.w = 0.7_fl;  //src->getFrictionCoeff() );
 	for (int ic = 0; ic < 4; ic++)
 	{
 		b3Float4 r0 = src->m_worldPosB[ic] - posA;
@@ -83,7 +83,7 @@ void setConstraint4(b3Float4ConstArg posA, b3Float4ConstArg linVelA, b3Float4Con
 
 		if (ic >= src->m_worldNormalOnB.w)  //npoints
 		{
-			dstC->m_jacCoeffInv[ic] = 0.f;
+			dstC->m_jacCoeffInv[ic] = 0.0_fl;
 			continue;
 		}
 
@@ -98,19 +98,19 @@ void setConstraint4(b3Float4ConstArg posA, b3Float4ConstArg linVelA, b3Float4Con
 			relVelN = calcRelVel(linear, -linear, angular0, angular1,
 								 linVelA, angVelA, linVelB, angVelB);
 
-			float e = 0.f;  //src->getRestituitionCoeff();
-			if (relVelN * relVelN < 0.004f) e = 0.f;
+			float e = 0.0_fl;  //src->getRestituitionCoeff();
+			if (relVelN * relVelN < 0.004_fl) e = 0.0_fl;
 
 			dstC->m_b[ic] = e * relVelN;
 			//float penetration = src->m_worldPosB[ic].w;
 			dstC->m_b[ic] += (src->m_worldPosB[ic].w + positionDrift) * positionConstraintCoeff * dtInv;
-			dstC->m_appliedRambdaDt[ic] = 0.f;
+			dstC->m_appliedRambdaDt[ic] = 0.0_fl;
 		}
 	}
 
 	if (src->m_worldNormalOnB.w > 0)  //npoints
 	{                                 //	prepare friction
-		b3Float4 center = b3MakeFloat4(0.f, 0.f, 0.f, 0.f);
+		b3Float4 center = b3MakeFloat4(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 		for (int i = 0; i < src->m_worldNormalOnB.w; i++)
 			center += src->m_worldPosB[i];
 		center /= (float)src->m_worldNormalOnB.w;
@@ -129,7 +129,7 @@ void setConstraint4(b3Float4ConstArg posA, b3Float4ConstArg linVelA, b3Float4Con
 
 			dstC->m_fJacCoeffInv[i] = calcJacCoeff(linear, -linear, angular0, angular1,
 												   invMassA, &invInertiaA, invMassB, &invInertiaB);
-			dstC->m_fAppliedRambdaDt[i] = 0.f;
+			dstC->m_fAppliedRambdaDt[i] = 0.0_fl;
 		}
 		dstC->m_center = center;
 	}
@@ -142,7 +142,7 @@ void setConstraint4(b3Float4ConstArg posA, b3Float4ConstArg linVelA, b3Float4Con
 		}
 		else
 		{
-			dstC->m_worldPos[i] = b3MakeFloat4(0.f, 0.f, 0.f, 0.f);
+			dstC->m_worldPos[i] = b3MakeFloat4(0.0_fl, 0.0_fl, 0.0_fl, 0.0_fl);
 		}
 	}
 }

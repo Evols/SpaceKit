@@ -51,12 +51,12 @@ btHingeConstraint::btHingeConstraint(btRigidBody& rbA, btRigidBody& rbB, const b
 
 	btVector3 rbAxisA2;
 	btScalar projection = axisInA.dot(rbAxisA1);
-	if (projection >= 1.0f - SIMD_EPSILON)
+	if (projection >= 1.0_fl - SIMD_EPSILON)
 	{
 		rbAxisA1 = -rbA.getCenterOfMassTransform().getBasis().getColumn(2);
 		rbAxisA2 = rbA.getCenterOfMassTransform().getBasis().getColumn(1);
 	}
-	else if (projection <= -1.0f + SIMD_EPSILON)
+	else if (projection <= -1.0_fl + SIMD_EPSILON)
 	{
 		rbAxisA1 = rbA.getCenterOfMassTransform().getBasis().getColumn(2);
 		rbAxisA2 = rbA.getCenterOfMassTransform().getBasis().getColumn(1);
@@ -82,14 +82,14 @@ btHingeConstraint::btHingeConstraint(btRigidBody& rbA, btRigidBody& rbB, const b
 
 #ifndef _BT_USE_CENTER_LIMIT_
 	//start with free
-	m_lowerLimit = btScalar(1.0f);
-	m_upperLimit = btScalar(-1.0f);
+	m_lowerLimit = btScalar(1.0_fl);
+	m_upperLimit = btScalar(-1.0_fl);
 	m_biasFactor = 0.3f;
-	m_relaxationFactor = 1.0f;
-	m_limitSoftness = 0.9f;
+	m_relaxationFactor = 1.0_fl;
+	m_limitSoftness = 0.9_fl;
 	m_solveLimit = false;
 #endif
-	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.f) : btScalar(1.f);
+	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.0_fl) : btScalar(1.0_fl);
 }
 
 btHingeConstraint::btHingeConstraint(btRigidBody& rbA, const btVector3& pivotInA, const btVector3& axisInA, bool useReferenceFrameA)
@@ -131,14 +131,14 @@ btHingeConstraint::btHingeConstraint(btRigidBody& rbA, const btVector3& pivotInA
 
 #ifndef _BT_USE_CENTER_LIMIT_
 	//start with free
-	m_lowerLimit = btScalar(1.0f);
-	m_upperLimit = btScalar(-1.0f);
+	m_lowerLimit = btScalar(1.0_fl);
+	m_upperLimit = btScalar(-1.0_fl);
 	m_biasFactor = 0.3f;
-	m_relaxationFactor = 1.0f;
-	m_limitSoftness = 0.9f;
+	m_relaxationFactor = 1.0_fl;
+	m_limitSoftness = 0.9_fl;
 	m_solveLimit = false;
 #endif
-	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.f) : btScalar(1.f);
+	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.0_fl) : btScalar(1.0_fl);
 }
 
 btHingeConstraint::btHingeConstraint(btRigidBody& rbA, btRigidBody& rbB,
@@ -160,14 +160,14 @@ btHingeConstraint::btHingeConstraint(btRigidBody& rbA, btRigidBody& rbB,
 {
 #ifndef _BT_USE_CENTER_LIMIT_
 	//start with free
-	m_lowerLimit = btScalar(1.0f);
-	m_upperLimit = btScalar(-1.0f);
+	m_lowerLimit = btScalar(1.0_fl);
+	m_upperLimit = btScalar(-1.0_fl);
 	m_biasFactor = 0.3f;
-	m_relaxationFactor = 1.0f;
-	m_limitSoftness = 0.9f;
+	m_relaxationFactor = 1.0_fl;
+	m_limitSoftness = 0.9_fl;
 	m_solveLimit = false;
 #endif
-	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.f) : btScalar(1.f);
+	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.0_fl) : btScalar(1.0_fl);
 }
 
 btHingeConstraint::btHingeConstraint(btRigidBody& rbA, const btTransform& rbAFrame, bool useReferenceFrameA)
@@ -191,22 +191,22 @@ btHingeConstraint::btHingeConstraint(btRigidBody& rbA, const btTransform& rbAFra
 	m_rbBFrame.getOrigin() = m_rbA.getCenterOfMassTransform()(m_rbAFrame.getOrigin());
 #ifndef _BT_USE_CENTER_LIMIT_
 	//start with free
-	m_lowerLimit = btScalar(1.0f);
-	m_upperLimit = btScalar(-1.0f);
+	m_lowerLimit = btScalar(1.0_fl);
+	m_upperLimit = btScalar(-1.0_fl);
 	m_biasFactor = 0.3f;
-	m_relaxationFactor = 1.0f;
-	m_limitSoftness = 0.9f;
+	m_relaxationFactor = 1.0_fl;
+	m_limitSoftness = 0.9_fl;
 	m_solveLimit = false;
 #endif
-	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.f) : btScalar(1.f);
+	m_referenceSign = m_useReferenceFrameA ? btScalar(-1.0_fl) : btScalar(1.0_fl);
 }
 
 void btHingeConstraint::buildJacobian()
 {
 	if (m_useSolveConstraintObsolete)
 	{
-		m_appliedImpulse = btScalar(0.);
-		m_accMotorImpulse = btScalar(0.);
+		m_appliedImpulse = btScalar(0.0_fl);
+		m_accMotorImpulse = btScalar(0.0_fl);
 
 		if (!m_angularOnly)
 		{
@@ -221,7 +221,7 @@ void btHingeConstraint::buildJacobian()
 			}
 			else
 			{
-				normal[0].setValue(btScalar(1.0), 0, 0);
+				normal[0].setValue(btScalar(1.0_fl), 0.0_fl, 0.0_fl);
 			}
 
 			btPlaneSpace1(normal[0], normal[1], normal[2]);
@@ -273,14 +273,14 @@ void btHingeConstraint::buildJacobian()
 										   m_rbB.getInvInertiaDiagLocal());
 
 		// clear accumulator
-		m_accLimitImpulse = btScalar(0.);
+		m_accLimitImpulse = btScalar(0.0_fl);
 
 		// test angular limit
 		testLimit(m_rbA.getCenterOfMassTransform(), m_rbB.getCenterOfMassTransform());
 
 		//Compute K = J*W*J' for hinge axis
 		btVector3 axisA = getRigidBodyA().getCenterOfMassTransform().getBasis() * m_rbAFrame.getBasis().getColumn(2);
-		m_kHinge = 1.0f / (getRigidBodyA().computeAngularImpulseDenominator(axisA) +
+		m_kHinge = 1.0_fl / (getRigidBodyA().computeAngularImpulseDenominator(axisA) +
 						   getRigidBodyB().computeAngularImpulseDenominator(axisA));
 	}
 }
@@ -289,7 +289,7 @@ void btHingeConstraint::buildJacobian()
 
 static inline btScalar btNormalizeAnglePositive(btScalar angle)
 {
-	return btFmod(btFmod(angle, btScalar(2.0 * SIMD_PI)) + btScalar(2.0 * SIMD_PI), btScalar(2.0 * SIMD_PI));
+	return btFmod(btFmod(angle, btScalar(2.0_fl * SIMD_PI)) + btScalar(2.0_fl * SIMD_PI), btScalar(2.0_fl * SIMD_PI));
 }
 
 static btScalar btShortestAngularDistance(btScalar accAngle, btScalar curAngle)
@@ -420,7 +420,7 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 			info->m_J2angularAxis[i*skip+1]=0;
 			info->m_J2angularAxis[i*skip+2]=0;
 
-			info->m_constraintError[i*skip]=0.f;
+			info->m_constraintError[i*skip]=0.0_fl;
 		}
 	}
 #endif  //#if 0
@@ -428,13 +428,13 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 
 	if (!m_angularOnly)
 	{
-		info->m_J1linearAxis[0] = 1;
-		info->m_J1linearAxis[skip + 1] = 1;
-		info->m_J1linearAxis[2 * skip + 2] = 1;
+		info->m_J1linearAxis[0] = 1.0_fl;
+		info->m_J1linearAxis[skip + 1] = 1.0_fl;
+		info->m_J1linearAxis[2 * skip + 2] = 1.0_fl;
 
-		info->m_J2linearAxis[0] = -1;
-		info->m_J2linearAxis[skip + 1] = -1;
-		info->m_J2linearAxis[2 * skip + 2] = -1;
+		info->m_J2linearAxis[0] = -1.0_fl;
+		info->m_J2linearAxis[skip + 1] = -1.0_fl;
+		info->m_J2linearAxis[2 * skip + 2] = -1.0_fl;
 	}
 
 	btVector3 a1 = pivotAInW - transA.getOrigin();
@@ -515,7 +515,7 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 	// check angular limits
 	int nrow = 4;  // last filled row
 	int srow;
-	btScalar limit_err = btScalar(0.0);
+	btScalar limit_err = btScalar(0.0_fl);
 	int limit = 0;
 	if (getSolveLimit())
 	{
@@ -524,7 +524,7 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 #else
 		limit_err = m_correction * m_referenceSign;
 #endif
-		limit = (limit_err > btScalar(0.0)) ? 1 : 2;
+		limit = (limit_err > btScalar(0.0_fl)) ? 1 : 2;
 	}
 	// if the hinge has joint limits or motor, add in the extra row
 	bool powered = getEnableAngularMotor();
@@ -546,7 +546,7 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 		{  // the joint motor is ineffective
 			powered = false;
 		}
-		info->m_constraintError[srow] = btScalar(0.0f);
+		info->m_constraintError[srow] = btScalar(0.0_fl);
 		btScalar currERP = (m_flags & BT_HINGE_FLAGS_ERP_STOP) ? m_stopERP : normalErp;
 		if (powered)
 		{
@@ -575,21 +575,21 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 			}
 			else if (limit == 1)
 			{  // low limit
-				info->m_lowerLimit[srow] = 0;
+				info->m_lowerLimit[srow] = 0.0_fl;
 				info->m_upperLimit[srow] = SIMD_INFINITY;
 			}
 			else
 			{  // high limit
 				info->m_lowerLimit[srow] = -SIMD_INFINITY;
-				info->m_upperLimit[srow] = 0;
+				info->m_upperLimit[srow] = 0.0_fl;
 			}
-			// bounce (we'll use slider parameter abs(1.0 - m_dampingLimAng) for that)
+			// bounce (we'll use slider parameter abs(1.0_fl - m_dampingLimAng) for that)
 #ifdef _BT_USE_CENTER_LIMIT_
 			btScalar bounce = m_limit.getRelaxationFactor();
 #else
 			btScalar bounce = m_relaxationFactor;
 #endif
-			if (bounce > btScalar(0.0))
+			if (bounce > btScalar(0.0_fl))
 			{
 				btScalar vel = angVelA.dot(ax1);
 				vel -= angVelB.dot(ax1);
@@ -597,7 +597,7 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 				// resulting c[] exceeds what we already have.
 				if (limit == 1)
 				{  // low limit
-					if (vel < 0)
+					if (vel < 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc > info->m_constraintError[srow])
@@ -608,7 +608,7 @@ void btHingeConstraint::getInfo2Internal(btConstraintInfo2* info, const btTransf
 				}
 				else
 				{  // high limit - all those computations are reversed
-					if (vel > 0)
+					if (vel > 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc < info->m_constraintError[srow])
@@ -661,8 +661,8 @@ void btHingeConstraint::testLimit(const btTransform& transA, const btTransform& 
 #ifdef _BT_USE_CENTER_LIMIT_
 	m_limit.test(m_hingeAngle);
 #else
-	m_correction = btScalar(0.);
-	m_limitSign = btScalar(0.);
+	m_correction = btScalar(0.0_fl);
+	m_limitSign = btScalar(0.0_fl);
 	m_solveLimit = false;
 	if (m_lowerLimit <= m_upperLimit)
 	{
@@ -670,13 +670,13 @@ void btHingeConstraint::testLimit(const btTransform& transA, const btTransform& 
 		if (m_hingeAngle <= m_lowerLimit)
 		{
 			m_correction = (m_lowerLimit - m_hingeAngle);
-			m_limitSign = 1.0f;
+			m_limitSign = 1.0_fl;
 			m_solveLimit = true;
 		}
 		else if (m_hingeAngle >= m_upperLimit)
 		{
 			m_correction = m_upperLimit - m_hingeAngle;
-			m_limitSign = -1.0f;
+			m_limitSign = -1.0_fl;
 			m_solveLimit = true;
 		}
 	}
@@ -684,7 +684,7 @@ void btHingeConstraint::testLimit(const btTransform& transA, const btTransform& 
 	return;
 }
 
-static btVector3 vHinge(0, 0, btScalar(1));
+static btVector3 vHinge(0.0_fl, 0.0_fl, btScalar(1));
 
 void btHingeConstraint::setMotorTarget(const btQuaternion& qAinB, btScalar dt)
 {
@@ -706,7 +706,7 @@ void btHingeConstraint::setMotorTarget(const btQuaternion& qAinB, btScalar dt)
 		qHinge = -(qHinge);
 		targetAngle = qHinge.getAngle();
 	}
-	if (qHinge.getZ() < 0)
+	if (qHinge.getZ() < 0.0_fl)
 		targetAngle = -targetAngle;
 
 	setMotorTarget(targetAngle, dt);
@@ -750,15 +750,15 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 	bool hasStaticBody = (miA < SIMD_EPSILON) || (miB < SIMD_EPSILON);
 	btScalar miS = miA + miB;
 	btScalar factA, factB;
-	if (miS > btScalar(0.f))
+	if (miS > btScalar(0.0_fl))
 	{
 		factA = miB / miS;
 	}
 	else
 	{
-		factA = btScalar(0.5f);
+		factA = btScalar(0.5_fl);
 	}
-	factB = btScalar(1.0f) - factA;
+	factB = btScalar(1.0_fl) - factA;
 	// get the desired direction of hinge axis
 	// as weighted sum of Z-orthos of frameA and frameB in WCS
 	btVector3 ax1A = trA.getBasis().getColumn(2);
@@ -766,8 +766,8 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 	btVector3 ax1 = ax1A * factA + ax1B * factB;
 	if (ax1.length2()<SIMD_EPSILON)
 	{
-		factA=0.f;
-		factB=1.f;
+		factA=0.0_fl;
+		factB=1.0_fl;
 		ax1 = ax1A * factA + ax1B * factB;
 	}
 	ax1.normalize();
@@ -901,7 +901,7 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 	// check angular limits
 	nrow = 4;  // last filled row
 	int srow;
-	btScalar limit_err = btScalar(0.0);
+	btScalar limit_err = btScalar(0.0_fl);
 	int limit = 0;
 	if (getSolveLimit())
 	{
@@ -910,7 +910,7 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 #else
 		limit_err = m_correction * m_referenceSign;
 #endif
-		limit = (limit_err > btScalar(0.0)) ? 1 : 2;
+		limit = (limit_err > btScalar(0.0_fl)) ? 1 : 2;
 	}
 	// if the hinge has joint limits or motor, add in the extra row
 	bool powered = getEnableAngularMotor();
@@ -932,7 +932,7 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 		{  // the joint motor is ineffective
 			powered = false;
 		}
-		info->m_constraintError[srow] = btScalar(0.0f);
+		info->m_constraintError[srow] = btScalar(0.0_fl);
 		btScalar currERP = (m_flags & BT_HINGE_FLAGS_ERP_STOP) ? m_stopERP : normalErp;
 		if (powered)
 		{
@@ -961,21 +961,21 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 			}
 			else if (limit == 1)
 			{  // low limit
-				info->m_lowerLimit[srow] = 0;
+				info->m_lowerLimit[srow] = 0.0_fl;
 				info->m_upperLimit[srow] = SIMD_INFINITY;
 			}
 			else
 			{  // high limit
 				info->m_lowerLimit[srow] = -SIMD_INFINITY;
-				info->m_upperLimit[srow] = 0;
+				info->m_upperLimit[srow] = 0.0_fl;
 			}
-			// bounce (we'll use slider parameter abs(1.0 - m_dampingLimAng) for that)
+			// bounce (we'll use slider parameter abs(1.0_fl - m_dampingLimAng) for that)
 #ifdef _BT_USE_CENTER_LIMIT_
 			btScalar bounce = m_limit.getRelaxationFactor();
 #else
 			btScalar bounce = m_relaxationFactor;
 #endif
-			if (bounce > btScalar(0.0))
+			if (bounce > btScalar(0.0_fl))
 			{
 				btScalar vel = angVelA.dot(ax1);
 				vel -= angVelB.dot(ax1);
@@ -983,7 +983,7 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 				// resulting c[] exceeds what we already have.
 				if (limit == 1)
 				{  // low limit
-					if (vel < 0)
+					if (vel < 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc > info->m_constraintError[srow])
@@ -994,7 +994,7 @@ void btHingeConstraint::getInfo2InternalUsingFrameOffset(btConstraintInfo2* info
 				}
 				else
 				{  // high limit - all those computations are reversed
-					if (vel > 0)
+					if (vel > 0.0_fl)
 					{
 						btScalar newc = -bounce * vel;
 						if (newc < info->m_constraintError[srow])
@@ -1050,7 +1050,7 @@ void btHingeConstraint::setParam(int num, btScalar value, int axis)
 ///return the local value of parameter
 btScalar btHingeConstraint::getParam(int num, int axis) const
 {
-	btScalar retVal = 0;
+	btScalar retVal = 0.0_fl;
 	if ((axis == -1) || (axis == 5))
 	{
 		switch (num)

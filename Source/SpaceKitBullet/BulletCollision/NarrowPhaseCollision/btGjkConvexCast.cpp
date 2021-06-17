@@ -48,13 +48,13 @@ bool btGjkConvexCast::calcTimeOfImpact(
 	linVelB = toB.getOrigin() - fromB.getOrigin();
 
 	btScalar radius = btScalar(0.001);
-	btScalar lambda = btScalar(0.);
+	btScalar lambda = btScalar(0.0_fl);
 	btVector3 v(1, 0, 0);
 
 	int maxIter = MAX_ITERATIONS;
 
 	btVector3 n;
-	n.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+	n.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	bool hasResult = false;
 	btVector3 c;
 	btVector3 r = (linVelA - linVelB);
@@ -99,7 +99,7 @@ bool btGjkConvexCast::calcTimeOfImpact(
 			{
 				return false;  //todo: report a failure
 			}
-			btScalar dLambda = btScalar(0.);
+			btScalar dLambda = btScalar(0.0_fl);
 
 			btScalar projectedLinearVelocity = r.dot(n);
 
@@ -110,7 +110,7 @@ bool btGjkConvexCast::calcTimeOfImpact(
 			if (lambda > btScalar(1.))
 				return false;
 
-			if (lambda < btScalar(0.))
+			if (lambda < btScalar(0.0_fl))
 				return false;
 
 			//todo: next check with relative epsilon
@@ -130,7 +130,7 @@ bool btGjkConvexCast::calcTimeOfImpact(
 			gjk.getClosestPoints(input, pointCollector, 0);
 			if (pointCollector.m_hasResult)
 			{
-				if (pointCollector.m_distance < btScalar(0.))
+				if (pointCollector.m_distance < btScalar(0.0_fl))
 				{
 					result.m_fraction = lastLambda;
 					n = pointCollector.m_normalOnBInWorld;

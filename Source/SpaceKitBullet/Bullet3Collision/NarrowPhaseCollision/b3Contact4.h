@@ -34,13 +34,13 @@ b3Contact4 : public b3Contact4Data
 	float getRestituitionCoeff() const { return ((float)m_restituitionCoeffCmp / (float)0xffff); }
 	void setRestituitionCoeff(float c)
 	{
-		b3Assert(c >= 0.f && c <= 1.f);
+		b3Assert(c >= 0.0_fl && c <= 1.0_fl);
 		m_restituitionCoeffCmp = (unsigned short)(c * 0xffff);
 	}
 	float getFrictionCoeff() const { return ((float)m_frictionCoeffCmp / (float)0xffff); }
 	void setFrictionCoeff(float c)
 	{
-		b3Assert(c >= 0.f && c <= 1.f);
+		b3Assert(c >= 0.0_fl && c <= 1.0_fl);
 		m_frictionCoeffCmp = (unsigned short)(c * 0xffff);
 	}
 

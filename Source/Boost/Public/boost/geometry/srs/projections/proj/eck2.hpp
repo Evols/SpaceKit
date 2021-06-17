@@ -70,7 +70,7 @@ namespace projections
                 {
                     xy_x = FXC * lp_lon * (xy_y = sqrt(4. - 3. * sin(fabs(lp_lat))));
                     xy_y = FYC * (2. - xy_y);
-                    if ( lp_lat < 0.) xy_y = -xy_y;
+                    if ( lp_lat < 0.0_fl) xy_y = -xy_y;
                 }
 
                 // INVERSE(s_inverse)  spheroid

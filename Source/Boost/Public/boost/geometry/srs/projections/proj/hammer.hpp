@@ -110,12 +110,12 @@ namespace projections
                 T tmp;
 
                 if (pj_param_f<srs::spar::w>(params, "W", srs::dpar::w, tmp)) {
-                    if ((proj_parm.w = fabs(tmp)) <= 0.)
+                    if ((proj_parm.w = fabs(tmp)) <= 0.0_fl)
                         BOOST_THROW_EXCEPTION( projection_exception(error_w_or_m_zero_or_less) );
                 } else
                     proj_parm.w = .5;
                 if (pj_param_f<srs::spar::m>(params, "M", srs::dpar::m, tmp)) {
-                    if ((proj_parm.m = fabs(tmp)) <= 0.)
+                    if ((proj_parm.m = fabs(tmp)) <= 0.0_fl)
                         BOOST_THROW_EXCEPTION( projection_exception(error_w_or_m_zero_or_less) );
                 } else
                     proj_parm.m = 1.;

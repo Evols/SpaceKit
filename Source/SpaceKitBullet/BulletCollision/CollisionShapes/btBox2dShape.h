@@ -84,17 +84,17 @@ public:
 	///a btBox2dShape is a flat 2D box in the X-Y plane (Z extents are zero)
 	btBox2dShape(const btVector3& boxHalfExtents)
 		: btPolyhedralConvexShape(),
-		  m_centroid(0, 0, 0)
+		  m_centroid(0_fl, 0_fl, 0_fl)
 	{
-		m_vertices[0].setValue(-boxHalfExtents.getX(), -boxHalfExtents.getY(), 0);
-		m_vertices[1].setValue(boxHalfExtents.getX(), -boxHalfExtents.getY(), 0);
-		m_vertices[2].setValue(boxHalfExtents.getX(), boxHalfExtents.getY(), 0);
-		m_vertices[3].setValue(-boxHalfExtents.getX(), boxHalfExtents.getY(), 0);
+		m_vertices[0].setValue(-boxHalfExtents.getX(), -boxHalfExtents.getY(), 0_fl);
+		m_vertices[1].setValue(boxHalfExtents.getX(), -boxHalfExtents.getY(), 0_fl);
+		m_vertices[2].setValue(boxHalfExtents.getX(), boxHalfExtents.getY(), 0_fl);
+		m_vertices[3].setValue(-boxHalfExtents.getX(), boxHalfExtents.getY(), 0_fl);
 
-		m_normals[0].setValue(0, -1, 0);
-		m_normals[1].setValue(1, 0, 0);
-		m_normals[2].setValue(0, 1, 0);
-		m_normals[3].setValue(-1, 0, 0);
+		m_normals[0].setValue(0_fl, -1_fl, 0_fl);
+		m_normals[1].setValue(1.0_fl, 0.0_fl, 0.0_fl);
+		m_normals[2].setValue(0_fl, 1_fl, 0_fl);
+		m_normals[3].setValue(-1_fl, 0_fl, 0_fl);
 
 		btScalar minDimension = boxHalfExtents.getX();
 		if (minDimension > boxHalfExtents.getY())
@@ -181,9 +181,9 @@ public:
 		btVector3 halfExtents = getHalfExtentsWithoutMargin();
 
 		vtx = btVector3(
-			halfExtents.x() * (1 - (i & 1)) - halfExtents.x() * (i & 1),
-			halfExtents.y() * (1 - ((i & 2) >> 1)) - halfExtents.y() * ((i & 2) >> 1),
-			halfExtents.z() * (1 - ((i & 4) >> 2)) - halfExtents.z() * ((i & 4) >> 2));
+			halfExtents.x() * (1_fl - btScalar(i & 1)) - halfExtents.x() * btScalar(i & 1),
+			halfExtents.y() * (1_fl - btScalar((i & 2) >> 1)) - halfExtents.y() * btScalar((i & 2) >> 1),
+			halfExtents.z() * (1_fl - btScalar((i & 4) >> 2)) - halfExtents.z() * btScalar((i & 4) >> 2));
 	}
 
 	virtual void getPlaneEquation(btVector4 & plane, int i) const
@@ -193,22 +193,22 @@ public:
 		switch (i)
 		{
 			case 0:
-				plane.setValue(btScalar(1.), btScalar(0.), btScalar(0.), -halfExtents.x());
+				plane.setValue(btScalar(1.), btScalar(0.0_fl), btScalar(0.0_fl), -halfExtents.x());
 				break;
 			case 1:
-				plane.setValue(btScalar(-1.), btScalar(0.), btScalar(0.), -halfExtents.x());
+				plane.setValue(btScalar(-1.), btScalar(0.0_fl), btScalar(0.0_fl), -halfExtents.x());
 				break;
 			case 2:
-				plane.setValue(btScalar(0.), btScalar(1.), btScalar(0.), -halfExtents.y());
+				plane.setValue(btScalar(0.0_fl), btScalar(1.), btScalar(0.0_fl), -halfExtents.y());
 				break;
 			case 3:
-				plane.setValue(btScalar(0.), btScalar(-1.), btScalar(0.), -halfExtents.y());
+				plane.setValue(btScalar(0.0_fl), btScalar(-1.), btScalar(0.0_fl), -halfExtents.y());
 				break;
 			case 4:
-				plane.setValue(btScalar(0.), btScalar(0.), btScalar(1.), -halfExtents.z());
+				plane.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(1.), -halfExtents.z());
 				break;
 			case 5:
-				plane.setValue(btScalar(0.), btScalar(0.), btScalar(-1.), -halfExtents.z());
+				plane.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(-1.), -halfExtents.z());
 				break;
 			default:
 				btAssert(0);
@@ -313,22 +313,22 @@ public:
 		switch (index)
 		{
 			case 0:
-				penetrationVector.setValue(btScalar(1.), btScalar(0.), btScalar(0.));
+				penetrationVector.setValue(btScalar(1.), btScalar(0.0_fl), btScalar(0.0_fl));
 				break;
 			case 1:
-				penetrationVector.setValue(btScalar(-1.), btScalar(0.), btScalar(0.));
+				penetrationVector.setValue(btScalar(-1.), btScalar(0.0_fl), btScalar(0.0_fl));
 				break;
 			case 2:
-				penetrationVector.setValue(btScalar(0.), btScalar(1.), btScalar(0.));
+				penetrationVector.setValue(btScalar(0.0_fl), btScalar(1.), btScalar(0.0_fl));
 				break;
 			case 3:
-				penetrationVector.setValue(btScalar(0.), btScalar(-1.), btScalar(0.));
+				penetrationVector.setValue(btScalar(0.0_fl), btScalar(-1.), btScalar(0.0_fl));
 				break;
 			case 4:
-				penetrationVector.setValue(btScalar(0.), btScalar(0.), btScalar(1.));
+				penetrationVector.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(1.));
 				break;
 			case 5:
-				penetrationVector.setValue(btScalar(0.), btScalar(0.), btScalar(-1.));
+				penetrationVector.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(-1.));
 				break;
 			default:
 				btAssert(0);

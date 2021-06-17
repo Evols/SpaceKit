@@ -61,10 +61,10 @@ struct btTriangleInfoMap : public btInternalTriangleInfoMap
 
 	btTriangleInfoMap()
 	{
-		m_convexEpsilon = 0.00f;
-		m_planarEpsilon = 0.0001f;
+		m_convexEpsilon = 0.001_fl;
+		m_planarEpsilon = 0.0001_fl;
 		m_equalVertexThreshold = btScalar(0.0001) * btScalar(0.0001);
-		m_edgeDistanceThreshold = btScalar(0.1);
+		m_edgeDistanceThreshold = 0.1_fl;
 		m_zeroAreaThreshold = btScalar(0.0001) * btScalar(0.0001);
 		m_maxEdgeAngleThreshold = SIMD_2_PI;
 	}
@@ -120,11 +120,11 @@ SIMD_FORCE_INLINE int btTriangleInfoMap::calculateSerializeBufferSize() const
 SIMD_FORCE_INLINE const char* btTriangleInfoMap::serialize(void* dataBuffer, btSerializer* serializer) const
 {
 	btTriangleInfoMapData* tmapData = (btTriangleInfoMapData*)dataBuffer;
-	tmapData->m_convexEpsilon = (float)m_convexEpsilon;
-	tmapData->m_planarEpsilon = (float)m_planarEpsilon;
-	tmapData->m_equalVertexThreshold = (float)m_equalVertexThreshold;
-	tmapData->m_edgeDistanceThreshold = (float)m_edgeDistanceThreshold;
-	tmapData->m_zeroAreaThreshold = (float)m_zeroAreaThreshold;
+	tmapData->m_convexEpsilon = m_convexEpsilon.ToFloat();
+	tmapData->m_planarEpsilon = m_planarEpsilon.ToFloat();
+	tmapData->m_equalVertexThreshold = m_equalVertexThreshold.ToFloat();
+	tmapData->m_edgeDistanceThreshold = m_edgeDistanceThreshold.ToFloat();
+	tmapData->m_zeroAreaThreshold = m_zeroAreaThreshold.ToFloat();
 
 	tmapData->m_hashTableSize = m_hashTable.size();
 
@@ -168,9 +168,9 @@ SIMD_FORCE_INLINE const char* btTriangleInfoMap::serialize(void* dataBuffer, btS
 		btTriangleInfoData* memPtr = (btTriangleInfoData*)chunk->m_oldPtr;
 		for (int i = 0; i < numElem; i++, memPtr++)
 		{
-			memPtr->m_edgeV0V1Angle = (float)m_valueArray[i].m_edgeV0V1Angle;
-			memPtr->m_edgeV1V2Angle = (float)m_valueArray[i].m_edgeV1V2Angle;
-			memPtr->m_edgeV2V0Angle = (float)m_valueArray[i].m_edgeV2V0Angle;
+			memPtr->m_edgeV0V1Angle = m_valueArray[i].m_edgeV0V1Angle.ToFloat();
+			memPtr->m_edgeV1V2Angle = m_valueArray[i].m_edgeV1V2Angle.ToFloat();
+			memPtr->m_edgeV2V0Angle = m_valueArray[i].m_edgeV2V0Angle.ToFloat();
 			memPtr->m_flags = m_valueArray[i].m_flags;
 		}
 		serializer->finalizeChunk(chunk, "btTriangleInfoData", BT_ARRAY_CODE, (void*)&m_valueArray[0]);
@@ -203,11 +203,11 @@ SIMD_FORCE_INLINE const char* btTriangleInfoMap::serialize(void* dataBuffer, btS
 ///fills the dataBuffer and returns the struct name (and 0 on failure)
 SIMD_FORCE_INLINE void btTriangleInfoMap::deSerialize(btTriangleInfoMapData& tmapData)
 {
-	m_convexEpsilon = tmapData.m_convexEpsilon;
-	m_planarEpsilon = tmapData.m_planarEpsilon;
-	m_equalVertexThreshold = tmapData.m_equalVertexThreshold;
-	m_edgeDistanceThreshold = tmapData.m_edgeDistanceThreshold;
-	m_zeroAreaThreshold = tmapData.m_zeroAreaThreshold;
+	m_convexEpsilon = btScalar(tmapData.m_convexEpsilon);
+	m_planarEpsilon = btScalar(tmapData.m_planarEpsilon);
+	m_equalVertexThreshold = btScalar(tmapData.m_equalVertexThreshold);
+	m_edgeDistanceThreshold = btScalar(tmapData.m_edgeDistanceThreshold);
+	m_zeroAreaThreshold = btScalar(tmapData.m_zeroAreaThreshold);
 	m_hashTable.resize(tmapData.m_hashTableSize);
 	int i = 0;
 	for (i = 0; i < tmapData.m_hashTableSize; i++)
@@ -222,9 +222,9 @@ SIMD_FORCE_INLINE void btTriangleInfoMap::deSerialize(btTriangleInfoMapData& tma
 	m_valueArray.resize(tmapData.m_numValues);
 	for (i = 0; i < tmapData.m_numValues; i++)
 	{
-		m_valueArray[i].m_edgeV0V1Angle = tmapData.m_valueArrayPtr[i].m_edgeV0V1Angle;
-		m_valueArray[i].m_edgeV1V2Angle = tmapData.m_valueArrayPtr[i].m_edgeV1V2Angle;
-		m_valueArray[i].m_edgeV2V0Angle = tmapData.m_valueArrayPtr[i].m_edgeV2V0Angle;
+		m_valueArray[i].m_edgeV0V1Angle = btScalar(tmapData.m_valueArrayPtr[i].m_edgeV0V1Angle);
+		m_valueArray[i].m_edgeV1V2Angle = btScalar(tmapData.m_valueArrayPtr[i].m_edgeV1V2Angle);
+		m_valueArray[i].m_edgeV2V0Angle = btScalar(tmapData.m_valueArrayPtr[i].m_edgeV2V0Angle);
 		m_valueArray[i].m_flags = tmapData.m_valueArrayPtr[i].m_flags;
 	}
 

@@ -69,15 +69,15 @@ void btCollisionShape::calculateTemporalAabb(const btTransform& curTrans, const 
 	// add linear motion
 	btVector3 linMotion = linvel * timeStep;
 	///@todo: simd would have a vector max/min operation, instead of per-element access
-	if (linMotion.x() > btScalar(0.))
+	if (linMotion.x() > btScalar(0.0_fl))
 		temporalAabbMaxx += linMotion.x();
 	else
 		temporalAabbMinx += linMotion.x();
-	if (linMotion.y() > btScalar(0.))
+	if (linMotion.y() > btScalar(0.0_fl))
 		temporalAabbMaxy += linMotion.y();
 	else
 		temporalAabbMiny += linMotion.y();
-	if (linMotion.z() > btScalar(0.))
+	if (linMotion.z() > btScalar(0.0_fl))
 		temporalAabbMaxz += linMotion.z();
 	else
 		temporalAabbMinz += linMotion.z();

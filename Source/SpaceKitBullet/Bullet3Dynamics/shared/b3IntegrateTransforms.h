@@ -4,9 +4,9 @@
 
 inline void integrateSingleTransform(__global b3RigidBodyData_t* bodies, int nodeID, float timeStep, float angularDamping, b3Float4ConstArg gravityAcceleration)
 {
-	if (bodies[nodeID].m_invMass != 0.f)
+	if (bodies[nodeID].m_invMass != 0.0_fl)
 	{
-		float BT_GPU_ANGULAR_MOTION_THRESHOLD = (0.25f * 3.14159254f);
+		float BT_GPU_ANGULAR_MOTION_THRESHOLD = (0.25_fl * 3.14159254_fl);
 
 		//angular velocity
 		{
@@ -28,19 +28,19 @@ inline void integrateSingleTransform(__global b3RigidBodyData_t* bodies, int nod
 			if (fAngle < 0.001f)
 			{
 				// use Taylor's expansions of sync function
-				axis = angvel * (0.5f * timeStep - (timeStep * timeStep * timeStep) * 0.020833333333f * fAngle * fAngle);
+				axis = angvel * (0.5_fl * timeStep - (timeStep * timeStep * timeStep) * 0.020833333333f * fAngle * fAngle);
 			}
 			else
 			{
 				// sync(fAngle) = sin(c*fAngle)/t
-				axis = angvel * (b3Sin(0.5f * fAngle * timeStep) / fAngle);
+				axis = angvel * (b3Sin(0.5_fl * fAngle * timeStep) / fAngle);
 			}
 
 			b3Quat dorn;
 			dorn.x = axis.x;
 			dorn.y = axis.y;
 			dorn.z = axis.z;
-			dorn.w = b3Cos(fAngle * timeStep * 0.5f);
+			dorn.w = b3Cos(fAngle * timeStep * 0.5_fl);
 			b3Quat orn0 = bodies[nodeID].m_quat;
 			b3Quat predictedOrn = b3QuatMul(dorn, orn0);
 			predictedOrn = b3QuatNormalized(predictedOrn);
@@ -56,9 +56,9 @@ inline void integrateSingleTransform(__global b3RigidBodyData_t* bodies, int nod
 
 inline void b3IntegrateTransform(__global b3RigidBodyData_t* body, float timeStep, float angularDamping, b3Float4ConstArg gravityAcceleration)
 {
-	float BT_GPU_ANGULAR_MOTION_THRESHOLD = (0.25f * 3.14159254f);
+	float BT_GPU_ANGULAR_MOTION_THRESHOLD = (0.25_fl * 3.14159254_fl);
 
-	if ((body->m_invMass != 0.f))
+	if ((body->m_invMass != 0.0_fl))
 	{
 		//angular velocity
 		{
@@ -78,18 +78,18 @@ inline void b3IntegrateTransform(__global b3RigidBodyData_t* body, float timeSte
 			if (fAngle < 0.001f)
 			{
 				// use Taylor's expansions of sync function
-				axis = angvel * (0.5f * timeStep - (timeStep * timeStep * timeStep) * 0.020833333333f * fAngle * fAngle);
+				axis = angvel * (0.5_fl * timeStep - (timeStep * timeStep * timeStep) * 0.020833333333f * fAngle * fAngle);
 			}
 			else
 			{
 				// sync(fAngle) = sin(c*fAngle)/t
-				axis = angvel * (b3Sin(0.5f * fAngle * timeStep) / fAngle);
+				axis = angvel * (b3Sin(0.5_fl * fAngle * timeStep) / fAngle);
 			}
 			b3Quat dorn;
 			dorn.x = axis.x;
 			dorn.y = axis.y;
 			dorn.z = axis.z;
-			dorn.w = b3Cos(fAngle * timeStep * 0.5f);
+			dorn.w = b3Cos(fAngle * timeStep * 0.5_fl);
 			b3Quat orn0 = body->m_quat;
 
 			b3Quat predictedOrn = b3QuatMul(dorn, orn0);

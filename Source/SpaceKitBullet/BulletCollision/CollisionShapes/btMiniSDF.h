@@ -43,14 +43,14 @@ struct btAlignedBox3d
 
 struct btShapeMatrix
 {
-	double m_vec[32];
+	btScalar m_vec[32];
 
-	inline double& operator[](int i)
+	inline btScalar& operator[](int i)
 	{
 		return m_vec[i];
 	}
 
-	inline const double& operator[](int i) const
+	inline const btScalar& operator[](int i) const
 	{
 		return m_vec[i];
 	}
@@ -60,7 +60,7 @@ struct btShapeGradients
 {
 	btVector3 m_vec[32];
 
-	void topRowsDivide(int row, double denom)
+	void topRowsDivide(int row, FRealFloat denom)
 	{
 		for (int i = 0; i < row; i++)
 		{
@@ -68,7 +68,7 @@ struct btShapeGradients
 		}
 	}
 
-	void bottomRowsMul(int row, double val)
+	void bottomRowsMul(int row, FRealFloat val)
 	{
 		for (int i = 32 - row; i < 32; i++)
 		{
@@ -97,7 +97,7 @@ struct btMiniSDF
 	std::size_t m_n_fields;
 	bool m_isValid;
 
-	btAlignedObjectArray<btAlignedObjectArray<double> > m_nodes;
+	btAlignedObjectArray<btAlignedObjectArray<btScalar> > m_nodes;
 	btAlignedObjectArray<btAlignedObjectArray<btCell32> > m_cells;
 	btAlignedObjectArray<btAlignedObjectArray<unsigned int> > m_cell_map;
 
@@ -121,7 +121,7 @@ struct btMiniSDF
 	btShapeMatrix
 	shape_function_(btVector3 const& xi, btShapeGradients* gradient = 0) const;
 
-	bool interpolate(unsigned int field_id, double& dist, btVector3 const& x, btVector3* gradient) const;
+	bool interpolate(unsigned int field_id, btScalar& dist, btVector3 const& x, btVector3* gradient) const;
 };
 
 #endif  //MINISDF_H

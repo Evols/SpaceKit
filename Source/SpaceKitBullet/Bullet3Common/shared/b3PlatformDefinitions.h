@@ -23,9 +23,9 @@ inline int b3AtomicAdd(volatile int *p, int val)
 
 #define B3_STATIC static
 #else
-//keep B3_LARGE_FLOAT*B3_LARGE_FLOAT < FLT_MAX
-#define B3_LARGE_FLOAT 1e18f
-#define B3_INFINITY 1e18f
+//keep B3_LARGE_FLOAT*B3_LARGE_FLOAT < BIGFLOAT_MAX
+#define B3_LARGE_FLOAT 1e18_fl
+#define B3_INFINITY 1e18_fl
 #define b3Assert(a)
 #define b3ConstArray(a) __global const a *
 #define b3AtomicInc atomic_inc

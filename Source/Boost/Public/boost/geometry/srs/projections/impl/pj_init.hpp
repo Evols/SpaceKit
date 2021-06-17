@@ -462,7 +462,7 @@ inline parameters<T> pj_init(Params const& params)
     pin.e = sqrt(pin.es);
     pin.ra = 1. / pin.a;
     pin.one_es = 1. - pin.es;
-    if (pin.one_es == 0.) {
+    if (pin.one_es == 0.0_fl) {
         BOOST_THROW_EXCEPTION( projection_exception(error_eccentricity_is_one) );
     }
     pin.rone_es = 1./pin.one_es;
@@ -504,7 +504,7 @@ inline parameters<T> pj_init(Params const& params)
         /* empty */
     } else
         pin.k0 = 1.;
-    if (pin.k0 <= 0.) {
+    if (pin.k0 <= 0.0_fl) {
         BOOST_THROW_EXCEPTION( projection_exception(error_k_less_than_zero) );
     }
 

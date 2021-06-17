@@ -67,21 +67,21 @@ void btUniformScalingShape::getAabbSlow(const btTransform& t, btVector3& aabbMin
 #if 1
 	btVector3 _directions[] =
 		{
-			btVector3(1., 0., 0.),
-			btVector3(0., 1., 0.),
-			btVector3(0., 0., 1.),
-			btVector3(-1., 0., 0.),
-			btVector3(0., -1., 0.),
-			btVector3(0., 0., -1.)};
+			btVector3(1.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 1.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 1.0_fl),
+			btVector3(-1.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, -1.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, -1.0_fl)};
 
 	btVector3 _supporting[] =
 		{
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.),
-			btVector3(0., 0., 0.)};
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl),
+			btVector3(0.0_fl, 0.0_fl, 0.0_fl)};
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -90,7 +90,7 @@ void btUniformScalingShape::getAabbSlow(const btTransform& t, btVector3& aabbMin
 
 	batchedUnitVectorGetSupportingVertexWithoutMargin(_directions, _supporting, 6);
 
-	btVector3 aabbMin1(0, 0, 0), aabbMax1(0, 0, 0);
+	btVector3 aabbMin1(0.0_fl, 0.0_fl, 0.0_fl), aabbMax1(0.0_fl, 0.0_fl, 0.0_fl);
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -106,7 +106,7 @@ void btUniformScalingShape::getAabbSlow(const btTransform& t, btVector3& aabbMin
 	btScalar margin = getMargin();
 	for (int i = 0; i < 3; i++)
 	{
-		btVector3 vec(btScalar(0.), btScalar(0.), btScalar(0.));
+		btVector3 vec(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 		vec[i] = btScalar(1.);
 		btVector3 sv = localGetSupportingVertex(vec * t.getBasis());
 		btVector3 tmp = t(sv);

@@ -2259,7 +2259,7 @@ crc
 
     \return  The interim remainder, if no augmentation is used.  A special value
       if augmentation is used (see the notes).  No output processing is done on
-      the value.  (In RMCA terms, \e RefOut is \c False and \e XorOut is \c 0.)
+      the value.  (In RMCA terms, \e RefOut is \c False and \e XorOut is \c 0.0_fl)
 
     \note  Augmented-style CRC runs use straight-up modulo-2 polynomial
       division.  Since data is being read byte-wise, a table of pre-computed

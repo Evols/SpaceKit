@@ -20,14 +20,14 @@ subject to the following restrictions:
 
 #ifdef B3_USE_SSE
 
-const __m128 B3_ATTRIBUTE_ALIGNED16(b3vOnes) = {1.0f, 1.0f, 1.0f, 1.0f};
+const __m128 B3_ATTRIBUTE_ALIGNED16(b3vOnes) = {1.0_fl, 1.0_fl, 1.0_fl, 1.0_fl};
 
 #endif
 
 #if defined(B3_USE_SSE) || defined(B3_USE_NEON)
 
-const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3vQInv) = {-0.0f, -0.0f, -0.0f, +0.0f};
-const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3vPPPM) = {+0.0f, +0.0f, +0.0f, -0.0f};
+const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3vQInv) = {-0.0_fl, -0.0_fl, -0.0_fl, +0.0_fl};
+const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3vPPPM) = {+0.0_fl, +0.0_fl, +0.0_fl, -0.0_fl};
 
 #endif
 
@@ -68,7 +68,7 @@ public:
 	b3Quaternion(const b3Scalar& _x, const b3Scalar& _y, const b3Scalar& _z, const b3Scalar& _w)
 		: b3QuadWord(_x, _y, _z, _w)
 	{
-		//b3Assert(!((_x==1.f) && (_y==0.f) && (_z==0.f) && (_w==0.f)));
+		//b3Assert(!((_x==1.0_fl) && (_y==0.0_fl) && (_z==0.0_fl) && (_w==0.0_fl)));
 	}
 	/**@brief Axis angle Constructor
    * @param axis The axis which the rotation is around
@@ -98,10 +98,10 @@ public:
 		axis.safeNormalize();
 		
 		b3Scalar d = axis.length();
-		b3Assert(d != b3Scalar(0.0));
+		b3Assert(d != b3Scalar(0.0_fl));
 		if (d < B3_EPSILON)
 		{
-			setValue(0, 0, 0, 1);
+			setValue(0.0_fl, 0.0_fl, 0.0_fl, 1.0_fl);
 		}
 		else
 		{
@@ -168,10 +168,10 @@ public:
 		sqy = m_floats[1] * m_floats[1];
 		sqz = m_floats[2] * m_floats[2];
 		squ = m_floats[3] * m_floats[3];
-		rollX = b3Atan2(2 * (m_floats[1] * m_floats[2] + m_floats[3] * m_floats[0]), squ - sqx - sqy + sqz);
+		rollX = b3Atan2(2.0_fl * (m_floats[1] * m_floats[2] + m_floats[3] * m_floats[0]), squ - sqx - sqy + sqz);
 		sarg = b3Scalar(-2.) * (m_floats[0] * m_floats[2] - m_floats[3] * m_floats[1]);
-		pitchY = sarg <= b3Scalar(-1.0) ? b3Scalar(-0.5) * B3_PI : (sarg >= b3Scalar(1.0) ? b3Scalar(0.5) * B3_PI : b3Asin(sarg));
-		yawZ = b3Atan2(2 * (m_floats[0] * m_floats[1] + m_floats[3] * m_floats[2]), squ + sqx - sqy - sqz);
+		pitchY = sarg <= b3Scalar(-1.0_fl) ? b3Scalar(-0.5) * B3_PI : (sarg >= b3Scalar(1.0_fl) ? b3Scalar(0.5) * B3_PI : b3Asin(sarg));
+		yawZ = b3Atan2(2.0_fl * (m_floats[0] * m_floats[1] + m_floats[3] * m_floats[2]), squ + sqx - sqy - sqz);
 	}
 
 	/**@brief Add two quaternions
@@ -397,16 +397,16 @@ public:
    * @param s The inverse scale factor */
 	b3Quaternion operator/(const b3Scalar& s) const
 	{
-		b3Assert(s != b3Scalar(0.0));
-		return *this * (b3Scalar(1.0) / s);
+		b3Assert(s != b3Scalar(0.0_fl));
+		return *this * (b3Scalar(1.0_fl) / s);
 	}
 
 	/**@brief Inversely scale this quaternion
    * @param s The scale factor */
 	b3Quaternion& operator/=(const b3Scalar& s)
 	{
-		b3Assert(s != b3Scalar(0.0));
-		return *this *= b3Scalar(1.0) / s;
+		b3Assert(s != b3Scalar(0.0_fl));
+		return *this *= b3Scalar(1.0_fl) / s;
 	}
 
 	/**@brief Return a normalized version of this quaternion */
@@ -419,7 +419,7 @@ public:
 	b3Scalar angle(const b3Quaternion& q) const
 	{
 		b3Scalar s = b3Sqrt(length2() * q.length2());
-		b3Assert(s != b3Scalar(0.0));
+		b3Assert(s != b3Scalar(0.0_fl));
 		return b3Acos(dot(q) / s);
 	}
 	/**@brief Return the angle of rotation represented by this quaternion */
@@ -432,11 +432,11 @@ public:
 	/**@brief Return the axis of the rotation represented by this quaternion */
 	b3Vector3 getAxis() const
 	{
-		b3Scalar s_squared = 1.f - m_floats[3] * m_floats[3];
+		b3Scalar s_squared = 1.0_fl - m_floats[3] * m_floats[3];
 
-		if (s_squared < b3Scalar(10.) * B3_EPSILON)  //Check for divide by zero
-			return b3MakeVector3(1.0, 0.0, 0.0);     // Arbitrary
-		b3Scalar s = 1.f / b3Sqrt(s_squared);
+		if (s_squared < b3Scalar(10.0_fl) * B3_EPSILON)  //Check for divide by zero
+			return b3MakeVector3(1.0_fl, 0.0_fl, 0.0_fl);     // Arbitrary
+		b3Scalar s = 1.0_fl / b3Sqrt(s_squared);
 		return b3MakeVector3(m_floats[0] * s, m_floats[1] * s, m_floats[2] * s);
 	}
 
@@ -530,12 +530,12 @@ public:
 		if (b3Fabs(product) < b3Scalar(1))
 		{
 			// Take care of long angle case see http://en.wikipedia.org/wiki/Slerp
-			const b3Scalar sign = (product < 0) ? b3Scalar(-1) : b3Scalar(1);
+			const b3Scalar sign = (product < 0.0_fl) ? b3Scalar(-1) : b3Scalar(1);
 
 			const b3Scalar theta = b3Acos(sign * product);
 			const b3Scalar s1 = b3Sin(sign * t * theta);
-			const b3Scalar d = b3Scalar(1.0) / b3Sin(theta);
-			const b3Scalar s0 = b3Sin((b3Scalar(1.0) - t) * theta);
+			const b3Scalar d = b3Scalar(1.0_fl) / b3Sin(theta);
+			const b3Scalar s0 = b3Sin((b3Scalar(1.0_fl) - t) * theta);
 
 			return b3Quaternion(
 				(m_floats[0] * s0 + q.getX() * s1) * d,
@@ -551,7 +551,7 @@ public:
 
 	static const b3Quaternion& getIdentity()
 	{
-		static const b3Quaternion identityQuat(b3Scalar(0.), b3Scalar(0.), b3Scalar(0.), b3Scalar(1.));
+		static const b3Quaternion identityQuat(b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(1.));
 		return identityQuat;
 	}
 
@@ -806,9 +806,9 @@ operator*(const b3Vector3& w, const b3Quaternion& q)
 
 #else
 	return b3Quaternion(
-		+w.getX() * q.getW() + w.getY() * q.getZ() - w.getZ() * q.getY(),
-		+w.getY() * q.getW() + w.getZ() * q.getX() - w.getX() * q.getZ(),
-		+w.getZ() * q.getW() + w.getX() * q.getY() - w.getY() * q.getX(),
+		w.getX() * q.getW() + w.getY() * q.getZ() - w.getZ() * q.getY(),
+		w.getY() * q.getW() + w.getZ() * q.getX() - w.getX() * q.getZ(),
+		w.getZ() * q.getW() + w.getX() * q.getY() - w.getY() * q.getX(),
 		-w.getX() * q.getX() - w.getY() * q.getY() - w.getZ() * q.getZ());
 #endif
 }
@@ -884,17 +884,17 @@ b3ShortestArcQuat(const b3Vector3& v0, const b3Vector3& v1)  // Game Programming
 	b3Vector3 c = v0.cross(v1);
 	b3Scalar d = v0.dot(v1);
 
-	if (d < -1.0 + B3_EPSILON)
+	if (d < -1.0_fl + B3_EPSILON)
 	{
 		b3Vector3 n, unused;
 		b3PlaneSpace1(v0, n, unused);
-		return b3Quaternion(n.getX(), n.getY(), n.getZ(), 0.0f);  // just pick any vector that is orthogonal to v0
+		return b3Quaternion(n.getX(), n.getY(), n.getZ(), 0.0_fl);  // just pick any vector that is orthogonal to v0
 	}
 
-	b3Scalar s = b3Sqrt((1.0f + d) * 2.0f);
-	b3Scalar rs = 1.0f / s;
+	b3Scalar s = b3Sqrt((1.0_fl + d) * 2.0_fl);
+	b3Scalar rs = 1.0_fl / s;
 
-	return b3Quaternion(c.getX() * rs, c.getY() * rs, c.getZ() * rs, s * 0.5f);
+	return b3Quaternion(c.getX() * rs, c.getY() * rs, c.getZ() * rs, s * 0.5_fl);
 }
 
 B3_FORCE_INLINE b3Quaternion

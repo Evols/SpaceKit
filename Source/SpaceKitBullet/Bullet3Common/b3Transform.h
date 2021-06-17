@@ -139,7 +139,7 @@ public:
 		m[12] = m_origin.getX();
 		m[13] = m_origin.getY();
 		m[14] = m_origin.getZ();
-		m[15] = b3Scalar(1.0);
+		m[15] = b3Scalar(1.0_fl);
 	}
 
 	/**@brief Set the translational element
@@ -167,7 +167,7 @@ public:
 	void setIdentity()
 	{
 		m_basis.setIdentity();
-		m_origin.setValue(b3Scalar(0.0), b3Scalar(0.0), b3Scalar(0.0));
+		m_origin.setValue(b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl));
 	}
 
 	/**@brief Multiply this Transform by another(this = this * another) 

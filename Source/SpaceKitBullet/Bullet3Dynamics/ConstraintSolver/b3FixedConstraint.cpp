@@ -31,9 +31,9 @@ void b3FixedConstraint::getInfo2(b3ConstraintInfo2* info, const b3RigidBodyData*
 	const b3Vector3& worldPosB = bodies[m_rbB].m_pos;
 	const b3Quaternion& worldOrnB = bodies[m_rbB].m_quat;
 
-	info->m_J1linearAxis[0] = 1;
-	info->m_J1linearAxis[info->rowskip + 1] = 1;
-	info->m_J1linearAxis[2 * info->rowskip + 2] = 1;
+	info->m_J1linearAxis[0] = 1_fl;
+	info->m_J1linearAxis[info->rowskip + 1] = 1_fl;
+	info->m_J1linearAxis[2 * info->rowskip + 2] = 1_fl;
 
 	b3Vector3 a1 = b3QuatRotate(worldOrnA, m_pivotInA);
 	{
@@ -46,9 +46,9 @@ void b3FixedConstraint::getInfo2(b3ConstraintInfo2* info, const b3RigidBodyData*
 
 	if (info->m_J2linearAxis)
 	{
-		info->m_J2linearAxis[0] = -1;
-		info->m_J2linearAxis[info->rowskip + 1] = -1;
-		info->m_J2linearAxis[2 * info->rowskip + 2] = -1;
+		info->m_J2linearAxis[0] = -1_fl;
+		info->m_J2linearAxis[info->rowskip + 1] = -1_fl;
+		info->m_J2linearAxis[2 * info->rowskip + 2] = -1_fl;
 	}
 
 	b3Vector3 a2 = b3QuatRotate(worldOrnB, m_pivotInB);
@@ -78,14 +78,14 @@ void b3FixedConstraint::getInfo2(b3ConstraintInfo2* info, const b3RigidBodyData*
 	int start_index = start_row * s;
 
 	// 3 rows to make body rotations equal
-	info->m_J1angularAxis[start_index] = 1;
-	info->m_J1angularAxis[start_index + s + 1] = 1;
-	info->m_J1angularAxis[start_index + s * 2 + 2] = 1;
+	info->m_J1angularAxis[start_index] = 1_fl;
+	info->m_J1angularAxis[start_index + s + 1] = 1_fl;
+	info->m_J1angularAxis[start_index + s * 2 + 2] = 1_fl;
 	if (info->m_J2angularAxis)
 	{
-		info->m_J2angularAxis[start_index] = -1;
-		info->m_J2angularAxis[start_index + s + 1] = -1;
-		info->m_J2angularAxis[start_index + s * 2 + 2] = -1;
+		info->m_J2angularAxis[start_index] = -1_fl;
+		info->m_J2angularAxis[start_index + s + 1] = -1_fl;
+		info->m_J2angularAxis[start_index + s * 2 + 2] = -1_fl;
 	}
 
 	// set right hand side for the angular dofs

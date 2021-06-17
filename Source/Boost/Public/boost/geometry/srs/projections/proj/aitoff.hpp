@@ -221,7 +221,7 @@ namespace projections
 
                 proj_parm.mode = mode_winkel_tripel;
                 if (pj_param_r<srs::spar::lat_1>(params, "lat_1", srs::dpar::lat_1, phi1)) {
-                    if ((proj_parm.cosphi1 = cos(phi1)) == 0.)
+                    if ((proj_parm.cosphi1 = cos(phi1)) == 0.0_fl)
                         BOOST_THROW_EXCEPTION( projection_exception(error_lat_larger_than_90) );
                 } else /* 50d28' or phi1=acos(2/pi) */
                     proj_parm.cosphi1 = two_div_pi;

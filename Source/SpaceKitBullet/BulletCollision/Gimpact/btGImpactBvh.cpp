@@ -67,8 +67,8 @@ int btBvhTree::_calc_splitting_axis(
 {
 	int i;
 
-	btVector3 means(btScalar(0.), btScalar(0.), btScalar(0.));
-	btVector3 variance(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 means(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	btVector3 variance(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	int numIndices = endIndex - startIndex;
 
 	for (i = startIndex; i < endIndex; i++)
@@ -87,7 +87,7 @@ int btBvhTree::_calc_splitting_axis(
 		diff2 = diff2 * diff2;
 		variance += diff2;
 	}
-	variance *= (btScalar(1.) / ((btScalar)numIndices - 1));
+	variance *= (btScalar(1.) / ((btScalar)numIndices - 1_fl));
 
 	return variance.maxAxis();
 }
@@ -101,9 +101,9 @@ int btBvhTree::_sort_and_calc_splitting_index(
 	int numIndices = endIndex - startIndex;
 
 	// average of centers
-	btScalar splitValue = 0.0f;
+	btScalar splitValue = 0.0_fl;
 
-	btVector3 means(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 means(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	for (i = startIndex; i < endIndex; i++)
 	{
 		btVector3 center = btScalar(0.5) * (primitive_boxes[i].m_bound.m_max +

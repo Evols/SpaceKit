@@ -180,7 +180,7 @@ struct btConnectivityProcessor : public btTriangleCallback
 				}
 
 				btScalar angle2 = 0;
-				btScalar ang4 = 0.f;
+				btScalar ang4 = 0.0_fl;
 
 				btVector3 calculatedEdge = edgeCrossA.cross(edgeCrossB);
 				btScalar len2 = calculatedEdge.length2();
@@ -191,8 +191,8 @@ struct btConnectivityProcessor : public btTriangleCallback
 
 				if (len2 < m_triangleInfoMap->m_planarEpsilon)
 				{
-					angle2 = 0.f;
-					ang4 = 0.f;
+					angle2 = 0.0_fl;
+					ang4 = 0.0_fl;
 				}
 				else
 				{
@@ -203,7 +203,7 @@ struct btConnectivityProcessor : public btTriangleCallback
 					ang4 = SIMD_PI - angle2;
 					btScalar dotA = normalA.dot(edgeCrossB);
 					///@todo: check if we need some epsilon, due to floating point imprecision
-					isConvex = (dotA < 0.);
+					isConvex = (dotA < 0.0_fl);
 
 					correctedAngle = isConvex ? ang4 : -ang4;
 				}
@@ -543,7 +543,7 @@ void btAdjustInternalEdgeContacts(btManifoldPoint& cp, const btCollisionObjectWr
 	if (!info)
 		return;
 
-	btScalar frontFacing = (normalAdjustFlags & BT_TRIANGLE_CONVEX_BACKFACE_MODE) == 0 ? 1.f : -1.f;
+	btScalar frontFacing = (normalAdjustFlags & BT_TRIANGLE_CONVEX_BACKFACE_MODE) == 0 ? 1.0_fl : -1.0_fl;
 
 	const btTriangleShape* tri_shape = static_cast<const btTriangleShape*>(colObj0Wrap->getCollisionShape());
 	btVector3 v0, v1, v2;
@@ -553,7 +553,7 @@ void btAdjustInternalEdgeContacts(btManifoldPoint& cp, const btCollisionObjectWr
 
 	//btVector3 center = (v0+v1+v2)*btScalar(1./3.);
 
-	btVector3 red(1, 0, 0), green(0, 1, 0), blue(0, 0, 1), white(1, 1, 1), black(0, 0, 0);
+	btVector3 red(1, 0, 0), green(0, 1, 0), blue(0, 0, 1), white(1, 1, 1), black(0_fl, 0_fl, 0_fl);
 	btVector3 tri_normal;
 	tri_shape->calcNormal(tri_normal);
 

@@ -104,8 +104,8 @@ btVector3 TriNormal(const btVector3 &v0, const btVector3 &v1, const btVector3 &v
 	// inscribed by v0, v1, and v2
 	btVector3 cp = btCross(v1 - v0, v2 - v1);
 	btScalar m = cp.length();
-	if (m == 0) return btVector3(1, 0, 0);
-	return cp * (btScalar(1.0) / m);
+	if (m == 0.0_fl) return btVector3(1.0_fl, 0.0_fl, 0.0_fl);
+	return cp * (btScalar(1.0_fl) / m);
 }
 
 btScalar DistanceBetweenLines(const btVector3 &ustart, const btVector3 &udir, const btVector3 &vstart, const btVector3 &vdir, btVector3 *upoint, btVector3 *vpoint)
@@ -115,7 +115,7 @@ btScalar DistanceBetweenLines(const btVector3 &ustart, const btVector3 &udir, co
 
 	btScalar distu = -btDot(cp, ustart);
 	btScalar distv = -btDot(cp, vstart);
-	btScalar dist = (btScalar)fabs(distu - distv);
+	btScalar dist = (btScalar)URealFloatMath::Abs(distu - distv);
 	if (upoint)
 	{
 		btPlane plane;
@@ -217,8 +217,8 @@ int maxdirfiltered(const T *p, int count, const T &dir, btAlignedObjectArray<int
 btVector3 orth(const btVector3 &v);
 btVector3 orth(const btVector3 &v)
 {
-	btVector3 a = btCross(v, btVector3(0, 0, 1));
-	btVector3 b = btCross(v, btVector3(0, 1, 0));
+	btVector3 a = btCross(v, btVector3(0.0_fl, 0.0_fl, 1.0_fl));
+	btVector3 b = btCross(v, btVector3(0.0_fl, 1.0_fl, 0.0_fl));
 	if (a.length() > b.length())
 	{
 		return a.normalized();
@@ -240,7 +240,7 @@ int maxdirsterid(const T *p, int count, const T &dir, btAlignedObjectArray<int> 
 		T u = orth(dir);
 		T v = btCross(u, dir);
 		int ma = -1;
-		for (btScalar x = btScalar(0.0); x <= btScalar(360.0); x += btScalar(45.0))
+		for (btScalar x = btScalar(0.0_fl); x <= btScalar(360.0); x += btScalar(45.0))
 		{
 			btScalar s = btSin(SIMD_RADS_PER_DEG * (x));
 			btScalar c = btCos(SIMD_RADS_PER_DEG * (x));
@@ -330,7 +330,7 @@ public:
 	btHullTriangle(int a, int b, int c) : int3(a, b, c), n(-1, -1, -1)
 	{
 		vmax = -1;
-		rise = btScalar(0.0);
+		rise = btScalar(0.0_fl);
 	}
 	~btHullTriangle()
 	{
@@ -457,11 +457,11 @@ btHullTriangle *HullLibrary::extrudable(btScalar epsilon)
 int4 HullLibrary::FindSimplex(btVector3 *verts, int verts_count, btAlignedObjectArray<int> &allow)
 {
 	btVector3 basis[3];
-	basis[0] = btVector3(btScalar(0.01), btScalar(0.02), btScalar(1.0));
+	basis[0] = btVector3(btScalar(0.01), btScalar(0.02), btScalar(1.0_fl));
 	int p0 = maxdirsterid(verts, verts_count, basis[0], allow);
 	int p1 = maxdirsterid(verts, verts_count, -basis[0], allow);
 	basis[0] = verts[p0] - verts[p1];
-	if (p0 == p1 || basis[0] == btVector3(0, 0, 0))
+	if (p0 == p1 || basis[0] == btVector3(0.0_fl, 0.0_fl, 0.0_fl))
 		return int4(-1, -1, -1, -1);
 	basis[1] = btCross(btVector3(btScalar(1), btScalar(0.02), btScalar(0)), basis[0]);
 	basis[2] = btCross(btVector3(btScalar(-0.02), btScalar(1), btScalar(0)), basis[0]);
@@ -488,7 +488,7 @@ int4 HullLibrary::FindSimplex(btVector3 *verts, int verts_count, btAlignedObject
 	if (p3 == p0 || p3 == p1 || p3 == p2)
 		return int4(-1, -1, -1, -1);
 	btAssert(!(p0 == p1 || p0 == p2 || p0 == p3 || p1 == p2 || p1 == p3 || p2 == p3));
-	if (btDot(verts[p3] - verts[p0], btCross(verts[p1] - verts[p0], verts[p2] - verts[p0])) < 0)
+	if (btDot(verts[p3] - verts[p0], btCross(verts[p1] - verts[p0], verts[p2] - verts[p0])) < 0.0_fl)
 	{
 		btSwap(p2, p3);
 	}
@@ -514,7 +514,7 @@ int HullLibrary::calchullgen(btVector3 *verts, int verts_count, int vlimit)
 		bmax.setMax(verts[j]);
 	}
 	btScalar epsilon = (bmax - bmin).length() * btScalar(0.001);
-	btAssert(epsilon != 0.0);
+	btAssert(epsilon != 0.0_fl);
 
 	int4 p = FindSimplex(verts, verts_count, allow);
 	if (p.x == -1) return 0;  // simplex failed
@@ -570,7 +570,7 @@ int HullLibrary::calchullgen(btVector3 *verts, int verts_count, int vlimit)
 			if (!m_tris[j]) continue;
 			if (!hasvert(*m_tris[j], v)) break;
 			int3 nt = *m_tris[j];
-			if (above(verts, nt, center, btScalar(0.01) * epsilon) || btCross(verts[nt[1]] - verts[nt[0]], verts[nt[2]] - verts[nt[1]]).length() < epsilon * epsilon * btScalar(0.1))
+			if (above(verts, nt, center, btScalar(0.01) * epsilon) || btCross(verts[nt[1]] - verts[nt[0]], verts[nt[2]] - verts[nt[1]]).length() < epsilon * epsilon * btScalar(0.1_fl))
 			{
 				btHullTriangle *nb = m_tris[m_tris[j]->n[0]];
 				btAssert(nb);
@@ -835,17 +835,17 @@ bool HullLibrary::CleanupVertices(unsigned int svcount,
 
 	vcount = 0;
 
-	btScalar recip[3] = {0.f, 0.f, 0.f};
+	btScalar recip[3] = {0.0_fl, 0.0_fl, 0.0_fl};
 
 	if (scale)
 	{
-		scale[0] = 1;
-		scale[1] = 1;
-		scale[2] = 1;
+		scale[0] = 1.0_fl;
+		scale[1] = 1.0_fl;
+		scale[2] = 1.0_fl;
 	}
 
-	btScalar bmin[3] = {FLT_MAX, FLT_MAX, FLT_MAX};
-	btScalar bmax[3] = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
+	btScalar bmin[3] = {1e200_fl, 1e200_fl, 1e200_fl};
+	btScalar bmax[3] = {-1e200_fl, -1e200_fl, -1e200_fl};
 
 	const char *vtx = (const char *)svertices;
 
@@ -877,13 +877,13 @@ bool HullLibrary::CleanupVertices(unsigned int svcount,
 
 	if (dx < EPSILON || dy < EPSILON || dz < EPSILON || svcount < 3)
 	{
-		btScalar len = FLT_MAX;
+		btScalar len = 1e200_fl;
 
 		if (dx > EPSILON && dx < len) len = dx;
 		if (dy > EPSILON && dy < len) len = dy;
 		if (dz > EPSILON && dz < len) len = dz;
 
-		if (len == FLT_MAX)
+		if (len == 1e200_fl)
 		{
 			dx = dy = dz = btScalar(0.01);  // one centimeter
 		}
@@ -922,9 +922,9 @@ bool HullLibrary::CleanupVertices(unsigned int svcount,
 			scale[1] = dy;
 			scale[2] = dz;
 
-			recip[0] = 1 / dx;
-			recip[1] = 1 / dy;
-			recip[2] = 1 / dz;
+			recip[0] = 1.0_fl / dx;
+			recip[1] = 1.0_fl / dy;
+			recip[2] = 1.0_fl / dz;
 
 			center[0] *= recip[0];
 			center[1] *= recip[1];
@@ -1002,8 +1002,8 @@ bool HullLibrary::CleanupVertices(unsigned int svcount,
 	// ok..now make sure we didn't prune so many vertices it is now invalid.
 	//	if ( 1 )
 	{
-		btScalar bmin[3] = {FLT_MAX, FLT_MAX, FLT_MAX};
-		btScalar bmax[3] = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
+		btScalar bmin[3] = {1e200_fl, 1e200_fl, 1e200_fl};
+		btScalar bmax[3] = {-1e200_fl, -1e200_fl, -1e200_fl};
 
 		for (unsigned int i = 0; i < vcount; i++)
 		{
@@ -1025,13 +1025,13 @@ bool HullLibrary::CleanupVertices(unsigned int svcount,
 			btScalar cy = dy * btScalar(0.5) + bmin[1];
 			btScalar cz = dz * btScalar(0.5) + bmin[2];
 
-			btScalar len = FLT_MAX;
+			btScalar len = 1e200_fl;
 
 			if (dx >= EPSILON && dx < len) len = dx;
 			if (dy >= EPSILON && dy < len) len = dy;
 			if (dz >= EPSILON && dz < len) len = dz;
 
-			if (len == FLT_MAX)
+			if (len == 1e200_fl)
 			{
 				dx = dy = dz = btScalar(0.01);  // one centimeter
 			}

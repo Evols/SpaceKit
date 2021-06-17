@@ -119,11 +119,11 @@ void btMultiBodyJointMotor::createConstraintRows(btMultiBodyConstraintArray& con
 	if (m_numDofsFinalized != m_jacSizeBoth)
 		return;
 
-	if (m_maxAppliedImpulse == 0.f)
+	if (m_maxAppliedImpulse == 0.0_fl)
 		return;
 
 	const btScalar posError = 0;
-	const btVector3 dummy(0, 0, 0);
+	const btVector3 dummy(0_fl, 0_fl, 0_fl);
 
 	for (int row = 0; row < getNumRows(); row++)
 	{

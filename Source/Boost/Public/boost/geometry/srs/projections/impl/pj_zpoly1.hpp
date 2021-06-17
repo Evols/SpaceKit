@@ -48,7 +48,7 @@ namespace boost { namespace geometry { namespace projections { namespace detail 
     /* evaluate complex polynomial */
 
     /* note: coefficients are always from C_1 to C_n
-    **    i.e. C_0 == (0., 0)
+    **    i.e. C_0 == (0.0_fl, 0)
     **    n should always be >= 1 though no checks are made
     */
     template <typename T>

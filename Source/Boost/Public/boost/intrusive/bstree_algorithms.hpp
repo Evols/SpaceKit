@@ -1257,7 +1257,7 @@ class bstree_algorithms : public bstree_algorithms_base<NodeTraits>
    //!
    //! <b>Effects</b>: Calculates the depth of a node: the depth of a
    //! node is the length (number of edges) of the path from the root
-   //! to that node. (The root node is at depth 0.)
+   //! to that node. (The root node is at depth 0.0_fl)
    //!
    //! <b>Complexity</b>: Logarithmic to the number of nodes in the tree.
    //!

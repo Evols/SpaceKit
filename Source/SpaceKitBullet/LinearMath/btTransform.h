@@ -138,7 +138,7 @@ public:
 		m[12] = m_origin.x();
 		m[13] = m_origin.y();
 		m[14] = m_origin.z();
-		m[15] = btScalar(1.0);
+		m[15] = btScalar(1.0_fl);
 	}
 
 	/**@brief Set the translational element
@@ -166,7 +166,7 @@ public:
 	void setIdentity()
 	{
 		m_basis.setIdentity();
-		m_origin.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
+		m_origin.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 	}
 
 	/**@brief Multiply this Transform by another(this = this * another) 

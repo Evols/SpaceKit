@@ -29,7 +29,7 @@ typedef float4 b3Quat;
 
 inline float4 b3FastNormalize4(float4 v)
 {
-	v = (float4)(v.xyz, 0.f);
+	v = (float4)(v.xyz, 0.0_fl);
 	return fast_normalize(v);
 }
 
@@ -55,14 +55,14 @@ inline b3Quat b3QuatNormalized(b3QuatConstArg in)
 	q = in;
 	//return b3FastNormalize4(in);
 	float len = native_sqrt(dot(q, q));
-	if (len > 0.f)
+	if (len > 0.0_fl)
 	{
-		q *= 1.f / len;
+		q *= 1.0_fl / len;
 	}
 	else
 	{
-		q.x = q.y = q.z = 0.f;
-		q.w = 1.f;
+		q.x = q.y = q.z = 0.0_fl;
+		q.w = 1.0_fl;
 	}
 	return q;
 }
@@ -70,7 +70,7 @@ inline float4 b3QuatRotate(b3QuatConstArg q, b3QuatConstArg vec)
 {
 	b3Quat qInv = b3QuatInvert(q);
 	float4 vcpy = vec;
-	vcpy.w = 0.f;
+	vcpy.w = 0.0_fl;
 	float4 out = b3QuatMul(b3QuatMul(q, vcpy), qInv);
 	return out;
 }

@@ -33,7 +33,7 @@ void SphereTriangleDetector::getClosestPoints(const ClosestPointInput& input, Re
 
 	btVector3 point, normal;
 	btScalar timeOfImpact = btScalar(1.);
-	btScalar depth = btScalar(0.);
+	btScalar depth = btScalar(0.0_fl);
 	//	output.m_distance = btScalar(BT_LARGE_FLOAT);
 	//move sphere into triangle space
 	btTransform sphereInTr = transformB.inverseTimes(transformA);
@@ -113,7 +113,7 @@ bool SphereTriangleDetector::collide(const btVector3& sphereCenter, btVector3& p
 		btVector3 p1ToCentre = sphereCenter - vertices[0];
 		btScalar distanceFromPlane = p1ToCentre.dot(normal);
 
-		if (distanceFromPlane < btScalar(0.))
+		if (distanceFromPlane < btScalar(0.0_fl))
 		{
 			//triangle facing the other way
 			distanceFromPlane *= btScalar(-1.);

@@ -50,10 +50,10 @@ btUniversalConstraint::btUniversalConstraint(btRigidBody& rbA, btRigidBody& rbB,
 	m_frameInA = rbA.getCenterOfMassTransform().inverse() * frameInW;
 	m_frameInB = rbB.getCenterOfMassTransform().inverse() * frameInW;
 	// sei limits
-	setLinearLowerLimit(btVector3(0., 0., 0.));
-	setLinearUpperLimit(btVector3(0., 0., 0.));
-	setAngularLowerLimit(btVector3(0.f, -SIMD_HALF_PI + UNIV_EPS, -SIMD_PI + UNIV_EPS));
-	setAngularUpperLimit(btVector3(0.f, SIMD_HALF_PI - UNIV_EPS, SIMD_PI - UNIV_EPS));
+	setLinearLowerLimit(btVector3(0.0_fl, 0.0_fl, 0.0_fl));
+	setLinearUpperLimit(btVector3(0.0_fl, 0.0_fl, 0.0_fl));
+	setAngularLowerLimit(btVector3(0.0_fl, -SIMD_HALF_PI + UNIV_EPS, -SIMD_PI + UNIV_EPS));
+	setAngularUpperLimit(btVector3(0.0_fl, SIMD_HALF_PI - UNIV_EPS, SIMD_PI - UNIV_EPS));
 }
 
 void btUniversalConstraint::setAxis(const btVector3& axis1, const btVector3& axis2)

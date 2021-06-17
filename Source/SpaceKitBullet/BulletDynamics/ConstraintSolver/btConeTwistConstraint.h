@@ -214,7 +214,7 @@ public:
 			default:
 			{
 				btAssert(0 && "Invalid limitIndex specified for btConeTwistConstraint");
-				return 0.0;
+				return 0.0_fl;
 			}
 		};
 	}
@@ -223,14 +223,14 @@ public:
 	// _softness:
 	//		0->1, recommend ~0.8->1.
 	//		describes % of limits where movement is free.
-	//		beyond this softness %, the limit is gradually enforced until the "hard" (1.0) limit is reached.
+	//		beyond this softness %, the limit is gradually enforced until the "hard" (1.0_fl) limit is reached.
 	// _biasFactor:
 	//		0->1?, recommend 0.3 +/-0.3 or so.
 	//		strength with which constraint resists zeroth order (angular, not angular velocity) limit violation.
 	// __relaxationFactor:
 	//		0->1, recommend to stay near 1.
 	//		the lower the value, the less the constraint will fight velocities which violate the angular limits.
-	void setLimit(btScalar _swingSpan1, btScalar _swingSpan2, btScalar _twistSpan, btScalar _softness = 1.f, btScalar _biasFactor = 0.3f, btScalar _relaxationFactor = 1.0f)
+	void setLimit(btScalar _swingSpan1, btScalar _swingSpan2, btScalar _twistSpan, btScalar _softness = 1.0_fl, btScalar _biasFactor = 0.3_fl, btScalar _relaxationFactor = 1.0_fl)
 	{
 		m_swingSpan1 = _swingSpan1;
 		m_swingSpan2 = _swingSpan2;
@@ -409,13 +409,13 @@ SIMD_FORCE_INLINE const char* btConeTwistConstraint::serialize(void* dataBuffer,
 	m_rbAFrame.serialize(cone->m_rbAFrame);
 	m_rbBFrame.serialize(cone->m_rbBFrame);
 
-	cone->m_swingSpan1 = m_swingSpan1;
-	cone->m_swingSpan2 = m_swingSpan2;
-	cone->m_twistSpan = m_twistSpan;
-	cone->m_limitSoftness = m_limitSoftness;
-	cone->m_biasFactor = m_biasFactor;
-	cone->m_relaxationFactor = m_relaxationFactor;
-	cone->m_damping = m_damping;
+	cone->m_swingSpan1 = m_swingSpan1.ToDouble();
+	cone->m_swingSpan2 = m_swingSpan2.ToDouble();
+	cone->m_twistSpan = m_twistSpan.ToDouble();
+	cone->m_limitSoftness = m_limitSoftness.ToDouble();
+	cone->m_biasFactor = m_biasFactor.ToDouble();
+	cone->m_relaxationFactor = m_relaxationFactor.ToDouble();
+	cone->m_damping = m_damping.ToDouble();
 
 	return btConeTwistConstraintDataName;
 }

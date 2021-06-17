@@ -37,7 +37,7 @@ namespace boost
 
 
 //  Specified single-bit mask class declaration  -----------------------------//
-//  (Lowest bit starts counting at 0.)
+//  (Lowest bit starts counting at 0.0_fl)
 
 template < std::size_t Bit >
 struct high_bit_mask_t

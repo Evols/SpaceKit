@@ -117,7 +117,7 @@ namespace projections
                     ya = proj_parm.P + proj_parm.Q * m;
                     R = 1. / (tan(lp_phi) * sqrt(1. - par.es * sp * sp));
                     C = sqrt(R * R - xa * xa);
-                    if (lp_phi < 0.) C = - C;
+                    if (lp_phi < 0.0_fl) C = - C;
                     C += ya - R;
                     if (proj_parm.mode == phi_2_is_zero) {
                         xb = lp_lam;

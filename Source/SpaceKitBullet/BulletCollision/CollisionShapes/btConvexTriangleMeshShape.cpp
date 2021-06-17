@@ -38,7 +38,7 @@ public:
 	btVector3 m_supportVecLocal;
 
 	LocalSupportVertexCallback(const btVector3& supportVecLocal)
-		: m_supportVertexLocal(btScalar(0.), btScalar(0.), btScalar(0.)),
+		: m_supportVertexLocal(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl)),
 		  m_maxDot(btScalar(-BT_LARGE_FLOAT)),
 		  m_supportVecLocal(supportVecLocal)
 	{
@@ -68,13 +68,13 @@ public:
 
 btVector3 btConvexTriangleMeshShape::localGetSupportingVertexWithoutMargin(const btVector3& vec0) const
 {
-	btVector3 supVec(btScalar(0.), btScalar(0.), btScalar(0.));
+	btVector3 supVec(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 
 	btVector3 vec = vec0;
 	btScalar lenSqr = vec.length2();
 	if (lenSqr < btScalar(0.0001))
 	{
-		vec.setValue(1, 0, 0);
+		vec.setValue(1.0_fl, 0.0_fl, 0.0_fl);
 	}
 	else
 	{
@@ -116,7 +116,7 @@ btVector3 btConvexTriangleMeshShape::localGetSupportingVertex(const btVector3& v
 {
 	btVector3 supVertex = localGetSupportingVertexWithoutMargin(vec);
 
-	if (getMargin() != btScalar(0.))
+	if (getMargin() != btScalar(0.0_fl))
 	{
 		btVector3 vecnorm = vec;
 		if (vecnorm.length2() < (SIMD_EPSILON * SIMD_EPSILON))
@@ -191,7 +191,7 @@ void btConvexTriangleMeshShape::calculatePrincipalAxisTransform(btTransform& pri
 		btScalar volume;
 
 	public:
-		CenterCallback() : first(true), ref(0, 0, 0), sum(0, 0, 0), volume(0)
+		CenterCallback() : first(true), ref(0_fl, 0_fl, 0_fl), sum(0_fl, 0_fl, 0_fl), volume(0)
 		{
 		}
 
@@ -214,7 +214,7 @@ void btConvexTriangleMeshShape::calculatePrincipalAxisTransform(btTransform& pri
 
 		btVector3 getCenter()
 		{
-			return (volume > 0) ? sum / volume : ref;
+			return (volume > 0_fl) ? sum / volume : ref;
 		}
 
 		btScalar getVolume()
@@ -229,7 +229,7 @@ void btConvexTriangleMeshShape::calculatePrincipalAxisTransform(btTransform& pri
 		btVector3 center;
 
 	public:
-		InertiaCallback(btVector3& center) : sum(0, 0, 0, 0, 0, 0, 0, 0, 0), center(center)
+		InertiaCallback(btVector3& center) : sum(0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl, 0_fl), center(center)
 		{
 		}
 
@@ -246,7 +246,7 @@ void btConvexTriangleMeshShape::calculatePrincipalAxisTransform(btTransform& pri
 			{
 				for (int k = 0; k <= j; k++)
 				{
-					i[j][k] = i[k][j] = volNeg * (btScalar(0.1) * (a[j] * a[k] + b[j] * b[k] + c[j] * c[k]) + btScalar(0.05) * (a[j] * b[k] + a[k] * b[j] + a[j] * c[k] + a[k] * c[j] + b[j] * c[k] + b[k] * c[j]));
+					i[j][k] = i[k][j] = volNeg * (btScalar(0.1_fl) * (a[j] * a[k] + b[j] * b[k] + c[j] * c[k]) + btScalar(0.05) * (a[j] * b[k] + a[k] * b[j] + a[j] * c[k] + a[k] * c[j] + b[j] * c[k] + b[k] * c[j]));
 				}
 			}
 			btScalar i00 = -i[0][0];

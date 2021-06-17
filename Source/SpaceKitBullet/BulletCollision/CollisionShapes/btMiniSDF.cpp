@@ -48,16 +48,16 @@ bool btMiniSDF::load(const char* data, int size)
 
 	btSdfDataStream ds(data, size);
 	{
-		double buf[6];
+		btScalar buf[6];
 		ds.read(buf);
 		m_domain.m_min[0] = buf[0];
 		m_domain.m_min[1] = buf[1];
 		m_domain.m_min[2] = buf[2];
-		m_domain.m_min[3] = 0;
+		m_domain.m_min[3] = 0_fl;
 		m_domain.m_max[0] = buf[3];
 		m_domain.m_max[1] = buf[4];
 		m_domain.m_max[2] = buf[5];
-		m_domain.m_max[3] = 0;
+		m_domain.m_max[3] = 0_fl;
 	}
 	{
 		unsigned int buf2[3];
@@ -67,14 +67,14 @@ bool btMiniSDF::load(const char* data, int size)
 		m_resolution[2] = buf2[2];
 	}
 	{
-		double buf[3];
+		btScalar buf[3];
 		ds.read(buf);
 		m_cell_size[0] = buf[0];
 		m_cell_size[1] = buf[1];
 		m_cell_size[2] = buf[2];
 	}
 	{
-		double buf[3];
+		btScalar buf[3];
 		ds.read(buf);
 		m_inv_cell_size[0] = buf[0];
 		m_inv_cell_size[1] = buf[1];
@@ -104,11 +104,11 @@ bool btMiniSDF::load(const char* data, int size)
 	{
 		unsigned long long int n_nodes1;
 		ds.read(n_nodes1);
-		btAlignedObjectArray<double>& nodes = m_nodes[i];
+		btAlignedObjectArray<btScalar>& nodes = m_nodes[i];
 		nodes.resize(n_nodes1);
 		for (int j = 0; j < nodes.size(); j++)
 		{
-			double& node = nodes[j];
+			btScalar& node = nodes[j];
 			ds.read(node);
 		}
 	}
@@ -162,9 +162,9 @@ btMiniSDF::subdomain(btMultiIndex const& ijk) const
 {
 	btAssert(m_isValid);
 	btVector3 tmp;
-	tmp.m_floats[0] = m_cell_size[0] * (double)ijk.ijk[0];
-	tmp.m_floats[1] = m_cell_size[1] * (double)ijk.ijk[1];
-	tmp.m_floats[2] = m_cell_size[2] * (double)ijk.ijk[2];
+	tmp.m_floats[0] = m_cell_size[0] * btScalar(ijk.ijk[0]);
+	tmp.m_floats[1] = m_cell_size[1] * btScalar(ijk.ijk[1]);
+	tmp.m_floats[2] = m_cell_size[2] * btScalar(ijk.ijk[2]);
 
 	btVector3 origin = m_domain.min() + tmp;
 
@@ -209,21 +209,21 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 	btScalar y2 = y * y;
 	btScalar z2 = z * z;
 
-	btScalar _1mx = 1.0 - x;
-	btScalar _1my = 1.0 - y;
-	btScalar _1mz = 1.0 - z;
+	btScalar _1mx = 1.0_fl - x;
+	btScalar _1my = 1.0_fl - y;
+	btScalar _1mz = 1.0_fl - z;
 
-	btScalar _1px = 1.0 + x;
-	btScalar _1py = 1.0 + y;
-	btScalar _1pz = 1.0 + z;
+	btScalar _1px = 1.0_fl + x;
+	btScalar _1py = 1.0_fl + y;
+	btScalar _1pz = 1.0_fl + z;
 
-	btScalar _1m3x = 1.0 - 3.0 * x;
-	btScalar _1m3y = 1.0 - 3.0 * y;
-	btScalar _1m3z = 1.0 - 3.0 * z;
+	btScalar _1m3x = 1.0_fl - 3.0_fl * x;
+	btScalar _1m3y = 1.0_fl - 3.0_fl * y;
+	btScalar _1m3z = 1.0_fl - 3.0_fl * z;
 
-	btScalar _1p3x = 1.0 + 3.0 * x;
-	btScalar _1p3y = 1.0 + 3.0 * y;
-	btScalar _1p3z = 1.0 + 3.0 * z;
+	btScalar _1p3x = 1.0_fl + 3.0_fl * x;
+	btScalar _1p3y = 1.0_fl + 3.0_fl * y;
+	btScalar _1p3z = 1.0_fl + 3.0_fl * z;
 
 	btScalar _1mxt1my = _1mx * _1my;
 	btScalar _1mxt1py = _1mx * _1py;
@@ -240,12 +240,12 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 	btScalar _1pyt1mz = _1py * _1mz;
 	btScalar _1pyt1pz = _1py * _1pz;
 
-	btScalar _1mx2 = 1.0 - x2;
-	btScalar _1my2 = 1.0 - y2;
-	btScalar _1mz2 = 1.0 - z2;
+	btScalar _1mx2 = 1.0_fl - x2;
+	btScalar _1my2 = 1.0_fl - y2;
+	btScalar _1mz2 = 1.0_fl - z2;
 
 	// Corner nodes.
-	btScalar fac = 1.0 / 64.0 * (9.0 * (x2 + y2 + z2) - 19.0);
+	btScalar fac = 1.0_fl / 64.0_fl * (9.0_fl * (x2 + y2 + z2) - 19.0_fl);
 	res[0] = fac * _1mxt1my * _1mz;
 	res[1] = fac * _1pxt1my * _1mz;
 	res[2] = fac * _1mxt1py * _1mz;
@@ -257,7 +257,7 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 
 	// Edge nodes.
 
-	fac = 9.0 / 64.0 * _1mx2;
+	fac = 9.0_fl / 64.0_fl * _1mx2;
 	btScalar fact1m3x = fac * _1m3x;
 	btScalar fact1p3x = fac * _1p3x;
 	res[8] = fact1m3x * _1myt1mz;
@@ -269,7 +269,7 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 	res[14] = fact1m3x * _1pyt1pz;
 	res[15] = fact1p3x * _1pyt1pz;
 
-	fac = 9.0 / 64.0 * _1my2;
+	fac = 9.0_fl / 64.0_fl * _1my2;
 	btScalar fact1m3y = fac * _1m3y;
 	btScalar fact1p3y = fac * _1p3y;
 	res[16] = fact1m3y * _1mxt1mz;
@@ -281,7 +281,7 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 	res[22] = fact1m3y * _1pxt1pz;
 	res[23] = fact1p3y * _1pxt1pz;
 
-	fac = 9.0 / 64.0 * _1mz2;
+	fac = 9.0_fl / 64.0_fl * _1mz2;
 	btScalar fact1m3z = fac * _1m3z;
 	btScalar fact1p3z = fac * _1p3z;
 	res[24] = fact1m3z * _1mxt1my;
@@ -297,20 +297,20 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 	{
 		btShapeGradients& dN = *gradient;
 
-		btScalar _9t3x2py2pz2m19 = 9.0 * (3.0 * x2 + y2 + z2) - 19.0;
-		btScalar _9tx2p3y2pz2m19 = 9.0 * (x2 + 3.0 * y2 + z2) - 19.0;
-		btScalar _9tx2py2p3z2m19 = 9.0 * (x2 + y2 + 3.0 * z2) - 19.0;
-		btScalar _18x = 18.0 * x;
-		btScalar _18y = 18.0 * y;
-		btScalar _18z = 18.0 * z;
+		btScalar _9t3x2py2pz2m19 = 9.0_fl * (3.0_fl * x2 + y2 + z2) - 19.0_fl;
+		btScalar _9tx2p3y2pz2m19 = 9.0_fl * (x2 + 3.0_fl * y2 + z2) - 19.0_fl;
+		btScalar _9tx2py2p3z2m19 = 9.0_fl * (x2 + y2 + 3.0_fl * z2) - 19.0_fl;
+		btScalar _18x = 18.0_fl * x;
+		btScalar _18y = 18.0_fl * y;
+		btScalar _18z = 18.0_fl * z;
 
-		btScalar _3m9x2 = 3.0 - 9.0 * x2;
-		btScalar _3m9y2 = 3.0 - 9.0 * y2;
-		btScalar _3m9z2 = 3.0 - 9.0 * z2;
+		btScalar _3m9x2 = 3.0_fl - 9.0_fl * x2;
+		btScalar _3m9y2 = 3.0_fl - 9.0_fl * y2;
+		btScalar _3m9z2 = 3.0_fl - 9.0_fl * z2;
 
-		btScalar _2x = 2.0 * x;
-		btScalar _2y = 2.0 * y;
-		btScalar _2z = 2.0 * z;
+		btScalar _2x = 2.0_fl * x;
+		btScalar _2y = 2.0_fl * y;
+		btScalar _2z = 2.0_fl * z;
 
 		btScalar _18xm9t3x2py2pz2m19 = _18x - _9t3x2py2pz2m19;
 		btScalar _18xp9t3x2py2pz2m19 = _18x + _9t3x2py2pz2m19;
@@ -344,7 +344,7 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 		dN(7, 1) = _1pxt1pz * _18yp9tx2p3y2pz2m19;
 		dN(7, 2) = _1pxt1py * _18zp9tx2py2p3z2m19;
 
-		dN.topRowsDivide(8, 64.0);
+		dN.topRowsDivide(8, 64.0_fl);
 
 		btScalar _m3m9x2m2x = -_3m9x2 - _2x;
 		btScalar _p3m9x2m2x = _3m9x2 - _2x;
@@ -433,13 +433,13 @@ btMiniSDF::shape_function_(btVector3 const& xi, btShapeGradients* gradient) cons
 			   dN(31, 1) = _1mz2t1p3z * _1px,
 			   dN(31, 2) = _p3m9z2m2z * _1pxt1py;
 
-		dN.bottomRowsMul(32u - 8u, 9.0 / 64.0);
+		dN.bottomRowsMul(32u - 8u, 9.0_fl / 64.0_fl);
 	}
 
 	return res;
 }
 
-bool btMiniSDF::interpolate(unsigned int field_id, double& dist, btVector3 const& x,
+bool btMiniSDF::interpolate(unsigned int field_id, btScalar& dist, btVector3 const& x,
 							btVector3* gradient) const
 {
 	btAssert(m_isValid);
@@ -450,7 +450,7 @@ bool btMiniSDF::interpolate(unsigned int field_id, double& dist, btVector3 const
 		return false;
 
 	btVector3 tmpmi = ((x - m_domain.min()) * (m_inv_cell_size));  //.cast<unsigned int>().eval();
-	unsigned int mi[3] = {(unsigned int)tmpmi[0], (unsigned int)tmpmi[1], (unsigned int)tmpmi[2]};
+	unsigned int mi[3] = {(unsigned int)tmpmi[0].ToDouble(), (unsigned int)tmpmi[1].ToDouble(), (unsigned int)tmpmi[2].ToDouble()};
 	if (mi[0] >= m_resolution[0])
 		mi[0] = m_resolution[0] - 1;
 	if (mi[1] >= m_resolution[1])
@@ -471,7 +471,7 @@ bool btMiniSDF::interpolate(unsigned int field_id, double& dist, btVector3 const
 	btVector3 d = sd.m_max - sd.m_min;  //.diagonal().eval();
 
 	btVector3 denom = (sd.max() - sd.min());
-	btVector3 c0 = btVector3(2.0, 2.0, 2.0) / denom;
+	btVector3 c0 = btVector3(2.0_fl, 2.0_fl, 2.0_fl) / denom;
 	btVector3 c1 = (sd.max() + sd.min()) / denom;
 	btVector3 xi = (c0 * x - c1);
 
@@ -479,16 +479,15 @@ bool btMiniSDF::interpolate(unsigned int field_id, double& dist, btVector3 const
 	if (!gradient)
 	{
 		//auto phi = m_coefficients[field_id][i].dot(shape_function_(xi, 0));
-		double phi = 0.0;
+		btScalar phi = 0.0_fl;
 		btShapeMatrix N = shape_function_(xi, 0);
 		for (unsigned int j = 0u; j < 32u; ++j)
 		{
 			unsigned int v = cell.m_cells[j];
-			double c = m_nodes[field_id][v];
-			if (c == DBL_MAX)
+			btScalar c = m_nodes[field_id][v];
+			if (c == BIGFLOAT_MAX)
 			{
 				return false;
-				;
 			}
 			phi += c * N[j];
 		}
@@ -500,13 +499,13 @@ bool btMiniSDF::interpolate(unsigned int field_id, double& dist, btVector3 const
 	btShapeGradients dN;
 	btShapeMatrix N = shape_function_(xi, &dN);
 
-	double phi = 0.0;
+	btScalar phi = 0.0_fl;
 	gradient->setZero();
 	for (unsigned int j = 0u; j < 32u; ++j)
 	{
 		unsigned int v = cell.m_cells[j];
-		double c = m_nodes[field_id][v];
-		if (c == DBL_MAX)
+		btScalar c = m_nodes[field_id][v];
+		if (c == BIGFLOAT_MAX)
 		{
 			gradient->setZero();
 			return false;

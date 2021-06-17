@@ -329,9 +329,9 @@ struct btSpatialTransformationMatrix
 						  btSymmetricSpatialDyad &outMat,
 						  eOutputOperation outOp = None)
 	{
-		const btMatrix3x3 r_cross(0, -m_trnVec[2], m_trnVec[1],
-								  m_trnVec[2], 0, -m_trnVec[0],
-								  -m_trnVec[1], m_trnVec[0], 0);
+		const btMatrix3x3 r_cross(0_fl, -m_trnVec[2], m_trnVec[1],
+								  m_trnVec[2], 0_fl, -m_trnVec[0],
+								  -m_trnVec[1], m_trnVec[0], 0_fl);
 
 		if (outOp == None)
 		{

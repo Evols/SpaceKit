@@ -206,11 +206,11 @@ namespace projections
                     proj_parm.B = sqrt(1. + par.es * proj_parm.B * proj_parm.B / par.one_es);
                     proj_parm.A = proj_parm.B * par.k0 * com / con;
                     D = proj_parm.B * com / (cosph0 * sqrt(con));
-                    if ((F = D * D - 1.) <= 0.)
+                    if ((F = D * D - 1.) <= 0.0_fl)
                         F = 0.;
                     else {
                         F = sqrt(F);
-                        if (par.phi0 < 0.)
+                        if (par.phi0 < 0.0_fl)
                             F = -F;
                     }
                     proj_parm.E = F += D;
@@ -256,7 +256,7 @@ namespace projections
                     proj_parm.u_0 = 0;
                 else {
                     proj_parm.u_0 = fabs(proj_parm.ArB * atan(sqrt(D * D - 1.) / cos(alpha_c)));
-                    if (par.phi0 < 0.)
+                    if (par.phi0 < 0.0_fl)
                         proj_parm.u_0 = - proj_parm.u_0;
                 }
                 F = 0.5 * gamma0;

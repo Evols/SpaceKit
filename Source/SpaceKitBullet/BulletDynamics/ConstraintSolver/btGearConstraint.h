@@ -37,7 +37,7 @@ protected:
 	btScalar m_ratio;
 
 public:
-	btGearConstraint(btRigidBody& rbA, btRigidBody& rbB, const btVector3& axisInA, const btVector3& axisInB, btScalar ratio = 1.f);
+	btGearConstraint(btRigidBody& rbA, btRigidBody& rbB, const btVector3& axisInA, const btVector3& axisInB, btScalar ratio = 1.0_fl);
 	virtual ~btGearConstraint();
 
 	///internal method used by the constraint solver, don't use them directly
@@ -85,7 +85,7 @@ public:
 		(void)num;
 		(void)axis;
 		btAssert(0);
-		return 0.f;
+		return 0.0_fl;
 	}
 
 	virtual int calculateSerializeBufferSize() const;
@@ -130,7 +130,7 @@ SIMD_FORCE_INLINE const char* btGearConstraint::serialize(void* dataBuffer, btSe
 	m_axisInA.serialize(gear->m_axisInA);
 	m_axisInB.serialize(gear->m_axisInB);
 
-	gear->m_ratio = m_ratio;
+	gear->m_ratio = m_ratio.ToDouble();
 
 	// Fill padding with zeros to appease msan.
 #ifndef BT_USE_DOUBLE_PRECISION

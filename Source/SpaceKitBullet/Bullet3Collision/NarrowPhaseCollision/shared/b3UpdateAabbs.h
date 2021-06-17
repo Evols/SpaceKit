@@ -21,13 +21,13 @@ void b3ComputeWorldAabb(int bodyId, __global const b3RigidBodyData_t* bodies, __
 		b3Aabb_t worldAabb;
 
 		b3Float4 aabbAMinOut, aabbAMaxOut;
-		float margin = 0.f;
+		float margin = 0.0_fl;
 		b3TransformAabb2(localAabb.m_minVec, localAabb.m_maxVec, margin, position, orientation, &aabbAMinOut, &aabbAMaxOut);
 
 		worldAabb.m_minVec = aabbAMinOut;
 		worldAabb.m_minIndices[3] = bodyId;
 		worldAabb.m_maxVec = aabbAMaxOut;
-		worldAabb.m_signedMaxIndices[3] = body[bodyId].m_invMass == 0.f ? 0 : 1;
+		worldAabb.m_signedMaxIndices[3] = body[bodyId].m_invMass == 0.0_fl ? 0 : 1;
 		worldAabbs[bodyId] = worldAabb;
 	}
 }

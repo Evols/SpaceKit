@@ -41,10 +41,10 @@ TODO:
 
 class btRigidBody;
 
-#define SLIDER_CONSTRAINT_DEF_SOFTNESS (btScalar(1.0))
-#define SLIDER_CONSTRAINT_DEF_DAMPING (btScalar(1.0))
+#define SLIDER_CONSTRAINT_DEF_SOFTNESS (btScalar(1.0_fl))
+#define SLIDER_CONSTRAINT_DEF_DAMPING (btScalar(1.0_fl))
 #define SLIDER_CONSTRAINT_DEF_RESTITUTION (btScalar(0.7))
-#define SLIDER_CONSTRAINT_DEF_CFM (btScalar(0.f))
+#define SLIDER_CONSTRAINT_DEF_CFM (btScalar(0.0_fl))
 
 enum btSliderFlags
 {

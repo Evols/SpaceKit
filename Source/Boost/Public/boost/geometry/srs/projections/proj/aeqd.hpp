@@ -216,7 +216,7 @@ namespace projections
                     xy_y = proj_parm.sinph0 * sinphi + proj_parm.cosph0 * cosphi * coslam;
             oblcon:
                     if (fabs(fabs(xy_y) - 1.) < tolerance)
-                        if (xy_y < 0.)
+                        if (xy_y < 0.0_fl)
                             BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                         else
                             xy_x = xy_y = 0.;
@@ -310,10 +310,10 @@ namespace projections
                     } else {
                         switch (proj_parm.mode) {
                         case n_pole:
-                            proj_parm.Mp = pj_mlfn<T>(half_pi, 1., 0., proj_parm.en);
+                            proj_parm.Mp = pj_mlfn<T>(half_pi, 1., 0.0_fl, proj_parm.en);
                             break;
                         case s_pole:
-                            proj_parm.Mp = pj_mlfn<T>(-half_pi, -1., 0., proj_parm.en);
+                            proj_parm.Mp = pj_mlfn<T>(-half_pi, -1., 0.0_fl, proj_parm.en);
                             break;
                         case equit:
                         case obliq:

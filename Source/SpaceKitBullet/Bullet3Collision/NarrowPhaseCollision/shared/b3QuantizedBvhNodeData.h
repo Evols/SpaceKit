@@ -47,9 +47,9 @@ inline void b3QuantizeWithClamp(unsigned short* out, b3Float4ConstArg point2, in
 	b3Float4 v = (clampedPoint - bvhAabbMin) * bvhQuantization;
 	if (isMax)
 	{
-		out[0] = (unsigned short)(((unsigned short)(v.x + 1.f) | 1));
-		out[1] = (unsigned short)(((unsigned short)(v.y + 1.f) | 1));
-		out[2] = (unsigned short)(((unsigned short)(v.z + 1.f) | 1));
+		out[0] = (unsigned short)(((unsigned short)(v.x + 1.0_fl) | 1));
+		out[1] = (unsigned short)(((unsigned short)(v.y + 1.0_fl) | 1));
+		out[2] = (unsigned short)(((unsigned short)(v.z + 1.0_fl) | 1));
 	}
 	else
 	{

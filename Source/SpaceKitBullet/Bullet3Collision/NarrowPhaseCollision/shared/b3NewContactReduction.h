@@ -35,7 +35,7 @@ int b3ExtractManifoldSequentialGlobal(__global const b3Float4* p, int nPoints, b
 	v = b3Normalized(v);
 
 	//keep point with deepest penetration
-	float minW = FLT_MAX;
+	float minW = BIGFLOAT_MAX;
 
 	int minIndex = -1;
 
@@ -135,7 +135,7 @@ __kernel void b3NewContactReductionKernel(__global b3Int4* pairs,
 				{
 					__global struct b3Contact4Data* c = &globalContactsOut[dstIdx];
 					c->m_worldNormalOnB = -normal;
-					c->m_restituitionCoeffCmp = (0.f * 0xffff);
+					c->m_restituitionCoeffCmp = (0.0_fl * 0xffff);
 					c->m_frictionCoeffCmp = (0.7f * 0xffff);
 					c->m_batchIdx = pairIndex;
 					int bodyA = pairs[pairIndex].x;

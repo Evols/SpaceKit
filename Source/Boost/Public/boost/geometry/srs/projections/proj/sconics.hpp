@@ -135,7 +135,7 @@ namespace projections
                     T rho;
 
                     rho = boost::math::hypot(xy_x, xy_y = this->m_proj_parm.rho_0 - xy_y);
-                    if (this->m_proj_parm.n < 0.) {
+                    if (this->m_proj_parm.n < 0.0_fl) {
                         rho = - rho;
                         xy_x = - xy_x;
                         xy_y = - xy_y;

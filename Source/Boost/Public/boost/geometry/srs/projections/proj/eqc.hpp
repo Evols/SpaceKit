@@ -93,7 +93,7 @@ namespace projections
             inline void setup_eqc(Params const& params, Parameters& par, par_eqc<T>& proj_parm)
             {
                 proj_parm.rc = cos(pj_get_param_r<T, srs::spar::lat_ts>(params, "lat_ts", srs::dpar::lat_ts));
-                if (proj_parm.rc <= 0.)
+                if (proj_parm.rc <= 0.0_fl)
                     BOOST_THROW_EXCEPTION( projection_exception(error_lat_ts_larger_than_90) );
                 par.es = 0.;
             }

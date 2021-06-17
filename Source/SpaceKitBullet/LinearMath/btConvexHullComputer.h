@@ -91,9 +91,15 @@ public:
 	{
 		return compute(coords, false, stride, count, shrink, shrinkClamp);
 	}
-
+	
 	// same as above, but double precision
 	btScalar compute(const double* coords, int stride, int count, btScalar shrink, btScalar shrinkClamp)
+	{
+		return compute(coords, true, stride, count, shrink, shrinkClamp);
+	}
+
+	// same as above, but double precision
+	btScalar compute(const btScalar* coords, int stride, int count, btScalar shrink, btScalar shrinkClamp)
 	{
 		return compute(coords, true, stride, count, shrink, shrinkClamp);
 	}

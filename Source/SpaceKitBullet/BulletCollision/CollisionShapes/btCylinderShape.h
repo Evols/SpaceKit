@@ -70,7 +70,7 @@ public:
 		btVector3 supVertex;
 		supVertex = localGetSupportingVertexWithoutMargin(vec);
 
-		if (getMargin() != btScalar(0.))
+		if (getMargin() != btScalar(0.0_fl))
 		{
 			btVector3 vecnorm = vec;
 			if (vecnorm.length2() < (SIMD_EPSILON * SIMD_EPSILON))
@@ -93,8 +93,8 @@ public:
 
 	virtual btVector3 getAnisotropicRollingFrictionDirection() const
 	{
-		btVector3 aniDir(0, 0, 0);
-		aniDir[getUpAxis()] = 1;
+		btVector3 aniDir(0_fl, 0_fl, 0_fl);
+		aniDir[getUpAxis()] = 1_fl;
 		return aniDir;
 	}
 

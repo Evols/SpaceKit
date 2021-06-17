@@ -24,6 +24,8 @@ subject to the following restrictions:
 #include <stdlib.h>  //size_t for MSVC 6.0
 #include <float.h>
 
+#include "SpaceKitPrecision/Public/RealFloat.h"
+
 //Original repository is at http://github.com/erwincoumans/bullet3
 #define B3_BULLET_VERSION 300
 
@@ -284,12 +286,12 @@ inline int b3GetVersion()
 
 ///The b3Scalar type abstracts floating point numbers, to easily switch between double and single floating point precision.
 #if defined(B3_USE_DOUBLE_PRECISION)
-typedef double b3Scalar;
+typedef FRealFloat b3Scalar;
 //this number could be bigger in double precision
-#define B3_LARGE_FLOAT 1e30
+#define B3_LARGE_FLOAT 1e90_fl
 #else
 typedef float b3Scalar;
-//keep B3_LARGE_FLOAT*B3_LARGE_FLOAT < FLT_MAX
+//keep B3_LARGE_FLOAT*B3_LARGE_FLOAT < BIGFLOAT_MAX
 #define B3_LARGE_FLOAT 1e18f
 #endif
 
@@ -368,30 +370,30 @@ typedef float32x4_t b3SimdFloat4;
 
 B3_FORCE_INLINE b3Scalar b3Sqrt(b3Scalar x)
 {
-	return sqrt(x);
+	return URealFloatMath::Sqrt(x);
 }
-B3_FORCE_INLINE b3Scalar b3Fabs(b3Scalar x) { return fabs(x); }
-B3_FORCE_INLINE b3Scalar b3Cos(b3Scalar x) { return cos(x); }
-B3_FORCE_INLINE b3Scalar b3Sin(b3Scalar x) { return sin(x); }
-B3_FORCE_INLINE b3Scalar b3Tan(b3Scalar x) { return tan(x); }
+B3_FORCE_INLINE b3Scalar b3Fabs(b3Scalar x) { return URealFloatMath::Abs(x); }
+B3_FORCE_INLINE b3Scalar b3Cos(b3Scalar x) { return URealFloatMath::CosRad(x); }
+B3_FORCE_INLINE b3Scalar b3Sin(b3Scalar x) { return URealFloatMath::SinRad(x); }
+B3_FORCE_INLINE b3Scalar b3Tan(b3Scalar x) { return URealFloatMath::TanRad(x); }
 B3_FORCE_INLINE b3Scalar b3Acos(b3Scalar x)
 {
 	if (x < b3Scalar(-1)) x = b3Scalar(-1);
 	if (x > b3Scalar(1)) x = b3Scalar(1);
-	return acos(x);
+	return URealFloatMath::AcosRad(x);
 }
 B3_FORCE_INLINE b3Scalar b3Asin(b3Scalar x)
 {
 	if (x < b3Scalar(-1)) x = b3Scalar(-1);
 	if (x > b3Scalar(1)) x = b3Scalar(1);
-	return asin(x);
+	return URealFloatMath::AsinRad(x);
 }
-B3_FORCE_INLINE b3Scalar b3Atan(b3Scalar x) { return atan(x); }
-B3_FORCE_INLINE b3Scalar b3Atan2(b3Scalar x, b3Scalar y) { return atan2(x, y); }
-B3_FORCE_INLINE b3Scalar b3Exp(b3Scalar x) { return exp(x); }
-B3_FORCE_INLINE b3Scalar b3Log(b3Scalar x) { return log(x); }
-B3_FORCE_INLINE b3Scalar b3Pow(b3Scalar x, b3Scalar y) { return pow(x, y); }
-B3_FORCE_INLINE b3Scalar b3Fmod(b3Scalar x, b3Scalar y) { return fmod(x, y); }
+B3_FORCE_INLINE b3Scalar b3Atan(b3Scalar x) { return URealFloatMath::AtanRad(x); }
+B3_FORCE_INLINE b3Scalar b3Atan2(b3Scalar x, b3Scalar y) { return URealFloatMath::Atan2Rad(x, y); }
+B3_FORCE_INLINE b3Scalar b3Exp(b3Scalar x) { return URealFloatMath::Exp(x); }
+B3_FORCE_INLINE b3Scalar b3Log(b3Scalar x) { return URealFloatMath::LogE(x); }
+B3_FORCE_INLINE b3Scalar b3Pow(b3Scalar x, b3Scalar y) { return URealFloatMath::Pow(x, y); }
+B3_FORCE_INLINE b3Scalar b3Fmod(b3Scalar x, b3Scalar y) { return x % y; }
 
 #else
 
@@ -451,23 +453,23 @@ B3_FORCE_INLINE b3Scalar b3Fmod(b3Scalar x, b3Scalar y) { return fmodf(x, y); }
 #define B3_DEGS_PER_RAD (b3Scalar(360.0) / B3_2_PI)
 #define B3_SQRT12 b3Scalar(0.7071067811865475244008443621048490)
 
-#define b3RecipSqrt(x) ((b3Scalar)(b3Scalar(1.0) / b3Sqrt(b3Scalar(x)))) /* reciprocal square root */
+#define b3RecipSqrt(x) ((b3Scalar)(b3Scalar(1.0_fl) / b3Sqrt(b3Scalar(x)))) /* reciprocal square root */
 
 #ifdef B3_USE_DOUBLE_PRECISION
-#define B3_EPSILON DBL_EPSILON
-#define B3_INFINITY DBL_MAX
+#define B3_EPSILON 1e-9_fl
+#define B3_INFINITY 1e200_fl
 #else
-#define B3_EPSILON FLT_EPSILON
-#define B3_INFINITY FLT_MAX
+#define B3_EPSILON BIGFLOAT_EPSILON
+#define B3_INFINITY BIGFLOAT_MAX
 #endif
 
 B3_FORCE_INLINE b3Scalar b3Atan2Fast(b3Scalar y, b3Scalar x)
 {
-	b3Scalar coeff_1 = B3_PI / 4.0f;
-	b3Scalar coeff_2 = 3.0f * coeff_1;
+	b3Scalar coeff_1 = B3_PI / 4.0_fl;
+	b3Scalar coeff_2 = 3.0_fl * coeff_1;
 	b3Scalar abs_y = b3Fabs(y);
 	b3Scalar angle;
-	if (x >= 0.0f)
+	if (x >= 0.0_fl)
 	{
 		b3Scalar r = (x - abs_y) / (x + abs_y);
 		angle = coeff_1 - coeff_1 * r;
@@ -477,7 +479,7 @@ B3_FORCE_INLINE b3Scalar b3Atan2Fast(b3Scalar y, b3Scalar x)
 		b3Scalar r = (x + abs_y) / (abs_y - x);
 		angle = coeff_2 - coeff_1 * r;
 	}
-	return (y < 0.0f) ? -angle : angle;
+	return (y < 0.0_fl) ? -angle : angle;
 }
 
 B3_FORCE_INLINE bool b3FuzzyZero(b3Scalar x) { return b3Fabs(x) < B3_EPSILON; }
@@ -493,7 +495,7 @@ B3_FORCE_INLINE bool b3GreaterEqual(b3Scalar a, b3Scalar eps)
 
 B3_FORCE_INLINE int b3IsNegative(b3Scalar x)
 {
-	return x < b3Scalar(0.0) ? 1 : 0;
+	return x < b3Scalar(0.0_fl) ? 1 : 0;
 }
 
 B3_FORCE_INLINE b3Scalar b3Radians(b3Scalar x) { return x * B3_RADS_PER_DEG; }
@@ -508,7 +510,7 @@ B3_FORCE_INLINE b3Scalar b3Degrees(b3Scalar x) { return x * B3_DEGS_PER_RAD; }
 #ifndef b3Fsel
 B3_FORCE_INLINE b3Scalar b3Fsel(b3Scalar a, b3Scalar b, b3Scalar c)
 {
-	return a >= 0 ? b : c;
+	return a >= 0.0_fl ? b : c;
 }
 #endif
 #define b3Fsels(a, b, c) (b3Scalar) b3Fsel(a, b, c)
@@ -544,7 +546,7 @@ B3_FORCE_INLINE int b3Select(unsigned condition, int valueIfConditionNonZero, in
 B3_FORCE_INLINE float b3Select(unsigned condition, float valueIfConditionNonZero, float valueIfConditionZero)
 {
 #ifdef B3_HAVE_NATIVE_FSEL
-	return (float)b3Fsel((b3Scalar)condition - b3Scalar(1.0f), valueIfConditionNonZero, valueIfConditionZero);
+	return (float)b3Fsel((b3Scalar)condition - b3Scalar(1.0_fl), valueIfConditionNonZero, valueIfConditionZero);
 #else
 	return (condition != 0) ? valueIfConditionNonZero : valueIfConditionZero;
 #endif
@@ -601,7 +603,7 @@ B3_FORCE_INLINE unsigned int b3SwapEndianFloat(float d)
 // unswap using char pointers
 B3_FORCE_INLINE float b3UnswapEndianFloat(unsigned int a)
 {
-	float d = 0.0f;
+	float d = 0.0;
 	unsigned char *src = (unsigned char *)&a;
 	unsigned char *dst = (unsigned char *)&d;
 

@@ -32,7 +32,7 @@ btScalar btManifoldResult::calculateCombinedRollingFriction(const btCollisionObj
 {
 	btScalar friction = body0->getRollingFriction() * body1->getFriction() + body1->getRollingFriction() * body0->getFriction();
 
-	const btScalar MAX_FRICTION = btScalar(10.);
+	const btScalar MAX_FRICTION = btScalar(10.0_fl);
 	if (friction < -MAX_FRICTION)
 		friction = -MAX_FRICTION;
 	if (friction > MAX_FRICTION)
@@ -44,7 +44,7 @@ btScalar btManifoldResult::calculateCombinedSpinningFriction(const btCollisionOb
 {
 	btScalar friction = body0->getSpinningFriction() * body1->getFriction() + body1->getSpinningFriction() * body0->getFriction();
 
-	const btScalar MAX_FRICTION = btScalar(10.);
+	const btScalar MAX_FRICTION = btScalar(10.0_fl);
 	if (friction < -MAX_FRICTION)
 		friction = -MAX_FRICTION;
 	if (friction > MAX_FRICTION)
@@ -57,7 +57,7 @@ btScalar btManifoldResult::calculateCombinedFriction(const btCollisionObject* bo
 {
 	btScalar friction = body0->getFriction() * body1->getFriction();
 
-	const btScalar MAX_FRICTION = btScalar(10.);
+	const btScalar MAX_FRICTION = btScalar(10.0_fl);
 	if (friction < -MAX_FRICTION)
 		friction = -MAX_FRICTION;
 	if (friction > MAX_FRICTION)
@@ -144,8 +144,8 @@ void btManifoldResult::addContactPoint(const btVector3& normalOnBInWorld, const 
 	if ((m_body0Wrap->getCollisionObject()->getCollisionFlags() & btCollisionObject::CF_HAS_CONTACT_STIFFNESS_DAMPING) ||
 		(m_body1Wrap->getCollisionObject()->getCollisionFlags() & btCollisionObject::CF_HAS_CONTACT_STIFFNESS_DAMPING))
 	{
-		newPt.m_combinedContactDamping1 = gCalculateCombinedContactDampingCallback(m_body0Wrap->getCollisionObject(), m_body1Wrap->getCollisionObject());
-		newPt.m_combinedContactStiffness1 = gCalculateCombinedContactStiffnessCallback(m_body0Wrap->getCollisionObject(), m_body1Wrap->getCollisionObject());
+		newPt.m_contactERP = gCalculateCombinedContactDampingCallback(m_body0Wrap->getCollisionObject(), m_body1Wrap->getCollisionObject());
+		newPt.m_contactCFM = gCalculateCombinedContactStiffnessCallback(m_body0Wrap->getCollisionObject(), m_body1Wrap->getCollisionObject());
 		newPt.m_contactPointFlags |= BT_CONTACT_FLAG_CONTACT_STIFFNESS_DAMPING;
 	}
 

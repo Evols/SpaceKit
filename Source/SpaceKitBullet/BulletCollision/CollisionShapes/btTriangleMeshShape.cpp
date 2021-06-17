@@ -57,7 +57,7 @@ void btTriangleMeshShape::recalcLocalAabb()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		btVector3 vec(btScalar(0.), btScalar(0.), btScalar(0.));
+		btVector3 vec(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 		vec[i] = btScalar(1.);
 		btVector3 tmp = localGetSupportingVertex(vec);
 		m_localAabbMax[i] = tmp[i] + m_collisionMargin;
@@ -77,7 +77,7 @@ public:
 	btVector3 m_supportVecLocal;
 
 	SupportVertexCallback(const btVector3& supportVecWorld, const btTransform& trans)
-		: m_supportVertexLocal(btScalar(0.), btScalar(0.), btScalar(0.)), m_worldTrans(trans), m_maxDot(btScalar(-BT_LARGE_FLOAT))
+		: m_supportVertexLocal(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl)), m_worldTrans(trans), m_maxDot(btScalar(-BT_LARGE_FLOAT))
 
 	{
 		m_supportVecLocal = supportVecWorld * m_worldTrans.getBasis();
@@ -157,7 +157,7 @@ void btTriangleMeshShape::calculateLocalInertia(btScalar mass, btVector3& inerti
 	(void)mass;
 	//moving concave objects not supported
 	btAssert(0);
-	inertia.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+	inertia.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 }
 
 btVector3 btTriangleMeshShape::localGetSupportingVertex(const btVector3& vec) const

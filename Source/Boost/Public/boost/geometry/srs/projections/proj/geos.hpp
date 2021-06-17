@@ -97,7 +97,7 @@ namespace projections
                     Vz = r * sin (lp_lat);
 
                     /* Check visibility. */
-                    if (((this->m_proj_parm.radius_g - Vx) * Vx - Vy * Vy - Vz * Vz * this->m_proj_parm.radius_p_inv2) < 0.) {
+                    if (((this->m_proj_parm.radius_g - Vx) * Vx - Vy * Vy - Vz * Vz * this->m_proj_parm.radius_p_inv2) < 0.0_fl) {
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                     }
 
@@ -134,7 +134,7 @@ namespace projections
                     a = Vz / this->m_proj_parm.radius_p;
                     a   = Vy * Vy + a * a + Vx * Vx;
                     b   = 2 * this->m_proj_parm.radius_g * Vx;
-                    if ((det = (b * b) - 4 * a * this->m_proj_parm.C) < 0.) {
+                    if ((det = (b * b) - 4 * a * this->m_proj_parm.C) < 0.0_fl) {
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                     }
 
@@ -177,7 +177,7 @@ namespace projections
 
                     /* Check visibility.*/
                     // TODO: in proj4 5.0.0 this check is not present
-                    if (((this->m_proj_parm.radius_g - Vx) * Vx - Vy * Vy - Vz * Vz) < 0.)
+                    if (((this->m_proj_parm.radius_g - Vx) * Vx - Vy * Vy - Vz * Vz) < 0.0_fl)
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
 
                     /* Calculation based on view angles from satellite.*/
@@ -211,7 +211,7 @@ namespace projections
                     /* Calculation of terms in cubic equation and determinant.*/
                     a   = Vy * Vy + Vz * Vz + Vx * Vx;
                     b   = 2 * this->m_proj_parm.radius_g * Vx;
-                    if ((det = (b * b) - 4 * a * this->m_proj_parm.C) < 0.) {
+                    if ((det = (b * b) - 4 * a * this->m_proj_parm.C) < 0.0_fl) {
                         BOOST_THROW_EXCEPTION( projection_exception(error_tolerance_condition) );
                     }
 
@@ -268,7 +268,7 @@ namespace projections
             {
                 std::string sweep_axis;
 
-                if ((proj_parm.h = pj_get_param_f<T, srs::spar::h>(params, "h", srs::dpar::h)) <= 0.)
+                if ((proj_parm.h = pj_get_param_f<T, srs::spar::h>(params, "h", srs::dpar::h)) <= 0.0_fl)
                     BOOST_THROW_EXCEPTION( projection_exception(error_h_less_than_zero) );
 
                 if (par.phi0 != 0.0)

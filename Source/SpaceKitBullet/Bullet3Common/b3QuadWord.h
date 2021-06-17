@@ -155,7 +155,7 @@ public:
 		m_floats[0] = _x;
 		m_floats[1] = _y;
 		m_floats[2] = _z;
-		m_floats[3] = 0.f;
+		m_floats[3] = 0.0_fl;
 	}
 
 	/*		void getValue(b3Scalar *m) const 
@@ -180,7 +180,7 @@ public:
 	}
 	/**@brief No initialization constructor */
 	B3_FORCE_INLINE b3QuadWord()
-	//	:m_floats[0](b3Scalar(0.)),m_floats[1](b3Scalar(0.)),m_floats[2](b3Scalar(0.)),m_floats[3](b3Scalar(0.))
+	//	:m_floats[0](b3Scalar(0.0_fl)),m_floats[1](b3Scalar(0.0_fl)),m_floats[2](b3Scalar(0.0_fl)),m_floats[3](b3Scalar(0.0_fl))
 	{
 	}
 
@@ -191,7 +191,7 @@ public:
    */
 	B3_FORCE_INLINE b3QuadWord(const b3Scalar& _x, const b3Scalar& _y, const b3Scalar& _z)
 	{
-		m_floats[0] = _x, m_floats[1] = _y, m_floats[2] = _z, m_floats[3] = 0.0f;
+		m_floats[0] = _x, m_floats[1] = _y, m_floats[2] = _z, m_floats[3] = 0.0_fl;
 	}
 
 	/**@brief Initializing constructor

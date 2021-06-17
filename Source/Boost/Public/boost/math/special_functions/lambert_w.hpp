@@ -218,7 +218,7 @@ T schroeder_update(const T w, const T y)
   using boost::math::float_distance;
   T fd = float_distance<T>(w, y);
   std::cout << "Schroder ";
-  if (abs(fd) < 214748000.)
+  if (abs(fd) < 214748000.0_fl)
   {
     std::cout << " Distance = "<< static_cast<int>(fd);
   }

@@ -63,7 +63,7 @@ public:
             {
                 if (i == j)
                 {
-                    if (std::abs(1.0-m_out[i].dot(m_out[j])) > eps)// && std::abs(m_out[i].dot(m_out[j])) > eps)
+                    if (std::abs(1.0_fl-m_out[i].dot(m_out[j])) > eps)// && std::abs(m_out[i].dot(m_out[j])) > eps)
                     {
                         printf("vec[%d] is not unit, norm squared = %f\n", i,m_out[i].dot(m_out[j]));
                     }

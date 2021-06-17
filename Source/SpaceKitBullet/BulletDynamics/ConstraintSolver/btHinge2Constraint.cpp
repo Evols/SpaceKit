@@ -48,11 +48,11 @@ btHinge2Constraint::btHinge2Constraint(btRigidBody& rbA, btRigidBody& rbB, btVec
 	m_frameInA = rbA.getCenterOfMassTransform().inverse() * frameInW;
 	m_frameInB = rbB.getCenterOfMassTransform().inverse() * frameInW;
 	// sei limits
-	setLinearLowerLimit(btVector3(0.f, 0.f, -1.f));
-	setLinearUpperLimit(btVector3(0.f, 0.f, 1.f));
+	setLinearLowerLimit(btVector3(0.0_fl, 0.0_fl, -1.0_fl));
+	setLinearUpperLimit(btVector3(0.0_fl, 0.0_fl, 1.0_fl));
 	// like front wheels of a car
-	setAngularLowerLimit(btVector3(1.f, 0.f, -SIMD_HALF_PI * 0.5f));
-	setAngularUpperLimit(btVector3(-1.f, 0.f, SIMD_HALF_PI * 0.5f));
+	setAngularLowerLimit(btVector3(1.0_fl, 0.0_fl, -SIMD_HALF_PI * 0.5_fl));
+	setAngularUpperLimit(btVector3(-1.0_fl, 0.0_fl, SIMD_HALF_PI * 0.5_fl));
 	// enable suspension
 	enableSpring(2, true);
 	setStiffness(2, SIMD_PI * SIMD_PI * 4.f);

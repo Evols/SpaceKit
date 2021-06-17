@@ -33,7 +33,7 @@ bool b3GeometryUtil::isPointInsidePlanes(const b3AlignedObjectArray<b3Vector3>& 
 	{
 		const b3Vector3& N1 = planeEquations[i];
 		b3Scalar dist = b3Scalar(N1.dot(point)) + b3Scalar(N1[3]) - margin;
-		if (dist > b3Scalar(0.))
+		if (dist > b3Scalar(0.0_fl))
 		{
 			return false;
 		}
@@ -48,7 +48,7 @@ bool b3GeometryUtil::areVerticesBehindPlane(const b3Vector3& planeNormal, const 
 	{
 		const b3Vector3& N1 = vertices[i];
 		b3Scalar dist = b3Scalar(planeNormal.dot(N1)) + b3Scalar(planeNormal[3]) - margin;
-		if (dist > b3Scalar(0.))
+		if (dist > b3Scalar(0.0_fl))
 		{
 			return false;
 		}

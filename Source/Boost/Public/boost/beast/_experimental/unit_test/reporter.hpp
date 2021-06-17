@@ -215,7 +215,7 @@ reporter<_>::fmtdur(typename clock_type::duration const& d)
         return std::to_string(ms.count()) + "ms";
     std::stringstream ss;
     ss << std::fixed << std::setprecision(1) <<
-       (ms.count()/1000.) << "s";
+       (ms.count()/1000.0_fl) << "s";
     return ss.str();
 }
 

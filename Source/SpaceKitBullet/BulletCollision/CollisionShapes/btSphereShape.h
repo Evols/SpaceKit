@@ -29,11 +29,11 @@ public:
 	btSphereShape(btScalar radius) : btConvexInternalShape()
 	{
 		m_shapeType = SPHERE_SHAPE_PROXYTYPE;
-		m_localScaling.setValue(1.0, 1.0, 1.0);
+		m_localScaling.setValue(1.0_fl, 1.0_fl, 1.0_fl);
 		m_implicitShapeDimensions.setZero();
 		m_implicitShapeDimensions.setX(radius);
 		m_collisionMargin = radius;
-		m_padding = 0;
+		m_padding = 0_fl;
 	}
 
 	virtual btVector3 localGetSupportingVertex(const btVector3& vec) const;

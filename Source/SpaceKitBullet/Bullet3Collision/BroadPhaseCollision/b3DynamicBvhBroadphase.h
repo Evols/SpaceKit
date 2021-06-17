@@ -160,7 +160,7 @@ struct b3DynamicBvhBroadphase
 	b3BroadphaseProxy* createProxy(const b3Vector3& aabbMin, const b3Vector3& aabbMax, int objectIndex, void* userPtr, int collisionFilterGroup, int collisionFilterMask);
 	virtual void destroyProxy(b3BroadphaseProxy* proxy, b3Dispatcher* dispatcher);
 	virtual void setAabb(int objectId, const b3Vector3& aabbMin, const b3Vector3& aabbMax, b3Dispatcher* dispatcher);
-	virtual void rayTest(const b3Vector3& rayFrom, const b3Vector3& rayTo, b3BroadphaseRayCallback& rayCallback, const b3Vector3& aabbMin = b3MakeVector3(0, 0, 0), const b3Vector3& aabbMax = b3MakeVector3(0, 0, 0));
+	virtual void rayTest(const b3Vector3& rayFrom, const b3Vector3& rayTo, b3BroadphaseRayCallback& rayCallback, const b3Vector3& aabbMin = b3MakeVector3(0_fl, 0_fl, 0_fl), const b3Vector3& aabbMax = b3MakeVector3(0_fl, 0_fl, 0_fl));
 	virtual void aabbTest(const b3Vector3& aabbMin, const b3Vector3& aabbMax, b3BroadphaseAabbCallback& callback);
 
 	//virtual void					getAabb(b3BroadphaseProxy* proxy,b3Vector3& aabbMin, b3Vector3& aabbMax ) const;

@@ -14,7 +14,7 @@ inline b3Float4 b3Lerp3(b3Float4ConstArg a, b3Float4ConstArg b, float t)
 	return b3MakeFloat4(a.x + (b.x - a.x) * t,
 						a.y + (b.y - a.y) * t,
 						a.z + (b.z - a.z) * t,
-						0.f);
+						0.0_fl);
 }
 
 // Clips a face to the back of a plane, return the number of vertices out, stored in ppVtxOut
@@ -46,7 +46,7 @@ int clipFaceGlobal(__global const b3Float4* pVtxIn, int numVertsIn, b3Float4Cons
 			else
 			{
 				// Start < 0, end >= 0, so output intersection
-				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.f / (ds - de)));
+				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.0_fl / (ds - de)));
 			}
 		}
 		else
@@ -54,7 +54,7 @@ int clipFaceGlobal(__global const b3Float4* pVtxIn, int numVertsIn, b3Float4Cons
 			if (de < 0)
 			{
 				// Start >= 0, end < 0 so output intersection and end
-				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.f / (ds - de)));
+				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.0_fl / (ds - de)));
 				ppVtxOut[numVertsOut++] = endVertex;
 			}
 		}
@@ -78,8 +78,8 @@ __kernel void clipFacesAndFindContactsKernel(__global const b3Float4* separating
 	//int pairIndex = i;
 	int i = pairIndex;
 
-	float minDist = -1e30f;
-	float maxDist = 0.02f;
+	float minDist = -1e30_fl;
+	float maxDist = 0.02_fl;
 
 	//	if (i<numPairs)
 	{
@@ -139,7 +139,7 @@ __kernel void clipFacesAndFindContactsKernel(__global const b3Float4* separating
 							depth = minDist;
 						}
 						/*
-						static float maxDepth = 0.f;
+						static float maxDepth = 0.0_fl;
 						if (depth < maxDepth)
 						{
 							maxDepth = depth;

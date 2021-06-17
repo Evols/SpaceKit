@@ -32,7 +32,7 @@ public:
 
 	btConvexPointCloudShape()
 	{
-		m_localScaling.setValue(1.f, 1.f, 1.f);
+		m_localScaling.setValue(1.0_fl, 1.0_fl, 1.0_fl);
 		m_shapeType = CONVEX_POINT_CLOUD_SHAPE_PROXYTYPE;
 		m_unscaledPoints = 0;
 		m_numPoints = 0;
@@ -49,7 +49,7 @@ public:
 			recalcLocalAabb();
 	}
 
-	void setPoints(btVector3 * points, int numPoints, bool computeAabb = true, const btVector3& localScaling = btVector3(1.f, 1.f, 1.f))
+	void setPoints(btVector3 * points, int numPoints, bool computeAabb = true, const btVector3& localScaling = btVector3(1.0_fl, 1.0_fl, 1.0_fl))
 	{
 		m_unscaledPoints = points;
 		m_numPoints = numPoints;

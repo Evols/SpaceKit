@@ -20,14 +20,14 @@ subject to the following restrictions:
 #include <stdio.h>
 
 #ifdef B3_USE_SSE
-//const __m128 B3_ATTRIBUTE_ALIGNED16(b3v2220) = {2.0f, 2.0f, 2.0f, 0.0f};
-const __m128 B3_ATTRIBUTE_ALIGNED16(b3vMPPP) = {-0.0f, +0.0f, +0.0f, +0.0f};
+//const __m128 B3_ATTRIBUTE_ALIGNED16(b3v2220) = {2.0_fl, 2.0_fl, 2.0_fl, 0.0_fl};
+const __m128 B3_ATTRIBUTE_ALIGNED16(b3vMPPP) = {-0.0_fl, +0.0_fl, +0.0_fl, +0.0_fl};
 #endif
 
 #if defined(B3_USE_SSE) || defined(B3_USE_NEON)
-const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3v1000) = {1.0f, 0.0f, 0.0f, 0.0f};
-const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3v0100) = {0.0f, 1.0f, 0.0f, 0.0f};
-const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3v0010) = {0.0f, 0.0f, 1.0f, 0.0f};
+const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3v1000) = {1.0_fl, 0.0_fl, 0.0_fl, 0.0_fl};
+const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3v0100) = {0.0_fl, 1.0_fl, 0.0_fl, 0.0_fl};
+const b3SimdFloat4 B3_ATTRIBUTE_ALIGNED16(b3v0010) = {0.0_fl, 0.0_fl, 1.0_fl, 0.0_fl};
 #endif
 
 #ifdef B3_USE_DOUBLE_PRECISION
@@ -201,7 +201,7 @@ public:
 	void setRotation(const b3Quaternion& q)
 	{
 		b3Scalar d = q.length2();
-		b3FullAssert(d != b3Scalar(0.0));
+		b3FullAssert(d != b3Scalar(0.0_fl));
 		b3Scalar s = b3Scalar(2.0) / d;
 
 #if defined(B3_USE_SSE_IN_API) && defined(B3_USE_SSE)
@@ -261,9 +261,9 @@ public:
 		b3Scalar xx = q.getX() * xs, xy = q.getX() * ys, xz = q.getX() * zs;
 		b3Scalar yy = q.getY() * ys, yz = q.getY() * zs, zz = q.getZ() * zs;
 		setValue(
-			b3Scalar(1.0) - (yy + zz), xy - wz, xz + wy,
-			xy + wz, b3Scalar(1.0) - (xx + zz), yz - wx,
-			xz - wy, yz + wx, b3Scalar(1.0) - (xx + yy));
+			b3Scalar(1.0_fl) - (yy + zz), xy - wz, xz + wy,
+			xy + wz, b3Scalar(1.0_fl) - (xx + zz), yz - wx,
+			xz - wy, yz + wx, b3Scalar(1.0_fl) - (xx + yy));
 #endif
 	}
 
@@ -313,9 +313,9 @@ public:
 		m_el[1] = b3MakeVector3(b3v0100);
 		m_el[2] = b3MakeVector3(b3v0010);
 #else
-		setValue(b3Scalar(1.0), b3Scalar(0.0), b3Scalar(0.0),
-				 b3Scalar(0.0), b3Scalar(1.0), b3Scalar(0.0),
-				 b3Scalar(0.0), b3Scalar(0.0), b3Scalar(1.0));
+		setValue(b3Scalar(1.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl),
+				 b3Scalar(0.0_fl), b3Scalar(1.0_fl), b3Scalar(0.0_fl),
+				 b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(1.0_fl));
 #endif
 	}
 
@@ -327,9 +327,9 @@ public:
 #else
 		static const b3Matrix3x3
 			identityMatrix(
-				b3Scalar(1.0), b3Scalar(0.0), b3Scalar(0.0),
-				b3Scalar(0.0), b3Scalar(1.0), b3Scalar(0.0),
-				b3Scalar(0.0), b3Scalar(0.0), b3Scalar(1.0));
+				b3Scalar(1.0_fl), b3Scalar(0.0_fl), b3Scalar(0.0_fl),
+				b3Scalar(0.0_fl), b3Scalar(1.0_fl), b3Scalar(0.0_fl),
+				b3Scalar(0.0_fl), b3Scalar(0.0_fl), b3Scalar(1.0_fl));
 #endif
 		return identityMatrix;
 	}
@@ -345,7 +345,7 @@ public:
 		__m128* vm = (__m128*)m;
 		__m128 vT;
 
-		v2 = _mm_and_ps(v2, b3vFFF0fMask);  //  x2 y2 z2 0
+		v2 = _mm_and_ps(v2, b3vFFF0_flMask);  //  x2 y2 z2 0
 
 		vT = _mm_unpackhi_ps(v0, v1);  //	z0 z1 * *
 		v0 = _mm_unpacklo_ps(v0, v1);  //	x0 x1 y0 y1
@@ -362,7 +362,7 @@ public:
 		static const uint32x2_t zMask = (const uint32x2_t){-1, 0};
 		float32x4_t* vm = (float32x4_t*)m;
 		float32x4x2_t top = vtrnq_f32(m_el[0].mVec128, m_el[1].mVec128);               // {x0 x1 z0 z1}, {y0 y1 w0 w1}
-		float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0f));  // {x2  0 }, {y2 0}
+		float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0_fl));  // {x2  0 }, {y2 0}
 		float32x4_t v0 = vcombine_f32(vget_low_f32(top.val[0]), bl.val[0]);
 		float32x4_t v1 = vcombine_f32(vget_low_f32(top.val[1]), bl.val[1]);
 		float32x2_t q = (float32x2_t)vand_u32((uint32x2_t)vget_high_f32(m_el[2].mVec128), zMask);
@@ -375,15 +375,15 @@ public:
 		m[0] = b3Scalar(m_el[0].getX());
 		m[1] = b3Scalar(m_el[1].getX());
 		m[2] = b3Scalar(m_el[2].getX());
-		m[3] = b3Scalar(0.0);
+		m[3] = b3Scalar(0.0_fl);
 		m[4] = b3Scalar(m_el[0].getY());
 		m[5] = b3Scalar(m_el[1].getY());
 		m[6] = b3Scalar(m_el[2].getY());
-		m[7] = b3Scalar(0.0);
+		m[7] = b3Scalar(0.0_fl);
 		m[8] = b3Scalar(m_el[0].getZ());
 		m[9] = b3Scalar(m_el[1].getZ());
 		m[10] = b3Scalar(m_el[2].getZ());
-		m[11] = b3Scalar(0.0);
+		m[11] = b3Scalar(0.0_fl);
 #endif
 	}
 
@@ -400,9 +400,9 @@ public:
 			b3Scalar f[4];
 		} temp;
 
-		if (trace > b3Scalar(0.0))
+		if (trace > b3Scalar(0.0_fl))
 		{
-			x = trace + b3Scalar(1.0);
+			x = trace + b3Scalar(1.0_fl);
 
 			temp.f[0] = m_el[2].getY() - m_el[1].getZ();
 			temp.f[1] = m_el[0].getZ() - m_el[2].getX();
@@ -444,7 +444,7 @@ public:
 				}
 			}
 
-			x = m_el[i][i] - m_el[j][j] - m_el[k][k] + b3Scalar(1.0);
+			x = m_el[i][i] - m_el[j][j] - m_el[k][k] + b3Scalar(1.0_fl);
 
 			temp.f[3] = (m_el[k][j] - m_el[j][k]);
 			temp.f[j] = (m_el[j][i] + m_el[i][j]);
@@ -463,9 +463,9 @@ public:
 
 		b3Scalar temp[4];
 
-		if (trace > b3Scalar(0.0))
+		if (trace > b3Scalar(0.0_fl))
 		{
-			b3Scalar s = b3Sqrt(trace + b3Scalar(1.0));
+			b3Scalar s = b3Sqrt(trace + b3Scalar(1.0_fl));
 			temp[3] = (s * b3Scalar(0.5));
 			s = b3Scalar(0.5) / s;
 
@@ -479,7 +479,7 @@ public:
 			int j = (i + 1) % 3;
 			int k = (i + 2) % 3;
 
-			b3Scalar s = b3Sqrt(m_el[i][i] - m_el[j][j] - m_el[k][k] + b3Scalar(1.0));
+			b3Scalar s = b3Sqrt(m_el[i][i] - m_el[j][j] - m_el[k][k] + b3Scalar(1.0_fl));
 			temp[i] = s * b3Scalar(0.5);
 			s = b3Scalar(0.5) / s;
 
@@ -505,12 +505,12 @@ public:
 		// on pitch = +/-HalfPI
 		if (b3Fabs(pitch) == B3_HALF_PI)
 		{
-			if (yaw > 0)
+			if (yaw > 0_fl)
 				yaw -= B3_PI;
 			else
 				yaw += B3_PI;
 
-			if (roll > 0)
+			if (roll > 0_fl)
 				roll -= B3_PI;
 			else
 				roll += B3_PI;
@@ -536,14 +536,14 @@ public:
 		//get the pointer to the raw data
 
 		// Check that pitch is not at a singularity
-		if (b3Fabs(m_el[2].getX()) >= 1)
+		if (b3Fabs(m_el[2].getX()) >= 1_fl)
 		{
-			euler_out.yaw = 0;
-			euler_out2.yaw = 0;
+			euler_out.yaw = 0_fl;
+			euler_out2.yaw = 0_fl;
 
 			// From difference of angles formula
 			b3Scalar delta = b3Atan2(m_el[0].getX(), m_el[0].getZ());
-			if (m_el[2].getX() > 0)  //gimbal locked up
+			if (m_el[2].getX() > 0_fl)  //gimbal locked up
 			{
 				euler_out.pitch = B3_PI / b3Scalar(2.0);
 				euler_out2.pitch = B3_PI / b3Scalar(2.0);
@@ -677,27 +677,27 @@ public:
 
 			// compute Jacobi rotation J which leads to a zero for element [p][q]
 			b3Scalar mpq = m_el[p][q];
-			b3Scalar theta = (m_el[q][q] - m_el[p][p]) / (2 * mpq);
+			b3Scalar theta = (m_el[q][q] - m_el[p][p]) / (2_fl * mpq);
 			b3Scalar theta2 = theta * theta;
 			b3Scalar cos;
 			b3Scalar sin;
-			if (theta2 * theta2 < b3Scalar(10 / B3_EPSILON))
+			if (theta2 * theta2 < b3Scalar(10_fl / B3_EPSILON))
 			{
-				t = (theta >= 0) ? 1 / (theta + b3Sqrt(1 + theta2))
-								 : 1 / (theta - b3Sqrt(1 + theta2));
-				cos = 1 / b3Sqrt(1 + t * t);
+				t = (theta >= 0_fl) ? 1_fl / (theta + b3Sqrt(1_fl + theta2))
+								 : 1_fl / (theta - b3Sqrt(1_fl + theta2));
+				cos = 1_fl / b3Sqrt(1_fl + t * t);
 				sin = cos * t;
 			}
 			else
 			{
 				// approximation for large theta-value, i.e., a nearly diagonal matrix
-				t = 1 / (theta * (2 + b3Scalar(0.5) / theta2));
-				cos = 1 - b3Scalar(0.5) * t * t;
+				t = 1_fl / (theta * (2_fl + 0.5_fl / theta2));
+				cos = 1_fl - 0.5_fl * t * t;
 				sin = cos * t;
 			}
 
 			// apply rotation to matrix (this = J^T * this * J)
-			m_el[p][q] = m_el[q][p] = 0;
+			m_el[p][q] = m_el[q][p] = 0_fl;
 			m_el[p][p] -= t * mpq;
 			m_el[q][q] += t * mpq;
 			b3Scalar mrp = m_el[r][p];
@@ -753,9 +753,9 @@ b3Matrix3x3::operator*=(const b3Matrix3x3& m)
 	rv12 = m_el[1].mVec128;
 	rv22 = m_el[2].mVec128;
 
-	mv0 = _mm_and_ps(m[0].mVec128, b3vFFF0fMask);
-	mv1 = _mm_and_ps(m[1].mVec128, b3vFFF0fMask);
-	mv2 = _mm_and_ps(m[2].mVec128, b3vFFF0fMask);
+	mv0 = _mm_and_ps(m[0].mVec128, b3vFFF0_flMask);
+	mv1 = _mm_and_ps(m[1].mVec128, b3vFFF0_flMask);
+	mv2 = _mm_and_ps(m[2].mVec128, b3vFFF0_flMask);
 
 	// rv0
 	rv00 = b3_splat_ps(rv02, 0);
@@ -980,7 +980,7 @@ b3Matrix3x3::transpose() const
 	__m128 v2 = m_el[2].mVec128;  //  x2 y2 z2 w2
 	__m128 vT;
 
-	v2 = _mm_and_ps(v2, b3vFFF0fMask);  //  x2 y2 z2 0
+	v2 = _mm_and_ps(v2, b3vFFF0_flMask);  //  x2 y2 z2 0
 
 	vT = _mm_unpackhi_ps(v0, v1);  //	z0 z1 * *
 	v0 = _mm_unpacklo_ps(v0, v1);  //	x0 x1 y0 y1
@@ -994,7 +994,7 @@ b3Matrix3x3::transpose() const
 	// note: zeros the w channel. We can preserve it at the cost of two more vtrn instructions.
 	static const uint32x2_t zMask = (const uint32x2_t){-1, 0};
 	float32x4x2_t top = vtrnq_f32(m_el[0].mVec128, m_el[1].mVec128);               // {x0 x1 z0 z1}, {y0 y1 w0 w1}
-	float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0f));  // {x2  0 }, {y2 0}
+	float32x2x2_t bl = vtrn_f32(vget_low_f32(m_el[2].mVec128), vdup_n_f32(0.0_fl));  // {x2  0 }, {y2 0}
 	float32x4_t v0 = vcombine_f32(vget_low_f32(top.val[0]), bl.val[0]);
 	float32x4_t v1 = vcombine_f32(vget_low_f32(top.val[1]), bl.val[1]);
 	float32x2_t q = (float32x2_t)vand_u32((uint32x2_t)vget_high_f32(m_el[2].mVec128), zMask);
@@ -1020,8 +1020,8 @@ b3Matrix3x3::inverse() const
 {
 	b3Vector3 co = b3MakeVector3(cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1));
 	b3Scalar det = (*this)[0].dot(co);
-	b3FullAssert(det != b3Scalar(0.0));
-	b3Scalar s = b3Scalar(1.0) / det;
+	b3FullAssert(det != b3Scalar(0.0_fl));
+	b3Scalar s = b3Scalar(1.0_fl) / det;
 	return b3Matrix3x3(co.getX() * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s,
 					   co.getY() * s, cofac(0, 0, 2, 2) * s, cofac(0, 2, 1, 0) * s,
 					   co.getZ() * s, cofac(0, 1, 2, 0) * s, cofac(0, 0, 1, 1) * s);
@@ -1034,9 +1034,9 @@ b3Matrix3x3::transposeTimes(const b3Matrix3x3& m) const
 	// zeros w
 	//    static const __m128i xyzMask = (const __m128i){ -1ULL, 0xffffffffULL };
 	__m128 row = m_el[0].mVec128;
-	__m128 m0 = _mm_and_ps(m.getRow(0).mVec128, b3vFFF0fMask);
-	__m128 m1 = _mm_and_ps(m.getRow(1).mVec128, b3vFFF0fMask);
-	__m128 m2 = _mm_and_ps(m.getRow(2).mVec128, b3vFFF0fMask);
+	__m128 m0 = _mm_and_ps(m.getRow(0).mVec128, b3vFFF0_flMask);
+	__m128 m1 = _mm_and_ps(m.getRow(1).mVec128, b3vFFF0_flMask);
+	__m128 m2 = _mm_and_ps(m.getRow(2).mVec128, b3vFFF0_flMask);
 	__m128 r0 = _mm_mul_ps(m0, _mm_shuffle_ps(row, row, 0));
 	__m128 r1 = _mm_mul_ps(m0, _mm_shuffle_ps(row, row, 0x55));
 	__m128 r2 = _mm_mul_ps(m0, _mm_shuffle_ps(row, row, 0xaa));
@@ -1157,10 +1157,10 @@ operator*(const b3Vector3& v, const b3Matrix3x3& m)
 	__m128 c1 = b3_splat_ps(vv, 1);
 	__m128 c2 = b3_splat_ps(vv, 2);
 
-	c0 = _mm_mul_ps(c0, _mm_and_ps(m[0].mVec128, b3vFFF0fMask));
-	c1 = _mm_mul_ps(c1, _mm_and_ps(m[1].mVec128, b3vFFF0fMask));
+	c0 = _mm_mul_ps(c0, _mm_and_ps(m[0].mVec128, b3vFFF0_flMask));
+	c1 = _mm_mul_ps(c1, _mm_and_ps(m[1].mVec128, b3vFFF0_flMask));
 	c0 = _mm_add_ps(c0, c1);
-	c2 = _mm_mul_ps(c2, _mm_and_ps(m[2].mVec128, b3vFFF0fMask));
+	c2 = _mm_mul_ps(c2, _mm_and_ps(m[2].mVec128, b3vFFF0_flMask));
 
 	return b3MakeVector3(_mm_add_ps(c0, c2));
 #elif defined(B3_USE_NEON)
@@ -1195,7 +1195,7 @@ operator*(const b3Matrix3x3& m1, const b3Matrix3x3& m2)
 	__m128 m11 = m1[1].mVec128;
 	__m128 m12 = m1[2].mVec128;
 
-	__m128 m2v = _mm_and_ps(m2[0].mVec128, b3vFFF0fMask);
+	__m128 m2v = _mm_and_ps(m2[0].mVec128, b3vFFF0_flMask);
 
 	__m128 c0 = b3_splat_ps(m10, 0);
 	__m128 c1 = b3_splat_ps(m11, 0);
@@ -1205,7 +1205,7 @@ operator*(const b3Matrix3x3& m1, const b3Matrix3x3& m2)
 	c1 = _mm_mul_ps(c1, m2v);
 	c2 = _mm_mul_ps(c2, m2v);
 
-	m2v = _mm_and_ps(m2[1].mVec128, b3vFFF0fMask);
+	m2v = _mm_and_ps(m2[1].mVec128, b3vFFF0_flMask);
 
 	__m128 c0_1 = b3_splat_ps(m10, 1);
 	__m128 c1_1 = b3_splat_ps(m11, 1);
@@ -1215,7 +1215,7 @@ operator*(const b3Matrix3x3& m1, const b3Matrix3x3& m2)
 	c1_1 = _mm_mul_ps(c1_1, m2v);
 	c2_1 = _mm_mul_ps(c2_1, m2v);
 
-	m2v = _mm_and_ps(m2[2].mVec128, b3vFFF0fMask);
+	m2v = _mm_and_ps(m2[2].mVec128, b3vFFF0_flMask);
 
 	c0 = _mm_add_ps(c0, c0_1);
 	c1 = _mm_add_ps(c1, c1_1);

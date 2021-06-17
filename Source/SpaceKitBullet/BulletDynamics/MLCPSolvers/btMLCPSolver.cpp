@@ -95,7 +95,7 @@ btScalar btMLCPSolver::solveGroupCacheFriendlySetup(btCollisionObject** bodies, 
 			m_x.resize(0);
 			m_lo.resize(0);
 			m_hi.resize(0);
-			return 0.f;
+			return 0.0_fl;
 		}
 	}
 
@@ -110,7 +110,7 @@ btScalar btMLCPSolver::solveGroupCacheFriendlySetup(btCollisionObject** bodies, 
 		createMLCPFast(infoGlobal);
 	}
 
-	return 0.f;
+	return 0.0_fl;
 }
 
 bool btMLCPSolver::solveMLCP(const btContactSolverInfo& infoGlobal)
@@ -616,5 +616,5 @@ btScalar btMLCPSolver::solveGroupCacheFriendlyIterations(btCollisionObject** bod
 		btSequentialImpulseConstraintSolver::solveGroupCacheFriendlyIterations(bodies, numBodies, manifoldPtr, numManifolds, constraints, numConstraints, infoGlobal, debugDrawer);
 	}
 
-	return 0.f;
+	return 0.0_fl;
 }

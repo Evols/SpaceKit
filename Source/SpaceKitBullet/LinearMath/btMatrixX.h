@@ -79,15 +79,15 @@ struct btVectorX
 			}
 			else
 			{
-				T scale = 0.0;
-				T ssq = 1.0;
+				T scale = 0.0_fl;
+				T ssq = 1.0_fl;
 
 				/* The following loop is equivalent to this call to the LAPACK
 				 auxiliary routine:   CALL SLASSQ( N, X, INCX, SCALE, SSQ ) */
 
 				for (int ix = 0; ix < nn; ix++)
 				{
-					if ((*this)[ix] != 0.0)
+					if ((*this)[ix] != 0.0_fl)
 					{
 						T absxi = btFabs((*this)[ix]);
 						if (scale < absxi)
@@ -215,7 +215,7 @@ struct btMatrixX
 	{
 		if (val)
 		{
-			if (m_storage[col + row * m_cols] == 0.f)
+			if (m_storage[col + row * m_cols] == 0.0_fl)
 			{
 				setElem(row, col, val);
 			}
@@ -306,7 +306,7 @@ struct btMatrixX
 			m_rowNonZeroElements1[i].resize(0);
 			for (int j = 0; j < cols(); j++)
 			{
-				if ((*this)(i, j) != 0.f)
+				if ((*this)(i, j) != 0.0_fl)
 				{
 					m_rowNonZeroElements1[i].push_back(j);
 				}
@@ -351,7 +351,7 @@ struct btMatrixX
 							for (int k = 0; k < c; k++)
 							{
 								T w = (*this)(i, k);
-								if (other(k, j) != 0.f)
+								if (other(k, j) != 0.0_fl)
 								{
 									dotProd += w * other(k, j);
 								}
@@ -464,11 +464,11 @@ struct btMatrixX
 	}
 };
 
-typedef btMatrixX<float> btMatrixXf;
-typedef btVectorX<float> btVectorXf;
+typedef btMatrixX<FRealFloat> btMatrixXf;
+typedef btVectorX<FRealFloat> btVectorXf;
 
-typedef btMatrixX<double> btMatrixXd;
-typedef btVectorX<double> btVectorXd;
+typedef btMatrixX<FRealFloat> btMatrixXd;
+typedef btVectorX<FRealFloat> btVectorXd;
 
 #ifdef BT_DEBUG_OSTREAM
 template <typename T>
@@ -511,12 +511,7 @@ std::ostream& operator<<(std::ostream& os, const btVectorX<T>& mat)
 
 #endif  //BT_DEBUG_OSTREAM
 
-inline void setElem(btMatrixXd& mat, int row, int col, double val)
-{
-	mat.setElem(row, col, val);
-}
-
-inline void setElem(btMatrixXf& mat, int row, int col, float val)
+inline void setElem(btMatrixXd& mat, int row, int col, FRealFloat val)
 {
 	mat.setElem(row, col, val);
 }

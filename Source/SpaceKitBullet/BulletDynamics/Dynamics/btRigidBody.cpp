@@ -41,14 +41,14 @@ void btRigidBody::setupRigidBody(const btRigidBody::btRigidBodyConstructionInfo&
 {
 	m_internalType = CO_RIGID_BODY;
 
-	m_linearVelocity.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
-	m_angularVelocity.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
-	m_angularFactor.setValue(1, 1, 1);
-	m_linearFactor.setValue(1, 1, 1);
-	m_gravity.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
-	m_gravity_acceleration.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
-	m_totalForce.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0));
-	m_totalTorque.setValue(btScalar(0.0), btScalar(0.0), btScalar(0.0)),
+	m_linearVelocity.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	m_angularVelocity.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	m_angularFactor.setValue(1.0_fl, 1.0_fl, 1.0_fl);
+	m_linearFactor.setValue(1.0_fl, 1.0_fl, 1.0_fl);
+	m_gravity.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	m_gravity_acceleration.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	m_totalForce.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
+	m_totalTorque.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl)),
 		setDamping(constructionInfo.m_linearDamping, constructionInfo.m_angularDamping);
 
 	m_linearSleepingThreshold = constructionInfo.m_linearSleepingThreshold;
@@ -72,8 +72,8 @@ void btRigidBody::setupRigidBody(const btRigidBody::btRigidBodyConstructionInfo&
 	}
 
 	m_interpolationWorldTransform = m_worldTransform;
-	m_interpolationLinearVelocity.setValue(0, 0, 0);
-	m_interpolationAngularVelocity.setValue(0, 0, 0);
+	m_interpolationLinearVelocity.setValue(0.0_fl, 0.0_fl, 0.0_fl);
+	m_interpolationAngularVelocity.setValue(0.0_fl, 0.0_fl, 0.0_fl);
 
 	//moved to btCollisionObject
 	m_friction = constructionInfo.m_friction;
@@ -105,7 +105,7 @@ void btRigidBody::predictIntegratedTransform(btScalar timeStep, btTransform& pre
 void btRigidBody::saveKinematicState(btScalar timeStep)
 {
 	//todo: clamp to some (user definable) safe minimum timestep, to limit maximum angular/linear velocities
-	if (timeStep != btScalar(0.))
+	if (timeStep != btScalar(0.0_fl))
 	{
 		//if we use motionstate to synchronize world transforms, get the new kinematic/animated world transform
 		if (getMotionState())
@@ -127,9 +127,9 @@ void btRigidBody::getAabb(btVector3& aabbMin, btVector3& aabbMax) const
 
 void btRigidBody::setGravity(const btVector3& acceleration)
 {
-	if (m_inverseMass != btScalar(0.0))
+	if (m_inverseMass != btScalar(0.0_fl))
 	{
-		m_gravity = acceleration * (btScalar(1.0) / m_inverseMass);
+		m_gravity = acceleration * (btScalar(1.0_fl) / m_inverseMass);
 	}
 	m_gravity_acceleration = acceleration;
 }
@@ -137,11 +137,11 @@ void btRigidBody::setGravity(const btVector3& acceleration)
 void btRigidBody::setDamping(btScalar lin_damping, btScalar ang_damping)
 {
 #ifdef BT_USE_OLD_DAMPING_METHOD
-	m_linearDamping = btMax(lin_damping, btScalar(0.0));
-	m_angularDamping = btMax(ang_damping, btScalar(0.0));
+	m_linearDamping = btMax(lin_damping, btScalar(0.0_fl));
+	m_angularDamping = btMax(ang_damping, btScalar(0.0_fl));
 #else
-	m_linearDamping = btClamped(lin_damping, btScalar(0.0), btScalar(1.0));
-	m_angularDamping = btClamped(ang_damping, btScalar(0.0), btScalar(1.0));
+	m_linearDamping = btClamped(lin_damping, btScalar(0.0_fl), btScalar(1.0_fl));
+	m_angularDamping = btClamped(ang_damping, btScalar(0.0_fl), btScalar(1.0_fl));
 #endif
 }
 
@@ -152,8 +152,8 @@ void btRigidBody::applyDamping(btScalar timeStep)
 	//todo: do some performance comparisons (but other parts of the engine are probably bottleneck anyway
 
 #ifdef BT_USE_OLD_DAMPING_METHOD
-	m_linearVelocity *= btMax((btScalar(1.0) - timeStep * m_linearDamping), btScalar(0.0));
-	m_angularVelocity *= btMax((btScalar(1.0) - timeStep * m_angularDamping), btScalar(0.0));
+	m_linearVelocity *= btMax((btScalar(1.0_fl) - timeStep * m_linearDamping), btScalar(0.0_fl));
+	m_angularVelocity *= btMax((btScalar(1.0_fl) - timeStep * m_angularDamping), btScalar(0.0_fl));
 #else
 	m_linearVelocity *= btPow(btScalar(1) - m_linearDamping, timeStep);
 	m_angularVelocity *= btPow(btScalar(1) - m_angularDamping, timeStep);
@@ -181,7 +181,7 @@ void btRigidBody::applyDamping(btScalar timeStep)
 			}
 			else
 			{
-				m_linearVelocity.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+				m_linearVelocity.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 			}
 		}
 
@@ -196,7 +196,7 @@ void btRigidBody::applyDamping(btScalar timeStep)
 			}
 			else
 			{
-				m_angularVelocity.setValue(btScalar(0.), btScalar(0.), btScalar(0.));
+				m_angularVelocity.setValue(btScalar(0.0_fl), btScalar(0.0_fl), btScalar(0.0_fl));
 			}
 		}
 	}
@@ -225,23 +225,23 @@ void btRigidBody::proceedToTransform(const btTransform& newTrans)
 
 void btRigidBody::setMassProps(btScalar mass, const btVector3& inertia)
 {
-	if (mass == btScalar(0.))
+	if (mass == btScalar(0.0_fl))
 	{
 		m_collisionFlags |= btCollisionObject::CF_STATIC_OBJECT;
-		m_inverseMass = btScalar(0.);
+		m_inverseMass = btScalar(0.0_fl);
 	}
 	else
 	{
 		m_collisionFlags &= (~btCollisionObject::CF_STATIC_OBJECT);
-		m_inverseMass = btScalar(1.0) / mass;
+		m_inverseMass = btScalar(1.0_fl) / mass;
 	}
 
 	//Fg = m * a
 	m_gravity = mass * m_gravity_acceleration;
 
-	m_invInertiaLocal.setValue(inertia.x() != btScalar(0.0) ? btScalar(1.0) / inertia.x() : btScalar(0.0),
-							   inertia.y() != btScalar(0.0) ? btScalar(1.0) / inertia.y() : btScalar(0.0),
-							   inertia.z() != btScalar(0.0) ? btScalar(1.0) / inertia.z() : btScalar(0.0));
+	m_invInertiaLocal.setValue(inertia.x() != btScalar(0.0_fl) ? btScalar(1.0_fl) / inertia.x() : btScalar(0.0_fl),
+							   inertia.y() != btScalar(0.0_fl) ? btScalar(1.0_fl) / inertia.y() : btScalar(0.0_fl),
+							   inertia.z() != btScalar(0.0_fl) ? btScalar(1.0_fl) / inertia.z() : btScalar(0.0_fl));
 
 	m_invMass = m_linearFactor * m_inverseMass;
 }
@@ -255,9 +255,9 @@ btVector3 btRigidBody::getLocalInertia() const
 {
 	btVector3 inertiaLocal;
 	const btVector3 inertia = m_invInertiaLocal;
-	inertiaLocal.setValue(inertia.x() != btScalar(0.0) ? btScalar(1.0) / inertia.x() : btScalar(0.0),
-						  inertia.y() != btScalar(0.0) ? btScalar(1.0) / inertia.y() : btScalar(0.0),
-						  inertia.z() != btScalar(0.0) ? btScalar(1.0) / inertia.z() : btScalar(0.0));
+	inertiaLocal.setValue(inertia.x() != btScalar(0.0_fl) ? btScalar(1.0_fl) / inertia.x() : btScalar(0.0_fl),
+						  inertia.y() != btScalar(0.0_fl) ? btScalar(1.0_fl) / inertia.y() : btScalar(0.0_fl),
+						  inertia.z() != btScalar(0.0_fl) ? btScalar(1.0_fl) / inertia.z() : btScalar(0.0_fl));
 	return inertiaLocal;
 }
 
@@ -303,9 +303,9 @@ btVector3 btRigidBody::computeGyroscopicImpulseImplicit_Body(btScalar step) cons
 	// Convert to body coordinates
 	btVector3 omegab = quatRotate(q.inverse(), omega1);
 	btMatrix3x3 Ib;
-	Ib.setValue(idl.x(), 0, 0,
-				0, idl.y(), 0,
-				0, 0, idl.z());
+	Ib.setValue(idl.x(), 0.0_fl, 0.0_fl,
+				0.0_fl, idl.y(), 0.0_fl,
+				0.0_fl, 0.0_fl, idl.z());
 
 	btVector3 ibo = Ib * omegab;
 
@@ -354,7 +354,7 @@ btVector3 btRigidBody::computeGyroscopicImpulseImplicit_World(btScalar step) con
 
 	// one step of newton's method
 	{
-		const btVector3 fw = evalEulerEqn(w1, w0, btVector3(0, 0, 0), step, I);
+		const btVector3 fw = evalEulerEqn(w1, w0, btVector3(0.0_fl, 0.0_fl, 0.0_fl), step, I);
 		const btMatrix3x3 dfw = evalEulerEqnDeriv(w1, w0, step, I);
 
 		btVector3 dw;
@@ -471,7 +471,7 @@ const char* btRigidBody::serialize(void* dataBuffer, class btSerializer* seriali
 	m_invInertiaTensorWorld.serialize(rbd->m_invInertiaTensorWorld);
 	m_linearVelocity.serialize(rbd->m_linearVelocity);
 	m_angularVelocity.serialize(rbd->m_angularVelocity);
-	rbd->m_inverseMass = m_inverseMass;
+	rbd->m_inverseMass = m_inverseMass.ToDouble();
 	m_angularFactor.serialize(rbd->m_angularFactor);
 	m_linearFactor.serialize(rbd->m_linearFactor);
 	m_gravity.serialize(rbd->m_gravity);
@@ -479,15 +479,15 @@ const char* btRigidBody::serialize(void* dataBuffer, class btSerializer* seriali
 	m_invInertiaLocal.serialize(rbd->m_invInertiaLocal);
 	m_totalForce.serialize(rbd->m_totalForce);
 	m_totalTorque.serialize(rbd->m_totalTorque);
-	rbd->m_linearDamping = m_linearDamping;
-	rbd->m_angularDamping = m_angularDamping;
+	rbd->m_linearDamping = m_linearDamping.ToDouble();
+	rbd->m_angularDamping = m_angularDamping.ToDouble();
 	rbd->m_additionalDamping = m_additionalDamping;
-	rbd->m_additionalDampingFactor = m_additionalDampingFactor;
-	rbd->m_additionalLinearDampingThresholdSqr = m_additionalLinearDampingThresholdSqr;
-	rbd->m_additionalAngularDampingThresholdSqr = m_additionalAngularDampingThresholdSqr;
-	rbd->m_additionalAngularDampingFactor = m_additionalAngularDampingFactor;
-	rbd->m_linearSleepingThreshold = m_linearSleepingThreshold;
-	rbd->m_angularSleepingThreshold = m_angularSleepingThreshold;
+	rbd->m_additionalDampingFactor = m_additionalDampingFactor.ToDouble();
+	rbd->m_additionalLinearDampingThresholdSqr = m_additionalLinearDampingThresholdSqr.ToDouble();
+	rbd->m_additionalAngularDampingThresholdSqr = m_additionalAngularDampingThresholdSqr.ToDouble();
+	rbd->m_additionalAngularDampingFactor = m_additionalAngularDampingFactor.ToDouble();
+	rbd->m_linearSleepingThreshold = m_linearSleepingThreshold.ToDouble();
+	rbd->m_angularSleepingThreshold = m_angularSleepingThreshold.ToDouble();
 
 	// Fill padding with zeros to appease msan.
 #ifdef BT_USE_DOUBLE_PRECISION

@@ -13,6 +13,9 @@ public class SpaceKitBullet : ModuleRules
 
 		PrivatePCHHeaderFile = "SpaceKitBullet.h";
 
+		Definitions.Add("BT_USE_DOUBLE_PRECISION");
+		Definitions.Add("B3_USE_DOUBLE_PRECISION");
+
 		PublicDependencyModuleNames.AddRange(new string[] 
 		{
 			"Core",

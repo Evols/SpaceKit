@@ -13,7 +13,7 @@ inline b3Float4 b3Lerp3(const b3Float4& a, const b3Float4& b, float t)
 	return b3MakeVector3(a.x + (b.x - a.x) * t,
 						 a.y + (b.y - a.y) * t,
 						 a.z + (b.z - a.z) * t,
-						 0.f);
+						 0.0_fl);
 }
 
 // Clips a face to the back of a plane, return the number of vertices out, stored in ppVtxOut
@@ -46,7 +46,7 @@ inline int b3ClipFace(const b3Float4* pVtxIn, int numVertsIn, b3Float4& planeNor
 			else
 			{
 				// Start < 0, end >= 0, so output intersection
-				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.f / (ds - de)));
+				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.0_fl / (ds - de)));
 			}
 		}
 		else
@@ -54,7 +54,7 @@ inline int b3ClipFace(const b3Float4* pVtxIn, int numVertsIn, b3Float4& planeNor
 			if (de < 0)
 			{
 				// Start >= 0, end < 0 so output intersection and end
-				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.f / (ds - de)));
+				ppVtxOut[numVertsOut++] = b3Lerp3(firstVertex, endVertex, (ds * 1.0_fl / (ds - de)));
 				ppVtxOut[numVertsOut++] = endVertex;
 			}
 		}
@@ -83,13 +83,13 @@ inline int b3ClipFaceAgainstHull(const b3Float4& separatingNormal, const b3Conve
 
 	int closestFaceA = -1;
 	{
-		float dmin = FLT_MAX;
+		float dmin = BIGFLOAT_MAX;
 		for (int face = 0; face < hullA->m_numFaces; face++)
 		{
 			const b3Float4 Normal = b3MakeVector3(
 				facesA[hullA->m_faceOffset + face].m_plane.x,
 				facesA[hullA->m_faceOffset + face].m_plane.y,
-				facesA[hullA->m_faceOffset + face].m_plane.z, 0.f);
+				facesA[hullA->m_faceOffset + face].m_plane.z, 0.0_fl);
 			const b3Float4 faceANormalWS = b3QuatRotate(ornA, Normal);
 
 			float d = b3Dot3F4(faceANormalWS, separatingNormal);
@@ -114,7 +114,7 @@ inline int b3ClipFaceAgainstHull(const b3Float4& separatingNormal, const b3Conve
 		const b3Float4 b = verticesA[hullA->m_vertexOffset + indicesA[polyA.m_indexOffset + ((e0 + 1) % numVerticesA)]];
 		const b3Float4 edge0 = a - b;
 		const b3Float4 WorldEdge0 = b3QuatRotate(ornA, edge0);
-		b3Float4 planeNormalA = b3MakeFloat4(polyA.m_plane.x, polyA.m_plane.y, polyA.m_plane.z, 0.f);
+		b3Float4 planeNormalA = b3MakeFloat4(polyA.m_plane.x, polyA.m_plane.y, polyA.m_plane.z, 0.0_fl);
 		b3Float4 worldPlaneAnormal1 = b3QuatRotate(ornA, planeNormalA);
 
 		b3Float4 planeNormalWS1 = -b3Cross3(WorldEdge0, worldPlaneAnormal1);
@@ -138,7 +138,7 @@ inline int b3ClipFaceAgainstHull(const b3Float4& separatingNormal, const b3Conve
 
 	// only keep points that are behind the witness face
 	{
-		b3Float4 localPlaneNormal = b3MakeFloat4(polyA.m_plane.x, polyA.m_plane.y, polyA.m_plane.z, 0.f);
+		b3Float4 localPlaneNormal = b3MakeFloat4(polyA.m_plane.x, polyA.m_plane.y, polyA.m_plane.z, 0.0_fl);
 		float localPlaneEq = polyA.m_plane.w;
 		b3Float4 planeNormalWS = b3QuatRotate(ornA, localPlaneNormal);
 		float planeEqWS = localPlaneEq - b3Dot3F4(planeNormalWS, posA);
@@ -187,7 +187,7 @@ inline int b3ClipHullAgainstHull(const b3Float4& separatingNormal,
 
 	//float curMaxDist=maxDist;
 	int closestFaceB = -1;
-	float dmax = -FLT_MAX;
+	float dmax = -BIGFLOAT_MAX;
 
 	{
 		//B3_PROFILE("closestFaceB");
@@ -216,7 +216,7 @@ inline int b3ClipHullAgainstHull(const b3Float4& separatingNormal,
 	//if (facesB[hullB.m_faceOffset+face].m_numIndices>2)
 			{
 				const b3Float4 Normal = b3MakeVector3(facesB[hullB.m_faceOffset + face].m_plane.x,
-													  facesB[hullB.m_faceOffset + face].m_plane.y, facesB[hullB.m_faceOffset + face].m_plane.z, 0.f);
+													  facesB[hullB.m_faceOffset + face].m_plane.y, facesB[hullB.m_faceOffset + face].m_plane.z, 0.0_fl);
 				const b3Float4 WorldNormal = b3QuatRotate(ornB, Normal);
 #ifdef BT_DEBUG_SAT_FACE
 				if (once)
@@ -313,7 +313,7 @@ inline int b3ClipHullHullSingle(
 		b3Float4 worldVertsB2[B3_MAX_VERTS];
 		int capacityWorldVerts = B3_MAX_VERTS;
 
-		b3Float4 hostNormal = b3MakeFloat4(sepNormalWorldSpace.x, sepNormalWorldSpace.y, sepNormalWorldSpace.z, 0.f);
+		b3Float4 hostNormal = b3MakeFloat4(sepNormalWorldSpace.x, sepNormalWorldSpace.y, sepNormalWorldSpace.z, 0.0_fl);
 		int shapeA = hostCollidablesA[collidableIndexA].m_shapeIndex;
 		int shapeB = hostCollidablesB[collidableIndexB].m_shapeIndex;
 
@@ -381,7 +381,7 @@ inline int b3ClipHullHullSingle(
 				contact.m_frictionCoeffCmp = 45874;
 				contact.m_restituitionCoeffCmp = 0;
 
-				//	float distance = 0.f;
+				//	float distance = 0.0_fl;
 				for (int p = 0; p < numPoints; p++)
 				{
 					contact.m_worldPosB[p] = contactsOut[contactIdx.s[p]];  //check if it is actually on B

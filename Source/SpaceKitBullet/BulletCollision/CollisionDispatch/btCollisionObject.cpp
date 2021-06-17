@@ -18,9 +18,9 @@ subject to the following restrictions:
 #include "SpaceKitBullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
 
 btCollisionObject::btCollisionObject()
-	: m_interpolationLinearVelocity(0.f, 0.f, 0.f),
-	  m_interpolationAngularVelocity(0.f, 0.f, 0.f),
-	  m_anisotropicFriction(1.f, 1.f, 1.f),
+	: m_interpolationLinearVelocity(0.0_fl, 0.0_fl, 0.0_fl),
+	  m_interpolationAngularVelocity(0.0_fl, 0.0_fl, 0.0_fl),
+	  m_anisotropicFriction(1.0_fl, 1.0_fl, 1.0_fl),
 	  m_hasAnisotropicFriction(false),
 	  m_contactProcessingThreshold(BT_LARGE_FLOAT),
 	  m_broadphaseHandle(0),
@@ -32,11 +32,11 @@ btCollisionObject::btCollisionObject()
 	  m_companionId(-1),
 	  m_worldArrayIndex(-1),
 	  m_activationState1(1),
-	  m_deactivationTime(btScalar(0.)),
+	  m_deactivationTime(btScalar(0.0_fl)),
 	  m_friction(btScalar(0.5)),
-	  m_restitution(btScalar(0.)),
-	  m_rollingFriction(0.0f),
-	  m_spinningFriction(0.f),
+	  m_restitution(btScalar(0.0_fl)),
+	  m_rollingFriction(0.0_fl),
+	  m_spinningFriction(0.0_fl),
 	  m_contactDamping(.1),
 	  m_contactStiffness(BT_LARGE_FLOAT),
 	  m_internalType(CO_COLLISION_OBJECT),
@@ -45,8 +45,8 @@ btCollisionObject::btCollisionObject()
 	  m_userIndex(-1),
 	  m_userIndex3(-1),
 	  m_hitFraction(btScalar(1.)),
-	  m_ccdSweptSphereRadius(btScalar(0.)),
-	  m_ccdMotionThreshold(btScalar(0.)),
+	  m_ccdSweptSphereRadius(btScalar(0.0_fl)),
+	  m_ccdMotionThreshold(btScalar(0.0_fl)),
 	  m_checkCollideWith(false),
 	  m_updateRevision(0)
 {
@@ -74,7 +74,7 @@ void btCollisionObject::activate(bool forceActivation) const
 	if (forceActivation || !(m_collisionFlags & (CF_STATIC_OBJECT | CF_KINEMATIC_OBJECT)))
 	{
 		setActivationState(ACTIVE_TAG);
-		m_deactivationTime = btScalar(0.);
+		m_deactivationTime = btScalar(0.0_fl);
 	}
 }
 
@@ -88,7 +88,7 @@ const char* btCollisionObject::serialize(void* dataBuffer, btSerializer* seriali
 	m_interpolationAngularVelocity.serialize(dataOut->m_interpolationAngularVelocity);
 	m_anisotropicFriction.serialize(dataOut->m_anisotropicFriction);
 	dataOut->m_hasAnisotropicFriction = m_hasAnisotropicFriction;
-	dataOut->m_contactProcessingThreshold = m_contactProcessingThreshold;
+	dataOut->m_contactProcessingThreshold = m_contactProcessingThreshold.ToDouble();
 	dataOut->m_broadphaseHandle = 0;
 	dataOut->m_collisionShape = serializer->getUniquePointer(m_collisionShape);
 	dataOut->m_rootCollisionShape = 0;  //@todo
@@ -96,12 +96,12 @@ const char* btCollisionObject::serialize(void* dataBuffer, btSerializer* seriali
 	dataOut->m_islandTag1 = m_islandTag1;
 	dataOut->m_companionId = m_companionId;
 	dataOut->m_activationState1 = m_activationState1;
-	dataOut->m_deactivationTime = m_deactivationTime;
-	dataOut->m_friction = m_friction;
-	dataOut->m_rollingFriction = m_rollingFriction;
-	dataOut->m_contactDamping = m_contactDamping;
-	dataOut->m_contactStiffness = m_contactStiffness;
-	dataOut->m_restitution = m_restitution;
+	dataOut->m_deactivationTime = m_deactivationTime.ToDouble();
+	dataOut->m_friction = m_friction.ToDouble();
+	dataOut->m_rollingFriction = m_rollingFriction.ToDouble();
+	dataOut->m_contactDamping = m_contactDamping.ToDouble();
+	dataOut->m_contactStiffness = m_contactStiffness.ToDouble();
+	dataOut->m_restitution = m_restitution.ToDouble();
 	dataOut->m_internalType = m_internalType;
 
 	char* name = (char*)serializer->findNameForPointer(this);
@@ -110,9 +110,9 @@ const char* btCollisionObject::serialize(void* dataBuffer, btSerializer* seriali
 	{
 		serializer->serializeName(name);
 	}
-	dataOut->m_hitFraction = m_hitFraction;
-	dataOut->m_ccdSweptSphereRadius = m_ccdSweptSphereRadius;
-	dataOut->m_ccdMotionThreshold = m_ccdMotionThreshold;
+	dataOut->m_hitFraction = m_hitFraction.ToDouble();
+	dataOut->m_ccdSweptSphereRadius = m_ccdSweptSphereRadius.ToDouble();
+	dataOut->m_ccdMotionThreshold = m_ccdMotionThreshold.ToDouble();
 	dataOut->m_checkCollideWith = m_checkCollideWith;
 	if (m_broadphaseHandle)
 	{

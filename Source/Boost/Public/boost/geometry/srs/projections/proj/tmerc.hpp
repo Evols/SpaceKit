@@ -237,7 +237,7 @@ namespace projections
                     } else
                         xy_y = acos(xy_y);
 
-                    if (lp_lat < 0.)
+                    if (lp_lat < 0.0_fl)
                         xy_y = -xy_y;
                     xy_y = this->m_proj_parm.esp * (xy_y - par.phi0);
                 }

@@ -435,7 +435,7 @@ public:
 
 	/// convexTest performs a swept convex cast on all objects in the btCollisionWorld, and calls the resultCallback
 	/// This allows for several queries: first hit, all hits, any hit, dependent on the value return by the callback.
-	void convexSweepTest(const btConvexShape* castShape, const btTransform& from, const btTransform& to, ConvexResultCallback& resultCallback, btScalar allowedCcdPenetration = btScalar(0.)) const;
+	void convexSweepTest(const btConvexShape* castShape, const btTransform& from, const btTransform& to, ConvexResultCallback& resultCallback, btScalar allowedCcdPenetration = btScalar(0.0_fl)) const;
 
 	///contactTest performs a discrete collision test between colObj against all objects in the btCollisionWorld, and calls the resultCallback.
 	///it reports one or more contact points for every overlapping object (including the one with deepest penetration)
