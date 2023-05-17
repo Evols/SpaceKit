@@ -209,7 +209,7 @@ public:
     static FVector ConvVectorFixedToFVector(const FVectorFixed& InVec);
 
     UFUNCTION(BlueprintPure, category = "VectorFixed", meta = (DisplayName = "Make VectorFixed", CompactNodeTitle = "Make"))
-    static FVectorFixed MakeVectorFixed(const FRealFixed& X, const FRealFixed& Y, const FRealFixed& Z);
+    static FVectorFixed MakeVectorFixed(FRealFixed X, FRealFixed Y, FRealFixed Z);
 
     UFUNCTION(BlueprintPure, category = "VectorFixed", meta = (DisplayName = "Break VectorFixed", CompactNodeTitle = "Make"))
     static void BreakVectorFixed(const FVectorFixed& Vec, FRealFixed& X, FRealFixed& Y, FRealFixed& Z);

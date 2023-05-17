@@ -15,7 +15,7 @@ FVector UVectorFixedMath::ConvVectorFixedToFVector(const FVectorFixed& InVec)
 	return InVec.ToFVector();
 }
 
-FVectorFixed UVectorFixedMath::MakeVectorFixed(const FRealFixed& X, const FRealFixed& Y, const FRealFixed& Z)
+FVectorFixed UVectorFixedMath::MakeVectorFixed(FRealFixed X, FRealFixed Y, FRealFixed Z)
 {
 	return FVectorFixed(X, Y, Z);
 }

@@ -10,11 +10,11 @@
 #pragma warning(pop)
 
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "PrecisionSettings.h"
 #include "Boost/Public/Boost.h"
-
 #include "CoreMinimal.h"
+#include "PrecisionSettings.h"
 #include "Core/Public/HAL/Platform.h"
+#include "Internationalization/FastDecimalFormat.h"
 
 #include "RealFloat.generated.h"
 
@@ -108,6 +108,31 @@ public:
     static FRealFloat HalfPi;
     static FRealFloat DegToRad;
 };
+
+template <> struct TIsFloatingPoint<FRealFloat>       { enum { Value = true }; };
+template <> struct TIsArithmetic<FRealFloat>           { enum { Value = true }; };
+template <> struct TNumericLimits<FRealFloat>
+{
+    using NumericType = FRealFloat;
+    static NumericType Lowest() { return FRealFloat::GetMinValue(); }
+    static NumericType Min() { return FRealFloat::GetMinValue(); }
+    static NumericType Max() { return FRealFloat::GetMaxValue(); }
+};
+
+/*namespace FastDecimalFormat
+{
+    FORCEINLINE bool StringToNumber(const TCHAR* InStr, const int32 InStrLen, const FDecimalNumberFormattingRules& InFormattingRules, const FNumberParsingOptions& InParsingOptions, FRealFloat& OutVal, int32* OutParsedLen = nullptr)	
+    {																																																										
+        double Val = 0.0;																																																					
+        const bool bResult = FastDecimalFormat::Internal::StringToFractional(InStr, InStrLen, InFormattingRules, InParsingOptions, Internal::FDecimalNumberFractionalLimits::FromNumericLimits<FRealFloat>(), Val, OutParsedLen);																											\
+        OutVal = FRealFloat(Val); 																																																
+        return bResult;																																																						
+    }																																																										
+    FORCEINLINE bool StringToNumber(const TCHAR* InStr, const FDecimalNumberFormattingRules& InFormattingRules, const FNumberParsingOptions& InParsingOptions, FRealFloat& OutVal, int32* OutParsedLen = nullptr)							
+    {																																																										
+        return StringToNumber(InStr, FCString::Strlen(InStr), InFormattingRules, InParsingOptions, OutVal, OutParsedLen);																													
+    }
+}*/
 
 SPACEKITPRECISION_API FRealFloat operator""_fl(const char* str);
 

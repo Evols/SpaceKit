@@ -1,14 +1,12 @@
 // Copyright 2020 Baptiste Hutteau Licensed under the Apache License, Version 2.0
 
 #include "SpaceKitPrecisionEditor/Public/SpaceKitPrecisionEditor.h"
+#include "EdGraphUtilities.h"
 #include "SpaceKitPrecisionEditor/Public/RealGenericEditor.h"
 #include "SpaceKitPrecisionEditor/Public/VectorGenericEditor.h"
-
 #include "SpaceKitPrecision/Public/RealFixed.h"
 #include "SpaceKitPrecision/Public/RealFloat.h"
 #include "SpaceKitPrecision/Public/VectorFixed.h"
-
-#include "Engine/Public/Engine.h"
 #include "PropertyEditor/Public/PropertyEditorModule.h"
 #include "Core/Public/Misc/CoreDelegates.h"
 #include "VectorFloat.h"

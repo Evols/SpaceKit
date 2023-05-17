@@ -1,35 +1,16 @@
 {
   "FileVersion": 3,
-
-  "FriendlyName": "Space Kit",
-  "Version": 4.25,
-  "VersionName": "4.25",
-  "Description": "Adds utilities to handle space simulations in UE4.",
-  "Category": "Space",
-  "CreatedBy": "Baptiste Hutteau",
+  "FriendlyName": "Unreal Fixed Point Math",
+  "Description": "Fixed Point Math in Unreal",
+  "Category": "Math",
+  "CreatedBy": "Reddy, Credit: Baptiste Hutteau",
   "CreatedByURL": "N/A",
 
   "Modules": [
     {
-      "Name": "SpaceKit",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "AdditionalDependencies": [
-        "SpaceKitPrecision"
-      ]
-    },
-    {
       "Name": "SpaceKitPrecision",
       "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "AdditionalDependencies": [
-        "Engine"
-      ]
-    },
-    {
-      "Name": "SpaceKitBullet",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
+      "LoadingPhase": "PreDefault",
       "AdditionalDependencies": [
         "Engine"
       ]
@@ -37,7 +18,7 @@
     {
       "Name": "SpaceKitPrecisionEditor",
       "Type": "Editor",
-      "LoadingPhase": "Default",
+      "LoadingPhase": "PreDefault",
       "AdditionalDependencies": [
         "Engine"
       ]

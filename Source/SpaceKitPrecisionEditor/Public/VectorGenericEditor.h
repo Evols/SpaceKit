@@ -91,7 +91,7 @@ public:
 
 		VectorFixedSharedPtr->NotifyPreChange();
 		Value->GetAxis(Axis) = NewValue;
-		VectorFixedSharedPtr->NotifyPostChange();
+		VectorFixedSharedPtr->NotifyPostChange(EPropertyChangeType::ValueSet);
 	}
 
 private:

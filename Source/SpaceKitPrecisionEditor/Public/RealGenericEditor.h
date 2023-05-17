@@ -4,15 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "IPropertyTypeCustomization.h"
-
-#include "EdGraphUtilities.h"
 #include "SGraphPin.h"
 #include "Slate/Public/Widgets/Input/SNumericEntryBox.h"
-
 #include "PropertyEditor/Public/DetailWidgetRow.h"
 #include "PropertyEditor/Public/DetailLayoutBuilder.h"
 #include "Runtime/Launch/Resources/Version.h"
-
 #include "RealFloat.h"
 
 /**
@@ -187,7 +183,7 @@ public:
 		.MaxDesiredWidth(400)
 		[
 			SNew(SNumericEntryBox<TRealNumericBoxWrapper<RealType>>)
-			.EditableTextBoxStyle(FEditorStyle::Get(), "Graph.EditableTextBox")
+			.EditableTextBoxStyle(FAppStyle::Get(), "Graph.EditableTextBox")
 			.BorderForegroundColor(FSlateColor::UseForeground())
 			.Visibility(this, &SRealGraphPin<RealType>::GetDefaultValueVisibility)
 			.IsEnabled(this, &SRealGraphPin<RealType>::GetDefaultValueIsEnabled)
@@ -262,7 +258,7 @@ public:
 
 		PropertyHandle->NotifyPreChange();
 		PropertyHandle->SetPerObjectValues({ "(" + InValue.Val.ToString() + ")" });
-		PropertyHandle->NotifyPostChange();
+		PropertyHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
 		PropertyHandle->NotifyFinishedChangingProperties();
 	}
 
