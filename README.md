@@ -1,7 +1,7 @@
 
-# SpaceKit - Big floating-point numbers in Unreal Engine 4
+# SpaceKit - Big floating-point numbers in Unreal Engine 5
 
-SpaceKit is an Unreal Engine 4 plugin that adds support for big floating-point and fixed-point numbers.
+SpaceKit is an Unreal Engine 5 plugin that adds support for big floating-point and fixed-point numbers.
 Vanilla UE4 only allows float and double as Uproperties, with limited support for double (no Blueprints support) ; so with this plugin, you can use way more precise numbers.
 It was originally made for a space simulator (hence the name) that could handle galactic distances, but then became a separate plugin.
 
