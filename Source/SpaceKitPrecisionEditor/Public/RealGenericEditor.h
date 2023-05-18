@@ -149,7 +149,7 @@ struct TRealNumericTypeInterface : public INumericTypeInterface<TRealNumericBoxW
 
 	virtual TOptional<TRealNumericBoxWrapper<RealType>> FromString(const FString& InString, const TRealNumericBoxWrapper<RealType>& ExistingValue) override
 	{
-		return TOptional<TRealNumericBoxWrapper<RealType>>();
+		return TOptional<TRealNumericBoxWrapper<RealType>>(TRealNumericBoxWrapper<RealType>(RealType(InString)));
 	}
 
 	// Check whether the typed character is valid
