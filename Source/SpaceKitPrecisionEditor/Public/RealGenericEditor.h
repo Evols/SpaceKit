@@ -48,7 +48,7 @@ struct TRealNumericBoxWrapper
 		return Val.ToDouble();
 	}
 
-#if ENGINE_MINOR_VERSION >= 26
+#if 1
 	// This is very weird, but it seems to work, so, here we go !
 	operator double&()
 	{
@@ -131,13 +131,13 @@ struct TRealNumericTypeInterface : public INumericTypeInterface<TRealNumericBoxW
 		MinFractionalDigits = NewValue.Get().IsSet() ? FMath::Max(0, NewValue.Get().GetValue()) : DefaultMinFractionalDigits;
 	}
 
-	void SetMaxFractionalDigits(const TAttribute<TOptional<int32>>& NewValue) override
+	virtual void SetMaxFractionalDigits(const TAttribute<TOptional<int32>>& NewValue) override
 	{
 		MaxFractionalDigits = NewValue.Get().IsSet() ? FMath::Max(0, NewValue.Get().GetValue()) : DefaultMaxFractionalDigits;
 	}
 
 	// Convert the type to/from a string
-	FString ToString(const TRealNumericBoxWrapper<RealType>& Value) const override
+	virtual FString ToString(const TRealNumericBoxWrapper<RealType>& Value) const override
 	{
 		FString ExportedString = Value.Val.ToString();
 		if (!ExportedString.Contains(TEXT(".")) && !ExportedString.Contains(TEXT("e")))
@@ -147,9 +147,9 @@ struct TRealNumericTypeInterface : public INumericTypeInterface<TRealNumericBoxW
 		return ExportedString;
 	}
 
-	TOptional<TRealNumericBoxWrapper<RealType>> FromString(const FString& InString, const TRealNumericBoxWrapper<RealType>& InExistingValue) override
+	virtual TOptional<TRealNumericBoxWrapper<RealType>> FromString(const FString& InString, const TRealNumericBoxWrapper<RealType>& ExistingValue) override
 	{
-		return TRealNumericBoxWrapper<RealType>(RealType(InString));
+		return TOptional<TRealNumericBoxWrapper<RealType>>();
 	}
 
 	// Check whether the typed character is valid
